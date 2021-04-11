@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/open_in_browser"
+        android:title="@string/open_in_browser"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/reload"
+        android:title="@string/reload"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/stop"
+        android:title="@string/stop"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/pip"
+        android:title="@string/pip"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/desktop_ua"
+        android:checkable="true"
+        android:title="@string/desktop_ua" />
+    <item
+        android:id="@+id/intercept_all"
+        android:checkable="true"
+        android:title="intercept_all" />
+    <item
+        android:id="@+id/finish_when_intercept"
+        android:checkable="true"
+        android:title="finish_when_intercept" />
+</menu>

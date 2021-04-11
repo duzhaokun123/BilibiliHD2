@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.duzhaokun123.bilibilihd2.model.DynamicCardModel" />
+    </data>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text='@{"不支持的类型: " + model.type + "\n" + model.cardJson}'
+        android:textIsSelectable="true" />
+</layout>

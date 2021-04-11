@@ -1,0 +1,79 @@
+buildscript {
+    ext {
+        kotlin_version = '1.4.32'
+        kotlin_coroutines_version = '1.4.3'
+        ktor_version = '1.5.2'
+        jvm_target = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+group = 'com.hiczp'
+version = 'bilibiliHD'
+description = 'Bilibili Android client API library for Kotlin'
+
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+//kotlin
+dependencies {
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib-jdk8
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: kotlin_version
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: kotlin_coroutines_version
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = jvm_target
+        freeCompilerArgs = ["-Xjvm-default=enable", "-Xopt-in=kotlin.RequiresOptIn", "-XXLanguage:+InlineClasses"]
+    }
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = jvm_target
+}
+
+//logging
+dependencies {
+    // https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging
+    implementation group: 'io.github.microutils', name: 'kotlin-logging', version: '2.0.6'
+}
+
+//http
+dependencies {
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    implementation group: 'com.squareup.retrofit2', name: 'converter-gson', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.github.salomonbrys.kotson/kotson
+    implementation group: 'com.github.salomonbrys.kotson', name: 'kotson', version: '2.5.0'
+    // https://mvnrepository.com/artifact/com.jakewharton.retrofit/retrofit2-kotlin-coroutines-adapter
+    implementation group: 'com.jakewharton.retrofit', name: 'retrofit2-kotlin-coroutines-adapter', version: '0.9.2'
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
+    api group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '4.5.0'
+}
+
+//ktor
+dependencies {
+    // https://mvnrepository.com/artifact/io.ktor/ktor-client-websockets
+    implementation group: 'io.ktor', name: 'ktor-client-websockets', version: ktor_version
+    // https://mvnrepository.com/artifact/io.ktor/ktor-client-cio
+    implementation group: 'io.ktor', name: 'ktor-client-cio', version: ktor_version
+}
+
+//checksum
+dependencies {
+    // https://mvnrepository.com/artifact/com.hiczp/crc32-crack
+    implementation group: 'com.hiczp', name: 'crc32-crack', version: '1.0'
+}

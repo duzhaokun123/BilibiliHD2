@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="name"
+        app:title="@string/app_name" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="version"
+        app:title="@string/version" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="build_type"
+        app:title="@string/build_type" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="build_time"
+        app:title="@string/build_time" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:title="@string/project_home"
+        app:key="project_home"/>
+</PreferenceScreen>

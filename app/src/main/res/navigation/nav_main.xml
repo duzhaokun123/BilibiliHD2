@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.duzhaokun123.bilibilihd2.ui.main.HomeFragment"
+        android:label="@string/home" />
+    <fragment
+        android:id="@+id/dynamicFragment"
+        android:name="com.duzhaokun123.bilibilihd2.ui.main.DynamicFragment"
+        android:label="@string/dynamic" />
+    <fragment
+        android:id="@+id/dynamicWebFragment"
+        android:name="com.duzhaokun123.bilibilihd2.ui.main.DynamicWebFragment"
+        android:label="@string/dynamic_web" />
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.duzhaokun123.bilibilihd2.ui.main.HistoryFragment"
+        android:label="@string/history" />
+</navigation>

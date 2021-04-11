@@ -1,0 +1,91 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.duzhaokun123.bilibilihd2.model.HistoryCardModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+                android:id="@+id/iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="400dp"
+                android:minHeight="100dp"
+                android:scaleType="center"
+                app:cornerRadius="100dp"
+                app:imageUrl="@{model.coverUrl}"
+                app:ration="0.5625"
+                tools:src="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@id/tv_badge"
+                android:text="@{model.title}"
+                android:textColor="@color/textColor"
+                android:textSize="15sp"
+                tools:text="Title" />
+
+            <TextView
+                android:id="@+id/tv_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@{model.desc}"
+                android:textSize="12sp"
+                tools:text="Desc" />
+
+            <TextView
+                android:id="@+id/tv_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@id/ib_tp"
+                android:text="@{model.badge}" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_tp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:background="@null"
+                android:src="@drawable/ic_three_points" />
+
+            <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignBottom="@id/iv"
+                android:max="100"
+                android:progress="@{model.progress}"
+                android:visibility="@{model.hasProgress ? android.view.View.VISIBLE : android.view.View.GONE}"
+                tools:progress="50" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/abl"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_main" />
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/tb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:titleTextColor="?attr/colorOnPrimary" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+        </RelativeLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/header_nav_main"
+            app:insetForeground="@null"
+            app:itemShapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.NavigationView"
+            app:itemShapeInsetBottom="0dp"
+            app:itemShapeInsetStart="0dp"
+            app:itemShapeInsetTop="0dp"
+            app:menu="@menu/nav_main" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>

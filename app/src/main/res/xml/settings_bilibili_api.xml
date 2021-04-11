@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <EditTextPreference
+        app:iconSpaceReserved="false"
+        app:key="appKey"
+        app:title="appKey"
+        app:useSimpleSummaryProvider="true" />
+    <EditTextPreference
+        app:iconSpaceReserved="false"
+        app:key="appSec"
+        app:title="appSec"
+        app:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

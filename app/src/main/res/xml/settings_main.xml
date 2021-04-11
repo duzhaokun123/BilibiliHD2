@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.UsersFragment"
+        app:title="@string/users" />
+    <Preference
+        app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.DisplayFragment"
+        app:title="@string/display" />
+    <Preference
+        app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.BilibiliApiFragment"
+        app:title="@string/bilibili_api" />
+    <Preference
+        app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.AboutFragment"
+        app:title="@string/about" />
+</PreferenceScreen>
