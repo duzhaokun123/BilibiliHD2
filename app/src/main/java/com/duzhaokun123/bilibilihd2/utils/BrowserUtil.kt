@@ -83,6 +83,11 @@ object BrowserUtil {
                                 TipUtil.showToast("番剧 但不支持番剧")
                                 openWebViewActivity(context, uri, desktopUA = true)
                             }
+                            "read" -> openWebViewActivity(
+                                context,
+                                "https://www.bilibili.com/read/mobile/${paths[1].substring(2)}",
+                                desktopUA = false
+                            )
                             else -> openWebViewActivity(
                                 context, uri, desktopUA = true
                             )
@@ -105,7 +110,7 @@ object BrowserUtil {
                                 runCatching {
                                     OnlinePlayActivity.enter(context, p1.substring(2).toLong())
                                 }.exceptionOrNull()?.runCatching {
-                                    OnlinePlayActivity.enter(context,  p1)
+                                    OnlinePlayActivity.enter(context, p1)
                                 }
                             }
                             else -> openWebViewActivity(

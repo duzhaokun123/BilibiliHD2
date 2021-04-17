@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="kotlin.text.StringsKt" />
+
+        <import type="android.view.View" />
+
         <variable
             name="card"
             type="com.duzhaokun123.bilibilihd2.model.DynamicCardModel.Type8" />
@@ -13,10 +17,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/tv_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{card.dynamic}"
+            android:textColor="@color/textColor"
+            android:visibility="@{StringsKt.isBlank(card.dynamic) ? View.GONE : View.VISIBLE}" />
+
         <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
             android:id="@+id/iv_cover"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_below="@id/tv_dynamic"
+            android:layout_marginTop="5dp"
             android:scaleType="center"
             app:imageUrl="@{card.coverUrl}"
             app:ration="0.5625" />
@@ -25,6 +39,7 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_cover"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@id/iv_cover"
             android:ellipsize="end"

@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/open"
+        android:icon="@drawable/ic_search"
+        android:title="open"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
@@ -11,8 +16,9 @@
         android:icon="@drawable/ic_downward"
         android:title="@string/download"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/close"
+    <item
+        android:id="@+id/close"
         android:icon="@drawable/ic_clear"
         android:title="@string/close"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

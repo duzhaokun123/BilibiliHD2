@@ -4,7 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
+import android.view.View
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
+import androidx.core.view.forEach
 import com.duzhaokun123.bilibilihd2.Application
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -63,3 +68,11 @@ val WindowInsetsCompat.systemBars
 
 fun Number.dpToPx() =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), application.resources.displayMetrics).toInt()
+
+val Toolbar.homeImageView: View?
+    get() {
+        forEach {
+            if (it is AppCompatImageButton) return it
+        }
+        return null
+    }

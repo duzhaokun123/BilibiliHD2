@@ -22,4 +22,4 @@ val uiMod = 0
 val mainCardWidthDp = 500
 
 @SettingsValue(saveAsString = true)
-val dynamicCardWidthDp = 500
+val dynamicCardWidthDp = 700

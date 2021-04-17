@@ -26,7 +26,9 @@ import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
+import com.duzhaokun123.bilibilihd2.utils.runMain
 import com.duzhaokun123.bilibilihd2.utils.systemBars
+import kotlinx.coroutines.delay
 
 class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_view) {
     companion object {
@@ -35,6 +37,9 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         const val EXTRA_FINISH_WHEN_INTERCEPT = "finish_when_intercept"
 
         val PIP_PARAMS = PictureInPictureParams.Builder().setAspectRatio(Rational(16, 9)).build()!!
+
+        const val MODEL_CV_SCRIPT =
+            "document.getElementsByClassName(\"h5-download-close-btn\")[0].click();document.getElementsByClassName(\"arrow-icon\")[0].click()"
     }
 
     private val configViewModel: ConfigViewModel by viewModels()
@@ -42,8 +47,10 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.web_view_activity, menu)
         menu?.findItem(R.id.desktop_ua)?.let { it.isChecked = configViewModel.desktopUA.value!! }
-        menu?.findItem(R.id.intercept_all)?.let { it.isChecked = configViewModel.interceptAll.value!! }
-        menu?.findItem(R.id.finish_when_intercept)?.let { it.isChecked = configViewModel.finishWhenIntercept.value!! }
+        menu?.findItem(R.id.intercept_all)
+            ?.let { it.isChecked = configViewModel.interceptAll.value!! }
+        menu?.findItem(R.id.finish_when_intercept)
+            ?.let { it.isChecked = configViewModel.finishWhenIntercept.value!! }
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -92,9 +99,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         super.onCreate(savedInstanceState)
         if (isFirstCreate) {
             configViewModel.desktopUA.value = startIntent.getBooleanExtra(EXTRA_DESKTOP_UA, true)
-            configViewModel.interceptAll.value = startIntent.getBooleanExtra(EXTRA_INTERCEPT_ALL, false)
+            configViewModel.interceptAll.value =
+                startIntent.getBooleanExtra(EXTRA_INTERCEPT_ALL, false)
             configViewModel.finishWhenIntercept.value = startIntent.getBooleanExtra(
-                EXTRA_FINISH_WHEN_INTERCEPT, false)
+                EXTRA_FINISH_WHEN_INTERCEPT, false
+            )
         }
         supportActionBar?.let {
             it.setHomeAsUpIndicator(R.drawable.ic_clear)
@@ -105,7 +114,10 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
         baseBinding.wv.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
                 return if ("bilibili" == request?.url?.scheme || configViewModel.interceptAll.value!!) {
                     val intent = Intent(this@WebViewActivity, UrlOpenActivity::class.java)
                     intent.data = request?.url
@@ -129,6 +141,13 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 baseBinding.pb.visibility = View.INVISIBLE
+
+                if (url != null && "www.bilibili.com/read/mobile/" in url) {
+                    runMain {
+                        delay(500)
+                        baseBinding.wv.evaluateJavascript(MODEL_CV_SCRIPT, null)
+                    }
+                }
             }
         }
         baseBinding.wv.webChromeClient = object : WebChromeClient() {
@@ -181,7 +200,10 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         }
     }
 
-    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration?) {
+    override fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration?
+    ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         if (isInPictureInPictureMode) {
             supportActionBar?.hide()

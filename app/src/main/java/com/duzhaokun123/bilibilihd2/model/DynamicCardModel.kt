@@ -34,12 +34,7 @@ data class DynamicCardModel(
                 }
                 val type = card.desc.type
                 val cardJson = card.card
-                val cardObj = when (type) {
-                    2 -> Type2.parse(gson.fromJson(cardJson))
-                    4 -> Type4.parse(gson.fromJson(cardJson))
-                    8 -> Type8.parse(gson.fromJson(cardJson))
-                    else -> Any()
-                }
+                val cardObj = parseTypedCard(type, cardJson)
                 val time = card.desc.timestamp
                 models.add(DynamicCardModel(type, cardObj, cardJson, user, state, time))
             }
@@ -66,16 +61,22 @@ data class DynamicCardModel(
                 }
                 val type = card.desc.type
                 val cardJson = card.card
-                val cardObj = when (type) {
-                    2 -> Type2.parse(gson.fromJson(cardJson))
-                    4 -> Type4.parse(gson.fromJson(cardJson))
-                    8 -> Type8.parse(gson.fromJson(cardJson))
-                    else -> Any()
-                }
+                val cardObj = parseTypedCard(type, cardJson)
                 val time = card.desc.timestamp
                 models.add(DynamicCardModel(type, cardObj, cardJson, user, state, time))
             }
             return models
+        }
+
+        fun parseTypedCard(type: Int, json: String): Any {
+            return when (type) {
+                1 -> Type1.parse(gson.fromJson(json))
+                2 -> Type2.parse(gson.fromJson(json))
+                4 -> Type4.parse(gson.fromJson(json))
+                8 -> Type8.parse(gson.fromJson(json))
+                64 -> Type64.parse(gson.fromJson(json))
+                else -> Any()
+            }
         }
     }
 
@@ -113,7 +114,8 @@ data class DynamicCardModel(
         val title: String,
         val coverUrl: String,
         val url: String,
-        val desc: String
+        val desc: String,
+        val dynamic: String
     ) {
         companion object {
             fun parse(dynamicCardType8: DynamicCardType8): Type8 {
@@ -121,7 +123,8 @@ data class DynamicCardModel(
                 val coverUrl = dynamicCardType8.pic
                 val url = dynamicCardType8.jumpUrl
                 val desc = dynamicCardType8.desc
-                return Type8(title, coverUrl, url, desc)
+                val dynamic = dynamicCardType8.dynamic
+                return Type8(title, coverUrl, url, desc, dynamic)
             }
         }
     }
@@ -133,6 +136,74 @@ data class DynamicCardModel(
             fun parse(dynamicCardType4: DynamicCardType4): Type4 {
                 return Type4(dynamicCardType4.item.content)
             }
+        }
+    }
+
+    data class Type64(
+        val cover: String,
+        val title: String,
+        val summary: String,
+        val id: Long
+    ) {
+        companion object {
+            fun parse(dynamicCardType64: DynamicCardType64): Type64 {
+                val cover = dynamicCardType64.imageUrls[0]
+                val title = dynamicCardType64.title
+                val summary = dynamicCardType64.summary
+                val id = dynamicCardType64.id
+                return Type64(cover, title, summary, id)
+            }
+        }
+    }
+
+    data class Type1(
+        val originType: Int,
+        val originJson: String,
+        val origin: Any,
+        val originUser: User,
+        val content: String,
+        val time: Long
+    ) {
+        data class User(
+            val name: String,
+            val face: String,
+            val uid: Long,
+            val isVip: Boolean
+        )
+
+        companion object {
+
+            fun parse(dynamicCardType1: DynamicCardType1): Type1 {
+                val originType = dynamicCardType1.item.origType
+                val originJson = dynamicCardType1.origin
+                val origin = parseTypedCard(originType, originJson)
+                val originUser = run {
+                    val name = dynamicCardType1.originUser.info.uname
+                    val face = dynamicCardType1.originUser.info.face
+                    val uid = dynamicCardType1.originUser.info.uid
+                    val isVip = dynamicCardType1.originUser.vip.vipStatus == 1
+                    User(name, face, uid, isVip)
+                }
+                val content = dynamicCardType1.item.content
+                val time = dynamicCardType1.item.timestamp * 1000L
+                return Type1(originType, originJson, origin, originUser, content, time)
+            }
+        }
+
+        fun toDynamicCardModel(): DynamicCardModel {
+            val type = this.originType
+            val card = this.origin
+            val cardJson = this.originJson
+            val user = run {
+                val name = this@Type1.originUser.name
+                val face = this@Type1.originUser.face
+                val uid = this@Type1.originUser.uid
+                val isVip = this@Type1.originUser.isVip
+                DynamicCardModel.User(name, face, uid, isVip)
+            }
+            val state = State(-1, -1, -1, -1)
+            val time = this.time
+            return DynamicCardModel(type, card, cardJson, user, state, time)
         }
     }
 }

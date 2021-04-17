@@ -18,8 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{card.desc}"
-            android:textColor="@color/textColor"
-            android:textIsSelectable="true" />
+            android:textColor="@color/textColor" />
 
         <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadImageView
             android:id="@+id/iv_0"

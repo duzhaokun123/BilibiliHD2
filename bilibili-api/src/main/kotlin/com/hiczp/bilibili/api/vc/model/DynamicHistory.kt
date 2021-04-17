@@ -117,7 +117,7 @@ data class DynamicHistory(
                     @SerializedName("repost")
                     val repost: Int, // 6
                     @SerializedName("rid")
-                    val rid: Int, // 544981898
+                    val rid: Long, // 544981898
                     @SerializedName("rid_str")
                     val ridStr: String, // 544981898
                     @SerializedName("status")

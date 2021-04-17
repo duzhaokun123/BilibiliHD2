@@ -84,6 +84,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths_share_img" />
         </provider>
+        <activity android:name=".ui.BigImageViewActivity" />
     </application>
 
 </manifest>

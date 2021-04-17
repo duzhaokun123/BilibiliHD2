@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
-import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.DynamicHolderType0
-import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.DynamicHolderType2
-import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.DynamicHolderType4
-import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.DynamicHolderType8
+import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.*
 import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
 
 class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
@@ -24,9 +21,11 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
          * 在这里注册的必须实现`(Context)`构造器
          */
         val supportedTypes = mapOf(
+            1 to DynamicHolderType1::class.java,
             2 to DynamicHolderType2::class.java,
             4 to DynamicHolderType4::class.java,
-            8 to DynamicHolderType8::class.java
+            8 to DynamicHolderType8::class.java,
+            64 to DynamicHolderType64::class.java
         )
     }
 

@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -18,10 +21,12 @@ import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
+import com.duzhaokun123.bilibilihd2.databinding.PopupMyinfoBinding
 import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil.setBiliLevel
+import com.hiczp.bilibili.api.app.model.MyInfo
 
 class MainActivity : BaseActivity<ActivityMainBinding>(
     R.layout.activity_main,
@@ -30,6 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 ) {
     private lateinit var navController: NavController
     private var headerView: View? = null
+    private lateinit var myInfo: MyInfo
 
     override fun findViews() {
         headerView = baseBinding.nv.getHeaderView(0)
@@ -105,7 +111,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return if (headerView == null && item.itemId == android.R.id.home) {
-            TipUtil.showTip(this, "TODO: popupWindow 显示详情")
+            val binding = DataBindingUtil.inflate<PopupMyinfoBinding>(
+                layoutInflater, R.layout.popup_myinfo, null, false
+            )
+            PopupWindow(binding.root, WRAP_CONTENT, WRAP_CONTENT, true).apply {
+                isOutsideTouchable = true
+                binding.myInfo = myInfo
+                binding.ivLevel.setBiliLevel(myInfo.data.level)
+                binding.cv.setOnClickListener {
+                    UserScapeActivity.enter(this@MainActivity, myInfo.data.mid)
+                }
+            }.showAsDropDown(baseBinding.tb.homeImageView)
             true
         } else
             super.onOptionsItemSelected(item)
@@ -116,13 +132,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         if (bilibiliClient.isLogin)
             runIOCatchingResultRunMain(this, { bilibiliClient.appAPI.myInfo().await() }) { myInfo ->
                 if (headerView != null) {
-                    headerView!!.findViewById<TextView>(R.id.tv_name).text = myInfo.data.name
+                    headerView!!.findViewById<TextView>(R.id.tv_name).apply {
+                        text = myInfo.data.name
+                        setTextColor(getColor(if (myInfo.data.vip.status == 0) R.color.textColor else R.color.biliPink))
+                    }
                     headerView!!.findViewById<TextView>(R.id.tv_coins).text =
                         "硬币: ${myInfo.data.coins}"
                     headerView!!.findViewById<ImageView>(R.id.iv_level)
                         .setBiliLevel(myInfo.data.level)
                     glideSafeLoadInto(myInfo.data.face, headerView!!.findViewById(R.id.civ_face))
                 } else {
+                    this.myInfo = myInfo
                     supportActionBar?.let { actionBar ->
                         actionBar.setDisplayUseLogoEnabled(true)
                         actionBar.setDisplayShowHomeEnabled(true)

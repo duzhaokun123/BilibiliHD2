@@ -28,7 +28,8 @@ class DynamicFragment : BaseSRRVFragment() {
     private val dynamicCardWidth by lazy { Settings.dynamicCardWidthDp.dpToPx() }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
-        runIOCatchingResultRunMain(context, { bilibiliClient.vcAPI.dynamicNew().await() })
+        runIOCatchingResultRunMain(context, { bilibiliClient.vcAPI.dynamicNew().await() },
+            { srl.finishRefresh(false) })
         { dynamicNew ->
             model.dynamicModel.value = DynamicCardModel.parse(dynamicNew)
             model.offsetDynamicId.value = dynamicNew.data.historyOffset
@@ -44,7 +45,7 @@ class DynamicFragment : BaseSRRVFragment() {
                 bilibiliClient.vcAPI.dynamicHistory(
                     model.offsetDynamicId.value!!, model.page.value!! + 1
                 ).await()
-            }) { dynamicHistory ->
+            }, { srl.finishLoadMore(false) }) { dynamicHistory ->
             val a = DynamicCardModel.parse(dynamicHistory)
             model.offsetDynamicId.value = dynamicHistory.data.nextOffset
             model.page.value = model.page.value!! + 1

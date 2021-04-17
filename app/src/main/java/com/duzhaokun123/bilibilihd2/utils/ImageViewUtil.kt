@@ -2,8 +2,6 @@ package com.duzhaokun123.bilibilihd2.utils
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -12,17 +10,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.LayoutIvOverlayBinding
-import com.github.chrisbanes.photoview.PhotoView
+import com.duzhaokun123.bilibilihd2.ui.BigImageViewActivity
 import com.stfalcon.imageviewer.StfalconImageViewer
 import java.io.File
-import kotlin.math.max
-import kotlin.math.min
 
 object ImageViewUtil {
     fun ImageView.setBiliLevel(level: Int) {
@@ -37,12 +29,12 @@ object ImageViewUtil {
         }
     }
 
-    fun viewImage(pImage: String?, pImageView: ImageView) =
-        viewImage(pImageView.context, pImage, pImageView)
+    fun viewImage(context: Context, imageUrl: String?, imageView: ImageView? = null) =
+       viewImage(context, listOf(imageUrl), listOf(imageView), 0)
 
-    fun viewImage(context: Context, pImage: String?, pImageView: ImageView? = null) {
-        if (pImage == null) return
+    fun viewImage(context: Context, imageUrls: List<String?>, imageViews: List<ImageView?>, startPosition: Int) {
         var siv: StfalconImageViewer<*>? = null
+        var position = startPosition
         val overlayBinding =
             DataBindingUtil.inflate<LayoutIvOverlayBinding>(
                 LayoutInflater.from(context),
@@ -55,7 +47,7 @@ object ImageViewUtil {
                 R.id.share -> {
                     runNewThread {
                         val shareUri: Uri
-                        val srcFile = Glide.with(context).asFile().load(pImage).submit().get()
+                        val srcFile = Glide.with(context).asFile().load(imageUrls[position]).submit().get()
                         val shareFile = File(
                             context.cacheDir,
                             "shareImg${File.separatorChar}share.jpeg"
@@ -76,11 +68,15 @@ object ImageViewUtil {
                     true
                 }
                 R.id.download -> {
-                    DownloadUtil.downloadPicture(context, pImage)
+                    imageUrls[position]?.let { it1 -> DownloadUtil.downloadPicture(context, it1) }
                     true
                 }
                 R.id.close -> {
                     siv?.close()
+                    true
+                }
+                R.id.open -> {
+                    BigImageViewActivity.enter(context, imageUrls[position]!!)
                     true
                 }
                 else -> false
@@ -92,55 +88,17 @@ object ImageViewUtil {
             }
             insets
         }
-        StfalconImageViewer.Builder(context, arrayOf(pImage)) { imageView, image ->
-            if (imageView is PhotoView) {
-                Glide.with(context).load(image).addListener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        TipUtil.showToast(e?.message)
-                        return true
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        if (resource is BitmapDrawable) {
-                            runNewThread {
-                                val bitmap =
-                                    Glide.with(context).asBitmap().load(image).submit().get()
-                                val sX = imageView.measuredWidth / bitmap.width.toFloat()
-                                val sY = imageView.measuredHeight / bitmap.height.toFloat()
-                                val scale = min(sX, sY)
-                                runMain {
-                                    imageView.apply {
-                                        scaleType = ImageView.ScaleType.CENTER
-                                        setImageBitmap(bitmap)
-                                        maximumScale = max(5F, scale)
-                                        mediumScale = (maximumScale + scale) / 2
-                                        minimumScale = scale
-                                        this@apply.scale = scale
-                                    }
-                                }
-                            }
-                        }
-                        return false
-                    }
-                }).into(imageView)
-            } else {
-                Glide.with(context).load(image).into(imageView)
-            }
+        StfalconImageViewer.Builder(context, imageUrls) { imageView, imageUrl ->
+                Glide.with(context).load(imageUrl).into(imageView)
         }
             .withHiddenStatusBar(false)
-            .withTransitionFrom(pImageView)
+            .withTransitionFrom(imageViews[position])
             .withOverlayView(overlayBinding.root)
+            .withStartPosition(position)
+            .withImageChangeListener {
+                position = it
+                siv!!.updateTransitionImage(imageViews[position])
+            }
             .show().also { siv = it }
     }
 }

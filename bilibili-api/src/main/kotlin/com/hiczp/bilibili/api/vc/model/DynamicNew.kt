@@ -151,7 +151,7 @@ data class DynamicNew(
                     @SerializedName("repost")
                     val repost: Int, // 34027
                     @SerializedName("rid")
-                    val rid: Int, // 4089610
+                    val rid: Long, // 4089610
                     @SerializedName("rid_str")
                     val ridStr: String, // 4089610
                     @SerializedName("status")

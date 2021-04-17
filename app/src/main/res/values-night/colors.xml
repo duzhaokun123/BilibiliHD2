@@ -2,4 +2,5 @@
 <resources>
     <color name="image_background">#2A2A2A</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="origin_card">#030303</color>
 </resources>
