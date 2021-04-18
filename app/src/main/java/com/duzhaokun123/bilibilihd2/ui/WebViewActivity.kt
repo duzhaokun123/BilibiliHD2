@@ -39,7 +39,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         val PIP_PARAMS = PictureInPictureParams.Builder().setAspectRatio(Rational(16, 9)).build()!!
 
         const val MODEL_CV_SCRIPT =
-            "document.getElementsByClassName(\"h5-download-close-btn\")[0].click();document.getElementsByClassName(\"arrow-icon\")[0].click()"
+            "document.getElementsByClassName(\"read-icon-close\")[0].click();document.getElementsByClassName(\"read-more\")[0].click()"
     }
 
     private val configViewModel: ConfigViewModel by viewModels()
@@ -142,7 +142,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                 super.onPageFinished(view, url)
                 baseBinding.pb.visibility = View.INVISIBLE
 
-                if (url != null && "www.bilibili.com/read/mobile/" in url) {
+                if (url != null && "read/mobile" in url) {
                     runMain {
                         delay(500)
                         baseBinding.wv.evaluateJavascript(MODEL_CV_SCRIPT, null)

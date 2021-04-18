@@ -114,6 +114,23 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
             super.onOptionsItemSelected(item)
     }
 
+    fun reinitLayout() {
+        rootBinding.flRoot.removeAllViews()
+        baseBinding = DataBindingUtil.inflate(layoutInflater, layoutId, rootBinding.flRoot, true)
+        findViews()
+        setSupportActionBar(initActionBar())
+        if (Config.NO_BACK !in configs) supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_back)
+        }
+        initView()
+        initData()
+
+        TipUtil.registerCoordinatorLayout(this, registerCoordinatorLayout())
+        onApplyWindowInsetsCompat(windowInsetsCompatModel.windowInsetsCompat.value!!)
+    }
+
     open fun findViews() {}
     open fun initActionBar() =
         if (Config.NO_TOOL_BAR in configs) null else rootBinding.tb

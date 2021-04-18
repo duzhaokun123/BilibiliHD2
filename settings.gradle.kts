@@ -1,3 +1,4 @@
+include(":bili-player")
 include(":annotation-processor")
 include(":app")
 include("imageviewer")

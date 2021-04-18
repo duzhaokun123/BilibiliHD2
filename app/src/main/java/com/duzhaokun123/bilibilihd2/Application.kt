@@ -3,7 +3,11 @@ package com.duzhaokun123.bilibilihd2
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.UsersMap
+import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.duzhaokun123.generated.Settings
+import com.google.android.exoplayer2.database.ExoDatabaseProvider
+import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
+import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
 
@@ -14,6 +18,11 @@ class Application : android.app.Application() {
             private set
         lateinit var bilibiliClient: BilibiliClient
             private set
+        val simpleCache by lazy {
+            SimpleCache(
+                instance.cacheDir, NoOpCacheEvictor(), ExoDatabaseProvider(instance)
+            )
+        }
     }
 
     init {

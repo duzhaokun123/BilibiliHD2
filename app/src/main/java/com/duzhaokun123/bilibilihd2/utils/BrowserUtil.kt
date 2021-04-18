@@ -60,7 +60,7 @@ object BrowserUtil {
                     }
                     "article" -> openWebViewActivity(
                         context,
-                        "https://www.bilibili.com/read/cv${paths[0]}"
+                        "https://www.bilibili.com/read/mobile?id=${paths[0]}"
                     )
                     "live" -> LivePlayActivity.enter(context, paths[0].toLong())
                     "space", "author" -> UserScapeActivity.enter(context, paths[0].toLong())
@@ -85,7 +85,7 @@ object BrowserUtil {
                             }
                             "read" -> openWebViewActivity(
                                 context,
-                                "https://www.bilibili.com/read/mobile/${paths[1].substring(2)}",
+                                "https://www.bilibili.com/read/mobile?id=${paths[1].substring(2)}",
                                 desktopUA = false
                             )
                             else -> openWebViewActivity(

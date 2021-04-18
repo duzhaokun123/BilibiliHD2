@@ -19,7 +19,7 @@ data class View(
             @SerializedName("attribute")
             var attribute: Int, // 16512
             @SerializedName("cid")
-            var cid: Int, // 77356986
+            var cid: Long, // 77356986
             @SerializedName("cm_config")
             var cmConfig: CmConfig,
             @SerializedName("cms")

@@ -9,8 +9,8 @@ class GlideLoadRationHeightImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : GlideLoadImageView(context, attrs, defStyleAttr) {
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.GlideLoadRationHeightImageView, defStyleAttr, 0).use {
-            ration = it.getFloat(R.styleable.GlideLoadRationHeightImageView_ration, 0F)
+        context.obtainStyledAttributes(attrs, R.styleable.Ration, defStyleAttr, 0).use {
+            ration = it.getFloat(R.styleable.Ration_ration, 0F)
         }
     }
 

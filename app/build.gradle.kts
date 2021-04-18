@@ -61,9 +61,9 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
 
-    implementation("androidx.core:core-ktx:1.6.0-alpha01")
-    implementation("androidx.appcompat:appcompat:1.3.0-rc01")
-    implementation("com.google.android.material:material:1.3.0")
+    implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
+    implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
+    implementation("com.google.android.material:material:$material_version")
     implementation("androidx.constraintlayout:constraintlayout:2.0.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
@@ -71,9 +71,6 @@ dependencies {
 
     //bilibili-api
     implementation("com.hiczp", "bilibili-api", "bilibiliHD")
-
-//    //danmakuview
-//    implementation("com.github.duzhaokun123:DanmakuView:0.1.2")
 
     //preferencex
     implementation("androidx.preference:preference-ktx:1.1.1")
@@ -121,6 +118,9 @@ dependencies {
 
     //StfalconImageViewer
     implementation(project(":imageviewer"))
+
+    //BiliPlayer
+    implementation(project(":bili-player"))
 }
 
 afterEvaluate {
@@ -136,7 +136,7 @@ fun optimizeReleaseRes() {
     )
     val zip = Paths.get(
         project.buildDir.path, "intermediates",
-        "shrunk_processed_res", "release", "resources-release-stripped.ap_"
+        "shrunk_processed_res", "destroy", "resources-destroy-stripped.ap_"
     )
     val optimized = File("${zip}.opt")
     val cmd = exec {
