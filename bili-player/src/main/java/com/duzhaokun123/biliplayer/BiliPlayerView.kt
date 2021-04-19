@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.core.content.res.use
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
 import com.duzhaokun123.danmakuview.ui.DanmakuView
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -60,7 +59,8 @@ class BiliPlayerView @JvmOverloads constructor(
     fun start() {
         if (isDestroyed) return
         player.setMediaSources(mediaSources.firstList())
-        findViewById<View>(R.id.exo_play_pause).callOnClick()
+        if (player.playWhenReady.not())
+            findViewById<View>(R.id.exo_play_pause).callOnClick()
         state = State.PLAYING
     }
 
@@ -82,6 +82,7 @@ class BiliPlayerView @JvmOverloads constructor(
 
     fun stop() {
         if (isDestroyed) return
+        player.setMediaSources(emptyList())
         player.stop()
         state = State.STOPPED
     }

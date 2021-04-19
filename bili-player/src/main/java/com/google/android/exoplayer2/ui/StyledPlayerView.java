@@ -1683,7 +1683,7 @@ public class StyledPlayerView extends FrameLayout implements AdsLoader.AdViewPro
     // StyledPlayerControlView.VisibilityListener implementation
 
     @Override
-    public void onVisibilityChange(int visibility) {
+    public void onVisibilityChange(boolean visibility) {
       updateContentDescription();
     }
   }

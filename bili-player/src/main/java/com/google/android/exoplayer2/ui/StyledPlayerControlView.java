@@ -327,7 +327,7 @@ public class StyledPlayerControlView extends FrameLayout {
      *
      * @param visibility The new visibility. Either {@link View#VISIBLE} or {@link View#GONE}.
      */
-    void onVisibilityChange(int visibility);
+    void onVisibilityChange(boolean visibility);
   }
 
   /** Listener to be notified when progress has been updated. */
@@ -1100,7 +1100,7 @@ public class StyledPlayerControlView extends FrameLayout {
 
   /* package */ void notifyOnVisibilityChange() {
     for (VisibilityListener visibilityListener : visibilityListeners) {
-      visibilityListener.onVisibilityChange(getVisibility());
+      visibilityListener.onVisibilityChange(isFullyVisible());
     }
   }
 

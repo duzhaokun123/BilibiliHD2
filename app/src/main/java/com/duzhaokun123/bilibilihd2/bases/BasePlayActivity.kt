@@ -11,6 +11,7 @@ import androidx.core.view.updatePadding
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
+import com.duzhaokun123.bilibilihd2.utils.WindowInsetsControllerCompatFix
 import com.duzhaokun123.bilibilihd2.utils.systemBars
 import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
@@ -20,7 +21,8 @@ import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     R.layout.activity_play_base,
     Config.NO_TOOL_BAR, Config.LAYOUT_MATCH_HORI
-), StyledPlayerControlView.OnFullScreenModeChangedListener {
+), StyledPlayerControlView.OnFullScreenModeChangedListener,
+    StyledPlayerControlView.VisibilityListener {
     val dataSourceFactory by lazy {
         CacheDataSource.Factory().setCache(Application.simpleCache)
             .setUpstreamDataSourceFactory(DefaultDataSourceFactory(this))
@@ -37,11 +39,13 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     @CallSuper
     override fun findViews() {
         if (::biliPlayerView.isInitialized.not()) {
-            biliPlayerView = BiliPlayerView(this)
-            biliPlayerView.id = R.id.bpv
-            biliPlayerView.setPlayedColor(getColor(R.color.biliPink))
-            biliPlayerView.playerView.setControllerOnFullScreenModeChangedListener(this)
-            biliPlayerView.setBackgroundColor(getColor(R.color.black))
+            biliPlayerView = BiliPlayerView(this).apply {
+                id = R.id.bpv
+                setPlayedColor(getColor(R.color.biliPink))
+                playerView.setControllerOnFullScreenModeChangedListener(this@BasePlayActivity)
+                setBackgroundColor(getColor(R.color.black))
+                playerView.setControllerVisibilityListener(this@BasePlayActivity)
+            }
         }
         baseBinding.rl.addView(biliPlayerView)
         onFullScreenModeChanged(isFullScreen)
@@ -130,9 +134,10 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 removeRule(RelativeLayout.ALIGN_END)
                 removeRule(RelativeLayout.ALIGN_BOTTOM)
             }
-            windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.systemBars())
-            windowInsetsControllerCompat.systemBarsBehavior =
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
+            WindowInsetsControllerCompatFix.setSystemBarsBehavior(
+                window, WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            )
         } else {
             biliPlayerView.updateLayoutParams<RelativeLayout.LayoutParams> {
                 addRule(RelativeLayout.ALIGN_TOP, R.id.rhv)
@@ -140,7 +145,17 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 addRule(RelativeLayout.ALIGN_END, R.id.rhv)
                 addRule(RelativeLayout.ALIGN_BOTTOM, R.id.rhv)
             }
-            windowInsetsControllerCompat.show(WindowInsetsCompat.Type.systemBars())
+            windowInsetsControllerCompat.show(WindowInsetsCompat.Type.navigationBars())
+        }
+    }
+
+    override fun onVisibilityChange(visibility: Boolean) {
+        if (visibility) {
+            supportActionBar?.show()
+            windowInsetsControllerCompat.show(WindowInsetsCompat.Type.statusBars())
+        } else {
+            supportActionBar?.hide()
+            windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.statusBars())
         }
     }
 }
