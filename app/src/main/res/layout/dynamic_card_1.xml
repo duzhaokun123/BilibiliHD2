@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/origin_card"
-            app:cardCornerRadius="10dp"
+            app:cardCornerRadius="4dp"
             app:cardElevation="0dp">
 
             <RelativeLayout

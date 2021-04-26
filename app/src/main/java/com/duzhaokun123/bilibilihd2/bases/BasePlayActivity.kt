@@ -1,6 +1,8 @@
 package com.duzhaokun123.bilibilihd2.bases
 
 import android.content.res.Configuration
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.CallSuper
@@ -11,6 +13,7 @@ import androidx.core.view.updatePadding
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
+import com.duzhaokun123.bilibilihd2.utils.ShareUtil
 import com.duzhaokun123.bilibilihd2.utils.WindowInsetsControllerCompatFix
 import com.duzhaokun123.bilibilihd2.utils.systemBars
 import com.duzhaokun123.biliplayer.BiliPlayerView
@@ -45,6 +48,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 playerView.setControllerOnFullScreenModeChangedListener(this@BasePlayActivity)
                 setBackgroundColor(getColor(R.color.black))
                 playerView.setControllerVisibilityListener(this@BasePlayActivity)
+                onNextClickListener = this@BasePlayActivity::onNextClick
             }
         }
         baseBinding.rl.addView(biliPlayerView)
@@ -108,6 +112,25 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
             super.onBackPressed()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.base_play, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return  when (item.itemId) {
+            R.id.item_share -> {
+                onGetShare().run {
+                    if (first != null && second != null)
+                        ShareUtil.shareUrl(this@BasePlayActivity, second!!, first)
+                }
+                true
+            }
+            else ->  super.onOptionsItemSelected(item)
+        }
+
+    }
+
     fun start() {
         biliPlayerView.start()
     }
@@ -158,4 +181,11 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.statusBars())
         }
     }
+
+    open fun onNextClick() {}
+
+    /**
+     * @return first: title second: url
+     */
+    open fun onGetShare(): Pair<String?, String?> = null to null
 }

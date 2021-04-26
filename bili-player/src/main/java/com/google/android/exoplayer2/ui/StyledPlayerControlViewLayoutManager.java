@@ -119,6 +119,10 @@ import java.util.List;
       overflowHideButton.setOnClickListener(this::onOverflowButtonClick);
     }
 
+    if (timeBar != null) {
+      timeBar.addOnLayoutChangeListener((q,w,e,r,t,y,u,i,o)-> updateTimeEnable());
+    }
+
     ValueAnimator fadeOutAnimator = ValueAnimator.ofFloat(1.0f, 0.0f);
     fadeOutAnimator.setInterpolator(new LinearInterpolator());
     fadeOutAnimator.addUpdateListener(
@@ -368,6 +372,7 @@ import java.util.List;
     if (prevUxState != uxState) {
       styledPlayerControlView.notifyOnVisibilityChange();
     }
+    updateTimeEnable();
   }
 
   public void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -600,6 +605,13 @@ import java.util.List;
         overflowHideAnimator.start();
       }
     }
+  }
+
+  private void updateTimeEnable() {
+    if (timeBar == null) {
+       return;
+    }
+    timeBar.setEnabled(uxState != UX_STATE_ONLY_PROGRESS_VISIBLE);
   }
 
   private static int getWidthWithMargins(@Nullable View v) {

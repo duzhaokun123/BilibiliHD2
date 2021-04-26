@@ -121,6 +121,9 @@ dependencies {
 
     //BiliPlayer
     implementation(project(":bili-player"))
+
+    //protobuf
+    implementation(project(":protobuf"))
 }
 
 afterEvaluate {

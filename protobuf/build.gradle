@@ -1,0 +1,27 @@
+plugins {
+    id 'java-library'
+    id 'com.google.protobuf'
+}
+
+//用 Kotlin DSL 无法生成代码
+
+dependencies {
+    api 'com.google.protobuf:protobuf-javalite:3.16.0-rc-1'
+}
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src"
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.16.0-rc-1'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                    outputSubDir "java"
+                }
+            }
+        }
+    }
+}

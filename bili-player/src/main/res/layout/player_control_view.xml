@@ -13,7 +13,7 @@
      limitations under the License.
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:id="@id/exo_bottom_bar"
@@ -61,16 +61,17 @@
                 style="@style/ExoStyledControls.Button.Bottom.VR" />
 
             <ImageButton
-                android:id="@id/exo_shuffle"
-                style="@style/ExoStyledControls.Button.Bottom.Shuffle" />
-
-            <ImageButton
-                android:id="@id/exo_repeat_toggle"
-                style="@style/ExoStyledControls.Button.Bottom.RepeatToggle" />
-
-            <ImageButton
                 android:id="@id/exo_subtitle"
                 style="@style/ExoStyledControls.Button.Bottom.CC" />
+
+            <Button
+                android:id="@+id/btn_quality"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/exo_white"
+                android:textSize="14sp"
+                tools:text="清晰度" />
 
             <ImageButton
                 android:id="@id/exo_settings"
@@ -123,7 +124,7 @@
                 android:layout_height="wrap_content" />
 
             <ImageButton
-                android:id="@id/exo_next"
+                android:id="@+id/ib_next"
                 style="@style/ExoStyledControls.Button.Center.Next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

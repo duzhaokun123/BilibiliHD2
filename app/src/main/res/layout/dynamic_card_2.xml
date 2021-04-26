@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.duzhaokun123.bilibilihd2.utils.UtilsKt" />
+
         <variable
             name="card"
             type="com.duzhaokun123.bilibilihd2.model.DynamicCardModel.Type2" />

@@ -28,6 +28,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -41,5 +44,5 @@ dependencies {
     compileOnly("org.checkerframework:checker-qual:3.3.0")
     api("androidx.media:media:1.3.0")
 
-    api("com.github.duzhaokun123:DanmakuView:0.1.2")
+    api("com.github.duzhaokun123:DanmakuView:0.1.4")
 }

@@ -363,7 +363,7 @@ data class View(
 
         data class Page(
                 @SerializedName("cid")
-                var cid: Int, // 77356986
+                var cid: Long, // 77356986
                 @SerializedName("dimension")
                 var dimension: Dimension,
                 @SerializedName("dm")

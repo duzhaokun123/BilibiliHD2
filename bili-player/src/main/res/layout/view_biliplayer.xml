@@ -6,10 +6,7 @@
         android:id="@+id/pv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:controller_layout_id="@layout/player_control_view" />
+        app:controller_layout_id="@layout/player_control_view"
+        app:show_buffering="always" />
 
-    <com.duzhaokun123.danmakuview.ui.DanmakuView
-        android:id="@+id/dv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </merge>

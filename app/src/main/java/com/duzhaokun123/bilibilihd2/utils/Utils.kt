@@ -16,12 +16,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 
 val application get() = Application.instance
 
 val bilibiliClient get() = Application.bilibiliClient
 
 val gson by lazy { Gson() }
+
+val okHttpClient by lazy { OkHttpClient() }
 
 fun runIO(block: suspend CoroutineScope.() -> Unit) =
     GlobalScope.launch(Dispatchers.IO, block = block)

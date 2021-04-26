@@ -3,11 +3,13 @@ package com.duzhaokun123.bilibilihd2.ui.main.dynamicholders
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.updateLayoutParams
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCard2Binding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
 import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil
+import com.duzhaokun123.bilibilihd2.utils.dpToPx
 
 class DynamicHolderType2(context: Context) :
     DynamicAdapter.BaseDynamicHolder<DynamicCard2Binding, DynamicCardModel.Type2>(
@@ -23,13 +25,23 @@ class DynamicHolderType2(context: Context) :
             imageViews.add(contentBinding.root.findViewWithTag(it.toString()))
         }
         (0..8).forEach { i ->
-            contentBinding.root.findViewWithTag<View>(i.toString()).setOnClickListener(
-                typedCard.pictures.getOrNull(i)?.let {
-                    View.OnClickListener {
+            typedCard.pictures.getOrNull(i)?.let {
+                contentBinding.root.findViewWithTag<View>("$i").apply {
+                    setOnClickListener {
                         ImageViewUtil.viewImage(context, typedCard.pictures, imageViews, i)
                     }
-                } ?: View.OnClickListener { contentBinding.iv0.callOnClick() }
-            )
+                    updateLayoutParams {
+                        height = 120.dpToPx()
+                    }
+                }
+            } ?: run {
+                contentBinding.root.findViewWithTag<View>("$i").apply {
+                    setOnClickListener(null)
+                    updateLayoutParams {
+                        height = 0
+                    }
+                }
+            }
         }
     }
 
