@@ -1,6 +1,7 @@
 package com.duzhaokun123.biliplayer
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
 import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.ui.DanmakuView
@@ -19,6 +21,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BiliPlayerView @JvmOverloads constructor(
@@ -74,6 +77,11 @@ class BiliPlayerView @JvmOverloads constructor(
             btnQuality = playerControlView.findViewById(R.id.btn_quality)
 
             player.addListener(this)
+
+            findViewById<View>(R.id.iv_cover).setOnClickListener {
+                start()
+                it.visibility = GONE
+            }
         }
     }
 
@@ -117,6 +125,7 @@ class BiliPlayerView @JvmOverloads constructor(
             btnQuality.text = info.sources[0].name
             danmakuView.parse(info.danmakuParser) {
                 GlobalScope.launch(Dispatchers.Main) {
+                    delay(500)
                     danmakuView.seekTo(player.contentPosition)
                     if (player.isPlaying)
                         danmakuView.resume()
@@ -170,5 +179,9 @@ class BiliPlayerView @JvmOverloads constructor(
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
         danmakuView.speed = playbackParameters.speed
+    }
+
+    fun setCover(cover: Drawable?) {
+        findViewById<AppCompatImageView>(R.id.iv_cover).setImageDrawable(cover)
     }
 }

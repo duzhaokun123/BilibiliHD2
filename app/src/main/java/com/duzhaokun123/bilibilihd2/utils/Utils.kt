@@ -5,12 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.forEach
 import com.duzhaokun123.bilibilihd2.Application
+import com.duzhaokun123.bilibilihd2.R
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -79,3 +81,10 @@ val Toolbar.homeImageView: View?
         }
         return null
     }
+
+fun View.removeFromParent() {
+    (this.parent as? ViewGroup)?.removeView(this)
+}
+
+val isNightMode
+    get() = application.resources.getBoolean(R.bool.night)

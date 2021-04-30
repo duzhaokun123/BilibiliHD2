@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <merge>
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadImageView
+            android:id="@+id/iv_honor_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+
+        <TextView
+            android:id="@+id/tv_honor_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_honor_text_extra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_honor_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </merge>
+</layout>

@@ -22,4 +22,6 @@
     <color name="secondaryDarkColor">@color/primaryDarkColor</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="textColor">#000000</color>
+
+    <color name="dimText">#757575</color>
 </resources>

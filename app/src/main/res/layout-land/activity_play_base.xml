@@ -9,15 +9,15 @@
 
         <View
             android:id="@+id/v1"
-            android:layout_alignParentEnd="true"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"/>
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true" />
 
         <com.duzhaokun123.bilibilihd2.ui.widget.RationHeightView
             android:id="@+id/rhv"
-            android:layout_toStartOf="@id/v1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/v1"
             android:tag="2"
             app:ration="0.5625" />
 
@@ -28,7 +28,8 @@
             android:layout_alignStart="@id/bpv"
             android:layout_alignTop="@id/bpv"
             android:layout_alignEnd="@id/bpv"
-            android:background="@color/transparent">
+            android:background="@color/transparent"
+            android:elevation="2dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tb"
@@ -37,42 +38,5 @@
                 app:subtitleTextColor="@color/white"
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
-
-        <LinearLayout
-            android:layout_below="@id/rhv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="start" />
-
-            <Button
-                android:id="@+id/stop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="stop" />
-
-            <Button
-                android:id="@+id/pause"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="pause" />
-
-            <Button
-                android:id="@+id/resume"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="resume" />
-
-            <Button
-                android:id="@+id/fullscreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="fullscreen" />
-        </LinearLayout>
     </RelativeLayout>
 </layout>

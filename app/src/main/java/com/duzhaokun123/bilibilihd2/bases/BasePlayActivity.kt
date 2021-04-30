@@ -10,12 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
-import com.duzhaokun123.bilibilihd2.utils.ShareUtil
-import com.duzhaokun123.bilibilihd2.utils.WindowInsetsControllerCompatFix
-import com.duzhaokun123.bilibilihd2.utils.systemBars
+import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -38,6 +37,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     val windowInsetsControllerCompat by lazy {
         WindowInsetsControllerCompat(window, rootBinding.root)
     }
+    private var coverUrl: String? = null
 
     @CallSuper
     override fun findViews() {
@@ -49,6 +49,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 setBackgroundColor(getColor(R.color.black))
                 playerView.setControllerVisibilityListener(this@BasePlayActivity)
                 onNextClickListener = this@BasePlayActivity::onNextClick
+                elevation = 1.dpToPx().toFloat()
             }
         }
         baseBinding.rl.addView(biliPlayerView)
@@ -58,11 +59,6 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     @CallSuper
     override fun initView() {
         baseBinding.abl.outlineProvider = null
-        baseBinding.start.setOnClickListener { start() }
-        baseBinding.stop.setOnClickListener { stop() }
-        baseBinding.pause.setOnClickListener { pause() }
-        baseBinding.resume.setOnClickListener { resume() }
-        baseBinding.fullscreen.setOnClickListener { biliPlayerView.changeFullscreen() }
     }
 
     @CallSuper
@@ -101,7 +97,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        baseBinding.rl.removeView(biliPlayerView)
+        beforeReinitLayout()
         reinitLayout()
     }
 
@@ -131,6 +127,11 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        biliPlayerView.playerView.showController()
+    }
+
     fun start() {
         biliPlayerView.start()
     }
@@ -145,6 +146,21 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
 
     fun resume() {
         biliPlayerView.resume()
+    }
+
+    fun setCoverUrl(url: String?) {
+        coverUrl = url
+        runNewThread {
+            try {
+                val cover = Glide.with(this).load(url).submit().get()
+                runMain {
+                    biliPlayerView.setCover(cover)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                TipUtil.showTip(this, e.message)
+            }
+        }
     }
 
     @CallSuper
@@ -188,4 +204,8 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
      * @return first: title second: url
      */
     open fun onGetShare(): Pair<String?, String?> = null to null
+    @CallSuper
+    open fun beforeReinitLayout() {
+        baseBinding.rl.removeView(biliPlayerView)
+    }
 }

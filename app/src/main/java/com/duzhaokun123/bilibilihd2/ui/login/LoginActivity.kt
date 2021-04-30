@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.login
 
+import androidx.appcompat.app.AlertDialog
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityLoginBinding
@@ -13,14 +14,28 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             baseBinding.working = true
             runIO {
                 try {
-                    UsersMap.put(
-                        bilibiliClient.login(
-                            baseBinding.tietUsername.text.toString(),
-                            baseBinding.tietPassword.text.toString()
-                        ).also { Settings.selectedUid = it.userId }
+                    val loginResponse = bilibiliClient.login(
+                        baseBinding.tietUsername.text.toString(),
+                        baseBinding.tietPassword.text.toString()
                     )
-                    UsersMap.save()
-                    finish()
+                    if (loginResponse.data.status == 0) {
+                        Settings.selectedUid = loginResponse.userId
+                        UsersMap.put(loginResponse)
+                        UsersMap.save()
+                        finish()
+                    } else {
+                        runMain {
+                            AlertDialog.Builder(this@LoginActivity).apply {
+                                setTitle("status: ${loginResponse.data.status}")
+                                setMessage("${loginResponse.data.message}\n然而操作了也没用")
+                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                                        BrowserUtil.openInApp(
+                                            this@LoginActivity, loginResponse.data.url
+                                        )
+                                    }
+                            }.show()
+                        }
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     TipUtil.showToast(e.message)

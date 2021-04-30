@@ -42,4 +42,8 @@
     <string name="share">分享</string>
     <string name="share_to">分享至</string>
     <string name="saved">已保存</string>
+    <string name="like">赞</string>
+    <string name="dislike">踩</string>
+    <string name="coins">硬币</string>
+    <string name="favorite">收藏</string>
 </resources>
