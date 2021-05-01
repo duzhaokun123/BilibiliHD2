@@ -12,9 +12,6 @@ import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.duzhaokun123.bilibilihd2.R
@@ -28,6 +25,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
@@ -108,7 +106,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                 val tabLayout = TabLayout(this).apply {
                     id = tabLayoutId
                     ViewCompat.setOnApplyWindowInsetsListener(this) { v, vi ->
-                        vi.systemBars.let {
+                        vi.maxSystemBarsDisplayCutout.let {
                             v.updatePadding(top = it.top, right = it.right)
                         }
                         vi
@@ -144,11 +142,21 @@ class OnlinePlayActivity : BasePlayActivity() {
         if (biliView == null) {
             runIOCatchingResultRunMain(this, {
                 bilibiliClient.appAPI.view(aid = aid).await()
-            }) {
-                biliView = it
-                setCoverUrl(biliView!!.data.pic)
-                supportActionBar?.title = biliView!!.data.title
+            }) { biliView ->
+                this.biliView = biliView
+                setCoverUrl(biliView.data.pic)
+                supportActionBar?.title = biliView.data.title
+
                 layoutOnlinePlayIntroBinding.biliView = biliView
+                biliView.data.tag.forEach { tag ->
+                    layoutOnlinePlayIntroBinding.cgTags.addView(Chip(this).apply {
+                        text = tag.tagName
+                        setOnClickListener {
+                            BrowserUtil.openInApp(this@OnlinePlayActivity, "https://www.bilibili.com/v/channel/${tag.tagId}")
+                        }
+                    }, WRAP_CONTENT, WRAP_CONTENT)
+                }
+
                 updateVideoPlayUrl()
             }
         }
@@ -228,7 +236,7 @@ class OnlinePlayActivity : BasePlayActivity() {
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             layoutOnlinePlayIntroBinding.llRoot.updatePadding(bottom = if (baseBinding.rhv.tag == "2") it.bottom else 0)
         }
     }

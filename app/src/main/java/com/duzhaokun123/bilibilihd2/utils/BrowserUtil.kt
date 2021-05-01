@@ -89,7 +89,7 @@ object BrowserUtil {
                                 desktopUA = false
                             )
                             else -> openWebViewActivity(
-                                context, uri, desktopUA = true
+                                context, uri, desktopUA = paths.getOrNull(0) != "h5"
                             )
                         }
                     }

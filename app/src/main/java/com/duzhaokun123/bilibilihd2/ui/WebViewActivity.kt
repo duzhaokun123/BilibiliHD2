@@ -27,7 +27,7 @@ import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.runMain
-import com.duzhaokun123.bilibilihd2.utils.systemBars
+import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 import kotlinx.coroutines.delay
 
 class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_view) {
@@ -185,7 +185,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             baseBinding.wv.updateLayoutParams<ViewGroup.MarginLayoutParams>() {
                 bottomMargin = it.bottom
             }

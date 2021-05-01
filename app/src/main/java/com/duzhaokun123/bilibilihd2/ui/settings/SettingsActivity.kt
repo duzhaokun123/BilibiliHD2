@@ -33,7 +33,7 @@ class SettingsActivity : BaseSingleFragmentActivity(SettingsMainFragment::class.
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             baseBinding.fl.updatePadding(bottom = it.bottom)
         }
     }

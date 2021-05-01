@@ -83,7 +83,7 @@ object ImageViewUtil {
             }
         }
         ViewCompat.setOnApplyWindowInsetsListener(overlayBinding.tb) { v, insets ->
-            insets.systemBars.let {
+            insets.maxSystemBarsDisplayCutout.let {
                 v.updatePadding(left = it.left, right = it.right, top = it.top)
             }
             insets

@@ -83,7 +83,7 @@ class DynamicFragment : BaseSRRVFragment() {
     }
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             baseBinding.cf.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = it.bottom
             }

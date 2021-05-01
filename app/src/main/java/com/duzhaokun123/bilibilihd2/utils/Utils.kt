@@ -3,11 +3,13 @@ package com.duzhaokun123.bilibilihd2.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.DisplayCutoutCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.forEach
@@ -68,11 +70,19 @@ fun runNewThread(block: () -> Unit) {
 inline fun <reified A : Activity> Context.startActivity() =
     startActivity(Intent(this, A::class.java))
 
+val WindowInsetsCompat.maxSystemBarsDisplayCutout
+    get() = getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+
+val WindowInsetsCompat.displayCutoutInsets
+    get() = getInsets(WindowInsetsCompat.Type.displayCutout())
+
 val WindowInsetsCompat.systemBars
     get() = getInsets(WindowInsetsCompat.Type.systemBars())
 
 fun Number.dpToPx() =
-    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), application.resources.displayMetrics).toInt()
+    TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), application.resources.displayMetrics
+    ).toInt()
 
 val Toolbar.homeImageView: View?
     get() {

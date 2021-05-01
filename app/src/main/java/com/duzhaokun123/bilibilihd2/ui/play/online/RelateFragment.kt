@@ -13,7 +13,7 @@ import com.duzhaokun123.bilibilihd2.bases.BaseSimpleWithHeaderAdapter
 import com.duzhaokun123.bilibilihd2.databinding.ItemRelateCardBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
 import com.duzhaokun123.bilibilihd2.utils.dpToPx
-import com.duzhaokun123.bilibilihd2.utils.systemBars
+import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
@@ -55,7 +55,7 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
     }
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             baseBinding.rv.updatePadding(left = it.left, right = it.right , bottom = it.bottom)
         }
     }

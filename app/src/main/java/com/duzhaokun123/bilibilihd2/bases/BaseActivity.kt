@@ -21,7 +21,7 @@ import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBaseRootBinding
 import com.duzhaokun123.bilibilihd2.utils.TipUtil
-import com.duzhaokun123.bilibilihd2.utils.systemBars
+import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 
 abstract class BaseActivity<BaseBinding : ViewDataBinding>(
     @LayoutRes private val layoutId: Int, private vararg val configs: Config
@@ -59,6 +59,14 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             statusBarColor = Color.TRANSPARENT
             navigationBarColor = Color.TRANSPARENT
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                attributes.layoutInDisplayCutoutMode =
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R)
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
+                    else
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+//                attributes = attributes
+            }
         }
 
         rootBinding = DataBindingUtil.setContentView(this, R.layout.activity_base_root)
@@ -140,7 +148,8 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
 
     @CallSuper
     open fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
+            insets.displayCutout
             if (Config.LAYOUT_MATCH_HORI !in configs) {
                 rootBinding.abl.updatePadding(left = it.left, right = it.right)
                 rootBinding.flRoot.updatePadding(left = it.left, right = it.right)

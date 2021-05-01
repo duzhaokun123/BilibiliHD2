@@ -101,7 +101,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             baseBinding.abl.updatePadding(left = it.left, right = it.right, top = it.top)
             if (headerView != null) baseBinding.fcv.updatePadding(left = it.left, right = it.right)
             else baseBinding.fcv.updatePadding(right = it.right)

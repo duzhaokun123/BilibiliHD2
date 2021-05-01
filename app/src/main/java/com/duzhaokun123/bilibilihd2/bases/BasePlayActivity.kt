@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.CallSuper
+import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
@@ -71,7 +72,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     @CallSuper
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.systemBars.let {
+        insets.maxSystemBarsDisplayCutout.let {
             when (baseBinding.rhv.tag) {
                 "1" -> {
                     baseBinding.abl.updatePadding(top = it.top)
@@ -87,6 +88,9 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                     }
                 }
             }
+        }
+        (if (isFullScreen) insets.displayCutoutInsets else Insets.NONE).let {
+            biliPlayerView.updatePadding(left = it.left, top = it.top, right = it.right, bottom = it.bottom)
         }
     }
 
