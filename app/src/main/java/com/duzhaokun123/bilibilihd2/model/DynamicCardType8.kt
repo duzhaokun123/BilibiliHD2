@@ -107,35 +107,35 @@ data class DynamicCardType8(
         ) {
             data class X112(
                 @SerializedName("filesize")
-                val filesize: Int, // 365823614
+                val filesize: Long, // 365823614
                 @SerializedName("timelength")
                 val timelength: Int // 1073956
             )
 
             data class X16(
                 @SerializedName("filesize")
-                val filesize: Int, // 57347362
+                val filesize: Long, // 57347362
                 @SerializedName("timelength")
                 val timelength: Int // 1073877
             )
 
             data class X32(
                 @SerializedName("filesize")
-                val filesize: Int, // 118491136
+                val filesize: Long, // 118491136
                 @SerializedName("timelength")
                 val timelength: Int // 1073956
             )
 
             data class X64(
                 @SerializedName("filesize")
-                val filesize: Int, // 174592551
+                val filesize: Long, // 174592551
                 @SerializedName("timelength")
                 val timelength: Int // 1073956
             )
 
             data class X80(
                 @SerializedName("filesize")
-                val filesize: Int, // 225347923
+                val filesize: Long, // 225347923
                 @SerializedName("timelength")
                 val timelength: Int // 1073956
             )

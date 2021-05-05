@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.duzhaokun123.bilibilihd2.ui.widget.RationHeightView
+        <View
             android:id="@+id/rhv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:tag="1"
-            app:ration="0.5625" />
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/abl"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/bpv"
-            android:layout_alignTop="@id/bpv"
-            android:layout_alignEnd="@id/bpv"
             android:background="@color/transparent"
-            android:elevation="2dp">
+            app:elevation="2dp"
+            app:layout_constraintEnd_toEndOf="@id/bpv"
+            app:layout_constraintStart_toStartOf="@id/bpv"
+            app:layout_constraintTop_toTopOf="@id/bpv"
+            tools:ignore="UnknownId">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/tb"
@@ -31,5 +36,5 @@
                 app:subtitleTextColor="@color/white"
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

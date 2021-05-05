@@ -5,9 +5,12 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.RelativeLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -71,21 +74,26 @@ class OnlinePlayActivity : BasePlayActivity() {
                 val tabLayout = TabLayout(this).apply {
                     id = tabLayoutId
                 }
+                if (layoutOnlinePlayIntroBinding.root.layoutParams != null)
+                    layoutOnlinePlayIntroBinding.root.updateLayoutParams {
+                        width = MATCH_PARENT
+                        height = WRAP_CONTENT
+                    }
                 val viewPager2 = ViewPager2(this).apply {
                     adapter = PagerAdapter(this@OnlinePlayActivity)
                 }
                 baseBinding.rl.addView(tabLayout,
-                    RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                        addRule(RelativeLayout.BELOW, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_START, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_END, R.id.rhv)
+                    ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, WRAP_CONTENT).apply {
+                        topToBottom = R.id.rhv
+                        startToStart = R.id.rhv
+                        endToEnd = R.id.rhv
                     })
                 baseBinding.rl.addView(viewPager2,
-                    RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        addRule(RelativeLayout.BELOW, tabLayoutId)
-                        addRule(RelativeLayout.ALIGN_START, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_END, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+                    ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT).apply {
+                        topToBottom = tabLayoutId
+                        startToStart = R.id.rhv
+                        endToEnd = R.id.rhv
+                        bottomToBottom = PARENT_ID
                     })
                 TabLayoutMediator(tabLayout, viewPager2) { tab, p ->
                     if (p == 0)
@@ -96,11 +104,11 @@ class OnlinePlayActivity : BasePlayActivity() {
             }
             "2" -> {
                 baseBinding.rl.addView(layoutOnlinePlayIntroBinding.root,
-                    RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        addRule(RelativeLayout.BELOW, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_START, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
-                        addRule(RelativeLayout.ALIGN_END, R.id.rhv)
+                    ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT).apply {
+                        topToBottom = R.id.rhv
+                        startToStart = R.id.rhv
+                        endToEnd = R.id.rhv
+                        bottomToBottom = PARENT_ID
                     })
                 val tabLayoutId = View.generateViewId()
                 val tabLayout = TabLayout(this).apply {
@@ -116,16 +124,16 @@ class OnlinePlayActivity : BasePlayActivity() {
                     adapter = PagerAdapter(this@OnlinePlayActivity)
                 }
                 baseBinding.rl.addView(tabLayout,
-                    RelativeLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                        addRule(RelativeLayout.END_OF, R.id.rhv)
-                        addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE)
+                    ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, WRAP_CONTENT).apply {
+                        startToEnd = R.id.rhv
+                        endToEnd = PARENT_ID
                     })
                 baseBinding.rl.addView(viewPager2,
-                    RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-                        addRule(RelativeLayout.BELOW, tabLayoutId)
-                        addRule(RelativeLayout.ALIGN_START, tabLayoutId)
-                        addRule(RelativeLayout.ALIGN_END, tabLayoutId)
-                        addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
+                    ConstraintLayout.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT).apply {
+                        topToBottom = tabLayoutId
+                        startToStart = tabLayoutId
+                        endToEnd = tabLayoutId
+                        bottomToBottom = PARENT_ID
                     })
                 TabLayoutMediator(tabLayout, viewPager2) { tab, p ->
                     if (p == 0)
@@ -152,7 +160,10 @@ class OnlinePlayActivity : BasePlayActivity() {
                     layoutOnlinePlayIntroBinding.cgTags.addView(Chip(this).apply {
                         text = tag.tagName
                         setOnClickListener {
-                            BrowserUtil.openInApp(this@OnlinePlayActivity, "https://www.bilibili.com/v/channel/${tag.tagId}")
+                            BrowserUtil.openInApp(
+                                this@OnlinePlayActivity,
+                                "https://www.bilibili.com/v/channel/${tag.tagId}"
+                            )
                         }
                     }, WRAP_CONTENT, WRAP_CONTENT)
                 }

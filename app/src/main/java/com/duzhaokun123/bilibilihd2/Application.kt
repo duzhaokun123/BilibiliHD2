@@ -1,9 +1,9 @@
 package com.duzhaokun123.bilibilihd2
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDexApplication
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.UsersMap
-import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
@@ -12,7 +12,7 @@ import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
 
 @Suppress("UNUSED")
-class Application : android.app.Application() {
+class Application : MultiDexApplication() {
     companion object {
         lateinit var instance: Application
             private set

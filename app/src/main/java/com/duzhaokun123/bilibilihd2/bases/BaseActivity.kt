@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.bases
 
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -59,13 +60,13 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             statusBarColor = Color.TRANSPARENT
             navigationBarColor = Color.TRANSPARENT
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 attributes.layoutInDisplayCutoutMode =
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)
                         WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
                     else
                         WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-//                attributes = attributes
             }
         }
 

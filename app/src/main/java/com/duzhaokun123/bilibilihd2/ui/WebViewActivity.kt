@@ -5,6 +5,7 @@ import android.app.PictureInPictureParams
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import android.view.Menu
@@ -26,6 +27,7 @@ import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
+import com.duzhaokun123.bilibilihd2.utils.TipUtil
 import com.duzhaokun123.bilibilihd2.utils.runMain
 import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 import kotlinx.coroutines.delay
@@ -36,7 +38,12 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         const val EXTRA_INTERCEPT_ALL = "intercept_all"
         const val EXTRA_FINISH_WHEN_INTERCEPT = "finish_when_intercept"
 
-        val PIP_PARAMS = PictureInPictureParams.Builder().setAspectRatio(Rational(16, 9)).build()!!
+        val PIP_PARAMS by lazy {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                PictureInPictureParams.Builder().setAspectRatio(Rational(16, 9)).build()!!
+            else
+                throw RuntimeException("SDK < (26) should not call this")
+        }
 
         const val MODEL_CV_SCRIPT =
             "document.getElementsByClassName(\"read-icon-close\")[0].click();document.getElementsByClassName(\"read-more\")[0].click()"
@@ -72,7 +79,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                 true
             }
             R.id.pip -> {
-                enterPictureInPictureMode(PIP_PARAMS)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    enterPictureInPictureMode(PIP_PARAMS)
+                } else {
+                    TipUtil.showToast("SDK < O (26) 不支持画中画")
+                }
                 true
             }
             R.id.desktop_ua -> {
@@ -153,7 +164,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         baseBinding.wv.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
-                baseBinding.pb.setProgress(newProgress, true)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    baseBinding.pb.setProgress(newProgress, true)
+                } else {
+                    baseBinding.pb.progress = newProgress
+                }
             }
 
             override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -186,7 +201,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
         insets.maxSystemBarsDisplayCutout.let {
-            baseBinding.wv.updateLayoutParams<ViewGroup.MarginLayoutParams>() {
+            baseBinding.wv.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 bottomMargin = it.bottom
             }
         }

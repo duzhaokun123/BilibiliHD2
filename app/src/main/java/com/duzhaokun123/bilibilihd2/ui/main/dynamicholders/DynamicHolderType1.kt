@@ -18,8 +18,8 @@ class DynamicHolderType1(context: Context) :
         typedCard: DynamicCardModel.Type1
     ) {
         contentBinding.flContent.removeAllViews()
-        val holder = DynamicAdapter.supportedTypes.getOrDefault(
-            typedCard.originType, DynamicHolderType0::class.java
+        val holder = DynamicAdapter.supportedTypes.getOrElse(
+            typedCard.originType, { DynamicHolderType0::class.java }
         ).getConstructor(Context::class.java).newInstance(context) as DynamicAdapter.BaseDynamicHolder<*, Any>
         val d = typedCard.toDynamicCardModel()
         holder.setModel(d)

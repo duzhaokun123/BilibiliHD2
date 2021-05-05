@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = compile_sdk
 
     defaultConfig {
-        minSdk = 26
-        targetSdk = 30
+        minSdk = min_sdk
+        targetSdk = target_sdk
         versionCode = 1
         versionName = "1.0"
     }
@@ -44,5 +44,5 @@ dependencies {
     compileOnly("org.checkerframework:checker-qual:3.3.0")
     api("androidx.media:media:1.3.0")
 
-    api("com.github.duzhaokun123:DanmakuView:0.1.4")
+    api("com.github.duzhaokun123:DanmakuView:0.1.5")
 }

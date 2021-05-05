@@ -1,16 +1,16 @@
 package com.duzhaokun123.bilibilihd2.bases
 
 import android.content.res.Configuration
+import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import androidx.annotation.CallSuper
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.core.graphics.Insets
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
@@ -45,21 +45,23 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
         if (::biliPlayerView.isInitialized.not()) {
             biliPlayerView = BiliPlayerView(this).apply {
                 id = R.id.bpv
-                setPlayedColor(getColor(R.color.biliPink))
+                setPlayedColor(getColorCompat(R.color.biliPink))
                 playerView.setControllerOnFullScreenModeChangedListener(this@BasePlayActivity)
-                setBackgroundColor(getColor(R.color.black))
+                setBackgroundColor(getColorCompat(R.color.black))
                 playerView.setControllerVisibilityListener(this@BasePlayActivity)
                 onNextClickListener = this@BasePlayActivity::onNextClick
-                elevation = 1.dpToPx().toFloat()
+                ViewCompat.setElevation(this, 1.dpToPx().toFloat())
             }
         }
-        baseBinding.rl.addView(biliPlayerView)
+        baseBinding.rl.addView(biliPlayerView,1, ViewGroup.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT))
         onFullScreenModeChanged(isFullScreen)
     }
 
     @CallSuper
     override fun initView() {
-        baseBinding.abl.outlineProvider = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            baseBinding.abl.outlineProvider = null
+        }
     }
 
     @CallSuper
@@ -91,6 +93,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
         }
         (if (isFullScreen) insets.displayCutoutInsets else Insets.NONE).let {
             biliPlayerView.updatePadding(left = it.left, top = it.top, right = it.right, bottom = it.bottom)
+            baseBinding.abl.updatePadding(left = it.left, right = it.right)
         }
     }
 
@@ -118,7 +121,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return  when (item.itemId) {
+        return when (item.itemId) {
             R.id.item_share -> {
                 onGetShare().run {
                     if (first != null && second != null)
@@ -126,7 +129,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 }
                 true
             }
-            else ->  super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
 
     }
@@ -171,22 +174,22 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     override fun onFullScreenModeChanged(isFullScreen: Boolean) {
         this.isFullScreen = isFullScreen
         if (isFullScreen) {
-            biliPlayerView.updateLayoutParams<RelativeLayout.LayoutParams> {
-                removeRule(RelativeLayout.ALIGN_TOP)
-                removeRule(RelativeLayout.ALIGN_START)
-                removeRule(RelativeLayout.ALIGN_END)
-                removeRule(RelativeLayout.ALIGN_BOTTOM)
+            biliPlayerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToTop = PARENT_ID
+                startToStart = PARENT_ID
+                endToEnd = PARENT_ID
+                bottomToBottom = PARENT_ID
             }
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
             WindowInsetsControllerCompatFix.setSystemBarsBehavior(
                 window, WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             )
         } else {
-            biliPlayerView.updateLayoutParams<RelativeLayout.LayoutParams> {
-                addRule(RelativeLayout.ALIGN_TOP, R.id.rhv)
-                addRule(RelativeLayout.ALIGN_START, R.id.rhv)
-                addRule(RelativeLayout.ALIGN_END, R.id.rhv)
-                addRule(RelativeLayout.ALIGN_BOTTOM, R.id.rhv)
+            biliPlayerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToTop = R.id.rhv
+                startToStart = R.id.rhv
+                endToEnd = R.id.rhv
+                bottomToBottom = R.id.rhv
             }
             windowInsetsControllerCompat.show(WindowInsetsCompat.Type.navigationBars())
         }
@@ -208,6 +211,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
      * @return first: title second: url
      */
     open fun onGetShare(): Pair<String?, String?> = null to null
+
     @CallSuper
     open fun beforeReinitLayout() {
         baseBinding.rl.removeView(biliPlayerView)

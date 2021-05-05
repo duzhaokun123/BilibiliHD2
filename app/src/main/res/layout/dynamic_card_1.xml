@@ -38,7 +38,7 @@
                     android:layout_height="35dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
-                    app:imageUrl="@{card.originUser.face}" />
+                    app:imageUrl="@{card.originUser.faceUrl}" />
 
                 <TextView
                     android:layout_width="wrap_content"

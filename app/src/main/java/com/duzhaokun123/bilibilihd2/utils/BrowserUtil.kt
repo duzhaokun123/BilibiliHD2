@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.webkit.CookieManager
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -162,7 +163,7 @@ object BrowserUtil {
             CustomTabsIntent.Builder()
                 .setDefaultColorSchemeParams(
                     CustomTabColorSchemeParams.Builder()
-                        .setToolbarColor(context.getColor(R.color.primaryColor))
+                        .setToolbarColor(context.getColorCompat(R.color.primaryColor))
                         .build()
                 )
                 .build()
@@ -176,7 +177,11 @@ object BrowserUtil {
         val cookieManager = CookieManager.getInstance()
         cookieManager.setAcceptCookie(true)
         val loginResponse = bilibiliClient.loginResponse
-        cookieManager.removeAllCookies(null)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeAllCookies(null)
+        } else {
+            cookieManager.removeAllCookie()
+        }
         if (loginResponse == null) {
             return
         }
@@ -187,6 +192,8 @@ object BrowserUtil {
             cookieManager.setCookie(url, "Domain=$url")
             cookieManager.setCookie(url, "Path=/")
         }
-        cookieManager.flush()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.flush()
+        }
     }
 }

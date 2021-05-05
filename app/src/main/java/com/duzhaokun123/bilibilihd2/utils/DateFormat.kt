@@ -1,7 +1,7 @@
 package com.duzhaokun123.bilibilihd2.utils
 
 import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
+import java.text.SimpleDateFormat
 
 object DateFormat {
     @SuppressLint("SimpleDateFormat")

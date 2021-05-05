@@ -1,12 +1,9 @@
-package com.duzhaokun123.bilibilihd2.ui
+package com.duzhaokun123.bilibilihd2.utils
 
-import android.graphics.Typeface
 import android.util.Log
 import com.duzhaokun123.danmakuview.danmaku.*
 import com.duzhaokun123.danmakuview.interfaces.DanmakuBlocker
-import com.duzhaokun123.danmakuview.model.DanmakuConfig
 import com.duzhaokun123.danmakuview.ui.DanmakuView
-import java.io.File
 
 object DanmakuUtil {
     private const val TAG = "DanmakuUtil"

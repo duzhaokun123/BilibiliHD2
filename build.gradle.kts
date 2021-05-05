@@ -4,10 +4,10 @@ import java.net.URI
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.3")
+        classpath("com.android.tools.build:gradle:4.2.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.16")
 
@@ -19,9 +19,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url = URI("https://jitpack.io") }
+        jcenter()
     }
 }
 

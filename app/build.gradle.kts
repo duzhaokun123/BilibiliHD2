@@ -11,13 +11,13 @@ android {
     val buildTime = System.currentTimeMillis()
     val baseVersionName = "0.1-wip"
 
-    compileSdk = 30
+    compileSdk = compile_sdk
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.duzhaokun123.bilibilihd2"
-        minSdk = 26 //TODO: down to 24
-        targetSdk = 30
+        minSdk = min_sdk
+        targetSdk = target_sdk
         versionCode = 1
         versionName = "$baseVersionName-git.$gitHash"
 
@@ -29,6 +29,13 @@ android {
             "PROJECT_HOME",
             "\"https://github.com/duzhaokun123/BilibiliHD2\""
         )
+
+        multiDexEnabled = true
+        multiDexKeepFile = file("mutildex-config.txt")
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     packagingOptions {
         exclude("META-INF/**")
@@ -124,6 +131,8 @@ dependencies {
 
     //protobuf
     implementation(project(":protobuf"))
+
+    implementation("androidx.multidex:multidex:2.0.1")
 }
 
 afterEvaluate {

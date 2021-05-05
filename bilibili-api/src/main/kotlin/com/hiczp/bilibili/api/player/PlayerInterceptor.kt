@@ -9,7 +9,6 @@ import com.hiczp.bilibili.api.retrofit.Param
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.URLEncoder
-import java.time.Instant
 
 /**
  * PlayerAPI 专用的拦截器
@@ -54,7 +53,7 @@ class PlayerInterceptor(
             addParamEncode(Param.MOBILE_APP, bilibiliClientProperties.platform)
             addParamEncode(Param.PLATFORM, bilibiliClientProperties.platform)
             addParamEncode("otype", "json")
-            addParamEncode(Param.TIMESTAMP, Instant.now().epochSecond.toString())
+            addParamEncode(Param.TIMESTAMP, System.currentTimeMillis().toString())
             addParamEncode(Param.BUILD, bilibiliClientProperties.build)
             addParamEncode(Param.BUILD_VERSION_ID, bilibiliClientProperties.buildVersionId)
         }.toString().let {

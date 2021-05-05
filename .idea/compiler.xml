@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="bilibili-api" target="11" />
+      <module name="Bilibili_HD_2.app" target="11" />
+      <module name="Bilibili_HD_2.bili-player" target="11" />
+      <module name="Bilibili_HD_2.buildSrc" target="11" />
+      <module name="Bilibili_HD_2.imageviewer" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

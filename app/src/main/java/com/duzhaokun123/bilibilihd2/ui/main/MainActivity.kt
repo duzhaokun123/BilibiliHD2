@@ -1,6 +1,7 @@
 package com.duzhaokun123.bilibilihd2.ui.main
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -134,7 +135,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                 if (headerView != null) {
                     headerView!!.findViewById<TextView>(R.id.tv_name).apply {
                         text = myInfo.data.name
-                        setTextColor(getColor(if (myInfo.data.vip.status == 0) R.color.textColor else R.color.biliPink))
+                        setTextColor(getColorCompat(if (myInfo.data.vip.status == 0) R.color.textColor else R.color.biliPink))
                     }
                     headerView!!.findViewById<TextView>(R.id.tv_coins).text =
                         "硬币: ${myInfo.data.coins}"

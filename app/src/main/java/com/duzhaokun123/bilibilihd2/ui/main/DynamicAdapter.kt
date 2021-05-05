@@ -25,7 +25,8 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
             2 to DynamicHolderType2::class.java,
             4 to DynamicHolderType4::class.java,
             8 to DynamicHolderType8::class.java,
-            64 to DynamicHolderType64::class.java
+            64 to DynamicHolderType64::class.java,
+            1024 to DynamicHolderType1024::class.java,
         )
     }
 
@@ -41,8 +42,8 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
         parent: ViewGroup,
         viewType: Int
     ): BaseDynamicHolder<out ViewDataBinding, out Any> {
-        return supportedTypes.getOrDefault(
-            viewType, DynamicHolderType0::class.java
+        return supportedTypes.getOrElse(
+            viewType, { DynamicHolderType0::class.java }
         ).getConstructor(Context::class.java).newInstance(context)
     }
 

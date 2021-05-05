@@ -32,7 +32,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
                             requireContext().startActivity<LoginActivity>()
                         }
                         R.id.item_import -> {
-                            importLoginResponse.launch(arrayOf("application/json"))
+                            importLoginResponse.launch(arrayOf("*/*"))
                         }
                     }
                     true

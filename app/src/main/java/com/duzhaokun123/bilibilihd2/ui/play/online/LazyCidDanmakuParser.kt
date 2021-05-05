@@ -3,8 +3,8 @@ package com.duzhaokun123.bilibilihd2.ui.play.online
 import android.graphics.Color
 import android.graphics.PointF
 import com.duzhaokun123.bilibilihd.proto.BiliDanmaku
-import com.duzhaokun123.bilibilihd2.ui.DanmakuUtil
-import com.duzhaokun123.bilibilihd2.ui.DanmakuUtil.toDanmakuType
+import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil
+import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil.toDanmakuType
 import com.duzhaokun123.bilibilihd2.utils.okHttpClient
 import com.duzhaokun123.danmakuview.Value
 import com.duzhaokun123.danmakuview.danmaku.BiliSpecialDanmaku

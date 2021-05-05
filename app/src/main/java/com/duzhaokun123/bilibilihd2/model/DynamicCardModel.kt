@@ -164,29 +164,22 @@ data class DynamicCardModel(
         val content: String,
         val time: Long
     ) {
-        data class User(
-            val name: String,
-            val face: String,
-            val uid: Long,
-            val isVip: Boolean
-        )
-
         companion object {
 
             fun parse(dynamicCardType1: DynamicCardType1): Type1 {
                 val originType = dynamicCardType1.item.origType
                 val originJson = dynamicCardType1.origin
-                val origin = parseTypedCard(originType, originJson)
-                val originUser = run {
-                    val name = dynamicCardType1.originUser.info.uname
-                    val face = dynamicCardType1.originUser.info.face
-                    val uid = dynamicCardType1.originUser.info.uid
-                    val isVip = dynamicCardType1.originUser.vip.vipStatus == 1
+                val origin = originJson?.let { parseTypedCard(originType, it) } ?: Any()
+                val originUser = dynamicCardType1.originUser?.run {
+                    val name = info.uname
+                    val face = info.face
+                    val uid = info.uid
+                    val isVip = vip.vipStatus == 1
                     User(name, face, uid, isVip)
-                }
+                } ?: User("", null, 0, false)
                 val content = dynamicCardType1.item.content
                 val time = dynamicCardType1.item.timestamp * 1000L
-                return Type1(originType, originJson, origin, originUser, content, time)
+                return Type1(originType, originJson ?: "", origin, originUser, content, time)
             }
         }
 
@@ -196,7 +189,7 @@ data class DynamicCardModel(
             val cardJson = this.originJson
             val user = run {
                 val name = this@Type1.originUser.name
-                val face = this@Type1.originUser.face
+                val face = this@Type1.originUser.faceUrl
                 val uid = this@Type1.originUser.uid
                 val isVip = this@Type1.originUser.isVip
                 DynamicCardModel.User(name, face, uid, isVip)

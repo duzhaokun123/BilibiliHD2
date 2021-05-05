@@ -59,7 +59,7 @@ interface AppAPI {
             @Query("fnval") fnVal: Int = 16,
             @Query("fnver") fnVer: Int = 0,
             @Query("force_host") forceHost: Int = 0,
-            @Query("idx") index: Long = Instant.now().epochSecond,
+            @Query("idx") index: Long = System.currentTimeMillis(),
             @Query("login_event") loginEvent: Int = 0,
             @Query("network") network: String = "mobile",
             @Query("open_event") openEvent: String? = null,

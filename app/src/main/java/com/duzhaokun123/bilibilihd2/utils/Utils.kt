@@ -3,15 +3,14 @@ package com.duzhaokun123.bilibilihd2.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.DisplayCutoutCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
 import androidx.core.view.forEach
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
@@ -98,3 +97,5 @@ fun View.removeFromParent() {
 
 val isNightMode
     get() = application.resources.getBoolean(R.bool.night)
+
+fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)

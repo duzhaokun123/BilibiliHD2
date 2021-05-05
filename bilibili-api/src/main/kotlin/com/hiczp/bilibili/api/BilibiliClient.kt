@@ -28,7 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.util.*
 import javax.crypto.Cipher
 
@@ -49,7 +48,7 @@ class BilibiliClient(
     /**
      * 客户端被打开的时间(BilibiliClient 被实例化的时间)
      */
-    private val initTime = Instant.now().epochSecond
+    private val initTime = System.currentTimeMillis()
 
     /**
      * 登陆操作得到的 Response
@@ -87,7 +86,7 @@ class BilibiliClient(
             Param.CHANNEL to { billingClientProperties.channel },
             Param.MOBILE_APP to { billingClientProperties.platform },
             Param.PLATFORM to { billingClientProperties.platform },
-            Param.TIMESTAMP to { Instant.now().epochSecond.toString() }
+            Param.TIMESTAMP to { System.currentTimeMillis().toString() }
     )
 
     private val defaultCommonCookieInterceptor = CommonCookieInterceptor(
@@ -112,7 +111,7 @@ class BilibiliClient(
                         Param.CHANNEL to { billingClientProperties.channel },
                         Param.MOBILE_APP to { billingClientProperties.platform },
                         Param.PLATFORM to { billingClientProperties.platform },
-                        Param.TIMESTAMP to { Instant.now().epochSecond.toString() }
+                        Param.TIMESTAMP to { System.currentTimeMillis().toString() }
                 )
         )
     }

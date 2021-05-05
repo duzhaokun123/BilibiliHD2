@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.ui.main
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.webkit.*
@@ -50,7 +51,11 @@ class DynamicWebFragment : BaseFragment<LayoutWebViewBinding>(R.layout.layout_we
             }
             webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView, newProgress: Int) {
-                    baseBinding.pb.setProgress(newProgress, true)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        baseBinding.pb.setProgress(newProgress, true)
+                    } else {
+                        baseBinding.pb.progress = newProgress
+                    }
                 }
             }
         }

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk = 30
+    compileSdk = compile_sdk
 
     defaultConfig {
-        minSdk = 19
-        targetSdk = 30
+        minSdk = min_sdk
+        targetSdk = target_sdk
         versionCode = 1
         versionName = "bilibiliHD"
     }

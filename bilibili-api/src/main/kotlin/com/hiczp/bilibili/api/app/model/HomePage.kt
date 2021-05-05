@@ -53,7 +53,7 @@ data class HomePage(
             @SerializedName("hash")
             var hash: String, // 674069931701357536
             @SerializedName("idx")
-            var idx: Int, // 1550559507
+            var idx: Long, // 1550559507
             @SerializedName("official_icon")
             var officialIcon: Int, // 17
             @SerializedName("param")

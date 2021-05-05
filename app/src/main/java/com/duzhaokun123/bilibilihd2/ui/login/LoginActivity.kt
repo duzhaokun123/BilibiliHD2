@@ -1,11 +1,11 @@
 package com.duzhaokun123.bilibilihd2.ui.login
 
-import androidx.appcompat.app.AlertDialog
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityLoginBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
     override fun initView() {
@@ -25,7 +25,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         finish()
                     } else {
                         runMain {
-                            AlertDialog.Builder(this@LoginActivity).apply {
+                            MaterialAlertDialogBuilder(this@LoginActivity).apply {
                                 setTitle("status: ${loginResponse.data.status}")
                                 setMessage("${loginResponse.data.message}\n然而操作了也没用")
                                     .setPositiveButton(android.R.string.ok) { _, _ ->
@@ -39,6 +39,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                 } catch (e: Exception) {
                     e.printStackTrace()
                     TipUtil.showToast(e.message)
+                } catch (e:NoClassDefFoundError){
+                    e.printStackTrace()
+                    TipUtil.showToast("此设备暂不支持登陆")
                 } finally {
                     runMain {
                         baseBinding.working = false
