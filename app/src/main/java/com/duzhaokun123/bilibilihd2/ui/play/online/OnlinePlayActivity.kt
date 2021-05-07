@@ -170,7 +170,8 @@ class OnlinePlayActivity : BasePlayActivity() {
 
                 updateVideoPlayUrl()
             }
-        }
+        } else
+            supportActionBar?.title = biliView!!.data.title
     }
 
     override fun onGetShare() = biliView?.data?.title to "https://bilibili.com/video/$aid"
@@ -180,12 +181,21 @@ class OnlinePlayActivity : BasePlayActivity() {
         layoutOnlinePlayIntroBinding.root.removeFromParent()
     }
 
+    override fun onNextClick() {
+        if (page <= biliView!!.data.pages.size) {
+            page++
+            updateVideoPlayUrl()
+        }
+    }
+
     private fun updateVideoPlayUrl() {
         cid = biliView!!.data.pages[page - 1].cid
         runIOCatchingResultRunMain(this,
             { bilibiliClient.playerAPI.videoPlayUrl(cid = cid, aid = aid).await() })
         {
             setVideoPlayUrl(it)
+            if (biliPlayerView.player.isPlaying)
+                start()
         }
     }
 

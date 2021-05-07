@@ -202,6 +202,8 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
         } else {
             supportActionBar?.hide()
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.statusBars())
+            if (isFullScreen)
+                windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
         }
     }
 

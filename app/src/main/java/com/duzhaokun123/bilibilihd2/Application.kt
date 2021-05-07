@@ -1,7 +1,6 @@
 package com.duzhaokun123.bilibilihd2
 
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.multidex.MultiDexApplication
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.UsersMap
 import com.duzhaokun123.generated.Settings
@@ -12,7 +11,7 @@ import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
 
 @Suppress("UNUSED")
-class Application : MultiDexApplication() {
+class Application : android.app.Application() {
     companion object {
         lateinit var instance: Application
             private set

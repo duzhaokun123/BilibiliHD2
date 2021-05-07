@@ -29,13 +29,6 @@ android {
             "PROJECT_HOME",
             "\"https://github.com/duzhaokun123/BilibiliHD2\""
         )
-
-        multiDexEnabled = true
-        multiDexKeepFile = file("mutildex-config.txt")
-
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
     packagingOptions {
         exclude("META-INF/**")

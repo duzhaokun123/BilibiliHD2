@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl"
@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            app:elevation="2dp"
+            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="@id/bpv"
             app:layout_constraintStart_toStartOf="@id/bpv"
             app:layout_constraintTop_toTopOf="@id/bpv"

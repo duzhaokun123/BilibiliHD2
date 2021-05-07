@@ -22,8 +22,8 @@ class LazyCidDanmakuParser(
     private val durationS: Int
 ) : DanmakuParser {
     companion object {
-        const val BILI_PLAYER_WIDTH = 682.0F
-        const val BILI_PLAYER_HEIGHT = 438.0F
+        private const val BILI_PLAYER_WIDTH = 682.0F
+        private const val BILI_PLAYER_HEIGHT = 438.0F
 
         fun initialSpecialDanmakuData(danmaku: SpecialDanmaku) {
             danmaku.drawMode = DanmakuConfig.DrawMode.SHADOW
@@ -40,8 +40,7 @@ class LazyCidDanmakuParser(
                     e.printStackTrace()
                 }
                 // TODO: 20-12-2
-                if (textArray != null && textArray.size >= 5 && textArray[4].isNullOrEmpty()
-                        .not()
+                if (textArray != null && textArray.size >= 5 && textArray[4].isNullOrEmpty().not()
                 ) {
                     danmaku.text = textArray[4]!!
                     danmaku.fillText()
@@ -56,7 +55,7 @@ class LazyCidDanmakuParser(
                     if (alphaArray.size > 1) {
                         endAlpha = (Value.ALPHA_MAX * (alphaArray[1].toFloatOrNull() ?: 0F)).toInt()
                     }
-                    val alphaDuration = (textArray[3]!!.toFloatOrNull() ?: 0F * 1000).toLong()
+                    val alphaDuration = ((textArray[3]!!.toFloatOrNull() ?: 0F) * 1000).toLong()
                     var translationDuration = alphaDuration
                     var translationStartDelay = 0L
                     var rotateY = 0F
@@ -90,13 +89,11 @@ class LazyCidDanmakuParser(
 //                    danmaku.rotationZ = rotateZ
                     danmaku.keyframes[0F] = Triple(
                         PointF(beginX / BILI_PLAYER_WIDTH, beginY / BILI_PLAYER_HEIGHT),
-                        rotateY,
-                        beginAlpha
+                        rotateY, beginAlpha
                     )
                     danmaku.keyframes[1F] = Triple(
                         PointF(endX / BILI_PLAYER_WIDTH, endY / BILI_PLAYER_HEIGHT),
-                        rotateY,
-                        endAlpha
+                        rotateY, endAlpha
                     )
 
 //                    danmaku.rotationY = rotateY

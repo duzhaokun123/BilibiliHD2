@@ -44,5 +44,5 @@ dependencies {
     compileOnly("org.checkerframework:checker-qual:3.3.0")
     api("androidx.media:media:1.3.0")
 
-    api("com.github.duzhaokun123:DanmakuView:0.1.5")
+    api("com.github.duzhaokun123:DanmakuView:20d5e60a4d")
 }
