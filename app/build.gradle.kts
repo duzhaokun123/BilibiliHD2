@@ -34,6 +34,9 @@ android {
         exclude("META-INF/**")
         exclude("kotlin/**")
         exclude("okhttp3/**")
+        exclude("google/**")
+        exclude("bilibili/**")
+        exclude("github.com/**")
     }
     buildTypes {
         getByName("release") {
@@ -56,6 +59,9 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    lintOptions {
+        isAbortOnError = false
+    }
 }
 
 dependencies {
@@ -64,7 +70,7 @@ dependencies {
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0-beta01")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.0-beta02")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
