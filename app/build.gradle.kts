@@ -128,8 +128,8 @@ dependencies {
     //BiliPlayer
     implementation(project(":bili-player"))
 
-    //protobuf
-    implementation(project(":protobuf"))
+    //grpc
+    implementation(project(":grpc"))
 
     implementation("androidx.multidex:multidex:2.0.1")
 }

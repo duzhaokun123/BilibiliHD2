@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.UsersMap
+import com.duzhaokun123.bilibilihd2.utils.grpcClidet
 import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
@@ -51,6 +52,7 @@ class Application : android.app.Application() {
         })
         bilibiliClient.loginResponse = UsersMap[uid]
         BrowserUtil.syncLoginResponseCookie()
+        grpcClidet.rebuildChannel()
     }
 
     fun reinitUiMod(uiMod: Int = Settings.uiMod) {

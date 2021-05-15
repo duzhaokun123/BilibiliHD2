@@ -2,17 +2,16 @@ package com.duzhaokun123.bilibilihd2.ui.play.online
 
 import android.graphics.Color
 import android.graphics.PointF
-import com.duzhaokun123.bilibilihd.proto.BiliDanmaku
+import com.bapis.bilibili.community.service.dm.v1.DanmakuElem
 import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil
 import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil.toDanmakuType
-import com.duzhaokun123.bilibilihd2.utils.okHttpClient
+import com.duzhaokun123.bilibilihd2.utils.grpcClidet
 import com.duzhaokun123.danmakuview.Value
 import com.duzhaokun123.danmakuview.danmaku.BiliSpecialDanmaku
 import com.duzhaokun123.danmakuview.danmaku.SpecialDanmaku
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
 import com.duzhaokun123.danmakuview.model.DanmakuConfig
 import com.duzhaokun123.danmakuview.model.Danmakus
-import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -163,15 +162,11 @@ class LazyCidDanmakuParser(
     override fun parse(): Danmakus {
         if (danmakus != null) return danmakus!!
 
-        val dms = mutableListOf<BiliDanmaku.DanmakuElem>()
+        val dms = mutableListOf<DanmakuElem>()
         val c = durationS / 360 + 1
         (1..c).forEach { i ->
-            val request = Request.Builder()
-                .url("https://api.bilibili.com/x/v2/dm/web/seg.so?oid=$cid&pid=$aid&type=1&segment_index=$i")
-                .build()
             try {
-                val response = okHttpClient.newCall(request).execute().body?.bytes()
-                dms.addAll(BiliDanmaku.DmSegMobileReply.parseFrom(response).elemsList)
+                dms.addAll(grpcClidet.dmSegVideo(aid, cid, i.toLong()).elemsList)
             } catch (e: Exception) {
                 e.printStackTrace()
                 hasLost = true
@@ -185,7 +180,7 @@ class LazyCidDanmakuParser(
             val color = -0x1000000 or danmakuElem.color
             val danmaku = DanmakuUtil.simpleDanmakuFactory.create(type)
             danmaku.offset = danmakuElem.progress.toLong()
-            danmaku.textSize = danmakuElem.fontzsie.toFloat()
+            danmaku.textSize = danmakuElem.fontsize.toFloat()
             danmaku.textColor = color
             danmaku.textShadowColor = if (color <= Color.BLACK) Color.WHITE else Color.BLACK
             danmaku.text = danmakuElem.content

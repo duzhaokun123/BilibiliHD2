@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
+import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,8 @@ import okhttp3.OkHttpClient
 val application get() = Application.instance
 
 val bilibiliClient get() = Application.bilibiliClient
+
+val grpcClidet by lazy { GrpcClient() }
 
 val gson by lazy { Gson() }
 
