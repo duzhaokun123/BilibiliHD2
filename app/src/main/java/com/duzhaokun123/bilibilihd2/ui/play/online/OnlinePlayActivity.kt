@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
@@ -15,6 +16,8 @@ import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.duzhaokun123.bilibilihd2.R
@@ -48,8 +51,17 @@ class OnlinePlayActivity : BasePlayActivity() {
             enter(context, bvid.toAid())
     }
 
+    class Model : ViewModel() {
+        val relates = MutableLiveData<List<Relate>>(emptyList())
+        val biliView = MutableLiveData<BiliView?>(null)
+    }
+
     val aid by lazy { startIntent.getLongExtra(EXTRA_AID, 0) }
-    var biliView: BiliView? = null
+    var biliView
+        get() = model.biliView.value
+        set(value) {
+            model.biliView.value = value
+        }
     var cid = 0L
     var page = 1
         set(value) {
@@ -64,6 +76,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             layoutInflater, R.layout.layout_onlineplay_intro, null, false
         )
     }
+    val model by viewModels<Model>()
 
     override fun initView() {
         super.initView()
@@ -167,6 +180,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                         }
                     }, WRAP_CONTENT, WRAP_CONTENT)
                 }
+                model.relates.value = Relate.parse(biliView.data.relates?: emptyList())
 
                 updateVideoPlayUrl()
             }
@@ -174,7 +188,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             supportActionBar?.title = biliView!!.data.title
     }
 
-    override fun onGetShare() = biliView?.data?.title to "https://bilibili.com/video/$aid"
+    override fun onGetShare() = biliView?.data?.title to "https://bilibili.com/video/av$aid"
 
     override fun beforeReinitLayout() {
         super.beforeReinitLayout()
@@ -246,7 +260,6 @@ class OnlinePlayActivity : BasePlayActivity() {
                 RelateFragment().apply {
                     if (this@OnlinePlayActivity.baseBinding.rhv.tag == "1")
                         header = layoutOnlinePlayIntroBinding.root
-                    relates = emptyList()
                 }.also {
                     relateFragment = it
                 }

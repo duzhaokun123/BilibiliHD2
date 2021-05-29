@@ -9,6 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.duzhaokun123.bilibilihd2.utils.removeFromParent
 
 abstract class BaseSimpleWithHeaderAdapter<ItemBinding : ViewDataBinding>(
     val context: Context,
@@ -35,7 +36,7 @@ abstract class BaseSimpleWithHeaderAdapter<ItemBinding : ViewDataBinding>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TYPE_HEADER) {
-            HeaderHolder(FrameLayout(context).apply { addView(headerView, 0) }).also { headerHolder = it }
+            HeaderHolder(FrameLayout(context).apply { addView(headerView.apply { removeFromParent() }, 0) }).also { headerHolder = it }
         } else {
             val baseBind = DataBindingUtil.inflate<ItemBinding>(
                 LayoutInflater.from(context), layoutId, null, false

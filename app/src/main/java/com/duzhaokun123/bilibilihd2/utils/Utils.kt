@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
+import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
@@ -102,3 +103,7 @@ val isNightMode
     get() = application.resources.getBoolean(R.bool.night)
 
 fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)
+
+fun RecyclerView.resetAdapter() {
+    adapter = adapter
+}

@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="relate"
+            type="com.duzhaokun123.bilibilihd2.ui.play.online.Relate" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv"
         android:layout_width="match_parent"
@@ -14,6 +21,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
 
+            <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+                android:id="@+id/iv_cover"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                app:imageUrl="@{relate.cover}"
+                app:ration="0.5625" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@id/iv_cover"
+                android:text="@{relate.title}"
+                android:textColor="@color/textColor" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>
