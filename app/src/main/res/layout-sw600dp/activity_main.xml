@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/abl"
-            android:layout_toEndOf="@id/nv"
+            android:layout_toEndOf="@id/nrv"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_main" />
 
@@ -28,20 +28,15 @@
                 app:titleTextColor="?attr/colorOnPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nv"
-            android:layout_width="70dp"
+        <com.google.android.material.navigationrail.NavigationRailView
+            android:id="@+id/nrv"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/abl"
             android:layout_gravity="start"
             app:elevation="5dp"
-            app:insetForeground="@null"
-            app:itemHorizontalPadding="15dp"
-            app:itemIconSize="40dp"
-            app:itemShapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.NavigationView"
-            app:itemShapeInsetBottom="0dp"
-            app:itemShapeInsetStart="0dp"
-            app:itemShapeInsetTop="0dp"
+            app:headerLayout="@layout/header_nav_main"
+            app:itemIconSize="28dp"
             app:menu="@menu/nav_main" />
 
     </RelativeLayout>

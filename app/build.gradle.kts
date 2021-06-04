@@ -105,7 +105,7 @@ dependencies {
     kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     //nav
-    val navVersion = "2.3.4"
+    val navVersion = "2.4.0-alpha01"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
