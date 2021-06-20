@@ -72,4 +72,5 @@ data class LoginResponse(
     val dedeUserIDCkMd5 get() = getCookie(Cookie.DEDE_USER_ID_CKMD5)
     val sessdata get() = getCookie(Cookie.SESSDATA)
     val biliJct get() = getCookie(Cookie.BILI_JCT)
+    val sid get() = getCookie(Cookie.SID)
 }

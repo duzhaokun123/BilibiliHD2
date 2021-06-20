@@ -37,6 +37,7 @@ class Application : android.app.Application() {
         UsersMap.reload()
         reinitBilibiliClient()
         reinitUiMod()
+
     }
 
     fun reinitBilibiliClient(

@@ -28,6 +28,11 @@
             android:checked="false"
             android:icon="@drawable/ic_settings"
             android:title="@string/settings" />
+        <item
+            android:id="@+id/item_test"
+            android:checked="false"
+            android:icon="@mipmap/ic_launcher"
+            android:title="test" />
 
     </group>
 </menu>

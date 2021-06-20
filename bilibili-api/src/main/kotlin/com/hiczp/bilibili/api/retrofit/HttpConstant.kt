@@ -62,6 +62,7 @@ object Cookie {
     const val DEDE_USER_ID_CKMD5 = "DedeUserID__ckMd5"
     const val SESSDATA = "SESSDATA"
     const val BILI_JCT = "bili_jct"
+    const val SID = "sid"
 }
 
 internal object Charsets {

@@ -42,6 +42,21 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
         baseBinding.btnClear.setOnClickListener {
             selectUid(0)
         }
+        baseBinding.btnRefresh.setOnClickListener {
+            if (bilibiliClient.isLogin.not()) {
+                TipUtil.showTip(context, "未登录")
+            } else {
+                runIOCatchingResultRunMain(context, { bilibiliClient.refresh() }) { re ->
+                    if (re != null) {
+                        UsersMap.put(re)
+                        UsersMap.save()
+                        selectUid(re.userId)
+                    } else {
+                        TipUtil.showTip(context, "未知错误")
+                    }
+                }
+            }
+        }
         baseBinding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         baseBinding.rv.adapter = UsersAdapter(requireBaseActivity(), UsersMap.users.toMutableList())

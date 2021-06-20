@@ -16,6 +16,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
 import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
+import com.duzhaokun123.bilibilihd2.ui.TestActivity
 import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
@@ -41,12 +42,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         val appBarConfiguration =
             AppBarConfiguration(navController.graph, baseBinding.dl)
         baseBinding.tb.setupWithNavController(navController, appBarConfiguration)
-        (baseBinding.nv?.menu ?: baseBinding.nrv?.menu)!!.findItem(R.id.item_settings)
-            .setOnMenuItemClickListener {
-                startActivity<SettingsActivity>()
-                baseBinding.dl?.close()
-                true
-            }
+        (baseBinding.nv?.menu ?: baseBinding.nrv?.menu)!!.apply {
+            findItem(R.id.item_settings)
+                .setOnMenuItemClickListener {
+                    startActivity<SettingsActivity>()
+                    baseBinding.dl?.close()
+                    true
+                }
+            findItem(R.id.item_test)
+                .setOnMenuItemClickListener {
+                    startActivity<TestActivity>()
+                    baseBinding.dl?.close()
+                    true
+                }
+        }
         baseBinding.dl?.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
                 reloadMyInfo()

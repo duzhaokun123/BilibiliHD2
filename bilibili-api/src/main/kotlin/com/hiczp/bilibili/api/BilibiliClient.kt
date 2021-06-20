@@ -41,9 +41,9 @@ import javax.crypto.Cipher
  */
 @Suppress("unused")
 class BilibiliClient(
-        @Suppress("MemberVisibilityCanBePrivate")
-        val billingClientProperties: BilibiliClientProperties = object : BilibiliClientProperties {},
-        private val logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
+    @Suppress("MemberVisibilityCanBePrivate")
+    val billingClientProperties: BilibiliClientProperties = object : BilibiliClientProperties {},
+    private val logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.NONE
 ) {
     /**
      * 客户端被打开的时间(BilibiliClient 被实例化的时间)
@@ -72,28 +72,29 @@ class BilibiliClient(
 
     @Suppress("SpellCheckingInspection")
     private val defaultCommonHeaderInterceptor = CommonHeaderInterceptor(
-            Header.DISPLAY_ID to { "${billingClientProperties.buildVersionId}-$initTime" },
-            Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
-            Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
-            Header.DEVICE_ID to { billingClientProperties.hardwareId }
+        Header.DISPLAY_ID to { "${billingClientProperties.buildVersionId}-$initTime" },
+        Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
+        Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
+        Header.DEVICE_ID to { billingClientProperties.hardwareId }
     )
 
     @Suppress("SpellCheckingInspection")
     private val defaultCommonParamArray = arrayOf(
-            Param.ACCESS_KEY to { token },
-            Param.APP_KEY to { billingClientProperties.appKey },
-            Param.BUILD to { billingClientProperties.build },
-            Param.CHANNEL to { billingClientProperties.channel },
-            Param.MOBILE_APP to { billingClientProperties.platform },
-            Param.PLATFORM to { billingClientProperties.platform },
-            Param.TIMESTAMP to { System.currentTimeMillis().toString() }
+        Param.ACCESS_KEY to { token },
+        Param.APP_KEY to { billingClientProperties.appKey },
+        Param.BUILD to { billingClientProperties.build },
+        Param.CHANNEL to { billingClientProperties.channel },
+        Param.MOBILE_APP to { billingClientProperties.platform },
+        Param.PLATFORM to { billingClientProperties.platform },
+        Param.TIMESTAMP to { System.currentTimeMillis().toString() }
     )
 
     private val defaultCommonCookieInterceptor = CommonCookieInterceptor(
-            Cookie.DEDE_USER_ID to { loginResponse?.dedeUserID },
-            Cookie.DEDE_USER_ID_CKMD5 to { loginResponse?.dedeUserIDCkMd5 },
-            Cookie.SESSDATA to { loginResponse?.sessdata },
-            Cookie.BILI_JCT to { loginResponse?.biliJct }
+        Cookie.DEDE_USER_ID to { loginResponse?.dedeUserID },
+        Cookie.DEDE_USER_ID_CKMD5 to { loginResponse?.dedeUserIDCkMd5 },
+        Cookie.SESSDATA to { loginResponse?.sessdata },
+        Cookie.BILI_JCT to { loginResponse?.biliJct },
+        Cookie.SID to { loginResponse?.sid }
     )
 
     private val defaultCommonParamInterceptor = CommonParamInterceptor(*defaultCommonParamArray)
@@ -104,15 +105,15 @@ class BilibiliClient(
     @Suppress("SpellCheckingInspection")
     val passportAPI by lazy {
         createAPI<PassportAPI>(BaseUrl.passport,
-                defaultCommonHeaderInterceptor,
-                CommonParamInterceptor(
-                        Param.APP_KEY to { billingClientProperties.appKey },
-                        Param.BUILD to { billingClientProperties.build },
-                        Param.CHANNEL to { billingClientProperties.channel },
-                        Param.MOBILE_APP to { billingClientProperties.platform },
-                        Param.PLATFORM to { billingClientProperties.platform },
-                        Param.TIMESTAMP to { System.currentTimeMillis().toString() }
-                )
+            defaultCommonHeaderInterceptor,
+            CommonParamInterceptor(
+                Param.APP_KEY to { billingClientProperties.appKey },
+                Param.BUILD to { billingClientProperties.build },
+                Param.CHANNEL to { billingClientProperties.channel },
+                Param.MOBILE_APP to { billingClientProperties.platform },
+                Param.PLATFORM to { billingClientProperties.platform },
+                Param.TIMESTAMP to { System.currentTimeMillis().toString() }
+            )
         )
     }
 
@@ -122,11 +123,11 @@ class BilibiliClient(
     @Suppress("SpellCheckingInspection")
     val messageAPI by lazy {
         createAPI<MessageAPI>(BaseUrl.message,
-                defaultCommonHeaderInterceptor,
-                CommonParamInterceptor(*defaultCommonParamArray,
-                        Param.ACTION_KEY to { Param.APP_KEY },
-                        "has_up" to { "1" }
-                )
+            defaultCommonHeaderInterceptor,
+            CommonParamInterceptor(*defaultCommonParamArray,
+                Param.ACTION_KEY to { Param.APP_KEY },
+                "has_up" to { "1" }
+            )
         )
     }
 
@@ -135,9 +136,10 @@ class BilibiliClient(
      */
     @Suppress("SpellCheckingInspection")
     val appAPI by lazy {
-        createAPI<AppAPI>(BaseUrl.app,
-                defaultCommonHeaderInterceptor,
-                defaultCommonParamInterceptor
+        createAPI<AppAPI>(
+            BaseUrl.app,
+            defaultCommonHeaderInterceptor,
+            defaultCommonParamInterceptor
         )
     }
 
@@ -147,14 +149,14 @@ class BilibiliClient(
     @Suppress("SpellCheckingInspection")
     val mainAPI by lazy {
         createAPI<MainAPI>(BaseUrl.main,
-                CommonHeaderInterceptor(
-                        //如果未登陆则没有 Display-ID
-                        Header.DISPLAY_ID to { userId?.let { "$it-$initTime" } },
-                        Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
-                        Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
-                        Header.DEVICE_ID to { billingClientProperties.hardwareId }
-                ),
-                defaultCommonParamInterceptor
+            CommonHeaderInterceptor(
+                //如果未登陆则没有 Display-ID
+                Header.DISPLAY_ID to { userId?.let { "$it-$initTime" } },
+                Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
+                Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
+                Header.DEVICE_ID to { billingClientProperties.hardwareId }
+            ),
+            defaultCommonParamInterceptor
         )
     }
 
@@ -164,15 +166,15 @@ class BilibiliClient(
     @Suppress("SpellCheckingInspection")
     val vcAPI by lazy {
         createAPI<VcAPI>(BaseUrl.vc,
-                defaultCommonHeaderInterceptor,
-                CommonParamInterceptor(*defaultCommonParamArray,
-                        Param._DEVICE to { billingClientProperties.platform },
-                        Param._HARDWARE_ID to { billingClientProperties.hardwareId },
-                        Param.SOURCE to { billingClientProperties.channel },
-                        Param.TRACE_ID to { generateTraceId() },
-                        Param.USER_ID to { userId?.toString() },
-                        Param.VERSION to { billingClientProperties.version }
-                )
+            defaultCommonHeaderInterceptor,
+            CommonParamInterceptor(*defaultCommonParamArray,
+                Param._DEVICE to { billingClientProperties.platform },
+                Param._HARDWARE_ID to { billingClientProperties.hardwareId },
+                Param.SOURCE to { billingClientProperties.channel },
+                Param.TRACE_ID to { generateTraceId() },
+                Param.USER_ID to { userId?.toString() },
+                Param.VERSION to { billingClientProperties.version }
+            )
         )
     }
 
@@ -180,9 +182,10 @@ class BilibiliClient(
      * 创作中心
      */
     val memberAPI by lazy {
-        createAPI<MemberAPI>(BaseUrl.member,
-                defaultCommonHeaderInterceptor,
-                defaultCommonParamInterceptor
+        createAPI<MemberAPI>(
+            BaseUrl.member,
+            defaultCommonHeaderInterceptor,
+            defaultCommonParamInterceptor
         )
     }
 
@@ -191,17 +194,17 @@ class BilibiliClient(
      */
     val playerAPI: PlayerAPI by lazy {
         Retrofit.Builder()
-                .baseUrl("https://bilibili.com")    //这里的 baseUrl 是没用的
-                .addConverterFactory(gsonConverterFactory)
-                .addCallAdapterFactory(coroutineCallAdapterFactory)
-                .client(OkHttpClient.Builder().apply {
-                    addInterceptor(PlayerInterceptor(billingClientProperties) { loginResponse })
-                    addInterceptor(FailureResponseInterceptor)
-                    addNetworkInterceptor(httpLoggingInterceptor)
-                    connectionPool(connectionPool)
-                }.build())
-                .build()
-                .create(PlayerAPI::class.java)
+            .baseUrl("https://bilibili.com")    //这里的 baseUrl 是没用的
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(coroutineCallAdapterFactory)
+            .client(OkHttpClient.Builder().apply {
+                addInterceptor(PlayerInterceptor(billingClientProperties) { loginResponse })
+                addInterceptor(FailureResponseInterceptor)
+                addNetworkInterceptor(httpLoggingInterceptor)
+                connectionPool(connectionPool)
+            }.build())
+            .build()
+            .create(PlayerAPI::class.java)
     }
 
     /**
@@ -209,21 +212,21 @@ class BilibiliClient(
      */
     val danmakuAPI: DanmakuAPI by lazy {
         Retrofit.Builder()
-                .baseUrl(BaseUrl.main)
-                .addCallAdapterFactory(coroutineCallAdapterFactory)
-                .client(OkHttpClient.Builder().apply {
-                    addInterceptor(CommonHeaderInterceptor(
-                            Header.ACCEPT to { "application/xhtml+xml,application/xml" },
-                            Header.ACCEPT_ENCODING to { "gzip, deflate" },
-                            Header.USER_AGENT to { billingClientProperties.defaultUserAgent }
-                    ))
-                    addInterceptor(defaultCommonParamInterceptor)
-                    addInterceptor(sortAndSignInterceptor)
-                    addNetworkInterceptor(httpLoggingInterceptor)
-                    connectionPool(connectionPool)
-                }.build())
-                .build()
-                .create(DanmakuAPI::class.java)
+            .baseUrl(BaseUrl.main)
+            .addCallAdapterFactory(coroutineCallAdapterFactory)
+            .client(OkHttpClient.Builder().apply {
+                addInterceptor(CommonHeaderInterceptor(
+                    Header.ACCEPT to { "application/xhtml+xml,application/xml" },
+                    Header.ACCEPT_ENCODING to { "gzip, deflate" },
+                    Header.USER_AGENT to { billingClientProperties.defaultUserAgent }
+                ))
+                addInterceptor(defaultCommonParamInterceptor)
+                addInterceptor(sortAndSignInterceptor)
+                addNetworkInterceptor(httpLoggingInterceptor)
+                connectionPool(connectionPool)
+            }.build())
+            .build()
+            .create(DanmakuAPI::class.java)
     }
 
     /**
@@ -231,17 +234,17 @@ class BilibiliClient(
      */
     val liveAPI by lazy {
         createAPI<LiveAPI>(BaseUrl.live,
-                CommonHeaderInterceptor(
-                        //如果未登陆则没有 Display-ID
-                        Header.DISPLAY_ID to { userId?.let { "$it-$initTime" } },
-                        Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
-                        Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
-                        Header.DEVICE_ID to { billingClientProperties.hardwareId }
-                ),
-                CommonParamInterceptor(*defaultCommonParamArray,
-                        Param.ACTION_KEY to { Param.APP_KEY },
-                        Param.DEVICE to { billingClientProperties.platform }
-                )
+            CommonHeaderInterceptor(
+                //如果未登陆则没有 Display-ID
+                Header.DISPLAY_ID to { userId?.let { "$it-$initTime" } },
+                Header.BUILD_VERSION_ID to { billingClientProperties.buildVersionId },
+                Header.USER_AGENT to { billingClientProperties.defaultUserAgent },
+                Header.DEVICE_ID to { billingClientProperties.hardwareId }
+            ),
+            CommonParamInterceptor(*defaultCommonParamArray,
+                Param.ACTION_KEY to { Param.APP_KEY },
+                Param.DEVICE to { billingClientProperties.platform }
+            )
         )
     }
 
@@ -266,15 +269,16 @@ class BilibiliClient(
      */
     @Throws(BilibiliApiException::class)
     suspend fun login(
-            username: String, password: String,
-            //如果登陆请求返回了 "验证码错误!"(-105) 的结果, 那么下一次发送登陆请求就需要带上验证码
-            challenge: String? = null,
-            secCode: String? = null,
-            validate: String? = null
+        username: String, password: String,
+        //如果登陆请求返回了 "验证码错误!"(-105) 的结果, 那么下一次发送登陆请求就需要带上验证码
+        challenge: String? = null,
+        secCode: String? = null,
+        validate: String? = null
     ): LoginResponse {
         //取得 hash 和 RSA 公钥
         val (hash, key) = passportAPI.getKey().await().data.let { data ->
-            data.hash to data.key.split('\n').filterNot { it.startsWith('-') }.joinToString(separator = "")
+            data.hash to data.key.split('\n').filterNot { it.startsWith('-') }
+                .joinToString(separator = "")
         }
 
         //解析 RSA 公钥
@@ -291,9 +295,10 @@ class BilibiliClient(
             String(it)
         }
 
-        return passportAPI.login(username, cipheredPassword, challenge, secCode, validate).await().also {
-            this.loginResponse = it
-        }
+        return passportAPI.login(username, cipheredPassword, challenge, secCode, validate).await()
+            .also {
+                this.loginResponse = it
+            }
     }
 
     /**
@@ -303,9 +308,9 @@ class BilibiliClient(
     suspend fun logout() {
         val response = loginResponse ?: return
         val cookieMap = response.data.cookieInfo.cookies
-                .associate {
-                    it.name to it.value
-                }
+            .associate {
+                it.name to it.value
+            }
         passportAPI.revoke(cookieMap, response.token).await()
         loginResponse = null
     }
@@ -313,23 +318,23 @@ class BilibiliClient(
     private val sortAndSignInterceptor = SortAndSignInterceptor(billingClientProperties.appSecret)
     private val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(logLevel)
     private inline fun <reified T : Any> createAPI(
-            baseUrl: String,
-            vararg interceptors: Interceptor
+        baseUrl: String,
+        vararg interceptors: Interceptor
     ) = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(coroutineCallAdapterFactory)
-            .client(OkHttpClient.Builder().apply {
-                interceptors.forEach {
-                    addInterceptor(it)
-                }
-                addInterceptor(sortAndSignInterceptor)
-                addInterceptor(FailureResponseInterceptor)
-                addNetworkInterceptor(httpLoggingInterceptor)
-                connectionPool(connectionPool)
-            }.build())
-            .build()
-            .create(T::class.java)
+        .baseUrl(baseUrl)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(coroutineCallAdapterFactory)
+        .client(OkHttpClient.Builder().apply {
+            interceptors.forEach {
+                addInterceptor(it)
+            }
+            addInterceptor(sortAndSignInterceptor)
+            addInterceptor(FailureResponseInterceptor)
+            addNetworkInterceptor(httpLoggingInterceptor)
+            connectionPool(connectionPool)
+        }.build())
+        .build()
+        .create(T::class.java)
 
     companion object {
         @Suppress("SpellCheckingInspection")
@@ -338,5 +343,25 @@ class BilibiliClient(
         private val connectionPool = ConnectionPool()
         private val traceIdFormat = SimpleDateFormat("yyyyMMddHHmm000ss")
         private fun generateTraceId() = traceIdFormat.format(Date())
+    }
+
+    /**
+     * 刷新 token
+     * 未登录则返回 null
+     */
+    suspend fun refresh(): LoginResponse? {
+        if (loginResponse != null)
+            loginResponse = passportAPI.refreshToken(
+                token!!,
+                loginResponse!!.data.tokenInfo.refreshToken,
+                mapOf(
+                    Cookie.DEDE_USER_ID to loginResponse!!.dedeUserID!!,
+                    Cookie.DEDE_USER_ID_CKMD5 to loginResponse!!.dedeUserIDCkMd5!!,
+                    Cookie.SESSDATA to loginResponse!!.sessdata!!,
+                    Cookie.BILI_JCT to loginResponse!!.biliJct!!,
+                    Cookie.SID to loginResponse!!.sid!!
+                )
+            ).await()
+        return loginResponse
     }
 }

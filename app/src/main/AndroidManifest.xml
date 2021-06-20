@@ -14,6 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.BilibiliHD2.Base"
         tools:targetApi="n">
+        <activity android:name=".ui.TestActivity"></activity>
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".ui.settings.SettingsActivity" />
         <activity android:name=".ui.login.LoginActivity" />
         <activity
@@ -80,6 +80,7 @@
             tools:targetApi="n" />
         <activity android:name=".ui.scape.UserScapeActivity" />
         <activity android:name=".ui.search.SearchActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.duzhaokun123.bilibilihd2.fileprovider"
@@ -89,6 +90,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths_share_img" />
         </provider>
+
         <activity android:name=".ui.BigImageViewActivity" />
     </application>
 

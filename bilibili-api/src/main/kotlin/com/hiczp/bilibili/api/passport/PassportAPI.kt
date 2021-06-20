@@ -75,4 +75,12 @@ interface PassportAPI {
             @QueryMap cookieMap: Map<String, String> = Collections.emptyMap(),
             @Query("access_token") accessToken: String
     ): Deferred<OAuth2Info>
+
+    @POST("/x/passport-login/oauth2/refresh_token")
+    @FormUrlEncoded
+    fun refreshToken(
+        @Field("access_token") accessToken: String,
+        @Field("refresh_token") refreshToken: String,
+        @FieldMap cookieMap: Map<String, String>
+    ): Deferred<LoginResponse>
 }

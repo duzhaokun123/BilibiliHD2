@@ -46,4 +46,5 @@
     <string name="dislike">踩</string>
     <string name="coins">硬币</string>
     <string name="favorite">收藏</string>
+    <string name="refresh_token">刷新 token</string>
 </resources>
