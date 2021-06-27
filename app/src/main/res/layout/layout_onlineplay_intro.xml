@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.duzhaokun123.bilibilihd2.utils.DateFormat" />
+
         <variable
             name="biliView"
             type="com.hiczp.bilibili.api.app.model.View" />
@@ -99,6 +101,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
+                    android:text="@{DateFormat.INSTANCE.format1.format(biliView.data.pubdate * 1000)}"
                     android:textSize="12sp" />
 
                 <TextView

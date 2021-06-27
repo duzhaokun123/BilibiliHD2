@@ -54,7 +54,7 @@ data class View(
             @SerializedName("pic")
             var pic: String, // http://i0.hdslb.com/bfs/archive/783445f04541299ee84de21a2479cce88d8268ff.jpg
             @SerializedName("pubdate")
-            var pubdate: Int, // 1550654012
+            var pubdate: Long, // 1550654012
             @SerializedName("relates")
             var relates: List<Relate>?,
             @SerializedName("req_user")
