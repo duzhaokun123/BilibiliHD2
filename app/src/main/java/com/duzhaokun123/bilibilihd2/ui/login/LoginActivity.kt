@@ -27,7 +27,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
                         runMain {
                             MaterialAlertDialogBuilder(this@LoginActivity).apply {
                                 setTitle("status: ${loginResponse.data.status}")
-                                setMessage("${loginResponse.data.message}\n然而操作了也没用")
+                                setMessage("${loginResponse.data.message}\n\n(开发者: 然而操作了也不一定有用)")
                                     .setPositiveButton(android.R.string.ok) { _, _ ->
                                         BrowserUtil.openInApp(
                                             this@LoginActivity, loginResponse.data.url

@@ -122,17 +122,22 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
 
     private fun reloadSelectedUser() {
         if (bilibiliClient.loginResponse != null) {
+            val loginResponse = bilibiliClient.loginResponse!!
             baseBinding.model =
                 UserModel(
-                    "Loading...", bilibiliClient.loginResponse!!.userId,
-                    null, "UID: ${bilibiliClient.loginResponse!!.userId}"
+                    "Loading...",
+                    loginResponse.userId,
+                    null,
+                    "UID: ${loginResponse.userId}\n过期于: ${DateFormat.format1.format(loginResponse.expires * 1000)}"
                 )
             runIOCatchingResultRunMain(
                 context, { bilibiliClient.appAPI.myInfo().await() })
             { myInfo ->
                 baseBinding.model = UserModel(
-                    myInfo.data.name, bilibiliClient.loginResponse!!.userId,
-                    myInfo.data.face, "UID: ${bilibiliClient.loginResponse!!.userId}"
+                    myInfo.data.name,
+                    loginResponse.userId,
+                    myInfo.data.face,
+                    "UID: ${loginResponse.userId}\n过期于: ${DateFormat.format1.format(loginResponse.expires * 1000)}"
                 )
             }
         } else

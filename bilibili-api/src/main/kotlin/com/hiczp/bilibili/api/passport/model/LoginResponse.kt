@@ -9,7 +9,7 @@ data class LoginResponse(
     @SerializedName("code")
     var code: Int, // 0
     @SerializedName("message")
-    var message: String?,
+    var message: String,
     @SerializedName("data")
     var `data`: Data,
     @SerializedName("ts")
