@@ -128,7 +128,7 @@ class SettingsAnnotationProcessor : AbstractProcessor() {
             }
             codeSb.append(
                 """
-                |fun remove${name.let { it.replaceRange(0, 1, "${it[0].toUpperCase()}") }}() {
+                |fun remove${name.let { it.replaceRange(0, 1, "${it[0].uppercaseChar()}") }}() {
                 | preferences.edit().remove("$name").apply()
                 |}
                 |

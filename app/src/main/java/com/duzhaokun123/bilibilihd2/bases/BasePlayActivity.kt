@@ -181,9 +181,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 bottomToBottom = PARENT_ID
             }
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
-            WindowInsetsControllerCompatFix.setSystemBarsBehavior(
-                window, WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            )
+            windowInsetsControllerCompat.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
             biliPlayerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topToTop = R.id.rhv
