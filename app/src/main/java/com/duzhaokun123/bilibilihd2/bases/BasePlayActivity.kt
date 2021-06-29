@@ -21,6 +21,11 @@ import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 
+/**
+ * TODO:
+ * 这玩意太乱了
+ * 该类及其子类都要重构
+ */
 abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     R.layout.activity_play_base,
     Config.NO_TOOL_BAR, Config.LAYOUT_MATCH_HORI

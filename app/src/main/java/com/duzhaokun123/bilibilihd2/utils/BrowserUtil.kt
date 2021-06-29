@@ -38,6 +38,9 @@ object BrowserUtil {
 
     fun openInApp(context: Context?, uri: Uri) {
         if (context == null) return
+        context.startActivity(Intent(context, UrlOpenActivity::class.java).apply {
+            data = uri
+        })
 
         val scheme = uri.scheme
         val host = uri.host
