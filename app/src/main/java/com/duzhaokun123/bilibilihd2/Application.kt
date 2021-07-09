@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.UsersMap
@@ -38,6 +39,9 @@ class Application : android.app.Application() {
         reinitBilibiliClient()
         reinitUiMod()
 
+        packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES).activities.forEach {
+            Class.forName(it.name)
+        }
     }
 
     fun reinitBilibiliClient(

@@ -14,7 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.BilibiliHD2.Base"
         tools:targetApi="n">
-        <activity android:name=".ui.TestActivity"></activity>
+        <activity android:name=".ui.TestActivity"/>
         <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

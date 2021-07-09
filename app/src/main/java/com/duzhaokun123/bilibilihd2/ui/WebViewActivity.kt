@@ -2,9 +2,11 @@ package com.duzhaokun123.bilibilihd2.ui
 
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Rational
@@ -17,6 +19,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
@@ -47,6 +50,31 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
 
         const val MODEL_CV_SCRIPT =
             "document.getElementsByClassName(\"read-icon-close\")[0].click();document.getElementsByClassName(\"read-more\")[0].click()"
+
+        fun newIntent(
+            context: Context,
+            uri: Uri,
+            desktop: Boolean = false,
+            interceptAll: Boolean = false,
+            finishWhenIntercept: Boolean = false
+        ): Intent {
+            val intent = Intent(context, WebViewActivity::class.java)
+            intent.data = uri
+            intent.putExtra(EXTRA_DESKTOP_UA, desktop)
+            intent.putExtra(EXTRA_INTERCEPT_ALL, interceptAll)
+            intent.putExtra(EXTRA_FINISH_WHEN_INTERCEPT, finishWhenIntercept)
+            return intent
+        }
+
+        init {
+            UrlOpenActivity.intentFilters.add { parsedIntent, context ->
+                if (parsedIntent.host != "article") return@add null to null
+                newIntent(
+                    context,
+                    "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
+                ) to "专栏 ${parsedIntent.paths[0]}"
+            }
+        }
     }
 
     private val configViewModel: ConfigViewModel by viewModels()

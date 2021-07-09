@@ -23,6 +23,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutOnlineplayIntroBinding
+import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.reply.RootReplyFragment
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.model.PlayInfo
@@ -49,6 +50,21 @@ class OnlinePlayActivity : BasePlayActivity() {
 
         fun enter(context: Context, bvid: String) =
             enter(context, bvid.toAid())
+
+        init {
+            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
+                if (parsedIntent.host != "video") return@add null to null
+                val p1 = parsedIntent.paths.getOrElse(0) { "0" }
+                val aid = try {
+                    p1.toLong()
+                } catch (e: Exception) {
+                    p1.toAid()
+                }
+                Intent(context, OnlinePlayActivity::class.java).apply {
+                    putExtra(EXTRA_AID, aid)
+                } to "视频 $aid"
+            }
+        }
     }
 
     class Model : ViewModel() {
