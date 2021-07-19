@@ -74,6 +74,19 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                     "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
                 ) to "专栏 ${parsedIntent.paths[0]}"
             }
+            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
+                when(parsedIntent.scheme) {
+                    "http", "https" -> newIntent(
+                        context, parsedIntent.uri, desktop = parsedIntent.paths.getOrNull(0) != "h5" || parsedIntent.host?.startsWith("m.") ?: false
+                    ) to "内置浏览器"
+                    else -> null to null
+                }
+            }
+            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
+                if (parsedIntent.host == "b23.tv")
+                    newIntent(context, parsedIntent.uri, desktop = false, interceptAll = true, finishWhenIntercept = true) to "内置浏览器 短链"
+                else null to null
+            }
         }
     }
 

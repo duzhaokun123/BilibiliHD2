@@ -11,14 +11,10 @@ class UserScapeActivity : BaseActivity<ActivityUserScapeBinding>(R.layout.activi
     companion object {
         private const val EXTRA_UID = "uid"
 
-        fun enter(context: Context, uid: Long) {
-
-        }
-
         init {
             UrlOpenActivity.intentFilters.add { parsedIntent, context ->
                 when (parsedIntent.host) {
-                    "space", "author" ->
+                    "space", "author", "space.bilibili.com" ->
                         Intent(context, UserScapeActivity::class.java).apply {
                             putExtra(EXTRA_UID, parsedIntent.paths[0].toLong())
                         } to "用户 ${parsedIntent.paths[0]}"

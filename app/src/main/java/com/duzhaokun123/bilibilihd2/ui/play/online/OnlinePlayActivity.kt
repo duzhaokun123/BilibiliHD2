@@ -42,21 +42,24 @@ class OnlinePlayActivity : BasePlayActivity() {
     companion object {
         private const val EXTRA_AID = "aid"
 
-        fun enter(context: Context, aid: Long) {
-            context.startActivity(Intent(context, OnlinePlayActivity::class.java).apply {
-                putExtra(EXTRA_AID, aid)
-            })
-        }
-
-        fun enter(context: Context, bvid: String) =
-            enter(context, bvid.toAid())
-
         init {
             UrlOpenActivity.intentFilters.add {parsedIntent, context ->
                 if (parsedIntent.host != "video") return@add null to null
                 val p1 = parsedIntent.paths.getOrElse(0) { "0" }
                 val aid = try {
                     p1.toLong()
+                } catch (e: Exception) {
+                    p1.toAid()
+                }
+                Intent(context, OnlinePlayActivity::class.java).apply {
+                    putExtra(EXTRA_AID, aid)
+                } to "视频 $aid"
+            }
+            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
+                if (parsedIntent.host != "www.bilibili.com" || parsedIntent.paths.getOrNull(0) != "video") return@add null to null
+                val p1 = parsedIntent.paths.getOrElse(1) { "0" }
+                val aid = try {
+                    p1.substring(2).toLong()
                 } catch (e: Exception) {
                     p1.toAid()
                 }

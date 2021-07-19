@@ -13,6 +13,7 @@ import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.*
 import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
+import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 
 class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
     RecyclerView.Adapter<DynamicAdapter.BaseDynamicHolder<out ViewDataBinding, out Any>>() {
@@ -72,7 +73,7 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
         fun setModel(model: DynamicCardModel) {
             rootBinding.model = model
             rootBinding.civFace.setOnClickListener {
-                UserScapeActivity.enter(context, model.user.uid)
+                BrowserUtil.openInApp(context, "bilibili://space/${model.user.uid}")
             }
             rootBinding.tvName.setOnClickListener { rootBinding.civFace.callOnClick() }
             val typedCard = model.card as TypedCard

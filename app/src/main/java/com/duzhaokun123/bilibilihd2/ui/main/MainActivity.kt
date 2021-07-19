@@ -17,7 +17,6 @@ import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
 import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
 import com.duzhaokun123.bilibilihd2.ui.TestActivity
-import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil.setBiliLevel
@@ -63,7 +62,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         })
         headerView.setOnClickListener {
             if (bilibiliClient.isLogin)
-                UserScapeActivity.enter(this, bilibiliClient.loginResponse!!.userId)
+                BrowserUtil.openInApp(this, "bilibili://space/${bilibiliClient.loginResponse!!.userId}")
         }
     }
 
