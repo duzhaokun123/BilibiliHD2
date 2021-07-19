@@ -292,4 +292,19 @@ class OnlinePlayActivity : BasePlayActivity() {
             layoutOnlinePlayIntroBinding.llRoot.updatePadding(bottom = if (baseBinding.rhv.tag == "2") it.bottom else 0)
         }
     }
+
+    override fun onFirstPlay() {
+        addHistory()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        addHistory()
+    }
+
+    private fun addHistory() {
+        val time = biliPlayerView.player.contentPosition / 1000
+        runIOCatchingResultRunMain(this,
+            {bilibiliClient.webAPI.heartbeat(aid, cid = cid, playedTime = time).await()}) {}
+    }
 }

@@ -46,6 +46,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
         WindowInsetsControllerCompat(window, rootBinding.root)
     }
     private var coverUrl: String? = null
+    var played = false
 
     @CallSuper
     override fun findViews() {
@@ -60,14 +61,18 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 ViewCompat.setElevation(this, 1.dpToPx().toFloat())
                 player.addListener(object : Player.EventListener {
                     override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        if (isPlaying)
+                        if (isPlaying) {
                             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                        else
+                            if (played.not()) {
+                                played = true
+                                onFirstPlay()
+                            }
+                        }else
                             window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     }
 
                     override fun onPlayerError(error: ExoPlaybackException) {
-                        Snackbar.make(rootBinding.cl, error.message ?: "null", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(rootBinding.cl, error.cause?.localizedMessage ?: "null", Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.retry) {
                                 player.prepare()
                             }
@@ -242,5 +247,9 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     @CallSuper
     open fun beforeReinitLayout() {
         baseBinding.rl.removeView(biliPlayerView)
+    }
+
+    open fun onFirstPlay() {
+
     }
 }
