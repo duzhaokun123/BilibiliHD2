@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
@@ -17,14 +18,15 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.material.snackbar.Snackbar
 
 /**
- * TODO:
- * 这玩意太乱了
- * 该类及其子类都要重构
+ * 乱就乱 能用就行
  */
 abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     R.layout.activity_play_base,
@@ -56,6 +58,22 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                 playerView.setControllerVisibilityListener(this@BasePlayActivity)
                 onNextClickListener = this@BasePlayActivity::onNextClick
                 ViewCompat.setElevation(this, 1.dpToPx().toFloat())
+                player.addListener(object : Player.EventListener {
+                    override fun onIsPlayingChanged(isPlaying: Boolean) {
+                        if (isPlaying)
+                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                        else
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+                    }
+
+                    override fun onPlayerError(error: ExoPlaybackException) {
+                        Snackbar.make(rootBinding.cl, error.message ?: "null", Snackbar.LENGTH_INDEFINITE)
+                            .setAction(R.string.retry) {
+                                player.prepare()
+                            }
+                            .show()
+                    }
+                })
             }
         }
         baseBinding.rl.addView(biliPlayerView,1, ViewGroup.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT))
@@ -132,6 +150,10 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                     if (first != null && second != null)
                         ShareUtil.shareUrl(this@BasePlayActivity, second!!, first)
                 }
+                true
+            }
+            R.id.item_retry -> {
+                biliPlayerView.player.prepare()
                 true
             }
             else -> super.onOptionsItemSelected(item)

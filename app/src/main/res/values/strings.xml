@@ -28,6 +28,7 @@
     <string name="dynamic_card_Width_dp">动态卡片宽度(dp)</string>
     <string name="open_in_browser">在浏览器中打开</string>
     <string name="reload">重载</string>
+    <string name="retry">重试</string>
     <string name="stop">停止</string>
     <string name="pip">画中画</string>
     <string name="desktop_ua">桌面 UA</string>

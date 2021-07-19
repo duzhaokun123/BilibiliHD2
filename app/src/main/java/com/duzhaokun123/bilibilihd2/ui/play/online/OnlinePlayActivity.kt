@@ -1,6 +1,5 @@
 package com.duzhaokun123.bilibilihd2.ui.play.online
 
-import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT

@@ -57,7 +57,7 @@ class BiliPlayerView @JvmOverloads constructor(
         private set
 
     val isDestroyed get() = state == State.DESTROYED
-    val isPLaying get() = state == State.PLAYING
+    val isPlaying get() = state == State.PLAYING
     val isPaused get() = state == State.PAUSED
 
     var onNextClickListener: (() -> Unit)? = null
@@ -137,7 +137,7 @@ class BiliPlayerView @JvmOverloads constructor(
 
     fun pause() {
         if (isDestroyed) return
-        if (isPLaying) {
+        if (isPlaying) {
             player.pause()
             state = State.PAUSED
         }
