@@ -58,6 +58,7 @@
 - [ ] 搜索 (简单实现)
 - [ ] 键盘鼠标友好
 - [ ] 关注列表
+
 ### 鸣谢
 [AOSP](https://source.android.com)
 
@@ -78,3 +79,9 @@
 [gson](https://github.com/google/gson)
 
 [preferencex-android](https://github.com/takisoft/preferencex-android)
+
+### 捐赠
+
+你的捐赠不能给你带来任何特权, 且不能直接加快项目开发
+
+[捐赠链接](https://duzhaokun123.github.io/donate.html)

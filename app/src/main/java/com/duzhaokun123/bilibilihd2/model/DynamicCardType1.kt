@@ -50,7 +50,7 @@ data class DynamicCardType1(
         @SerializedName("sign")
         val sign: String, // 我最恨别人拿枪指着我的脑袋！    商务合作请联系qq445591408
         @SerializedName("vip")
-        val vip: Vip
+        val vip: Vip?
     ) {
         data class Card(
             @SerializedName("official_verify")
@@ -70,7 +70,7 @@ data class DynamicCardType1(
             @SerializedName("uid")
             val uid: Long, // 23604445
             @SerializedName("uname")
-            val uname: String // 上海滩许Van强
+            val uname: String? // 上海滩许Van强
         )
 
         data class LevelInfo(

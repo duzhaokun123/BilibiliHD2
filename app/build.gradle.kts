@@ -30,6 +30,11 @@ android {
             "PROJECT_HOME",
             "\"https://github.com/duzhaokun123/BilibiliHD2\""
         )
+        buildConfigField(
+            "String",
+            "DONATE_LINK",
+            "\"https://duzhaokun123.github.io/donate.html\""
+        )
     }
     packagingOptions {
         exclude("META-INF/**")
@@ -71,7 +76,7 @@ dependencies {
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0-beta02")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.0-rc01")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.2")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
@@ -85,7 +90,7 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))

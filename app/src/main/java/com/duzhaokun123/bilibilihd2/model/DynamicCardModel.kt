@@ -174,8 +174,8 @@ data class DynamicCardModel(
                     val name = info.uname
                     val face = info.face
                     val uid = info.uid
-                    val isVip = vip.vipStatus == 1
-                    User(name, face, uid, isVip)
+                    val isVip = vip?.vipStatus == 1
+                    User(name ?: "null", face, uid, isVip)
                 } ?: User("", null, 0, false)
                 val content = dynamicCardType1.item.content
                 val time = dynamicCardType1.item.timestamp * 1000L

@@ -20,4 +20,8 @@
         app:iconSpaceReserved="false"
         app:title="@string/project_home"
         app:key="project_home"/>
+    <Preference
+        app:iconSpaceReserved="false"
+        app:title="@string/donate"
+        app:key="donate" />
 </PreferenceScreen>

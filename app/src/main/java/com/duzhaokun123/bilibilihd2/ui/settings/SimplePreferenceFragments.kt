@@ -21,7 +21,7 @@ abstract class SimplePreferenceFragment(
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(preferencesResId, rootKey)
         onValueChangeListeners.forEach {
-            findPreference<Preference>(it.first)?.setOnPreferenceChangeListener(it.second)
+            findPreference<Preference>(it.first)?.onPreferenceChangeListener = it.second as Preference.OnPreferenceChangeListener
         }
     }
 
@@ -67,6 +67,13 @@ class AboutFragment :
             summary = BuildConfig.PROJECT_HOME
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 BrowserUtil.openCustomTab(context, BuildConfig.PROJECT_HOME)
+                true
+            }
+        }
+        findPreference<Preference>("donate")!!.apply {
+            summary = BuildConfig.DONATE_LINK
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                BrowserUtil.openCustomTab(context, BuildConfig.DONATE_LINK)
                 true
             }
         }
