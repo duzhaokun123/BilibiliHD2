@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdk = min_sdk
         targetSdk = target_sdk
-        versionCode = 1
-        versionName = "bilibiliHD"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
