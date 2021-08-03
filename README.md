@@ -1,10 +1,12 @@
 # Bilibili HD 2 (WIP)
 
-[![GitHub license](https://img.shields.io/github/license/duzhaokun123/BilibiliHD2)](https://github.com/duzhaokun123/BilibiliHD2/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/duzhaokun123/BilibiliHD2?style=flat-square)](https://github.com/duzhaokun123/BilibiliHD2/blob/main/LICENSE)
+![Android SDK min 21](https://img.shields.io/badge/Android%20SDK-%3E%3D%2021-brightgreen?style=flat-square)
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
 
-### 将支持的功能
+## 将支持的功能
+
 - [x] 多用户登录 (多用户登录理论上实现)
 - [ ] 用户信息页
 - [x] 首页推荐
@@ -59,7 +61,8 @@
 - [ ] 键盘鼠标友好
 - [ ] 关注列表
 
-### 鸣谢
+## 鸣谢
+
 [AOSP](https://source.android.com)
 
 [Material](https://material.io)
@@ -80,7 +83,7 @@
 
 [preferencex-android](https://github.com/takisoft/preferencex-android)
 
-### 捐赠
+## 捐赠
 
 你的捐赠不能给你带来任何特权, 且不能直接加快项目开发
 

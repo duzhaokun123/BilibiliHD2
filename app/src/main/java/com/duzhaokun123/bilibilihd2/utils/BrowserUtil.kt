@@ -3,7 +3,6 @@ package com.duzhaokun123.bilibilihd2.utils
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.util.Log
