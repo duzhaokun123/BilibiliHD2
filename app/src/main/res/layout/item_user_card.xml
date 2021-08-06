@@ -14,8 +14,9 @@
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="4dp"
-        android:foreground="?selectableItemBackground">
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="1dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

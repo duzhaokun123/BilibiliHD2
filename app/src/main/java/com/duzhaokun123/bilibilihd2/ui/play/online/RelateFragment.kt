@@ -13,9 +13,7 @@ import com.duzhaokun123.bilibilihd2.bases.BaseFragment
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleWithHeaderAdapter
 import com.duzhaokun123.bilibilihd2.databinding.ItemRelateCardBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
-import com.duzhaokun123.bilibilihd2.utils.dpToPx
-import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
-import com.duzhaokun123.bilibilihd2.utils.resetAdapter
+import com.duzhaokun123.bilibilihd2.utils.*
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
@@ -36,7 +34,7 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
             override fun getItemOffsets(
                 outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
             ) {
-                outRect.set(0, 5.dpToPx(), 0, 5.dpToPx())
+                outRect.set(0, 2.dpToPx(), 0, 2.dpToPx())
             }
         })
         model.relates.observe(this) {relates ->
@@ -57,7 +55,12 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
         }
 
         override fun initData(baseBinding: ItemRelateCardBinding, position: Int) {
-            baseBinding.relate = relates[position]
+            relates[position].let { relate ->
+                baseBinding.relate = relate
+                baseBinding.cv.setOnClickListener {
+                    BrowserUtil.openInApp(context, relate.url)
+                }
+            }
         }
     }
 
@@ -70,7 +73,11 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
 
 data class Relate(
     val title: String?,
-    val cover: String?
+    val cover: String?,
+    val duration: String,
+    val l1: String,
+    val l2: String,
+    val url: String
 ) {
     companion object {
         fun parse(biliRelates: Collection<BiliView.Data.Relate>): List<Relate> {
@@ -78,7 +85,11 @@ data class Relate(
             biliRelates.forEach { biliRelate ->
                 val title = biliRelate.title
                 val cover = biliRelate.pic
-                re.add(Relate(title, cover))
+                val duration = biliRelate.duration.takeIf { it != 0 }?.let { DateFormat.getStringForTime(it * 1000L) } ?: ""
+                val l1 = biliRelate.owner?.name.takeUnless { it.isNullOrEmpty() }?.let { "up:$it" }?: "ad"
+                val l2 = biliRelate.stat.view.takeIf { it != 0 }?.let { "play:$it danmaku:${biliRelate.stat.danmaku}" } ?: ""
+                val url = biliRelate.uri
+                re.add(Relate(title, cover, duration, l1, l2, url))
             }
             return re
         }

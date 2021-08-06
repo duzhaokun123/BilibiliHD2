@@ -299,7 +299,8 @@ class OnlinePlayActivity : BasePlayActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        addHistory()
+        if (played)
+            addHistory()
     }
 
     private fun addHistory() {

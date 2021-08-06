@@ -77,7 +77,7 @@ abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, Ite
             override fun getItemOffsets(
                 outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
             ) {
-                outRect.set(5.dpToPx(), 5.dpToPx(), 5.dpToPx(), 5.dpToPx())
+                outRect.set(2.dpToPx(), 2.dpToPx(), 2.dpToPx(), 2.dpToPx())
             }
         })
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->

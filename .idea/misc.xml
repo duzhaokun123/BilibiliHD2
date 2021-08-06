@@ -3,7 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/dynamic_card_1.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/dynamic_card_root.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/item_history_card.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/item_home_card.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/item_relate_card.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/item_user_card.xml" value="0.53671875" />
       </map>
     </option>
   </component>

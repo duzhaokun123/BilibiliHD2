@@ -5,7 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
+import android.widget.TextView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
@@ -79,10 +82,27 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
                     })
                 }
             }
+            if (baseBinding.llTarget.childCount == 0) {
+                baseBinding.llTarget.addView(TextView(this).apply {
+                    text = "不支持此链接"
+                })
+            }
         }
     }
 
     override fun initData() {
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.add("外部打开")?.apply {
+            setIcon(R.drawable.ic_launch)
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            setOnMenuItemClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, startIntent.data))
+                true
+            }
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 }
