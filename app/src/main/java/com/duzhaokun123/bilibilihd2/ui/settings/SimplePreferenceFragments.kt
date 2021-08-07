@@ -21,7 +21,7 @@ abstract class SimplePreferenceFragment(
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(preferencesResId, rootKey)
         onValueChangeListeners.forEach {
-            findPreference<Preference>(it.first)?.onPreferenceChangeListener = it.second as Preference.OnPreferenceChangeListener
+            findPreference<Preference>(it.first)?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { p, v -> it.second.invoke(p, v) }
         }
     }
 
