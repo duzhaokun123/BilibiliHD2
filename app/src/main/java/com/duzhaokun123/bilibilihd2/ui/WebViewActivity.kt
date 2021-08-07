@@ -76,9 +76,12 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
             }
             UrlOpenActivity.intentFilters.add {parsedIntent, context ->
                 when(parsedIntent.scheme) {
-                    "http", "https" -> newIntent(
-                        context, parsedIntent.uri, desktop = parsedIntent.paths.getOrNull(0) != "h5" || parsedIntent.host?.startsWith("m.") ?: false
-                    ) to "内置浏览器"
+                    "http", "https" -> {
+                        val desktop = ("h5" in parsedIntent.paths || parsedIntent.host?.startsWith("m.") ?: false).not()
+                        newIntent(
+                            context, parsedIntent.uri, desktop = desktop
+                        ) to "内置浏览器 desktop: $desktop"
+                    }
                     else -> null to null
                 }
             }
