@@ -67,6 +67,18 @@
                 android:textSize="12sp"
                 tools:text="10:12" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/ib_tp"
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:layout_marginBottom="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv_cover"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:src="@drawable/ic_three_points" />
+
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

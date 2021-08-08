@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2.ui.play.online
 import android.content.Context
 import android.graphics.Rect
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
@@ -59,6 +60,18 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
                 baseBinding.relate = relate
                 baseBinding.cv.setOnClickListener {
                     BrowserUtil.openInApp(context, relate.url)
+                }
+                baseBinding.cv.setOnLongClickListener {
+                    baseBinding.ibTp.callOnClick()
+                    true
+                }
+                baseBinding.ibTp.setOnClickListener {
+                    PopupMenu(requireContext(), baseBinding.ibTp).apply {
+                        menu.add("检查封面").setOnMenuItemClickListener {
+                            ImageViewUtil.viewImage(requireContext(), relate.cover, baseBinding.ivCover)
+                            true
+                        }
+                    }.show()
                 }
             }
         }

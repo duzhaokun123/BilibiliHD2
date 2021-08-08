@@ -65,6 +65,10 @@
 
 [AOSP](https://source.android.com)
 
+[DanmakuView](https://github.com/duzhoakun123/DanmakuView)
+
+[ExoPlayer](https://exoplayer.dev/)
+
 [Material](https://material.io)
 
 [PhotoView](https://github.com/Baseflow/PhotoView)
@@ -76,6 +80,8 @@
 [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect)
 
 [bilibili-api](https://github.com/czp3009/bilibili-api)
+
+[gRPC](https://grpc.io/)
 
 [glide](https://bumptech.github.io/glide/)
 
