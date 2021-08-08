@@ -47,6 +47,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     }
     private var coverUrl: String? = null
     var played = false
+    private var isPlayBeforeStop = false
 
     @CallSuper
     override fun findViews() {
@@ -169,6 +170,24 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     override fun onStart() {
         super.onStart()
         biliPlayerView.playerView.showController()
+        if (isPlayBeforeStop)
+            resume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        isPlayBeforeStop = biliPlayerView.player.playWhenReady
+        pause()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        biliPlayerView.playerView.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        biliPlayerView.playerView.onResume()
     }
 
     fun start() {
