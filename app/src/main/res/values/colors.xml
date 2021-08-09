@@ -24,4 +24,6 @@
     <color name="textColor">#000000</color>
 
     <color name="dimText">#757575</color>
+
+    <color name="lightGray">#CCCCCC</color>
 </resources>

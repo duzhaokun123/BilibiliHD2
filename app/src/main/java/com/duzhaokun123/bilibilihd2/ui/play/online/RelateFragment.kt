@@ -38,7 +38,7 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
                 outRect.set(0, 2.dpToPx(), 0, 2.dpToPx())
             }
         })
-        model.relates.observe(this) {relates ->
+        model.relates.observe(this) { relates ->
             this.relates = relates
             baseBinding.rv.resetAdapter()
         }

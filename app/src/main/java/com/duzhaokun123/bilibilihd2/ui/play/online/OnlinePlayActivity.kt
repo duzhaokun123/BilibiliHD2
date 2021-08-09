@@ -1,17 +1,17 @@
 package com.duzhaokun123.bilibilihd2.ui.play.online
 
 import android.content.Intent
+import android.os.Build
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.RadioButton
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
+import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -83,8 +83,10 @@ class OnlinePlayActivity : BasePlayActivity() {
     var cid = 0L
     var page = 1
         set(value) {
-            field = value
-            onSetPage()
+            if (field != value) {
+                field = value
+                onSetPage()
+            }
         }
     val pageParserMap = mutableMapOf<Int, DanmakuParser>()
 
@@ -198,6 +200,25 @@ class OnlinePlayActivity : BasePlayActivity() {
                         }
                     }, WRAP_CONTENT, WRAP_CONTENT)
                 }
+                biliView.data.pages.forEach { p ->
+                    layoutOnlinePlayIntroBinding.rgPages.addView(RadioButton(this).apply {
+                        text = p.part
+                        id = p.page
+                        buttonDrawable = null
+                        setBackgroundResource(R.drawable.rb_video_page_bg)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            setTextColor(resources.getColorStateList(R.color.rb_video_page_text, theme))
+                        }
+                        setPadding(10.dpToPx())
+                    }, ViewGroup.MarginLayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                        rightMargin = 5.dpToPx()
+                    })
+                    if (p.page == page)
+                        layoutOnlinePlayIntroBinding.rgPages.check(p.page)
+                }
+                layoutOnlinePlayIntroBinding.rgPages.setOnCheckedChangeListener { _, page ->
+                    this.page = page
+                }
                 model.relates.value = Relate.parse(biliView.data.relates?: emptyList())
 
                 updateVideoPlayUrl()
@@ -267,7 +288,8 @@ class OnlinePlayActivity : BasePlayActivity() {
     }
 
     private fun onSetPage() {
-
+        updateVideoPlayUrl()
+        layoutOnlinePlayIntroBinding.rgPages.check(page)
     }
 
     inner class PagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
