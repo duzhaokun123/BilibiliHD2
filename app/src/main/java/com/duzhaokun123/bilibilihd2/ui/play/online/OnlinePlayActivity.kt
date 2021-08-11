@@ -219,6 +219,19 @@ class OnlinePlayActivity : BasePlayActivity() {
                 layoutOnlinePlayIntroBinding.rgPages.setOnCheckedChangeListener { _, page ->
                     this.page = page
                 }
+                layoutOnlinePlayIntroBinding.tvLike.apply {
+                    text = biliView.data.stat.like.toString()
+                    setOnClickListener {
+                        runIOCatchingResultRunMain(this@OnlinePlayActivity,
+                            { bilibiliClient.appAPI.like(aid = aid, like = 0).await()}) {
+                            TipUtil.showTip(this@OnlinePlayActivity, it.data.toast)
+                        }
+                    }
+                }
+                layoutOnlinePlayIntroBinding.tvDislike.setOnClickListener {
+                    runIOCatchingResultRunMain(this@OnlinePlayActivity,
+                        { bilibiliClient.appAPI.dislike(aid = aid, dislike = 0).await()}) {}
+                }
                 model.relates.value = Relate.parse(biliView.data.relates?: emptyList())
 
                 updateVideoPlayUrl()

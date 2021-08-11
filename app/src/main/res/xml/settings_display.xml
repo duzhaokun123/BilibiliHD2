@@ -23,4 +23,10 @@
         app:key="dynamicCardWidthDp"
         app:title="@string/dynamic_card_Width_dp"
         app:useSimpleSummaryProvider="true" />
+    <CheckBoxPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="danmakuOnTop"
+        app:summary="勉强修复部分机型(主要是旧系统)弹幕显示异常"
+        app:title="弹幕置顶" />
 </PreferenceScreen>

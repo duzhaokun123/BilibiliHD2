@@ -18,6 +18,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
+import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
@@ -80,6 +81,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                             .show()
                     }
                 })
+                danmakuView.zOnTop = Settings.danmakuOnTop
             }
         }
         baseBinding.rl.addView(biliPlayerView,1, ViewGroup.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT))

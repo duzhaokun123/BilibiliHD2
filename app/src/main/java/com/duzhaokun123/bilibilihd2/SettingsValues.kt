@@ -23,3 +23,6 @@ val mainCardWidthDp = 500
 
 @SettingsValue(saveAsString = true)
 val dynamicCardWidthDp = 700
+
+@SettingsValue
+val danmakuOnTop = false
