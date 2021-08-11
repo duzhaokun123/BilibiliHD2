@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
     <Preference
-        app:iconSpaceReserved="false"
         app:key="name"
+        app:icon="@mipmap/ic_launcher"
         app:title="@string/app_name" />
     <Preference
         app:iconSpaceReserved="false"
