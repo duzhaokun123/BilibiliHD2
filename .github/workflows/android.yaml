@@ -48,7 +48,18 @@ jobs:
           name: BilibiliHD2_${{ env.VERSION }}.apk
           path: ${{ env.APK_FILE }}
       - name: Upload to JianGuonYun
-        run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD/"
+        run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD2/"
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Publish to LanZou
+        env:
+          LZ_YLOGIN: ${{ secrets.LZ_YLOGIN }}
+          LZ_PHPDISK_INFO: ${{ secrets.LZ_PHPDISK_INFO }}
+        run: |
+          pip3 install lanzou-api --upgrade
+          python3 script/upload_to_lanzou.py ${{ env.APK_FILE }}
   skipped:
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.event.head_commit.message, '[skip ci]') }}
