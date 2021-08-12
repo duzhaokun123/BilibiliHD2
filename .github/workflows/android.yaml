@@ -40,12 +40,15 @@ jobs:
       - name: Rename
         run: |
           mv ${{ github.workspace }}/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_${{ env.VERSION }}.apk
+          echo APK_FILE=${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_${{ env.VERSION }}.apk >> $GITHUB_ENV
       - name: Upload built apk
         if: success()
         uses: actions/upload-artifact@v2
         with:
           name: BilibiliHD2_${{ env.VERSION }}.apk
-          path: ${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_${{ env.VERSION }}.apk
+          path: ${{ env.APK_FILE }}
+      - name: Upload to JianGuonYun
+        run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD/"
   skipped:
     runs-on: ubuntu-latest
     if: ${{ startsWith(github.event.head_commit.message, '[skip ci]') }}
