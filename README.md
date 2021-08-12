@@ -8,6 +8,12 @@
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
 
+## 下载
+[GitHub Actions](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml)
+
+蓝奏云
+- 0.1 https://wwe.lanzoui.com/b01ugzj5c 密码:233
+
 ## 将支持的功能
 
 - [x] 多用户登录 (多用户登录理论上实现)
