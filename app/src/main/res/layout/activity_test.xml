@@ -6,17 +6,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_url"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:importantForAutofill="auto"
-            android:text="bilibili://" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btn_urlStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="start" />
+            <EditText
+                android:id="@+id/et_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:importantForAutofill="auto"
+                android:text="bilibili://" />
+
+            <Button
+                android:id="@+id/btn_urlStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="start" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

@@ -19,7 +19,7 @@ data class DynamicCardModel(
             dynamicNew.data.cards.forEach { card ->
                 val user = run {
                     val info = card.desc.userProfile?.info
-                    val name = info?.uname ?: ""
+                    val name = info?.uname
                     val face = info?.face
                     val uid = info?.uid ?: 0
                     val isVip = card.desc.userProfile?.vip?.vipStatus == 1
@@ -46,7 +46,7 @@ data class DynamicCardModel(
             dynamicHistory.data.cards.forEach { card ->
                 val user = run {
                     val info = card.desc.userProfile?.info
-                    val name = info?.uname ?: ""
+                    val name = info?.uname
                     val face = info?.face
                     val uid = info?.uid ?: 0
                     val isVip = card.desc.userProfile?.vip?.vipStatus == 1
@@ -75,13 +75,14 @@ data class DynamicCardModel(
                 4 -> Type4.parse(gson.fromJson(json))
                 8 -> Type8.parse(gson.fromJson(json))
                 64 -> Type64.parse(gson.fromJson(json))
+                512 -> Type512.parse(gson.fromJson(json))
                 else -> Any()
             }
         }
     }
 
     data class User(
-        val name: String,
+        val name: String?,
         val faceUrl: String?,
         val uid: Long,
         val isVip: Boolean
@@ -175,8 +176,8 @@ data class DynamicCardModel(
                     val face = info.face
                     val uid = info.uid
                     val isVip = vip?.vipStatus == 1
-                    User(name ?: "null", face, uid, isVip)
-                } ?: User("", null, 0, false)
+                    User(name, face, uid, isVip)
+                } ?: User(null, null, 0, false)
                 val content = dynamicCardType1.item.content
                 val time = dynamicCardType1.item.timestamp * 1000L
                 return Type1(originType, originJson ?: "", origin, originUser, content, time)
@@ -197,6 +198,25 @@ data class DynamicCardModel(
             val state = State(-1, -1, -1, -1)
             val time = this.time
             return DynamicCardModel(type, card, cardJson, user, state, time)
+        }
+    }
+
+    data class Type512(
+        val cover: String,
+        val title: String,
+        val seasonTitle: String,
+        val url: String,
+        val ration: Float
+    ) {
+        companion object {
+            fun parse(dynamicCardType512: DynamicCardType512): Type512 {
+                val cover = dynamicCardType512.cover
+                val title = dynamicCardType512.newDesc
+                val seasonTitle = dynamicCardType512.season.title
+                val url = dynamicCardType512.url
+                val ration = dynamicCardType512.dimension.let { it.height.toFloat() / it.width }
+                return Type512(cover, title, seasonTitle, url, ration)
+            }
         }
     }
 }

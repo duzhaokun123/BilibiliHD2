@@ -38,18 +38,20 @@
                     android:layout_height="35dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="@{card.originUser.faceUrl == null ? android.view.View.GONE : android.view.View.VISIBLE}"
                     app:imageUrl="@{card.originUser.faceUrl}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_toEndOf="@id/civ_face"
                     android:text="@{card.originUser.name}"
                     android:textColor="@{card.originUser.vip ? @color/biliPink : @color/textColor}"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="@{card.originUser.name == null ? android.view.View.GONE : android.view.View.VISIBLE}" />
 
                 <FrameLayout
                     android:id="@+id/fl_content"

@@ -39,8 +39,8 @@ jobs:
           bash ./gradlew assembleRelease
       - name: Rename
         run: |
-          mv ${{ github.workspace }}/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_${{ env.VERSION }}.apk
-          echo APK_FILE=${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_${{ env.VERSION }}.apk >> $GITHUB_ENV
+          echo APK_FILE=${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_release_${{ env.VERSION }}.apk >> $GITHUB_ENV
+          mv ${{ github.workspace }}/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_release_${{ env.VERSION }}.apk
       - name: Upload built apk
         if: success()
         uses: actions/upload-artifact@v2

@@ -5,6 +5,7 @@ import android.net.Uri
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityTestBinding
+import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
 import com.duzhaokun123.bilibilihd2.utils.TipUtil
 
 class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
@@ -15,7 +16,7 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
                 startActivity(Intent().apply {
                     data = Uri.parse(baseBinding.etUrl.text.toString())
                 })
-            }catch (e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 TipUtil.showToast(e.message)
             }

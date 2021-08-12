@@ -12,7 +12,6 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.*
-import com.duzhaokun123.bilibilihd2.ui.scape.UserScapeActivity
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 
 class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
@@ -27,6 +26,7 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
             4 to DynamicHolderType4::class.java,
             8 to DynamicHolderType8::class.java,
             64 to DynamicHolderType64::class.java,
+            512 to DynamicHolderType512::class.java,
             1024 to DynamicHolderType1024::class.java,
         )
     }
