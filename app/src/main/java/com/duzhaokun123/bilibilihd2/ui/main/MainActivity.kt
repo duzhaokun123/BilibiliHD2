@@ -26,6 +26,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     Config.NO_TOOL_BAR,
     Config.LAYOUT_MATCH_HORI
 ) {
+
+
     private lateinit var navController: NavController
     private lateinit var headerView: View
 

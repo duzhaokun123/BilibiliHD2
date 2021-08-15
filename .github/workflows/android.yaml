@@ -60,10 +60,3 @@ jobs:
         run: |
           pip3 install lanzou-api --upgrade
           python3 script/upload_to_lanzou.py ${{ env.APK_FILE }}
-  skipped:
-    runs-on: ubuntu-latest
-    if: ${{ startsWith(github.event.head_commit.message, '[skip ci]') }}
-    steps:
-      - name: skip
-        run: |
-          echo skipped

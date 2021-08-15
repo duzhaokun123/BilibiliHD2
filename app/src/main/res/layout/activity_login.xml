@@ -86,5 +86,14 @@
             app:layout_constraintEnd_toEndOf="@+id/btn_login"
             app:layout_constraintStart_toStartOf="@+id/btn_login"
             app:layout_constraintTop_toTopOf="@+id/btn_login" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="警告: 不建议通过登录登录, 可能触发封控, 建议通过抓包导入登录"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/til_password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
