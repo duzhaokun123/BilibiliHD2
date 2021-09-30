@@ -14,8 +14,10 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.BilibiliHD2.Base"
         tools:targetApi="n">
-        <activity android:name=".ui.TestActivity"/>
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.TestActivity" />
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,6 +29,7 @@
         <activity
             android:name=".ui.WebViewActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:exported="true"
             android:supportsPictureInPicture="true"
             tools:targetApi="n">
             <intent-filter android:label="@string/open_with_webview">
@@ -44,7 +47,9 @@
                 <data android:host="b23.tv" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.UrlOpenActivity">
+        <activity
+            android:name=".ui.UrlOpenActivity"
+            android:exported="true">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -92,6 +97,14 @@
         </provider>
 
         <activity android:name=".ui.BigImageViewActivity" />
+        <activity
+            android:name=".ui.SSOCodeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="tv.danmaku.bili.action.sso.authorize" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

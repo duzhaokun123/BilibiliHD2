@@ -86,10 +86,10 @@ dependencies {
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+//    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+//    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     //bilibili-api
     implementation("com.hiczp", "bilibili-api", "bilibiliHD")
@@ -100,7 +100,7 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))
