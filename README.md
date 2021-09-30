@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/github/license/duzhaokun123/BilibiliHD2?style=flat-square)](https://github.com/duzhaokun123/BilibiliHD2/blob/main/LICENSE)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/duzhaokun123/BilibiliHD2/Android%20CI?style=flat-square&logo=github)](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml)
 ![Android SDK min 21](https://img.shields.io/badge/Android%20SDK-%3E%3D%2021-brightgreen?style=flat-square)
-![Android SDK target 30](https://img.shields.io/badge/Android%20SDK-target%2030-brightgreen?style=flat-square)
+![Android SDK target 31](https://img.shields.io/badge/Android%20SDK-target%2031-brightgreen?style=flat-square)
 
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
