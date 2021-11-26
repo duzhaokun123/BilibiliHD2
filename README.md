@@ -9,7 +9,7 @@
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
 
 ## 下载
-[GitHub Actions](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml)
+[GitHub Actions](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml) (需登陆 GitHub)
 
 蓝奏云
 - 0.1 https://wwe.lanzoui.com/b01ugzj5c 密码:233
@@ -74,7 +74,7 @@
 
 [AOSP](https://source.android.com)
 
-[DanmakuView](https://github.com/duzhoakun123/DanmakuView)
+[DanmakuView](https://github.com/duzhaokun123/DanmakuView)
 
 [ExoPlayer](https://exoplayer.dev/)
 
