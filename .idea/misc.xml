@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
+        <entry key="app/src/main/res/layout/activity_qr_login.xml" value="0.2354014598540146" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamci_card_64.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_0.xml" value="0.2984375" />
@@ -21,6 +22,7 @@
         <entry key="app/src/main/res/layout/item_relate_card.xml" value="0.6980891719745222" />
         <entry key="app/src/main/res/layout/item_user_card.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/layout_onlineplay_intro.xml" value="0.53671875" />
+        <entry key="app/src/main/res/menu/user_add_menu.xml" value="0.30234375" />
         <entry key="app/src/main/res/xml/settings_about.xml" value="0.53671875" />
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.64875" />
       </map>

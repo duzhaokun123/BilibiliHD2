@@ -13,7 +13,6 @@ android {
     val baseVersionName = "0.1-wip"
 
     compileSdk = compile_sdk
-    buildToolsVersion = "30.0.3"
 
     defaultConfig {
         applicationId = "com.duzhaokun123.bilibilihd2"
@@ -86,7 +85,7 @@ dependencies {
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     testImplementation("junit:junit:4.13.2")
 //    androidTestImplementation("androidx.test.ext:junit:1.1.3")
 //    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
@@ -148,6 +147,9 @@ dependencies {
     implementation(project(":grpc"))
 
     implementation("androidx.multidex:multidex:2.0.1")
+
+    //qrgen
+    implementation("com.github.kenglxn.QRGen:android:2.6.0")
 }
 
 afterEvaluate {

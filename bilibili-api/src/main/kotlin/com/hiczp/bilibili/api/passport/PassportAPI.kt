@@ -3,6 +3,7 @@ package com.hiczp.bilibili.api.passport
 import com.hiczp.bilibili.api.passport.model.GetKeyResponse
 import com.hiczp.bilibili.api.passport.model.LoginResponse
 import com.hiczp.bilibili.api.passport.model.OAuth2Info
+import com.hiczp.bilibili.api.passport.model.QRLoginUrl
 import com.hiczp.bilibili.api.retrofit.CommonResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
@@ -83,4 +84,10 @@ interface PassportAPI {
         @Field("refresh_token") refreshToken: String,
         @FieldMap cookieMap: Map<String, String>
     ): Deferred<LoginResponse>
+
+    /**
+     * 申请二维码URL及扫码密钥
+     */
+    @GET("/qrcode/getLoginUrl")
+    fun getQRLoginUrl(): Deferred<QRLoginUrl>
 }

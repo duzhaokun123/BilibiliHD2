@@ -6,4 +6,7 @@
     <item
         android:id="@+id/item_import"
         android:title="@string/_import" />
+    <item
+        android:id="@+id/item_qr"
+        android:title="@string/qr_code" />
 </menu>

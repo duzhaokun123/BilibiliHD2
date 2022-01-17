@@ -11,6 +11,7 @@ import com.duzhaokun123.bilibilihd2.bases.BaseFragment
 import com.duzhaokun123.bilibilihd2.databinding.FragmentUsersBinding
 import com.duzhaokun123.bilibilihd2.model.UserModel
 import com.duzhaokun123.bilibilihd2.ui.login.LoginActivity
+import com.duzhaokun123.bilibilihd2.ui.login.QRLoginActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
@@ -33,6 +34,9 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
                         }
                         R.id.item_import -> {
                             importLoginResponse.launch(arrayOf("*/*"))
+                        }
+                        R.id.item_qr -> {
+                            requireContext().startActivity<QRLoginActivity>()
                         }
                     }
                     true

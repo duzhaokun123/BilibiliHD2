@@ -105,6 +105,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.login.QRLoginActivity" />
     </application>
 
 </manifest>
