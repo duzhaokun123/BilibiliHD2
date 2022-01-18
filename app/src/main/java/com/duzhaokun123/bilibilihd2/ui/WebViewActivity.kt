@@ -68,28 +68,33 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
 
         init {
             UrlOpenActivity.intentFilters.add { parsedIntent, context ->
-                if (parsedIntent.host == "article") {
-                    newIntent(
-                        context,
-                        "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
-                    ) to "专栏 ${parsedIntent.paths[0]}"
-                } else if (parsedIntent.paths.getOrNull(0) == "read" && parsedIntent.paths.getOrNull(1)?.startsWith("cv") == true) {
-                    newIntent(
-                        context,
-                        "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[1].substring(2)}".toUri()
-                    ) to "专栏 ${parsedIntent.paths[1].substring(2)}"
-                } else {
-                    null to null
+                when {
+                    parsedIntent.host == "article" -> {
+                        com.duzhaokun123.bilibilihd2.ui.WebViewActivity.Companion.newIntent(
+                            context,
+                            "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
+                        ) to "专栏 ${parsedIntent.paths[0]}"
+                    }
+                    parsedIntent.paths.getOrNull(0) == "read" && parsedIntent.paths.getOrNull(1)?.startsWith("cv") == true -> {
+                        newIntent(
+                            context,
+                            "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[1].substring(2)}".toUri()
+                        ) to "专栏 ${parsedIntent.paths[1].substring(2)}"
+                    }
+                    else -> null to null
                 }
             }
             UrlOpenActivity.intentFilters.add {parsedIntent, context ->
-                when(parsedIntent.scheme) {
-                    "http", "https" -> {
+                when {
+                    parsedIntent.scheme in listOf("http", "https") -> {
                         val desktop = ("h5" in parsedIntent.paths || parsedIntent.host?.startsWith("m.") ?: false).not()
                         newIntent(
                             context, parsedIntent.uri, desktop = desktop
                         ) to "内置浏览器 desktop: $desktop"
                     }
+                    parsedIntent.host == "browser" -> {
+                    newIntent(context, "${parsedIntent.queryMap["url"]}".toUri()) to "内置浏览器 "
+                }
                     else -> null to null
                 }
             }

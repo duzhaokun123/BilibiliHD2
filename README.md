@@ -101,6 +101,7 @@
 [preferencex-android](https://github.com/takisoft/preferencex-android)
 
 [zxing-android-embedded](https://github.com/journeyapps/zxing-android-embedded)
+
 ## 捐赠
 
 你的捐赠不能给你带来任何特权, 且不能直接加快项目开发
