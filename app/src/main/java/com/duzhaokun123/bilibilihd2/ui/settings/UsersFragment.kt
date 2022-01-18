@@ -117,6 +117,11 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
         reloadSelectedUser()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        model.loginResponseToExport.value = null
+    }
+
     private fun selectUid(uid: Long) {
         model.selectedUid.value = 0
         Settings.selectedUid = uid

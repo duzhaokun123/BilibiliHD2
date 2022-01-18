@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -100,7 +101,10 @@ fun View.removeFromParent() {
 }
 
 val isNightMode
-    get() = application.resources.getBoolean(R.bool.night)
+    get() = when (application.resources.configuration.colorMode and Configuration.UI_MODE_NIGHT_MASK) {
+        Configuration.UI_MODE_NIGHT_YES -> true
+        else -> false
+    }
 
 fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 

@@ -52,7 +52,7 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
             baseBinding.ivQr.setImageBitmap(
                 QRCode.from(it.data.url)
                     .withSize(size, size)
-                    .withColor(if (isNightMode) Color.WHITE else Color.BLACK, if (isNightMode) Color.BLACK else Color.WHITE)
+                    .withColor(Color.BLACK, Color.WHITE)
                     .bitmap()
             )
         }
@@ -84,7 +84,7 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
                         val data = json["data"]
                         if (status) {
                             model.status.postValue("登录中...")
-                            val expires = data["url"].asString.toUri().getQueryParameter("Expires")!!.toLong()
+                            val expires = data["url"].asString.toUri().getQueryParameter("Expires")!!.toLong() + System.currentTimeMillis() / 1000
                             val headers = r.headers("Set-Cookie")
                             val cookies = listOf(
                                 Cookie.BILI_JCT,
