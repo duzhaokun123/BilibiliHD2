@@ -24,20 +24,18 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.duzhaokun123.bilibilihd2.CLIENT_USER_AGENT
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
-import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
-import com.duzhaokun123.bilibilihd2.utils.TipUtil
-import com.duzhaokun123.bilibilihd2.utils.runMain
-import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
+import com.duzhaokun123.bilibilihd2.utils.*
 import kotlinx.coroutines.delay
 
 class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_view) {
     companion object {
-        const val EXTRA_DESKTOP_UA = "desktop_ua"
+        const val EXTRA_UA = "ua"
         const val EXTRA_INTERCEPT_ALL = "intercept_all"
         const val EXTRA_FINISH_WHEN_INTERCEPT = "finish_when_intercept"
 
@@ -48,19 +46,25 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                 throw RuntimeException("SDK < (26) should not call this")
         }
 
+        enum class UA(val value: String, val n: String, val id: Int) {
+            DESKTOP(DESKTOP_USER_AGENT, "桌面", R.id.item_ua_desktop),
+            TABLET(TABLETS_USER_AGENT, "平板", R.id.item_ua_tablet),
+            CLIENT(CLIENT_USER_AGENT, "客户端", R.id.item_ua_client)
+        }
+
         const val MODEL_CV_SCRIPT =
             "document.getElementsByClassName(\"read-icon-close\")[0].click();document.getElementsByClassName(\"read-more\")[0].click()"
 
-        fun newIntent(
+        private fun newIntent(
             context: Context,
             uri: Uri,
-            desktop: Boolean = false,
+            ua: UA = UA.TABLET,
             interceptAll: Boolean = false,
             finishWhenIntercept: Boolean = false
         ): Intent {
             val intent = Intent(context, WebViewActivity::class.java)
             intent.data = uri
-            intent.putExtra(EXTRA_DESKTOP_UA, desktop)
+            intent.putExtra(EXTRA_UA, ua)
             intent.putExtra(EXTRA_INTERCEPT_ALL, interceptAll)
             intent.putExtra(EXTRA_FINISH_WHEN_INTERCEPT, finishWhenIntercept)
             return intent
@@ -70,7 +74,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
             UrlOpenActivity.intentFilters.add { parsedIntent, context ->
                 when {
                     parsedIntent.host == "article" -> {
-                        com.duzhaokun123.bilibilihd2.ui.WebViewActivity.Companion.newIntent(
+                        newIntent(
                             context,
                             "https://www.bilibili.com/read/mobile?id=${parsedIntent.paths[0]}".toUri()
                         ) to "专栏 ${parsedIntent.paths[0]}"
@@ -87,20 +91,23 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
             UrlOpenActivity.intentFilters.add {parsedIntent, context ->
                 when {
                     parsedIntent.scheme in listOf("http", "https") -> {
-                        val desktop = ("h5" in parsedIntent.paths || parsedIntent.host?.startsWith("m.") ?: false).not()
-                        newIntent(
-                            context, parsedIntent.uri, desktop = desktop
-                        ) to "内置浏览器 desktop: $desktop"
+                        val ua =
+                            when {
+                                parsedIntent.host?.startsWith("passport.") == true -> UA.CLIENT
+                                "h5" in parsedIntent.paths || parsedIntent.host?.startsWith("m.") == true -> UA.TABLET
+                                else -> UA.DESKTOP
+                            }
+                        newIntent(context, parsedIntent.uri, ua = ua) to "内置浏览器 ua: ${ua.n}"
                     }
                     parsedIntent.host == "browser" -> {
-                    newIntent(context, "${parsedIntent.queryMap["url"]}".toUri()) to "内置浏览器 "
+                    newIntent(context, "${parsedIntent.queryMap["url"]}".toUri(), ua = UA.CLIENT) to "内置浏览器 ua: ${UA.CLIENT.n}"
                 }
                     else -> null to null
                 }
             }
             UrlOpenActivity.intentFilters.add {parsedIntent, context ->
                 if (parsedIntent.host == "b23.tv")
-                    newIntent(context, parsedIntent.uri, desktop = false, interceptAll = true, finishWhenIntercept = true) to "内置浏览器 短链"
+                    newIntent(context, parsedIntent.uri, ua = UA.CLIENT, interceptAll = true, finishWhenIntercept = true) to "内置浏览器 ua: ${UA.CLIENT.n}"
                 else null to null
             }
         }
@@ -110,7 +117,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.web_view_activity, menu)
-        menu?.findItem(R.id.desktop_ua)?.let { it.isChecked = configViewModel.desktopUA.value!! }
+        menu?.findItem(configViewModel.ua.value!!.id)?.isChecked = true
         menu?.findItem(R.id.intercept_all)
             ?.let { it.isChecked = configViewModel.interceptAll.value!! }
         menu?.findItem(R.id.finish_when_intercept)
@@ -143,8 +150,16 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                 }
                 true
             }
-            R.id.desktop_ua -> {
-                configViewModel.desktopUA.value = item.isChecked
+            R.id.item_ua_desktop -> {
+                configViewModel.ua.value = UA.DESKTOP
+                true
+            }
+            R.id.item_ua_tablet -> {
+                configViewModel.ua.value = UA.TABLET
+                true
+            }
+            R.id.item_ua_client -> {
+                configViewModel.ua.value = UA.CLIENT
                 true
             }
             R.id.intercept_all -> {
@@ -166,7 +181,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (isFirstCreate) {
-            configViewModel.desktopUA.value = startIntent.getBooleanExtra(EXTRA_DESKTOP_UA, true)
+            configViewModel.ua.value = startIntent.getSerializableExtra(EXTRA_UA) as? UA ?: UA.DESKTOP
             configViewModel.interceptAll.value =
                 startIntent.getBooleanExtra(EXTRA_INTERCEPT_ALL, false)
             configViewModel.finishWhenIntercept.value = startIntent.getBooleanExtra(
@@ -234,13 +249,9 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                 setSubtitle(baseBinding.wv.url)
             }
         }
-        configViewModel.desktopUA.observe(this, { desktopUA ->
-            if (desktopUA) {
-                baseBinding.wv.settings.userAgentString = DESKTOP_USER_AGENT
-            } else {
-                baseBinding.wv.settings.userAgentString = TABLETS_USER_AGENT
-            }
-        })
+        configViewModel.ua.observe(this) { ua ->
+            baseBinding.wv.settings.userAgentString = ua.value
+        }
         baseBinding.wv.settings.apply {
             javaScriptEnabled = true
             domStorageEnabled = true
@@ -285,14 +296,8 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     }
 
     class ConfigViewModel : ViewModel() {
-        val desktopUA: MutableLiveData<Boolean> by lazy {
-            MutableLiveData<Boolean>()
-        }
-        val interceptAll: MutableLiveData<Boolean> by lazy {
-            MutableLiveData<Boolean>()
-        }
-        val finishWhenIntercept: MutableLiveData<Boolean> by lazy {
-            MutableLiveData<Boolean>()
-        }
+        val ua = MutableLiveData<UA>()
+        val interceptAll = MutableLiveData<Boolean>()
+        val finishWhenIntercept = MutableLiveData<Boolean>()
     }
 }

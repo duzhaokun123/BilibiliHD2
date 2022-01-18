@@ -32,21 +32,21 @@ object BrowserUtil {
     }
 
     fun openWebViewActivity(
-        context: Context?, url: String?, desktopUA: Boolean = false,
+        context: Context?, url: String?, ua: WebViewActivity.Companion.UA = WebViewActivity.Companion.UA.TABLET,
         interceptAll: Boolean = false, finishWhenIntercept: Boolean = false
     ) {
         if (url != null)
-            openWebViewActivity(context, url.toUri(), desktopUA, interceptAll, finishWhenIntercept)
+            openWebViewActivity(context, url.toUri(), ua, interceptAll, finishWhenIntercept)
     }
 
     fun openWebViewActivity(
-        context: Context?, uri: Uri, desktopUA: Boolean = false,
+        context: Context?, uri: Uri, ua: WebViewActivity.Companion.UA = WebViewActivity.Companion.UA.TABLET,
         interceptAll: Boolean = false, finishWhenIntercept: Boolean = false
     ) {
         if (context == null) return
         val intent = Intent(context, WebViewActivity::class.java)
         intent.data = uri
-        intent.putExtra(WebViewActivity.EXTRA_DESKTOP_UA, desktopUA)
+        intent.putExtra(WebViewActivity.EXTRA_UA, ua)
         intent.putExtra(WebViewActivity.EXTRA_INTERCEPT_ALL, interceptAll)
         intent.putExtra(WebViewActivity.EXTRA_FINISH_WHEN_INTERCEPT, finishWhenIntercept)
         context.startActivity(intent)

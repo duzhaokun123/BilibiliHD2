@@ -17,10 +17,21 @@
         android:id="@+id/pip"
         android:title="@string/pip"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/desktop_ua"
-        android:checkable="true"
-        android:title="@string/desktop_ua" />
+    <item android:title="UA">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/item_ua_desktop"
+                    android:title="桌面" />
+                <item
+                    android:id="@+id/item_ua_tablet"
+                    android:title="平板" />
+                <item
+                    android:id="@+id/item_ua_client"
+                    android:title="客户端" />
+            </group>
+        </menu>
+    </item>
     <item
         android:id="@+id/intercept_all"
         android:checkable="true"
