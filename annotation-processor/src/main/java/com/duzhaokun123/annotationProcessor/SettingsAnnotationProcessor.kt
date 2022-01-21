@@ -21,11 +21,8 @@ annotation class StringSetDefValue(val defValue: String)
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("com.duzhaokun123.annotationProcessor.SettingsValue")
-@SupportedOptions(SettingsAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
+@SupportedOptions(KAPT_KOTLIN_GENERATED_OPTION_NAME)
 class SettingsAnnotationProcessor : AbstractProcessor() {
-    companion object {
-        const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
-    }
 
     override fun process(
         annotations: MutableSet<out TypeElement>?,

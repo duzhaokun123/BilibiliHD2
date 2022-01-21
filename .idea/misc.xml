@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
+        <entry key="app/src/main/res/layout/activity_base_root.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/activity_play_base.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_qr_login.xml" value="0.2354014598540146" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2984375" />
@@ -29,6 +30,11 @@
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.64875" />
       </map>
     </option>
+  </component>
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="com.duzhaokun123.annotationProcessor.IntentFilter" />
+    </list>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

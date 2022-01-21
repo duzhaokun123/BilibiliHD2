@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.play.online
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.View
@@ -19,6 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutOnlineplayIntroBinding
@@ -41,28 +43,39 @@ class OnlinePlayActivity : BasePlayActivity() {
     companion object {
         private const val EXTRA_AID = "aid"
 
-        init {
-            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
-                if (parsedIntent.host != "video") return@add null to null
+        @IntentFilter
+        class VideoIntentHandler: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                if (parsedIntent.host != "video") return null to null
                 val p1 = parsedIntent.paths.getOrElse(0) { "0" }
                 val aid = try {
                     p1.toLong()
                 } catch (e: Exception) {
                     p1.toAid()
                 }
-                Intent(context, OnlinePlayActivity::class.java).apply {
+                return Intent(context, OnlinePlayActivity::class.java).apply {
                     putExtra(EXTRA_AID, aid)
                 } to "视频 $aid"
             }
-            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
-                if (parsedIntent.host != "www.bilibili.com" || parsedIntent.paths.getOrNull(0) != "video") return@add null to null
+        }
+
+        @IntentFilter
+        class VideoIntentHandler2: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                if (parsedIntent.host != "www.bilibili.com" || parsedIntent.paths.getOrNull(0) != "video") return null to null
                 val p1 = parsedIntent.paths.getOrElse(1) { "0" }
                 val aid = try {
                     p1.substring(2).toLong()
                 } catch (e: Exception) {
                     p1.toAid()
                 }
-                Intent(context, OnlinePlayActivity::class.java).apply {
+                return Intent(context, OnlinePlayActivity::class.java).apply {
                     putExtra(EXTRA_AID, aid)
                 } to "视频 $aid"
             }

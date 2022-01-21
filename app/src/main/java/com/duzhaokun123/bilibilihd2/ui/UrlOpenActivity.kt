@@ -7,22 +7,20 @@ import android.net.Uri
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.TextView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
 import com.google.android.material.button.MaterialButton
+import intentFilters
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_url_open) {
     companion object {
         const val TAG = "UrlOpenActivity"
+    }
 
-        /**
-         * 返回启动 Activity 的 Intent, 简介
-         */
-        val intentFilters =
-            mutableSetOf<(parsedIntent: ParsedIntent, context: Context) -> Pair<Intent?, String?>>()
+    interface IIntentFilter {
+        fun handle(parsedIntent: ParsedIntent, context: Context): Pair<Intent?, String?>
     }
 
     data class ParsedIntent(
@@ -72,7 +70,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
 
             val parsedIntent = ParsedIntent(startIntent, uri, scheme, host, path, paths, queryMap)
             intentFilters.forEach {
-                it.invoke(parsedIntent, this).let { (intent, desc) ->
+                it.handle(parsedIntent, this).let { (intent, desc) ->
                     if (intent == null) return@let
                     baseBinding.llTarget.addView(MaterialButton(this, null, R.attr.borderlessButtonStyle).apply {
                         isAllCaps = false

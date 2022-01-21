@@ -1,6 +1,8 @@
 package com.duzhaokun123.bilibilihd2.ui.scape
 
+import android.content.Context
 import android.content.Intent
+import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUserScapeBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
@@ -10,9 +12,13 @@ class UserScapeActivity : BaseActivity<ActivityUserScapeBinding>(R.layout.activi
     companion object {
         private const val EXTRA_UID = "uid"
 
-        init {
-            UrlOpenActivity.intentFilters.add { parsedIntent, context ->
-                when (parsedIntent.host) {
+        @IntentFilter
+        class UserSpaceIntentFilter: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                return when (parsedIntent.host) {
                     "space", "author", "space.bilibili.com" ->
                         Intent(context, UserScapeActivity::class.java).apply {
                             putExtra(EXTRA_UID, parsedIntent.paths[0].toLong())

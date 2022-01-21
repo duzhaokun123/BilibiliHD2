@@ -24,6 +24,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.CLIENT_USER_AGENT
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
@@ -70,9 +71,13 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
             return intent
         }
 
-        init {
-            UrlOpenActivity.intentFilters.add { parsedIntent, context ->
-                when {
+        @IntentFilter
+        class ArticleIntentFilter: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                return when {
                     parsedIntent.host == "article" -> {
                         newIntent(
                             context,
@@ -88,8 +93,15 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                     else -> null to null
                 }
             }
-            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
-                when {
+        }
+
+        @IntentFilter
+        class UrlIntentFilter: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                return when {
                     parsedIntent.scheme in listOf("http", "https") -> {
                         val ua =
                             when {
@@ -100,13 +112,20 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
                         newIntent(context, parsedIntent.uri, ua = ua) to "内置浏览器 ua: ${ua.n}"
                     }
                     parsedIntent.host == "browser" -> {
-                    newIntent(context, "${parsedIntent.queryMap["url"]}".toUri(), ua = UA.CLIENT) to "内置浏览器 ua: ${UA.CLIENT.n}"
-                }
+                        newIntent(context, "${parsedIntent.queryMap["url"]}".toUri(), ua = UA.CLIENT) to "内置浏览器 ua: ${UA.CLIENT.n}"
+                    }
                     else -> null to null
                 }
             }
-            UrlOpenActivity.intentFilters.add {parsedIntent, context ->
-                if (parsedIntent.host == "b23.tv")
+        }
+
+        @IntentFilter
+        class B23tvIntentFilter: UrlOpenActivity.IIntentFilter {
+            override fun handle(
+                parsedIntent: UrlOpenActivity.ParsedIntent,
+                context: Context
+            ): Pair<Intent?, String?> {
+                return if (parsedIntent.host == "b23.tv")
                     newIntent(context, parsedIntent.uri, ua = UA.CLIENT, interceptAll = true, finishWhenIntercept = true) to "内置浏览器 ua: ${UA.CLIENT.n}"
                 else null to null
             }
