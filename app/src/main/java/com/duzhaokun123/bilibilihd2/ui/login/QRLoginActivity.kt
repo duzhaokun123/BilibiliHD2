@@ -8,7 +8,6 @@ import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityQrLoginBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
@@ -18,6 +17,7 @@ import com.google.gson.JsonObject
 import com.hiczp.bilibili.api.passport.model.LoginResponse
 import com.hiczp.bilibili.api.passport.model.QRLoginUrl
 import com.hiczp.bilibili.api.retrofit.Cookie
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onFailure
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
@@ -36,7 +36,7 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
 
     val model by viewModels<Model>()
 
-    override fun initView() {
+    override fun initEvents() {
         baseBinding.btnRefresh.setOnClickListener { reload() }
         baseBinding.btnOpen.setOnClickListener {
             startActivity(Intent().apply {

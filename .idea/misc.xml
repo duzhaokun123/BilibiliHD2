@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
+        <entry key="app/src/main/res/layout/activity_play_base.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_qr_login.xml" value="0.2354014598540146" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamci_card_64.xml" value="0.2984375" />

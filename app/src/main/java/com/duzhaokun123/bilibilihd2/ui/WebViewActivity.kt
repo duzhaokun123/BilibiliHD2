@@ -28,9 +28,9 @@ import com.duzhaokun123.bilibilihd2.CLIENT_USER_AGENT
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import kotlinx.coroutines.delay
 
 class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_view) {
@@ -195,7 +195,7 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun initView() {
+    override fun initViews() {
         baseBinding.wv.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(
                 view: WebView?,

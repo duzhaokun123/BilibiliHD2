@@ -1,6 +1,5 @@
 package io.github.duzhaokun123.androidapptemplate.utils
 
-import com.duzhaokun123.bilibilihd2.utils.runIO
 import kotlinx.coroutines.CoroutineScope
 
 data class RunIOCatchingPending<R>(

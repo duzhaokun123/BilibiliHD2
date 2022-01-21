@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="@id/bpv"
             tools:ignore="UnknownId">
 
-            <androidx.appcompat.widget.Toolbar
+            <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/tb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

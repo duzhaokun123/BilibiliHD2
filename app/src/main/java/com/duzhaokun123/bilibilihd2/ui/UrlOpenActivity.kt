@@ -10,8 +10,9 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
+import com.google.android.material.button.MaterialButton
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_url_open) {
     companion object {
@@ -35,7 +36,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
     )
 
     @SuppressLint("SetTextI18n")
-    override fun initView() {
+    override fun initViews() {
         val uri = startIntent.data
         if (uri == null) {
             Log.d(TAG, "uri == null")
@@ -73,7 +74,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
             intentFilters.forEach {
                 it.invoke(parsedIntent, this).let { (intent, desc) ->
                     if (intent == null) return@let
-                    baseBinding.llTarget.addView(Button(this).apply {
+                    baseBinding.llTarget.addView(MaterialButton(this, null, R.attr.borderlessButtonStyle).apply {
                         isAllCaps = false
                         text = desc ?: intent.toString()
                         setOnClickListener {
@@ -88,10 +89,6 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
                 })
             }
         }
-    }
-
-    override fun initData() {
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.annotation.CallSuper
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
@@ -100,7 +101,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
 
     }
 
-    override fun initActionBar() = baseBinding.tb
+    override fun initActionBar() = baseBinding.tb as Toolbar
 
     @CallSuper
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {

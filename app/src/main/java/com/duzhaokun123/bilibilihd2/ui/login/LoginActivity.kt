@@ -1,14 +1,14 @@
 package com.duzhaokun123.bilibilihd2.ui.login
 
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityLoginBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
-    override fun initView() {
+    override fun initViews() {
         setTitle(R.string.login)
         baseBinding.btnLogin.setOnClickListener {
             baseBinding.working = true
@@ -50,6 +50,4 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login
             }
         }
     }
-
-    override fun initData() {}
 }
