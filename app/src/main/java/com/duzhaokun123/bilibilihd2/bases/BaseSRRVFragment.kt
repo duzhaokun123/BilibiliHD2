@@ -10,7 +10,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
  * SRRV: SmartRefresh RecycleView
  */
 abstract class BaseSRRVFragment :
-    BaseFragment<FragmentBaseSrrvBinding>(R.layout.fragment_base_srrv) {
+    io.github.duzhaokun123.androidapptemplate.bases.BaseFragment<FragmentBaseSrrvBinding>(R.layout.fragment_base_srrv) {
     var adapter
         get() = baseBinding.rv.adapter
         set(value) {
@@ -19,7 +19,7 @@ abstract class BaseSRRVFragment :
     val srl get() = baseBinding.srl
 
     @CallSuper
-    override fun initView() {
+    override fun initViews() {
         baseBinding.srl.setOnLoadMoreListener(::onLoadMore)
         baseBinding.srl.setOnRefreshListener(::onRefresh)
         baseBinding.rv.layoutManager = initLayoutManager()

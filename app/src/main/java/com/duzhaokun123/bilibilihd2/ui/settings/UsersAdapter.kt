@@ -3,18 +3,18 @@ package com.duzhaokun123.bilibilihd2.ui.settings
 import androidx.activity.viewModels
 import androidx.appcompat.widget.PopupMenu
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleAdapter
 import com.duzhaokun123.bilibilihd2.databinding.ItemUserCardBinding
 import com.duzhaokun123.bilibilihd2.model.UserModel
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.hiczp.bilibili.api.passport.model.LoginResponse
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class UsersAdapter(activity: BaseActivity<*>, private val usersList: MutableList<LoginResponse>) :
     BaseSimpleAdapter<ItemUserCardBinding>(activity, R.layout.item_user_card) {
     val model by activity.viewModels<SettingsActivity.Model>()
 
-    override fun initView(baseBinding: ItemUserCardBinding, position: Int) {
+    override fun initViews(baseBinding: ItemUserCardBinding, position: Int) {
         baseBinding.cv.setOnClickListener {
             model.selectedUid.value = usersList[position].userId
         }

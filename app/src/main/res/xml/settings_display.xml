@@ -29,4 +29,11 @@
         app:key="danmakuOnTop"
         app:summary="勉强修复部分机型(主要是旧系统)弹幕显示异常"
         app:title="弹幕置顶" />
+    <CheckBoxPreference
+        app:defaultValue="false"
+        app:iconSpaceReserved="false"
+        app:key="dynamicColor"
+        app:summary="仅 Android 12 + 有效"
+        app:title="动态颜色" />
+
 </PreferenceScreen>

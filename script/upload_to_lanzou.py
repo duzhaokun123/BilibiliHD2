@@ -21,6 +21,6 @@ if __name__ == '__main__':
     if code == 0:
         print('success')
     else:
-        print(f'fail with code ${code}')
+        print(f'::warning :: upload to lanzou fail with code ${code}')
 
     exit(code)

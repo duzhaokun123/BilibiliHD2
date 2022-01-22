@@ -26,3 +26,6 @@ val dynamicCardWidthDp = 700
 
 @SettingsValue
 val danmakuOnTop = false
+
+@SettingsValue
+val dynamicColor = false

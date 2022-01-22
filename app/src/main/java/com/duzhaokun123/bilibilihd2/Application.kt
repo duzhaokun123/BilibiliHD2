@@ -9,6 +9,7 @@ import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.google.android.material.color.DynamicColors
 import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
 
@@ -38,10 +39,8 @@ class Application : android.app.Application() {
         UsersMap.reload()
         reinitBilibiliClient()
         reinitUiMod()
-
-        packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES).activities.forEach {
-            Class.forName(it.name)
-        }
+        if (Settings.dynamicColor)
+            DynamicColors.applyToActivitiesIfAvailable(this)
     }
 
     fun reinitBilibiliClient(

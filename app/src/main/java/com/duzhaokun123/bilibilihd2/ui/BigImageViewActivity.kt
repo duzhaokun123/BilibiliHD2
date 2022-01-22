@@ -11,11 +11,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBivBinding
 import com.duzhaokun123.bilibilihd2.utils.TipUtil
 import com.duzhaokun123.bilibilihd2.utils.runMain
 import com.duzhaokun123.bilibilihd2.utils.runNewThread
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import kotlin.math.max
 import kotlin.math.min
 
@@ -33,7 +33,7 @@ class BigImageViewActivity : BaseActivity<ActivityBivBinding>(
         }
     }
 
-    override fun initView() {
+    override fun initViews() {
         title = null
     }
 

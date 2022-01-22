@@ -23,10 +23,10 @@ abstract class BaseSimpleAdapter<BaseBinding : ViewDataBinding>(
     }
 
     override fun onBindViewHolder(holder: BaseBindVH<BaseBinding>, position: Int) {
-        initView(holder.baseBinding, position)
+        initViews(holder.baseBinding, position)
         initData(holder.baseBinding, position)
     }
 
-    abstract fun initView(baseBinding: BaseBinding, position: Int)
+    abstract fun initViews(baseBinding: BaseBinding, position: Int)
     abstract fun initData(baseBinding: BaseBinding, position: Int)
 }

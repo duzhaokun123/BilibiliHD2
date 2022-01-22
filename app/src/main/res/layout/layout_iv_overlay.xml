@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:background="@android:color/black">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -5,20 +5,24 @@
         android:id="@+id/open"
         android:icon="@drawable/ic_search"
         android:title="open"
+        app:iconTint="@android:color/white"
         app:showAsAction="always" />
     <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
         android:title="@string/share"
-        app:showAsAction="ifRoom" />
+        app:iconTint="@android:color/white"
+        app:showAsAction="always" />
     <item
         android:id="@+id/download"
         android:icon="@drawable/ic_downward"
         android:title="@string/download"
-        app:showAsAction="ifRoom" />
+        app:iconTint="@android:color/white"
+        app:showAsAction="always" />
     <item
         android:id="@+id/close"
         android:icon="@drawable/ic_clear"
         android:title="@string/close"
+        app:iconTint="@android:color/white"
         app:showAsAction="always" />
 </menu>

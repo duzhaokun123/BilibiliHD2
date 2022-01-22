@@ -4,13 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.webkit.CookieManager
-import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
-import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.WebViewActivity
 
@@ -60,11 +57,6 @@ object BrowserUtil {
         }
         try {
             CustomTabsIntent.Builder()
-                .setDefaultColorSchemeParams(
-                    CustomTabColorSchemeParams.Builder()
-                        .setToolbarColor(context.getColorCompat(R.color.primaryColor))
-                        .build()
-                )
                 .build()
                 .launchUrl(context, Uri.parse(url))
         } catch (e: ActivityNotFoundException) {
@@ -76,11 +68,7 @@ object BrowserUtil {
         val cookieManager = CookieManager.getInstance()
         cookieManager.setAcceptCookie(true)
         val loginResponse = bilibiliClient.loginResponse
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cookieManager.removeAllCookies(null)
-        } else {
-            cookieManager.removeAllCookie()
-        }
+        cookieManager.removeAllCookies(null)
         if (loginResponse == null) {
             return
         }
@@ -91,8 +79,6 @@ object BrowserUtil {
             cookieManager.setCookie(url, "Domain=$url")
             cookieManager.setCookie(url, "Path=/")
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cookieManager.flush()
-        }
+        cookieManager.flush()
     }
 }

@@ -19,8 +19,8 @@ class SettingsActivity : BaseSingleFragmentActivity(SettingsMainFragment::class.
 
     val model by viewModels<Model>()
 
-    override fun initView() {
-        super.initView()
+    override fun initViews() {
+        super.initViews()
         setTitle(R.string.settings)
         setSubtitle(model.subtitle.value)
     }

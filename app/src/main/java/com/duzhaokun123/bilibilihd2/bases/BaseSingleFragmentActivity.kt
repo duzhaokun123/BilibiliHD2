@@ -6,17 +6,13 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityFlBinding
 
 abstract class BaseSingleFragmentActivity(private val fragmentClass: Class<out Fragment>) :
-    BaseActivity<ActivityFlBinding>(R.layout.activity_fl) {
+    io.github.duzhaokun123.androidapptemplate.bases.BaseActivity<ActivityFlBinding>(R.layout.activity_fl) {
 
     @CallSuper
-    override fun initView() {
+    override fun initViews() {
         if (isFirstCreate)
             supportFragmentManager.beginTransaction()
                 .add(R.id.fl, fragmentClass, null)
                 .commit()
-    }
-
-    override fun initData() {
-
     }
 }

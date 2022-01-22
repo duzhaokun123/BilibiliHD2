@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,13 +14,13 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseActivity
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
 import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
 import com.duzhaokun123.bilibilihd2.ui.TestActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil.setBiliLevel
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class MainActivity : BaseActivity<ActivityMainBinding>(
     R.layout.activity_main,
@@ -35,14 +36,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         headerView = baseBinding.nv?.getHeaderView(0) ?: baseBinding.nrv?.headerView!!
     }
 
-    override fun initView() {
+    override fun initViews() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv) as NavHostFragment
         navController = navHostFragment.navController
         baseBinding.nv?.setupWithNavController(navController)
         baseBinding.nrv?.setupWithNavController(navController)
         val appBarConfiguration =
             AppBarConfiguration(navController.graph, baseBinding.dl)
-        baseBinding.tb.setupWithNavController(navController, appBarConfiguration)
+        (baseBinding.tb as Toolbar).setupWithNavController(navController, appBarConfiguration)
         (baseBinding.nv?.menu ?: baseBinding.nrv?.menu)!!.apply {
             findItem(R.id.item_settings)
                 .setOnMenuItemClickListener {
@@ -89,7 +90,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             super.onBackPressed()
     }
 
-    override fun initActionBar() = baseBinding.tb
+    override fun initActionBar() = baseBinding.tb as Toolbar
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)

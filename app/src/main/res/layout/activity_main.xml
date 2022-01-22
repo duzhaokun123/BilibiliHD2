@@ -25,11 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/tb"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:titleTextColor="?attr/colorOnPrimary" />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.appbar.AppBarLayout>
 
         </RelativeLayout>
@@ -41,7 +40,6 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/header_nav_main"
             app:insetForeground="@null"
-            app:itemShapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.NavigationView"
             app:itemShapeInsetBottom="0dp"
             app:itemShapeInsetStart="0dp"
             app:itemShapeInsetTop="0dp"

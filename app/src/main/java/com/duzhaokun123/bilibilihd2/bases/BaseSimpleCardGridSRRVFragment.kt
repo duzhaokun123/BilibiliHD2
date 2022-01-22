@@ -71,8 +71,8 @@ abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, Ite
     }
 
     @CallSuper
-    override fun initView() {
-        super.initView()
+    override fun initViews() {
+        super.initViews()
         baseBinding.rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
@@ -115,7 +115,7 @@ abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, Ite
     abstract fun initItemData(itemBinding: ItemBinding, itemModel: ItemModel, position: Int)
 
     inner class Adapter : BaseSimpleAdapter<ItemBinding>(requireContext(), itemLayoutId) {
-        override fun initView(baseBinding: ItemBinding, position: Int) {
+        override fun initViews(baseBinding: ItemBinding, position: Int) {
             initItemView(baseBinding, items[position], position)
         }
 
