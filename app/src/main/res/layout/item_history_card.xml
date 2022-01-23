@@ -9,18 +9,16 @@
             type="com.duzhaokun123.bilibilihd2.model.HistoryCardModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv"
+        style="?attr/materialCardViewElevatedStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="1dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="8dp">
 
             <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
                 android:id="@+id/iv"
@@ -39,13 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/tv_badge"
                 android:text="@{model.title}"
-                android:textColor="@color/textColor"
-                android:textSize="15sp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
                 tools:text="Title" />
 
             <TextView
@@ -53,10 +50,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:text="@{model.desc}"
-                android:textSize="12sp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"
                 tools:text="Desc" />
 
             <TextView
@@ -64,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:layout_toStartOf="@id/ib_tp"
                 android:text="@{model.badge}" />
 
@@ -78,15 +76,14 @@
                 android:background="@null"
                 android:src="@drawable/ic_three_points" />
 
-            <ProgressBar
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_alignBottom="@id/iv"
                 android:max="100"
                 android:progress="@{model.progress}"
                 android:visibility="@{model.hasProgress ? android.view.View.VISIBLE : android.view.View.GONE}"
                 tools:progress="50" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

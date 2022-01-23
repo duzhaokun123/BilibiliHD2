@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.main.dynamicholders
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
@@ -28,7 +29,7 @@ class DynamicHolderType2(context: Context) :
             typedCard.pictures.getOrNull(i)?.let {
                 contentBinding.root.findViewWithTag<View>("$i").apply {
                     setOnClickListener {
-                        ImageViewUtil.viewImage(context, typedCard.pictures, imageViews, i)
+                        ImageViewUtil.viewImage(context as Activity, typedCard.pictures, imageViews, i)
                     }
                     updateLayoutParams {
                         height = 120.dpToPx()

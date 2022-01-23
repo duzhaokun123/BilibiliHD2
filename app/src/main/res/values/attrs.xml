@@ -3,4 +3,5 @@
     <declare-styleable name="Ration">
         <attr name="ration" format="float" />
     </declare-styleable>
+    <attr name="filterChip" format="reference" />
 </resources>

@@ -10,13 +10,11 @@
             type="com.duzhaokun123.bilibilihd2.model.UserModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv"
+        style="?attr/materialCardViewElevatedStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="1dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -50,5 +48,5 @@
                 android:text='@{model.desc}'
                 tools:text="intro" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

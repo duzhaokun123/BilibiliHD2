@@ -71,7 +71,7 @@ class HistoryFragment :
         itemBinding.ibTp.setOnClickListener {
             PopupMenu(requireContext(), itemBinding.ibTp).apply {
                 menu.add("检查封面").setOnMenuItemClickListener {
-                    ImageViewUtil.viewImage(requireContext(), itemModel.coverUrl, itemBinding.iv)
+                    ImageViewUtil.viewImage(requireActivity(), itemModel.coverUrl, itemBinding.iv)
                     true
                 }
             }.show()

@@ -10,18 +10,16 @@
             type="com.duzhaokun123.bilibilihd2.model.HomeCardModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv"
+        style="?attr/materialCardViewElevatedStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="1dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:layout_margin="8dp">
 
             <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
                 android:id="@+id/iv"
@@ -40,14 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_toStartOf="@id/ll"
                 android:layout_toEndOf="@id/civ_face"
                 android:text="@{model.title}"
-                android:textColor="@color/textColor"
-                android:textSize="15sp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
                 tools:text="Title" />
 
             <TextView
@@ -55,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
                 android:background="@drawable/bg_text"
                 android:text="@{model.coverLeftText1}"
                 android:textColor="@android:color/white"
@@ -67,8 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@id/tv_coverLeftText1"
                 android:text="@{model.coverLeftText2}"
                 android:textColor="@android:color/white"
@@ -79,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
                 android:layout_toEndOf="@id/tv_coverLeftText2"
                 android:text="@{model.coverLeftText3}"
                 android:textColor="@android:color/white"
@@ -88,10 +85,10 @@
 
             <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRoundImageView
                 android:id="@+id/civ_face"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_below="@id/iv"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:visibility="@{model.faceUrl == null ? android.view.View.GONE : android.view.View.VISIBLE}"
                 app:imageUrl="@{model.faceUrl}"
                 tools:src="@tools:sample/avatars" />
@@ -101,11 +98,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_title"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_toEndOf="@id/civ_face"
                 android:text="@{model.desc}"
-                android:textSize="12sp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary"
                 tools:text="Desc" />
 
             <LinearLayout
@@ -113,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:layout_toStartOf="@id/ib_tp"
                 android:orientation="horizontal">
 
@@ -121,12 +119,16 @@
                     android:id="@+id/tv_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{model.badge}" />
+                    android:text="@{model.badge}"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ad"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?android:attr/textColorSecondaryInverse"
                     android:visibility="@{model.isAd ? android.view.View.VISIBLE : android.view.View.GONE}" />
             </LinearLayout>
 
@@ -140,5 +142,5 @@
                 android:background="@null"
                 android:src="@drawable/ic_three_points" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

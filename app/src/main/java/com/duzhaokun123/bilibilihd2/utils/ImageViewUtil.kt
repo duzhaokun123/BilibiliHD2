@@ -1,6 +1,6 @@
 package com.duzhaokun123.bilibilihd2.utils
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -29,15 +29,15 @@ object ImageViewUtil {
         }
     }
 
-    fun viewImage(context: Context, imageUrl: String?, imageView: ImageView? = null) =
-       viewImage(context, listOf(imageUrl), listOf(imageView), 0)
+    fun viewImage(activity: Activity, imageUrl: String?, imageView: ImageView? = null) =
+       viewImage(activity, listOf(imageUrl), listOf(imageView), 0)
 
-    fun viewImage(context: Context, imageUrls: List<String?>, imageViews: List<ImageView?>, startPosition: Int) {
+    fun viewImage(activity: Activity, imageUrls: List<String?>, imageViews: List<ImageView?>, startPosition: Int) {
         var siv: StfalconImageViewer<*>? = null
         var position = startPosition
         val overlayBinding =
             DataBindingUtil.inflate<LayoutIvOverlayBinding>(
-                LayoutInflater.from(context),
+                LayoutInflater.from(activity),
                 R.layout.layout_iv_overlay,
                 null,
                 false
@@ -47,28 +47,28 @@ object ImageViewUtil {
                 R.id.share -> {
                     runNewThread {
                         val shareUri: Uri
-                        val srcFile = Glide.with(context).asFile().load(imageUrls[position]).submit().get()
+                        val srcFile = Glide.with(activity).asFile().load(imageUrls[position]).submit().get()
                         val shareFile = File(
-                            context.cacheDir,
+                            activity.cacheDir,
                             "shareImg${File.separatorChar}share.jpeg"
                         ).apply { parentFile!!.mkdirs() } // FIXME: 20-11-2 你凭什么认为一定是 jpeg 格式
                         srcFile.copyTo(shareFile, overwrite = true)
                         shareUri = FileProvider.getUriForFile(
-                            context,
+                            activity,
                             "com.duzhaokun123.bilibilihd2.fileprovider",
                             shareFile
                         )
-                        context.startActivity(Intent.createChooser(Intent().apply {
+                        activity.startActivity(Intent.createChooser(Intent().apply {
                             action = Intent.ACTION_SEND
                             putExtra(Intent.EXTRA_STREAM, shareUri)
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            setDataAndType(shareUri, context.contentResolver.getType(shareUri))
-                        }, context.getText(R.string.share_to)))
+                            setDataAndType(shareUri, activity.contentResolver.getType(shareUri))
+                        }, activity.getText(R.string.share_to)))
                     }
                     true
                 }
                 R.id.download -> {
-                    imageUrls[position]?.let { it1 -> DownloadUtil.downloadPicture(context, it1) }
+                    imageUrls[position]?.let { it1 -> DownloadUtil.downloadPicture(activity, it1) }
                     true
                 }
                 R.id.close -> {
@@ -76,7 +76,7 @@ object ImageViewUtil {
                     true
                 }
                 R.id.open -> {
-                    BigImageViewActivity.enter(context, imageUrls[position]!!)
+                    BigImageViewActivity.enter(activity, imageUrls[position]!!)
                     true
                 }
                 else -> false
@@ -88,8 +88,9 @@ object ImageViewUtil {
             }
             insets
         }
-        StfalconImageViewer.Builder(context, imageUrls) { imageView, imageUrl ->
-                Glide.with(context).load(imageUrl).into(imageView)
+
+        StfalconImageViewer.Builder(activity, imageUrls) { imageView, imageUrl ->
+                Glide.with(activity).load(imageUrl).into(imageView)
         }
             .withHiddenStatusBar(false)
             .withTransitionFrom(imageViews[position])

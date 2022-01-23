@@ -34,6 +34,7 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
@@ -203,7 +204,7 @@ class OnlinePlayActivity : BasePlayActivity() {
 
                 layoutOnlinePlayIntroBinding.biliView = biliView
                 biliView.data.tag.forEach { tag ->
-                    layoutOnlinePlayIntroBinding.cgTags.addView(Chip(this).apply {
+                    layoutOnlinePlayIntroBinding.cgTags.addView(Chip(this, null, R.attr.filterChip).apply {
                         text = tag.tagName
                         setOnClickListener {
                             BrowserUtil.openInApp(

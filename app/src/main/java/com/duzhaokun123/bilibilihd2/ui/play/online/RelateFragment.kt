@@ -68,7 +68,7 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
                 baseBinding.ibTp.setOnClickListener {
                     PopupMenu(requireContext(), baseBinding.ibTp).apply {
                         menu.add("检查封面").setOnMenuItemClickListener {
-                            ImageViewUtil.viewImage(requireContext(), relate.cover, baseBinding.ivCover)
+                            ImageViewUtil.viewImage(requireActivity(), relate.cover, baseBinding.ivCover)
                             true
                         }
                     }.show()
