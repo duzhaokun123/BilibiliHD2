@@ -52,7 +52,7 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
             baseBinding.ivQr.setImageBitmap(
                 QRCode.from(it.data.url)
                     .withSize(size, size)
-                    .withColor(Color.BLACK, Color.WHITE)
+                    .withColor(theme.getAttr(R.attr.colorOnBackground).data, Color.TRANSPARENT)
                     .bitmap()
             )
         }

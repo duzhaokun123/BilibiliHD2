@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -17,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
+import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
+import io.github.duzhaokun123.androidapptemplate.utils.isSystemNightMode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -101,9 +106,10 @@ fun View.removeFromParent() {
 }
 
 val isNightMode
-    get() = when (application.resources.configuration.colorMode and Configuration.UI_MODE_NIGHT_MASK) {
-        Configuration.UI_MODE_NIGHT_YES -> true
-        else -> false
+    get() = when (Settings.uiMod) {
+        AppCompatDelegate.MODE_NIGHT_YES -> true
+        AppCompatDelegate.MODE_NIGHT_NO -> false
+        else -> isSystemNightMode ?: false
     }
 
 fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)
@@ -111,3 +117,6 @@ fun Context.getColorCompat(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 fun RecyclerView.resetAdapter() {
     adapter = adapter
 }
+
+fun Resources.Theme.getAttr(@AttrRes id: Int) =
+    TypedValue().apply { resolveAttribute(id, this, true) }
