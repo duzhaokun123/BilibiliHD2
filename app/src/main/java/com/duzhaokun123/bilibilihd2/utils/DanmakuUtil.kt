@@ -91,7 +91,7 @@ object DanmakuUtil {
         var blockL2R = false
         var blockSpecial = false
 
-        override fun shouldBlock(danmaku: Danmaku): Boolean {
+        override fun shouldBlock(danmaku: Danmaku, pool: Int): Boolean {
             if (blockTop && danmaku is TopDanmaku) return true
             if (blockBottom && danmaku is BottomDanmaku) return true
             if (blockR2L && danmaku is R2LDanmaku) return true

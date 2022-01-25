@@ -9,6 +9,7 @@ import com.duzhaokun123.bilibilihd2.utils.grpcClidet
 import com.duzhaokun123.danmakuview.Value
 import com.duzhaokun123.danmakuview.danmaku.BiliSpecialDanmaku
 import com.duzhaokun123.danmakuview.danmaku.SpecialDanmaku
+import com.duzhaokun123.danmakuview.getOrNew
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
 import com.duzhaokun123.danmakuview.model.DanmakuConfig
 import com.duzhaokun123.danmakuview.model.Danmakus
@@ -155,11 +156,11 @@ class LazyCidDanmakuParser(
         }
     }
 
-    var danmakus: Danmakus? = null
+    var danmakus: MutableMap<Int, Danmakus>? = null
     var hasLost = false
         private set
 
-    override fun parse(): Danmakus {
+    override fun parse(): MutableMap<Int, Danmakus> {
         if (danmakus != null) return danmakus!!
 
         val dms = mutableListOf<DanmakuElem>()
@@ -173,7 +174,7 @@ class LazyCidDanmakuParser(
             }
         }
 
-        danmakus = Danmakus()
+        danmakus = mutableMapOf()
 
         for (danmakuElem in dms) {
             val type = danmakuElem.mode.toDanmakuType()
@@ -184,11 +185,10 @@ class LazyCidDanmakuParser(
             danmaku.textColor = color
             danmaku.textShadowColor = if (color <= Color.BLACK) Color.WHITE else Color.BLACK
             danmaku.text = danmakuElem.content
-
             if (danmaku is SpecialDanmaku)
                 initialSpecialDanmakuData(danmaku)
 
-            danmakus!!.add(danmaku)
+            danmakus!!.getOrNew(danmakuElem.pool).add(danmaku)
         }
         return danmakus!!
     }
