@@ -50,7 +50,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                 parsedIntent: UrlOpenActivity.ParsedIntent,
                 context: Context
             ): Pair<Intent?, String?> {
-                if (parsedIntent.host != "video") return null to null
+                if (parsedIntent.host !in  listOf("video", "story")) return null to null
                 val p1 = parsedIntent.paths.getOrElse(0) { "0" }
                 val aid = try {
                     p1.toLong()
