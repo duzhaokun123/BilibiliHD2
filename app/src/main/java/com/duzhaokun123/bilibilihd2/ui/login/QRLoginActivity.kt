@@ -19,7 +19,6 @@ import com.hiczp.bilibili.api.passport.model.QRLoginUrl
 import com.hiczp.bilibili.api.retrofit.Cookie
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.launch
-import io.github.duzhaokun123.androidapptemplate.utils.onFailure
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
 import kotlinx.coroutines.delay
@@ -170,10 +169,8 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
 
     private fun reload() {
         runIOCatching { bilibiliClient.passportAPI.getQRLoginUrl().await() }
-            .onFailure { t ->
-                t.printStackTrace()
-                TipUtil.showTip(this@QRLoginActivity, t.localizedMessage)
-            }.onSuccess { r ->
+            .setCommonOnFailureHandler(this)
+            .onSuccess { r ->
                 model.qrLoginUrl.postValue(r)
             }.launch()
     }

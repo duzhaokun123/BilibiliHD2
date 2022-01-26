@@ -20,37 +20,34 @@
             android:text="@{card.content}"
             android:textColor="@color/textColor" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/origin_card"
-            app:cardCornerRadius="2dp"
-            app:cardElevation="0dp">
+            style="@style/Widget.Material3.CardView.Outlined">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp">
+                android:layout_margin="8dp">
 
                 <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRoundImageView
                     android:id="@+id/civ_face"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
                     android:visibility="@{card.originUser.faceUrl == null ? android.view.View.GONE : android.view.View.VISIBLE}"
                     app:imageUrl="@{card.originUser.faceUrl}" />
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:layout_toEndOf="@id/civ_face"
                     android:text="@{card.originUser.name}"
-                    android:textColor="@{card.originUser.vip ? @color/biliPink : @color/textColor}"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
                     android:visibility="@{card.originUser.name == null ? android.view.View.GONE : android.view.View.VISIBLE}" />
 
                 <FrameLayout
@@ -58,8 +55,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/civ_face"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="4dp" />
             </RelativeLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </layout>

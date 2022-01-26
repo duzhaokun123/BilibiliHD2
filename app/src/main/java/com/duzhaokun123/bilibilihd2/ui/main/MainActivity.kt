@@ -62,6 +62,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
             setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             io.github.duzhaokun123.androidapptemplate.utils.runIOCatching { bilibiliClient.appAPI.myInfo().await() }
                 .onFailure { t ->
+                    t.printStackTrace()
                     TipUtil.showTip(this@MainActivity, t.localizedMessage)
                     setLoginMenuItem(this@apply)
                 }

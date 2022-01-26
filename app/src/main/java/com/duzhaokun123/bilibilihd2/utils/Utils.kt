@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,9 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
+import io.github.duzhaokun123.androidapptemplate.utils.RunIOCatchingPending
 import io.github.duzhaokun123.androidapptemplate.utils.isSystemNightMode
+import io.github.duzhaokun123.androidapptemplate.utils.onFailure
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -120,3 +123,10 @@ fun RecyclerView.resetAdapter() {
 
 fun Resources.Theme.getAttr(@AttrRes id: Int) =
     TypedValue().apply { resolveAttribute(id, this, true) }
+
+fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
+    onFailure { t ->
+        t.printStackTrace()
+        TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
+        extra?.invoke(t)
+    }

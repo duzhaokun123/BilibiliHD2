@@ -6,6 +6,8 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCard1Binding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
+import com.duzhaokun123.bilibilihd2.utils.getColorCompat
+import com.google.android.material.color.MaterialColors
 
 class DynamicHolderType1(context: Context) :
     DynamicAdapter.BaseDynamicHolder<DynamicCard1Binding, DynamicCardModel.Type1>(
@@ -19,14 +21,15 @@ class DynamicHolderType1(context: Context) :
     ) {
         contentBinding.flContent.removeAllViews()
         val holder = DynamicAdapter.supportedTypes.getOrElse(
-            typedCard.originType, { DynamicHolderType0::class.java }
-        ).getConstructor(Context::class.java).newInstance(context) as DynamicAdapter.BaseDynamicHolder<*, Any>
+            typedCard.originType
+        ) { DynamicHolderType0::class.java }.getConstructor(Context::class.java).newInstance(context) as DynamicAdapter.BaseDynamicHolder<*, Any>
         val d = typedCard.toDynamicCardModel()
         holder.setModel(d)
         holder.rootBinding.flContent.removeAllViews()
         val content = holder.contentBinding.root
         content.setOnClickListener { holder.onCardClick(d, d.card) }
         contentBinding.flContent.addView(content)
+        contentBinding.tvName.setTextColor(MaterialColors.harmonizeWithPrimary(context, context.getColorCompat(R.color.biliPink)))
     }
 
     override fun initData(
