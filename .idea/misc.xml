@@ -5,6 +5,9 @@
       <map>
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
+        <entry key="app/src/main/res/layout-sw1240dp/activity_main.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1734375" />
+        <entry key="app/src/main/res/layout-sw600dp/header_nav_main.xml" value="0.27890625" />
         <entry key="app/src/main/res/layout/activity_base_root.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/activity_fl.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -21,6 +24,7 @@
         <entry key="app/src/main/res/layout/dynamic_card_64.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/dynamic_card_8.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_root.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/header_nav_main.xml" value="0.1174342105263158" />
         <entry key="app/src/main/res/layout/item_history_card.xml" value="0.5652642934196332" />
         <entry key="app/src/main/res/layout/item_home_card.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/item_relate_card.xml" value="0.6980891719745222" />
@@ -30,6 +34,7 @@
         <entry key="app/src/main/res/layout/layout_web_view.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/wedgit_filter_chip.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/menu/iv_overlay.xml" value="0.22796052631578947" />
+        <entry key="app/src/main/res/menu/nav_main.xml" value="0.1" />
         <entry key="app/src/main/res/menu/user_add_menu.xml" value="0.30234375" />
         <entry key="app/src/main/res/menu/web_view_activity.xml" value="0.11578947368421053" />
         <entry key="app/src/main/res/xml/settings_about.xml" value="0.53671875" />

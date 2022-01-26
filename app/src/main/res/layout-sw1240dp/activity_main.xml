@@ -5,21 +5,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:menu="@menu/nav_main" />
+        
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_main" />
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bnv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:menu="@menu/nav_main" />
     </LinearLayout>
+
 </layout>

@@ -1,14 +1,12 @@
 package com.duzhaokun123.bilibilihd2.ui.main
 
-import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,109 +17,98 @@ import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
 import com.duzhaokun123.bilibilihd2.ui.TestActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil.setBiliLevel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.hiczp.bilibili.api.app.model.MyInfo
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
+import io.github.duzhaokun123.androidapptemplate.utils.launch
+import io.github.duzhaokun123.androidapptemplate.utils.onFailure
+import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 
 class MainActivity : BaseActivity<ActivityMainBinding>(
     R.layout.activity_main,
-    Config.NO_TOOL_BAR,
-    Config.LAYOUT_MATCH_HORI
+    Config.LAYOUT_MATCH_HORI,
+    Config.NO_BACK
 ) {
 
-
     private lateinit var navController: NavController
-    private lateinit var headerView: View
-
-    override fun findViews() {
-        headerView = baseBinding.nv?.getHeaderView(0) ?: baseBinding.nrv?.headerView!!
-    }
 
     override fun initViews() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv) as NavHostFragment
         navController = navHostFragment.navController
         baseBinding.nv?.setupWithNavController(navController)
         baseBinding.nrv?.setupWithNavController(navController)
-        val appBarConfiguration =
-            AppBarConfiguration(navController.graph, baseBinding.dl)
-        (baseBinding.tb as Toolbar).setupWithNavController(navController, appBarConfiguration)
-        (baseBinding.nv?.menu ?: baseBinding.nrv?.menu)!!.apply {
-            findItem(R.id.item_settings)
-                .setOnMenuItemClickListener {
-                    startActivity<SettingsActivity>()
-                    baseBinding.dl?.close()
-                    true
-                }
-            findItem(R.id.item_test)
-                .setOnMenuItemClickListener {
-                    startActivity<TestActivity>()
-                    baseBinding.dl?.close()
-                    true
-                }
-        }
-        baseBinding.dl?.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
-            override fun onDrawerOpened(drawerView: View) {
-                reloadMyInfo()
-            }
-        })
-        headerView.setOnClickListener {
-            if (bilibiliClient.isLogin)
-                BrowserUtil.openInApp(this, "bilibili://space/${bilibiliClient.loginResponse!!.userId}")
-        }
+        baseBinding.bnv?.setupWithNavController(navController)
+        rootBinding.rootTb.setupWithNavController(navController,  AppBarConfiguration.Builder(navController.graph).build())
     }
 
-    override fun initData() {
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = navController.currentDestination?.label
     }
 
-    override fun onResume() {
-        super.onResume()
-        reloadMyInfo()
-    }
-
-    override fun onBackPressed() {
-        if (baseBinding.dl != null && baseBinding.dl!!.isOpen)
-            baseBinding.dl!!.close()
-        else
-            super.onBackPressed()
-    }
-
-    override fun initActionBar() = baseBinding.tb as Toolbar
-
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
         super.onApplyWindowInsetsCompat(insets)
-        insets.maxSystemBarsDisplayCutout.let {
-            baseBinding.abl.updatePadding(left = it.left, right = it.right, top = it.top)
-            baseBinding.fcv.updatePadding(left = it.left, right = it.right)
-            (baseBinding.nv ?: baseBinding.nrv)?.updatePadding(left = it.left, top = it.top)
+        with(insets.maxSystemBarsDisplayCutout) {
+            rootBinding.rootAbl.updatePadding(left = left, right = right)
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    fun reloadMyInfo() {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val re = super.onCreateOptionsMenu(menu)
+        menu ?: return re
         if (bilibiliClient.isLogin)
-            runIOCatchingResultRunMain(this, { bilibiliClient.appAPI.myInfo().await() }) { myInfo ->
-                headerView.findViewById<TextView>(R.id.tv_name)?.apply {
-                    text = myInfo.data.name
-                    setTextColor(getColorCompat(if (myInfo.data.vip.status == 0) R.color.textColor else R.color.biliPink))
+            menu.add(Menu.NONE, View.generateViewId(), 114514 ,"用户").apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            io.github.duzhaokun123.androidapptemplate.utils.runIOCatching { bilibiliClient.appAPI.myInfo().await() }
+                .onFailure { t ->
+                    TipUtil.showTip(this@MainActivity, t.localizedMessage)
+                    setLoginMenuItem(this@apply)
                 }
-                headerView.findViewById<TextView>(R.id.tv_coins)?.text =
-                    "硬币: ${myInfo.data.coins}"
-                headerView.findViewById<ImageView>(R.id.iv_level)?.setBiliLevel(myInfo.data.level)
-                glideSafeLoadInto(myInfo.data.face, headerView.findViewById(R.id.civ_face))
+                .onSuccess { r ->
+                    setUserMenuItem(this@apply, r.data)
+                }.launch()
             }
-        else {
-            headerView.findViewById<TextView>(R.id.tv_name)?.text = "未登录"
-            headerView.findViewById<TextView>(R.id.tv_coins)?.text = "硬币: --"
-            headerView.findViewById<ImageView>(R.id.iv_level)?.setBiliLevel(0)
-            headerView.findViewById<ImageView>(R.id.civ_face).setImageDrawable(null)
+        else
+            setLoginMenuItem(menu.add(Menu.NONE, View.generateViewId(), 114514 ,"登录"))
+        return true
+    }
+
+    private fun setUserMenuItem(menuItem: MenuItem, data: MyInfo.Data) {
+        glideSafeGet(data.face) { b ->
+            menuItem.icon = RoundedBitmapDrawableFactory.create(resources, b).apply {
+                isCircular = true
+                setAntiAlias(true)
+            }
+            menuItem.setOnMenuItemClickListener {
+                MaterialAlertDialogBuilder(this@MainActivity)
+                    .setIcon(RoundedBitmapDrawableFactory.create(resources, b).apply {
+                        isCircular = true
+                        setAntiAlias(true)
+                    })
+                    .setTitle(data.name)
+                    .setMessage("UID: ${data.mid}\n硬币: ${data.coins}\n${data.sign}")
+                    .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>()}
+//                                .setNegativeButtonIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_settings, theme))
+                    .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
+                    .setNeutralButton("Space") {_, _ -> BrowserUtil.openInApp(this@MainActivity, "bilibili://space/${data.mid}") }
+                    .show()
+                return@setOnMenuItemClickListener true
+            }
         }
-        if (baseBinding.nrv != null)
-            headerView.findViewById<View>(R.id.civ_face).visibility =
-                if (bilibiliClient.isLogin) View.VISIBLE else View.GONE
+    }
+
+    fun setLoginMenuItem(menuItem: MenuItem) {
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        menuItem.setOnMenuItemClickListener {
+            MaterialAlertDialogBuilder(this)
+                .setTitle("未登录或无效")
+                .setMessage("前往 设置 -> 用户 -> 添加 以登录")
+                .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>()}
+//                                .setNegativeButtonIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_settings, theme))
+                .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
+                .show()
+            return@setOnMenuItemClickListener true
+        }
     }
 }

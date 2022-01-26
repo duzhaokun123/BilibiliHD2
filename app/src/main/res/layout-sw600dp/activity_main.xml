@@ -2,43 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fcv"
-            android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/abl"
-            android:layout_toEndOf="@id/nrv"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_main" />
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/abl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/tb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:titleTextColor="?attr/colorOnPrimary" />
-        </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <com.google.android.material.navigationrail.NavigationRailView
             android:id="@+id/nrv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@id/abl"
-            android:layout_gravity="start"
-            app:elevation="5dp"
-            app:headerLayout="@layout/header_nav_main"
-            app:itemIconSize="28dp"
             app:menu="@menu/nav_main" />
 
-    </RelativeLayout>
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_main" />
+    </LinearLayout>
 
 </layout>

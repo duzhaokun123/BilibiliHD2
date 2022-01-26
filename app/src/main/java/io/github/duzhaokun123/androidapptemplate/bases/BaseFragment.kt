@@ -25,7 +25,6 @@ abstract class BaseFragment<BaseBinding : ViewDataBinding>(@LayoutRes val layout
         isFirstCreate = savedInstanceState == null
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        windowInsetsCompatModel.windowInsetsCompat.observe(this,::onApplyWindowInsetsCompat)
     }
 
     override fun onCreateView(
@@ -36,6 +35,7 @@ abstract class BaseFragment<BaseBinding : ViewDataBinding>(@LayoutRes val layout
         initViews()
         initEvents()
         initData()
+        windowInsetsCompatModel.windowInsetsCompat.observe(viewLifecycleOwner,::onApplyWindowInsetsCompat)
         return baseBinding.root
     }
 

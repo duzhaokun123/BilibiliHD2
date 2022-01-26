@@ -10,9 +10,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseFragment
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
+import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
 
 class DynamicWebFragment : BaseFragment<LayoutWebViewBinding>(R.layout.layout_web_view) {
     override fun onCreateView(
@@ -24,7 +24,7 @@ class DynamicWebFragment : BaseFragment<LayoutWebViewBinding>(R.layout.layout_we
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun initView() {
+    override fun initViews() {
         baseBinding.wv.apply {
             settings.apply {
                 javaScriptEnabled = true
@@ -66,9 +66,10 @@ class DynamicWebFragment : BaseFragment<LayoutWebViewBinding>(R.layout.layout_we
     }
 
     override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
-        insets.systemBars.let {
-            baseBinding.wv.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                bottomMargin = it.bottom
+        with(insets.maxSystemBarsDisplayCutout) {
+            baseBinding.rl.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                leftMargin = left
+                rightMargin = right
             }
         }
     }

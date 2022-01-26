@@ -25,6 +25,7 @@
             android:layout_marginEnd="4dp"
             android:layout_toEndOf="@id/civ_face"
             android:text="@{model.user.name}"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             android:visibility="@{model.user.name == null ? android.view.View.GONE : android.view.View.VISIBLE}"
             tools:text="Title" />

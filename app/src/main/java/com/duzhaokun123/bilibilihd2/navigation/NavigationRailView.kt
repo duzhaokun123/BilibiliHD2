@@ -2,11 +2,9 @@ package com.duzhaokun123.bilibilihd2.navigation
 
 import android.os.Bundle
 import androidx.core.view.forEach
-import androidx.customview.widget.Openable
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigationrail.NavigationRailView
 import java.lang.ref.WeakReference
 
