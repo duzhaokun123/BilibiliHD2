@@ -13,6 +13,8 @@ import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.*
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
+import com.duzhaokun123.bilibilihd2.utils.getColorCompat
+import com.google.android.material.color.MaterialColors
 
 class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
     RecyclerView.Adapter<DynamicAdapter.BaseDynamicHolder<out ViewDataBinding, out Any>>() {
@@ -78,6 +80,8 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
             rootBinding.tvName.setOnClickListener { rootBinding.civFace.callOnClick() }
             val typedCard = model.card as TypedCard
             rootBinding.cv.setOnClickListener { onCardClick(model, typedCard) }
+            if (model.user.isVip)
+                rootBinding.tvName.setTextColor(MaterialColors.harmonizeWithPrimary(context, context.getColorCompat(R.color.biliPink)))
             initView(contentBinding, model, typedCard)
             initData(contentBinding, model, typedCard)
         }

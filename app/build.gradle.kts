@@ -75,7 +75,7 @@ android {
         dataBinding = true
     }
     lint {
-        isAbortOnError = false
+        abortOnError = false
     }
 }
 
@@ -86,7 +86,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
     implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-    testImplementation("junit:junit:4.13.2")
+//    testImplementation("junit:junit:4.13.2")
 //    androidTestImplementation("androidx.test.ext:junit:1.1.3")
 //    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 

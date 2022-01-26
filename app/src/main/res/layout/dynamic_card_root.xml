@@ -10,66 +10,59 @@
             type="com.duzhaokun123.bilibilihd2.model.DynamicCardModel" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="1dp">
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp"
+        tools:targetApi="m">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/tv_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:layout_marginEnd="4dp"
+            android:layout_toEndOf="@id/civ_face"
+            android:text="@{model.user.name}"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:visibility="@{model.user.name == null ? android.view.View.GONE : android.view.View.VISIBLE}"
+            tools:text="Title" />
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:layout_toEndOf="@id/civ_face"
-                android:text="@{model.user.name}"
-                android:textColor="@{model.user.vip ? @color/biliPink : @color/textColor}"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:visibility="@{model.user.name == null ? android.view.View.GONE : android.view.View.VISIBLE}"
-                tools:text="Title" />
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRoundImageView
+            android:id="@+id/civ_face"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="@{model.user.faceUrl == null ? android.view.View.GONE : android.view.View.VISIBLE}"
+            app:imageUrl="@{model.user.faceUrl}"
+            tools:src="@tools:sample/avatars" />
 
-            <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRoundImageView
-                android:id="@+id/civ_face"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="10dp"
-                android:visibility="@{model.user.faceUrl == null ? android.view.View.GONE : android.view.View.VISIBLE}"
-                app:imageUrl="@{model.user.faceUrl}"
-                tools:src="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@id/civ_face"
+            android:text="@{com.duzhaokun123.bilibilihd2.utils.DateFormat.INSTANCE.format1.format(model.time * 1000) }"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            tools:text="@tools:sample/date/hhmmss" />
 
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_name"
-                android:layout_marginTop="2dp"
-                android:layout_toEndOf="@id/civ_face"
-                android:text="@{com.duzhaokun123.bilibilihd2.utils.DateFormat.INSTANCE.format1.format(model.time * 1000) }"
-                android:textSize="12sp"
-                tools:text="@tools:sample/date/hhmmss" />
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_time"
+            android:layout_marginTop="4dp" />
 
-            <FrameLayout
-                android:id="@+id/fl_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_time"
-                android:layout_marginTop="5dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fl_content"
-                android:layout_marginTop="5dp"
-                android:text='@{"repost: " + model.state.repost + " view: " + model.state.view + " comment: " + model.state.comment + " like: " + model.state.like}'
-                android:textIsSelectable="true" />
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fl_content"
+            android:layout_marginTop="4dp"
+            android:text='@{"repost: " + model.state.repost + " view: " + model.state.view + " comment: " + model.state.comment + " like: " + model.state.like}'
+            android:textIsSelectable="true" />
+    </RelativeLayout>
 </layout>

@@ -1,8 +1,8 @@
 package com.duzhaokun123.bilibilihd2.ui.main
 
-import android.graphics.Rect
-import android.view.View
+import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -11,11 +11,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSRRVFragment
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import io.material.catalog.tableofcontents.GridDividerDecoration
 
 class DynamicFragment : BaseSRRVFragment() {
     class DynamicModel : ViewModel() {
@@ -60,21 +62,17 @@ class DynamicFragment : BaseSRRVFragment() {
         return GridLayoutManager(context, 1)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun initViews() {
         super.initViews()
-        baseBinding.rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-            ) {
-                outRect.set(2.dpToPx(), 2.dpToPx(), 2.dpToPx(), 2.dpToPx())
-            }
-        })
-        baseBinding.srl.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
+        baseBinding.rv.addItemDecoration(GridDividerDecoration(1.dpToPx(), ColorUtils.setAlphaComponent(requireContext().theme.getAttr(R.attr.colorOnSurface).data, (255 * 0.12).toInt()), 1), 0)
+        baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             var a = (v.width - dynamicCardWidth) / 2
             if (a < 0) a = 0
             if (a * 2 <= dynamicCardWidth / 3) a = 0
             v.updatePadding(left = a, right = a)
         }
+        baseBinding.root.setOnTouchListener { _, motionEvent -> baseBinding.srl.onTouchEvent(motionEvent) }
     }
 
     override fun initData() {

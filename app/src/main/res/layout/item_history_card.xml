@@ -9,81 +9,78 @@
             type="com.duzhaokun123.bilibilihd2.model.HistoryCardModel" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <RelativeLayout
         android:id="@+id/cv"
-        style="?attr/materialCardViewElevatedStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="?attr/colorSurface"
+        android:foreground="?attr/selectableItemBackground"
+        tools:targetApi="m">
 
-        <RelativeLayout
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+            android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:maxHeight="400dp"
+            android:minHeight="100dp"
+            android:scaleType="center"
+            app:cornerRadius="100dp"
+            app:imageUrl="@{model.coverUrl}"
+            app:ration="0.5625"
+            tools:src="@tools:sample/avatars" />
 
-            <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
-                android:id="@+id/iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxHeight="400dp"
-                android:minHeight="100dp"
-                android:scaleType="center"
-                app:cornerRadius="100dp"
-                app:imageUrl="@{model.coverUrl}"
-                app:ration="0.5625"
-                tools:src="@tools:sample/avatars" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/tv_badge"
+            android:text="@{model.title}"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            tools:text="Title" />
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_toStartOf="@id/tv_badge"
-                android:text="@{model.title}"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                tools:text="Title" />
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@{model.desc}"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="Desc" />
 
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_title"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
-                android:text="@{model.desc}"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                android:textColor="?android:attr/textColorSecondary"
-                tools:text="Desc" />
+        <TextView
+            android:id="@+id/tv_badge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv"
+            android:layout_marginTop="8dp"
+            android:layout_toStartOf="@id/ib_tp"
+            android:text="@{model.badge}" />
 
-            <TextView
-                android:id="@+id/tv_badge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv"
-                android:layout_marginTop="8dp"
-                android:layout_toStartOf="@id/ib_tp"
-                android:text="@{model.badge}" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_tp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_three_points" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ib_tp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:background="@null"
-                android:src="@drawable/ic_three_points" />
-
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_alignBottom="@id/iv"
-                android:max="100"
-                android:progress="@{model.progress}"
-                android:visibility="@{model.hasProgress ? android.view.View.VISIBLE : android.view.View.GONE}"
-                tools:progress="50" />
-        </RelativeLayout>
-    </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignBottom="@id/iv"
+            android:max="100"
+            android:progress="@{model.progress}"
+            android:visibility="@{model.hasProgress ? android.view.View.VISIBLE : android.view.View.GONE}"
+            tools:progress="50" />
+    </RelativeLayout>
 </layout>

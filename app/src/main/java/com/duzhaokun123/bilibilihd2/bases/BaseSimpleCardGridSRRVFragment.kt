@@ -1,10 +1,9 @@
 package com.duzhaokun123.bilibilihd2.bases
 
-import android.graphics.Rect
-import android.view.View
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.Px
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.updatePadding
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.createViewModelLazy
@@ -12,16 +11,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.utils.dpToPx
+import com.duzhaokun123.bilibilihd2.utils.getAttr
 import com.duzhaokun123.bilibilihd2.utils.runIO
 import com.duzhaokun123.bilibilihd2.utils.runMain
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import io.material.catalog.tableofcontents.GridDividerDecoration
 import kotlin.reflect.KClass
 
 abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, ItemModel, ModelClass : BaseSimpleCardGridSRRVFragment.BaseModel<ItemModel>>(
     @LayoutRes private val itemLayoutId: Int,
     @Px private val hopeCardWidth: Int,
-    modelClass: KClass<ModelClass>
+    modelClass: KClass<ModelClass>,
+    // null: default R.attr.colorOnSurface at 2%
+    private val dividerColor: Int? = null
 ) : BaseSRRVFragment() {
     abstract class BaseModel<ItemModel> : ViewModel() {
         val itemModel = MutableLiveData<List<ItemModel>>(emptyList())
@@ -73,13 +77,6 @@ abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, Ite
     @CallSuper
     override fun initViews() {
         super.initViews()
-        baseBinding.rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-            ) {
-                outRect.set(2.dpToPx(), 2.dpToPx(), 2.dpToPx(), 2.dpToPx())
-            }
-        })
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             val l = v.width / hopeCardWidth
             val lm = baseBinding.rv.layoutManager as GridLayoutManager
@@ -95,6 +92,8 @@ abstract class BaseSimpleCardGridSRRVFragment<ItemBinding : ViewDataBinding, Ite
                     v.updatePadding(left = p, right = p)
                 }
             }
+            runCatching { baseBinding.rv.removeItemDecorationAt(0) }
+            baseBinding.rv.addItemDecoration(GridDividerDecoration(1.dpToPx(), dividerColor ?: ColorUtils.setAlphaComponent(requireContext().theme.getAttr(R.attr.colorOnSurface).data, (255 * 0.12).toInt()), lm.spanCount), 0)
         }
     }
 
