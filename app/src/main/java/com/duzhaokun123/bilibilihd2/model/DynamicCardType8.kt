@@ -28,8 +28,8 @@ data class DynamicCardType8(
     val owner: Owner,
     @SerializedName("pic")
     val pic: String, // https://i1.hdslb.com/bfs/archive/7dee509cbeda4cb18b31b6e3acb325a0b0d1bd63.jpg
-    @SerializedName("player_info")
-    val playerInfo: PlayerInfo,
+//    @SerializedName("player_info")
+//    val playerInfo: PlayerInfo,
     @SerializedName("pubdate")
     val pubdate: Int, // 1618074082
     @SerializedName("rights")
@@ -67,80 +67,7 @@ data class DynamicCardType8(
         val name: String // LinusTechTips
     )
 
-    data class PlayerInfo(
-        @SerializedName("cid")
-        val cid: Int, // 322545662
-        @SerializedName("expire_time")
-        val expireTime: Int, // 1618092234
-        @SerializedName("file_info")
-        val fileInfo: FileInfo,
-        @SerializedName("fnval")
-        val fnval: Int, // 0
-        @SerializedName("fnver")
-        val fnver: Int, // 0
-        @SerializedName("quality")
-        val quality: Int, // 32
-        @SerializedName("support_description")
-        val supportDescription: List<String>,
-        @SerializedName("support_formats")
-        val supportFormats: List<String>,
-        @SerializedName("support_quality")
-        val supportQuality: List<Int>,
-        @SerializedName("url")
-        val url: String, // http://upos-sz-mirrorcoso1.bilivideo.com/upgcxcode/62/56/322545662/322545662-1-32.flv?e=ig8euxZM2rNcNbNa7WdVhoMg7zUVhwdEto8g5X10ugNcXBlqNCNEto8g5gNvNE3DN0B5tZlqNxTEto8BTrNvN05fqx6S5ahE9IMvXBvE2ENvNCImNEVEK9GVqJIwqa80WXIekXRE9IB5QK==&uipk=5&nbs=1&deadline=1618095834&gen=playurlv2&os=coso1bv&oi=2081916024&trid=2c087313c57641aaa50326f214401edcU&platform=android&upsig=4c6724e079b9c26037e3ecae969fd9ea&uparams=e,uipk,nbs,deadline,gen,os,oi,trid,platform&mid=174438027&orderid=0,1&logo=80000000
-        @SerializedName("video_codecid")
-        val videoCodecid: Int, // 7
-        @SerializedName("video_project")
-        val videoProject: Boolean // true
-    ) {
-        data class FileInfo(
-            @SerializedName("112")
-            val x112: List<X112>,
-            @SerializedName("16")
-            val x16: List<X16>,
-            @SerializedName("32")
-            val x32: List<X32>,
-            @SerializedName("64")
-            val x64: List<X64>,
-            @SerializedName("80")
-            val x80: List<X80>
-        ) {
-            data class X112(
-                @SerializedName("filesize")
-                val filesize: Long, // 365823614
-                @SerializedName("timelength")
-                val timelength: Int // 1073956
-            )
-
-            data class X16(
-                @SerializedName("filesize")
-                val filesize: Long, // 57347362
-                @SerializedName("timelength")
-                val timelength: Int // 1073877
-            )
-
-            data class X32(
-                @SerializedName("filesize")
-                val filesize: Long, // 118491136
-                @SerializedName("timelength")
-                val timelength: Int // 1073956
-            )
-
-            data class X64(
-                @SerializedName("filesize")
-                val filesize: Long, // 174592551
-                @SerializedName("timelength")
-                val timelength: Int // 1073956
-            )
-
-            data class X80(
-                @SerializedName("filesize")
-                val filesize: Long, // 225347923
-                @SerializedName("timelength")
-                val timelength: Int // 1073956
-            )
-        }
-    }
+    // data class PlayerInfo(...)
 
     data class Rights(
         @SerializedName("autoplay")
