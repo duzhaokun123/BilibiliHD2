@@ -4,7 +4,7 @@
 
 -keep class * extends androidx.fragment.app.Fragment
 
--keepattributes LineNumberTable, SourceFile, RuntimeVisibleAnnotations
+-keepattributes LineNumberTable, SourceFile, RuntimeVisibleAnnotations, Signature
 
 -keep class com.hiczp.bilibili.api.passport.model.LoginResponse$** {
     <fields>;
