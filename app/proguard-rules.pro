@@ -1,4 +1,4 @@
--keepclassmembers class * {
+-keepclasseswithmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
 

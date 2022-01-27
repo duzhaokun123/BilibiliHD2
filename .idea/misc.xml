@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_toys_24.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_history_checkable.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_home_clickable.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_toys_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
         <entry key="app/src/main/res/layout-sw1240dp/activity_main.xml" value="0.3609375" />

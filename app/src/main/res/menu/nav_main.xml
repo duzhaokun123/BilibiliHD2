@@ -4,19 +4,19 @@
 
         <item
             android:id="@+id/homeFragment"
-            android:icon="@drawable/ic_home"
+            android:icon="@drawable/ic_home_checkable"
             android:title="@string/home" />
         <item
             android:id="@+id/dynamicFragment"
-            android:icon="@drawable/ic_toys"
+            android:icon="@drawable/ic_toys_checkable"
             android:title="@string/dynamic" />
         <item
             android:id="@+id/dynamicWebFragment"
-            android:icon="@drawable/ic_toys"
+            android:icon="@drawable/ic_toys_checkable"
             android:title="@string/dynamic_web" />
         <item
             android:id="@+id/historyFragment"
-            android:icon="@drawable/ic_history"
+            android:icon="@drawable/ic_outline_history_24"
             android:title="@string/history" />
     </group>
 
