@@ -46,13 +46,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: BilibiliHD2_${{ env.VERSION }}.apk
-          path: ${{ github.workspace }}/app/build/outputs/mapping/release/mapping.txt
+          path: ${{ env.APK_FILE }}
       - name: Upload mapping.txt
         if: success()
         uses: actions/upload-artifact@v2
         with:
           name: mapping.txt
-          path: ${{ env.APK_FILE }}
+          path: ${{ github.workspace }}/app/build/outputs/mapping/release/mapping.txt
       - name: Upload to JianGuonYun
         run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD2/"
       - name: Setup python
