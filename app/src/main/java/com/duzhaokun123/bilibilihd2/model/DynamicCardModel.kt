@@ -5,6 +5,8 @@ import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.vc.model.DynamicHistory
 import com.hiczp.bilibili.api.vc.model.DynamicNew
 
+const val TYPE_ERROR = -1
+
 data class DynamicCardModel(
     val type: Int,
     val card: Any,
@@ -32,9 +34,9 @@ data class DynamicCardModel(
                     val like = card.desc.like
                     State(repost, view, comment, like)
                 }
-                val type = card.desc.type
+                val wishedType = card.desc.type
                 val cardJson = card.card
-                val cardObj = parseTypedCard(type, cardJson)
+                val (type, cardObj) = parseTypedCard(wishedType, cardJson)
                 val time = card.desc.timestamp
                 models.add(DynamicCardModel(type, cardObj, cardJson, user, state, time))
             }
@@ -59,24 +61,28 @@ data class DynamicCardModel(
                     val like = card.desc.like
                     State(repost, view, comment, like)
                 }
-                val type = card.desc.type
+                val wishedType = card.desc.type
                 val cardJson = card.card
-                val cardObj = parseTypedCard(type, cardJson)
+                val (type, cardObj) = parseTypedCard(wishedType, cardJson)
                 val time = card.desc.timestamp
                 models.add(DynamicCardModel(type, cardObj, cardJson, user, state, time))
             }
             return models
         }
 
-        fun parseTypedCard(type: Int, json: String): Any {
-            return when (type) {
-                1 -> Type1.parse(gson.fromJson(json))
-                2 -> Type2.parse(gson.fromJson(json))
-                4 -> Type4.parse(gson.fromJson(json))
-                8 -> Type8.parse(gson.fromJson(json))
-                64 -> Type64.parse(gson.fromJson(json))
-                512 -> Type512.parse(gson.fromJson(json))
-                else -> Any()
+        fun parseTypedCard(type: Int, json: String): Pair<Int, Any> {
+            return try {
+                type to when (type) {
+                    1 -> Type1.parse(gson.fromJson(json))
+                    2 -> Type2.parse(gson.fromJson(json))
+                    4 -> Type4.parse(gson.fromJson(json))
+                    8 -> Type8.parse(gson.fromJson(json))
+                    64 -> Type64.parse(gson.fromJson(json))
+                    512 -> Type512.parse(gson.fromJson(json))
+                    else -> Any()
+                }
+            } catch (e: Exception) {
+                TYPE_ERROR to TypeError(type, e.message, json)
             }
         }
     }
@@ -168,9 +174,9 @@ data class DynamicCardModel(
         companion object {
 
             fun parse(dynamicCardType1: DynamicCardType1): Type1 {
-                val originType = dynamicCardType1.item.origType
+                val wishedOriginType = dynamicCardType1.item.origType
                 val originJson = dynamicCardType1.origin
-                val origin = originJson?.let { parseTypedCard(originType, it) } ?: Any()
+                val (originType, origin) = originJson?.let { parseTypedCard(wishedOriginType, it) } ?: 0 to Any()
                 val originUser = dynamicCardType1.originUser?.run {
                     val name = info.uname
                     val face = info.face
@@ -193,7 +199,7 @@ data class DynamicCardModel(
                 val face = this@Type1.originUser.faceUrl
                 val uid = this@Type1.originUser.uid
                 val isVip = this@Type1.originUser.isVip
-                DynamicCardModel.User(name, face, uid, isVip)
+                User(name, face, uid, isVip)
             }
             val state = State(-1, -1, -1, -1)
             val time = this.time
@@ -219,4 +225,10 @@ data class DynamicCardModel(
             }
         }
     }
+
+    data class TypeError(
+        val type: Int,
+        val message: String?,
+        val cardJson: String
+    )
 }

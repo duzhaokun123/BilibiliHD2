@@ -206,6 +206,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                 biliView.data.tag.forEach { tag ->
                     layoutOnlinePlayIntroBinding.cgTags.addView(Chip(this, null, R.attr.filterChip).apply {
                         text = tag.tagName
+                        isCheckable = false
                         setOnClickListener {
                             BrowserUtil.openInApp(
                                 this@OnlinePlayActivity,

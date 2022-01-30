@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.duzhaokun123.bilibilihd2.model.DynamicCardModel.TypeError" />
+    </data>
+
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text='@{"解析错误: type: " + model.type + " message: " + model.message + "\n" + model.cardJson}'
+        android:textIsSelectable="true" />
+</layout>

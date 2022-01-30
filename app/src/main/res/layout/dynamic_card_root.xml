@@ -48,7 +48,7 @@
             android:layout_toEndOf="@id/civ_face"
             android:text="@{com.duzhaokun123.bilibilihd2.utils.DateFormat.INSTANCE.format1.format(model.time * 1000) }"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-            android:textColor="?android:attr/textColorSecondaryInverse"
+            android:textColor="?android:attr/textColorSecondary"
             tools:text="@tools:sample/date/hhmmss" />
 
         <FrameLayout

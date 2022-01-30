@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCardRootBinding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
+import com.duzhaokun123.bilibilihd2.model.TYPE_ERROR
 import com.duzhaokun123.bilibilihd2.ui.main.dynamicholders.*
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.getColorCompat
@@ -23,6 +24,7 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
          * 在这里注册的必须实现`(Context)`构造器
          */
         val supportedTypes = mapOf(
+            TYPE_ERROR to DynamicHolderTypeError::class.java,
             1 to DynamicHolderType1::class.java,
             2 to DynamicHolderType2::class.java,
             4 to DynamicHolderType4::class.java,
@@ -46,8 +48,8 @@ class DynamicAdapter(private val dynamicFragment: DynamicFragment) :
         viewType: Int
     ): BaseDynamicHolder<out ViewDataBinding, out Any> {
         return supportedTypes.getOrElse(
-            viewType, { DynamicHolderType0::class.java }
-        ).getConstructor(Context::class.java).newInstance(context)
+            viewType
+        ) { DynamicHolderType0::class.java }.getConstructor(Context::class.java).newInstance(context)
     }
 
     override fun onBindViewHolder(

@@ -21,9 +21,10 @@
             android:textColor="@color/textColor" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv"
+            style="@style/Widget.Material3.CardView.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Widget.Material3.CardView.Outlined">
+            android:layout_height="wrap_content">
 
             <RelativeLayout
                 android:layout_width="match_parent"

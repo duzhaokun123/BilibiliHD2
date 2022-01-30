@@ -26,8 +26,8 @@ class DynamicHolderType1(context: Context) :
         val d = typedCard.toDynamicCardModel()
         holder.setModel(d)
         holder.rootBinding.flContent.removeAllViews()
+        contentBinding.cv.setOnClickListener { holder.onCardClick(d, d.card) }
         val content = holder.contentBinding.root
-        content.setOnClickListener { holder.onCardClick(d, d.card) }
         contentBinding.flContent.addView(content)
         contentBinding.tvName.setTextColor(MaterialColors.harmonizeWithPrimary(context, context.getColorCompat(R.color.biliPink)))
     }
