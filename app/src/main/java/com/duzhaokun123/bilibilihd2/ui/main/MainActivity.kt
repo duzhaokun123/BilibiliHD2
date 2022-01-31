@@ -38,7 +38,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         baseBinding.nv?.setupWithNavController(navController)
         baseBinding.nrv?.setupWithNavController(navController)
         baseBinding.bnv?.setupWithNavController(navController)
-        rootBinding.rootTb.setupWithNavController(navController,  AppBarConfiguration.Builder(navController.graph).build())
+        rootBinding.rootTb.setupWithNavController(
+            navController,
+            AppBarConfiguration.Builder(navController.graph).build()
+        )
     }
 
 
@@ -58,20 +61,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         val re = super.onCreateOptionsMenu(menu)
         menu ?: return re
         if (bilibiliClient.isLogin)
-            menu.add(Menu.NONE, View.generateViewId(), 114514 ,"用户").apply {
-            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            io.github.duzhaokun123.androidapptemplate.utils.runIOCatching { bilibiliClient.appAPI.myInfo().await() }
-                .onFailure { t ->
-                    t.printStackTrace()
-                    TipUtil.showTip(this@MainActivity, t.localizedMessage)
-                    setLoginMenuItem(this@apply)
+            menu.add(Menu.NONE, View.generateViewId(), 114514, "用户").apply {
+                setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                io.github.duzhaokun123.androidapptemplate.utils.runIOCatching {
+                    bilibiliClient.appAPI.myInfo().await()
                 }
-                .onSuccess { r ->
-                    setUserMenuItem(this@apply, r.data)
-                }.launch()
+                    .onFailure { t ->
+                        t.printStackTrace()
+                        TipUtil.showTip(this@MainActivity, t.localizedMessage)
+                        setLoginMenuItem(this@apply)
+                    }
+                    .onSuccess { r ->
+                        setUserMenuItem(this@apply, r.data)
+                    }.launch()
             }
         else
-            setLoginMenuItem(menu.add(Menu.NONE, View.generateViewId(), 114514 ,"登录"))
+            setLoginMenuItem(menu.add(Menu.NONE, View.generateViewId(), 114514, "登录"))
         return true
     }
 
@@ -89,10 +94,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                     })
                     .setTitle(data.name)
                     .setMessage("UID: ${data.mid}\n硬币: ${data.coins}\n${data.sign}")
-                    .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>()}
+                    .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>() }
 //                                .setNegativeButtonIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_settings, theme))
                     .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
-                    .setNeutralButton("Space") {_, _ -> BrowserUtil.openInApp(this@MainActivity, "bilibili://space/${data.mid}") }
+                    .setNeutralButton("Space") { _, _ ->
+                        BrowserUtil.openInApp(
+                            this@MainActivity,
+                            "bilibili://space/${data.mid}"
+                        )
+                    }
                     .show()
                 return@setOnMenuItemClickListener true
             }
@@ -100,16 +110,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     }
 
     fun setLoginMenuItem(menuItem: MenuItem) {
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        menuItem.setOnMenuItemClickListener {
-            MaterialAlertDialogBuilder(this)
-                .setTitle("未登录或无效")
-                .setMessage("前往 设置 -> 用户 -> 添加 以登录")
-                .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>()}
+        runMain {
+            menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            menuItem.setOnMenuItemClickListener {
+                MaterialAlertDialogBuilder(this@MainActivity)
+                    .setTitle("未登录或无效")
+                    .setMessage("前往 设置 -> 用户 -> 添加 以登录")
+                    .setNegativeButton("设置") { _, _ -> startActivity<SettingsActivity>() }
 //                                .setNegativeButtonIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_settings, theme))
-                .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
-                .show()
-            return@setOnMenuItemClickListener true
+                    .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
+                    .show()
+                return@setOnMenuItemClickListener true
+            }
         }
     }
 }
