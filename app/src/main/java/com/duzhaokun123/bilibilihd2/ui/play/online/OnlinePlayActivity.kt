@@ -34,7 +34,6 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
@@ -306,6 +305,15 @@ class OnlinePlayActivity : BasePlayActivity() {
             ) ?: video.id.toString()
             sources.add(PlayInfo.Source(name, mergedSource, backups))
         }
+        if (hasAudio)
+            sources.add(
+                PlayInfo.Source("audio only",
+                    ProgressiveMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash.audio!![0].baseUrl)),
+                    emptyList()
+                )
+            )
+
         val danmakuParser = pageParserMap[page]
             ?: LazyCidDanmakuParser(aid, cid, biliView!!.data.pages[page - 1].duration).also {
                 pageParserMap[page] = it
