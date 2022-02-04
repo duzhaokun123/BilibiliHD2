@@ -26,8 +26,9 @@
         <entry key="app/src/main/res/layout/dynamic_card_2.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_4.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_512.xml" value="0.2984375" />
-        <entry key="app/src/main/res/layout/dynamic_card_64.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/dynamic_card_64.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/dynamic_card_8.xml" value="0.2984375" />
+        <entry key="app/src/main/res/layout/dynamic_card_error.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/dynamic_card_root.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/header_nav_main.xml" value="0.1174342105263158" />
         <entry key="app/src/main/res/layout/item_history_card.xml" value="0.5652642934196332" />

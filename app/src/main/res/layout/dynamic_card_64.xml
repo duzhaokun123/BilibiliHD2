@@ -26,16 +26,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_cover"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:text="@{card.title}"
-            android:textColor="@color/textColor"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_title"
-            android:text="@{card.summary}" />
+            android:text="@{card.summary}"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?android:attr/textColorSecondary" />
     </RelativeLayout>
 </layout>

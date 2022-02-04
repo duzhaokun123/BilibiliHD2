@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@{card.content}"
-            android:textColor="@color/textColor" />
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?android:attr/textColorSecondary" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv"

@@ -13,7 +13,9 @@
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="4dp"
         android:text='@{"不支持的类型: " + model.type + "\n" + model.cardJson}'
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="?android:attr/textColorSecondary"
         android:textIsSelectable="true" />
 </layout>
