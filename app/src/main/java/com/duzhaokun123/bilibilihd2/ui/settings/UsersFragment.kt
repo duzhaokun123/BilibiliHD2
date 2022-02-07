@@ -15,6 +15,7 @@ import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 @Suppress("UNUSED")
 class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users) {

@@ -15,6 +15,7 @@ import com.duzhaokun123.bilibilihd2.model.HistoryCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.hiczp.bilibili.api.app.model.History
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 class HistoryFragment :
     BaseSimpleCardGridSRRVFragment<ItemHistoryCardBinding, HistoryCardModel, HistoryFragment.HistoryModel>(

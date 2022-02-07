@@ -32,6 +32,7 @@ import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import kotlinx.coroutines.delay
 
 class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_view) {

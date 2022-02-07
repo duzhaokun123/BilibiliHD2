@@ -24,6 +24,7 @@ import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
 import io.github.duzhaokun123.androidapptemplate.utils.RunIOCatchingPending
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.isSystemNightMode
 import io.github.duzhaokun123.androidapptemplate.utils.onFailure
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
+import java.lang.reflect.Method
 
 val application get() = Application.instance
 
@@ -130,3 +132,15 @@ fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, ext
         TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
         extra?.invoke(t)
     }
+
+fun <R> Any.getAnyFieldAs(name: String, clazz: Class<*> = this::class.java): R {
+    val f = clazz.getDeclaredField(name)
+    f.isAccessible = true
+    return f.get(this) as R
+}
+
+fun Any.setAnyField(name: String, value: Any?, clazz: Class<*> = this::class.java) {
+    val f = clazz.getDeclaredField(name)
+    f.isAccessible = true
+    f.set(this, value)
+}

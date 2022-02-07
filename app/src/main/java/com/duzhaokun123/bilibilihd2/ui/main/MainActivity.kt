@@ -20,6 +20,7 @@ import com.duzhaokun123.bilibilihd2.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hiczp.bilibili.api.app.model.MyInfo
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onFailure
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess

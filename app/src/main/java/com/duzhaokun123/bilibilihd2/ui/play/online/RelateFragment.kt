@@ -10,11 +10,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
-import com.duzhaokun123.bilibilihd2.bases.BaseFragment
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleWithHeaderAdapter
 import com.duzhaokun123.bilibilihd2.databinding.ItemRelateCardBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
+import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
@@ -22,7 +22,7 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
     var header: View? = null
     val model by activityViewModels<OnlinePlayActivity.Model>()
 
-    override fun initView() {
+    override fun initViews() {
         baseBinding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         baseBinding.rv.adapter = Adapter(requireContext()).apply {

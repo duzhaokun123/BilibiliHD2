@@ -37,6 +37,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class OnlinePlayActivity : BasePlayActivity() {
@@ -111,8 +112,8 @@ class OnlinePlayActivity : BasePlayActivity() {
     }
     val model by viewModels<Model>()
 
-    override fun initView() {
-        super.initView()
+    override fun initViews() {
+        super.initViews()
         supportActionBar?.title = "av$aid"
         when (baseBinding.rhv.tag) {
             "1" -> {

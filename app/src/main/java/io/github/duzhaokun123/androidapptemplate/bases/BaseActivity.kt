@@ -23,7 +23,7 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
 
 abstract class BaseActivity<BaseBinding : ViewDataBinding>(
-    @LayoutRes private val layoutId: Int, private vararg val configs: Config
+    @LayoutRes val layoutId: Int, vararg val configs: Config
 ) : AppCompatActivity() {
     enum class Config {
         NO_TOOL_BAR,

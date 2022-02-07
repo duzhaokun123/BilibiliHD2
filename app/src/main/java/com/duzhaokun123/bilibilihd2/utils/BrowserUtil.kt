@@ -10,6 +10,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.WebViewActivity
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 object BrowserUtil {
     private const val TAG = "BrowserUtil"

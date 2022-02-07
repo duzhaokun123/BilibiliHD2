@@ -15,6 +15,7 @@ import com.duzhaokun123.bilibilihd2.model.HomeCardModel
 import com.duzhaokun123.bilibilihd2.ui.search.SearchActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCardModel, HomeFragment.HomeModel>(
     R.layout.item_home_card,

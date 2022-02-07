@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.core.graphics.Insets
 import androidx.core.view.*
+import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
@@ -26,11 +27,12 @@ import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.material.snackbar.Snackbar
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 /**
  * 乱就乱 能用就行
  */
-abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
+abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.bases.BaseActivity<ActivityPlayBaseBinding>(
     R.layout.activity_play_base,
     Config.NO_TOOL_BAR, Config.LAYOUT_MATCH_HORI
 ), StyledPlayerControlView.OnFullScreenModeChangedListener,
@@ -75,7 +77,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
                     }
 
                     override fun onPlayerError(error: ExoPlaybackException) {
-                        Snackbar.make(rootBinding.cl, error.cause?.localizedMessage ?: "null", Snackbar.LENGTH_INDEFINITE)
+                        Snackbar.make(rootBinding.rootCl, error.cause?.localizedMessage ?: "null", Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.retry) {
                                 player.prepare()
                             }
@@ -90,7 +92,7 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
     }
 
     @CallSuper
-    override fun initView() {
+    override fun initViews() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             baseBinding.abl.outlineProvider = null
         }
@@ -275,5 +277,22 @@ abstract class BasePlayActivity : BaseActivity<ActivityPlayBaseBinding>(
 
     open fun onFirstPlay() {
 
+    }
+
+    fun reinitLayout() {
+        rootBinding.rootFl.removeAllViews()
+        setAnyField("baseBinding", DataBindingUtil.inflate<ActivityPlayBaseBinding>(layoutInflater, layoutId, rootBinding.rootFl, true), io.github.duzhaokun123.androidapptemplate.bases.BaseActivity::class.java)
+        findViews()
+        setSupportActionBar(initActionBar())
+        if (Config.NO_BACK !in configs) supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_back)
+        }
+        initViews()
+        initData()
+
+        TipUtil.registerCoordinatorLayout(this, registerCoordinatorLayout())
+//        onApplyWindowInsetsCompat(getAnyFieldAs<WindowInsetsCompatModel>("windowInsetsCompatModel").windowInsetsCompat.value!!)
     }
 }

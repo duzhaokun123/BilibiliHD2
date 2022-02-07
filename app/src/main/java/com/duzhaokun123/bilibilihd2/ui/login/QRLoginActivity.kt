@@ -18,6 +18,7 @@ import com.hiczp.bilibili.api.passport.model.LoginResponse
 import com.hiczp.bilibili.api.passport.model.QRLoginUrl
 import com.hiczp.bilibili.api.retrofit.Cookie
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching

@@ -6,6 +6,7 @@ import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(R.layout.activity_login) {
     override fun initViews() {

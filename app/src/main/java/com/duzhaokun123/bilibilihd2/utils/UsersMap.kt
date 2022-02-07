@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2.utils
 import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.passport.model.LoginResponse
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 object UsersMap : HashMap<Long, LoginResponse>() {
     fun reload() {

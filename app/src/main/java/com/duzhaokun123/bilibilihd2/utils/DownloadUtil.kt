@@ -8,6 +8,7 @@ import android.os.FileUtils
 import android.provider.MediaStore
 import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
