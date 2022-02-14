@@ -46,6 +46,10 @@
         <entry key="app/src/main/res/menu/web_view_activity.xml" value="0.11578947368421053" />
         <entry key="app/src/main/res/xml/settings_about.xml" value="0.53671875" />
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.18101092896174864" />
+        <entry key="bili-player/src/main/res/layout/exo_player_view.xml" value="0.22861842105263158" />
+        <entry key="bili-player/src/main/res/layout/exo_styled_player_view.xml" value="0.22861842105263158" />
+        <entry key="bili-player/src/main/res/layout/player_control_view.xml" value="0.22796052631578947" />
+        <entry key="bili-player/src/main/res/layout/view_biliplayer.xml" value="0.22796052631578947" />
       </map>
     </option>
   </component>

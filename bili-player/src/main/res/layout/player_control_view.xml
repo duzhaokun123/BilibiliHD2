@@ -65,6 +65,15 @@
                 style="@style/ExoStyledControls.Button.Bottom.CC" />
 
             <Button
+                android:id="@+id/btn_danmakuSwitch"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="danmaku"
+                android:textColor="@color/exo_white"
+                android:textSize="14sp" />
+
+            <Button
                 android:id="@+id/btn_quality"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"

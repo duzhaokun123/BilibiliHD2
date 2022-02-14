@@ -82,6 +82,10 @@ class BiliPlayerView @JvmOverloads constructor(
                 start()
                 it.visibility = GONE
             }
+
+            findViewById<Button>(R.id.btn_danmakuSwitch).setOnClickListener {
+                danmakuView.visibility = if (danmakuView.isShowing) INVISIBLE else VISIBLE
+            }
         }
     }
 

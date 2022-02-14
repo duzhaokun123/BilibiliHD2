@@ -247,6 +247,9 @@ class OnlinePlayActivity : BasePlayActivity() {
                     runIOCatchingResultRunMain(this@OnlinePlayActivity,
                         { bilibiliClient.appAPI.dislike(aid = aid, dislike = 0).await()}) {}
                 }
+                layoutOnlinePlayIntroBinding.rvUp.setOnClickListener {
+                    BrowserUtil.openInApp(this, "bilibili://space/${biliView.data.owner.mid}")
+                }
                 model.relates.value = Relate.parse(biliView.data.relates?: emptyList())
 
                 updateVideoPlayUrl()

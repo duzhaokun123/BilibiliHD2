@@ -25,6 +25,7 @@
             android:paddingHorizontal="5dp">
 
             <RelativeLayout
+                android:id="@+id/rv_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
