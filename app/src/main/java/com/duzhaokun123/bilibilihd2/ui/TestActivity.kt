@@ -9,6 +9,8 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.androidapptemplate.utils.runMain
+import kotlinx.coroutines.delay
 
 class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
@@ -21,8 +23,11 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
         }
     }
 
-    override fun initViews() {
+    override fun initData() {
         title = "test"
+    }
+
+    override fun initEvents() {
         baseBinding.btnUrlStart.setOnClickListener {
             try {
                 startActivity(Intent().apply {
@@ -36,5 +41,12 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
         baseBinding.btnScan.setOnClickListener { barcodeLauncher.launch(ScanOptions().apply {
             setDesiredBarcodeFormats(ScanOptions.QR_CODE)
         }) }
+        baseBinding.btnHideShow.setOnClickListener {
+            runMain {
+                supportActionBar?.hide()
+                delay(2000)
+                supportActionBar?.show()
+            }
+        }
     }
 }

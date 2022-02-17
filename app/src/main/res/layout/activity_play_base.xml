@@ -23,7 +23,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="@id/bpv"
             app:layout_constraintStart_toStartOf="@id/bpv"
             app:layout_constraintTop_toTopOf="@id/bpv"

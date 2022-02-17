@@ -30,5 +30,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="扫码" />
+
+        <Button
+            android:id="@+id/btn_hideShow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hide/show" />
     </LinearLayout>
 </layout>

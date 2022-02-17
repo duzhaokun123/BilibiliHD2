@@ -250,6 +250,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     }
 
     override fun onVisibilityChange(visibility: Boolean) {
+        baseBinding.abl.elevation = 2.dpToPx().toFloat()
         if (visibility) {
             supportActionBar?.show()
             windowInsetsControllerCompat.show(WindowInsetsCompat.Type.statusBars())
