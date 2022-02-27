@@ -10,75 +10,74 @@
             type="com.duzhaokun123.bilibilihd2.ui.play.online.Relate" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:id="@+id/cv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="1dp">
+        android:background="?attr/colorSurface"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp"
+        tools:targetApi="m">
 
-        <RelativeLayout
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:imageUrl="@{relate.cover}"
+            app:ration="0.5625" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp">
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/iv_cover"
+            android:orientation="vertical">
 
-            <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
-                android:id="@+id/iv_cover"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                app:imageUrl="@{relate.cover}"
-                app:ration="0.5625" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/iv_cover"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{relate.title}"
-                    android:textColor="@color/textColor" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@{relate.l1}" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text='@{relate.l2}' />
-            </LinearLayout>
+                android:text="@{relate.title}"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/iv_cover"
-                android:layout_alignBottom="@id/iv_cover"
-                android:background="@drawable/bg_text"
-                android:text="@{relate.duration}"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                tools:text="10:12" />
+                android:layout_marginTop="4dp"
+                android:text="@{relate.l1}"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/ib_tp"
-                android:scaleX="0.8"
-                android:scaleY="0.8"
-                android:layout_marginBottom="3dp"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/iv_cover"
-                android:layout_alignParentEnd="true"
-                android:background="@null"
-                android:src="@drawable/ic_three_points" />
+                android:layout_marginTop="5dp"
+                android:text='@{relate.l2}'
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?android:attr/textColorSecondary" />
+        </LinearLayout>
 
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/iv_cover"
+            android:layout_alignBottom="@id/iv_cover"
+            android:background="@drawable/bg_text"
+            android:text="@{relate.duration}"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            tools:text="10:12" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_tp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_cover"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="4dp"
+            android:background="@null"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/ic_three_points" />
+
+    </RelativeLayout>
 </layout>

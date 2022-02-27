@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 
@@ -64,12 +65,15 @@ android {
             signingConfig = signingConfigs.getAt("release")
         }
         getByName("debug") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            val localProperties = gradleLocalProperties(rootDir)
+            val minifyEnabled = localProperties.getProperty("minify.enabled", "false")
+            isMinifyEnabled = minifyEnabled.toBoolean()
+            isShrinkResources = minifyEnabled.toBoolean()
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
         }
     }
     compileOptions {
@@ -88,8 +92,6 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
@@ -161,32 +163,30 @@ dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }
 
-afterEvaluate {
-    tasks.getByName("minifyReleaseWithR8").doLast {
-        optimizeReleaseRes()
-    }
-}
-
-fun optimizeReleaseRes() {
+val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
     val aapt2 = Paths.get(
         project.android.sdkDirectory.path,
         "build-tools", project.android.buildToolsVersion, "aapt2"
     )
     val zip = Paths.get(
         project.buildDir.path, "intermediates",
-        "shrunk_processed_res", "destroy", "resources-destroy-stripped.ap_"
+        "optimized_processed_res", "release", "resources-release-optimize.ap_"
     )
     val optimized = File("${zip}.opt")
     val cmd = exec {
-        commandLine(
-            aapt2, "optimize", "--collapse-resource-names",
-            "--shorten-resource-paths", "-o", optimized, zip
-        )
+        commandLine(aapt2, "optimize", "--collapse-resource-names", "-o", optimized, zip)
         isIgnoreExitValue = true
     }
     if (cmd.exitValue == 0) {
-        zip.toFile().delete()
+        delete(zip)
         optimized.renameTo(zip.toFile())
+    }
+}
+tasks.whenTaskAdded {
+    when (name) {
+        "optimizeReleaseResources" -> {
+            finalizedBy(optimizeReleaseRes)
+        }
     }
 }
 

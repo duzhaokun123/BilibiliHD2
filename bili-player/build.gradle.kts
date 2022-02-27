@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")

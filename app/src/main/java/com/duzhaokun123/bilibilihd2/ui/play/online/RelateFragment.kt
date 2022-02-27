@@ -1,20 +1,20 @@
 package com.duzhaokun123.bilibilihd2.ui.play.online
 
 import android.content.Context
-import android.graphics.Rect
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSimpleWithHeaderAdapter
 import com.duzhaokun123.bilibilihd2.databinding.ItemRelateCardBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
+import io.material.catalog.tableofcontents.GridDividerDecoration
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_recycle_view) {
@@ -28,16 +28,11 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
         baseBinding.rv.adapter = Adapter(requireContext()).apply {
             headerView = header ?: headerView
         }
+        runCatching { baseBinding.rv.removeItemDecorationAt(0) }
+        baseBinding.rv.addItemDecoration(GridDividerDecoration(1.dpToPx(), ColorUtils.setAlphaComponent(requireContext().theme.getAttr(R.attr.colorOnSurface).data, (255 * 0.12).toInt()), 1), 0)
     }
 
     override fun initData() {
-        baseBinding.rv.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State
-            ) {
-                outRect.set(0, 2.dpToPx(), 0, 2.dpToPx())
-            }
-        })
         model.relates.observe(this) { relates ->
             this.relates = relates
             baseBinding.rv.resetAdapter()

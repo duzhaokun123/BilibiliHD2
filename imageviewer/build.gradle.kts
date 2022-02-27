@@ -20,7 +20,6 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("androidx.transition:transition:1.4.1")
     api("com.github.chrisbanes:PhotoView:2.3.0")
