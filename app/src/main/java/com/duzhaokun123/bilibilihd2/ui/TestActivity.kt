@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.core.net.toUri
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityTestBinding
+import com.duzhaokun123.bilibilihd2.ui.comment.CommentActivity
+import com.duzhaokun123.bilibilihd2.utils.startActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
@@ -14,7 +16,7 @@ import kotlinx.coroutines.delay
 
 class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
-        if(result.contents == null) {
+        if (result.contents == null) {
             TipUtil.showToast("Cancelled")
         } else {
             startActivity(Intent(this, UrlOpenActivity::class.java).apply {
@@ -38,15 +40,20 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
                 TipUtil.showToast(e.message)
             }
         }
-        baseBinding.btnScan.setOnClickListener { barcodeLauncher.launch(ScanOptions().apply {
-            setDesiredBarcodeFormats(ScanOptions.QR_CODE)
-        }) }
+        baseBinding.btnScan.setOnClickListener {
+            barcodeLauncher.launch(ScanOptions().apply {
+                setDesiredBarcodeFormats(ScanOptions.QR_CODE)
+            })
+        }
         baseBinding.btnHideShow.setOnClickListener {
             runMain {
                 supportActionBar?.hide()
                 delay(2000)
                 supportActionBar?.show()
             }
+        }
+        baseBinding.btnComment.setOnClickListener {
+            startActivity<CommentActivity>()
         }
     }
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.duzhaokun123.bilibilihd2.model.RootCommentCardModel" />
+
+        <import type="com.duzhaokun123.bilibilihd2.utils.DateFormat" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp"
+        tools:targetApi="m">
+
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRoundImageView
+            android:id="@+id/civ_face"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:imageUrl="@{model.userModel.faceUrl}"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/civ_face"
+            android:text="@{model.userModel.name}"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            tools:text="Name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/civ_face"
+            android:text="@{DateFormat.INSTANCE.format1.format(model.ctime * 1000)}"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="@tools:sample/date/hhmmss" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/civ_face"
+            android:layout_marginTop="4dp"
+            android:text="@{model.content}"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textIsSelectable="true"
+            tools:text="@tools:sample/lorem/random" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_tp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="2dp"
+            android:background="@null"
+            android:src="@drawable/ic_three_points" />
+
+        <TextView
+            android:id="@+id/tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_content"
+            android:layout_marginTop="8dp"
+            android:text='@{"like: " + model.like}'
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <TextView
+            android:id="@+id/tv_likeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/tv_like"
+            android:text='@{model.likeStatus == 0 ? "" : model.likeStatus == 1 ? "已赞" : "已踩"}'
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+    </RelativeLayout>
+</layout>

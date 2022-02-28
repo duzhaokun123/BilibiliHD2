@@ -167,7 +167,7 @@ class LazyCidDanmakuParser(
         val c = durationS / 360 + 1
         (1..c).forEach { i ->
             try {
-                dms.addAll(grpcClidet.dmSegVideo(aid, cid, i.toLong()).elemsList)
+                dms.addAll(grpcClidet.dm.dmSegVideo(aid, cid, i.toLong()).elemsList)
             } catch (e: Exception) {
                 e.printStackTrace()
                 hasLost = true

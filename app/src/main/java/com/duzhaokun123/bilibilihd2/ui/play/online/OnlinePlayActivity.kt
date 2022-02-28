@@ -25,7 +25,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.databinding.LayoutOnlineplayIntroBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
-import com.duzhaokun123.bilibilihd2.ui.reply.RootReplyFragment
+import com.duzhaokun123.bilibilihd2.ui.comment.RootCommentFragment
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
@@ -344,7 +344,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                     relateFragment = it
                 }
             else
-                RootReplyFragment()
+                RootCommentFragment(aid, 1)
         }
     }
 

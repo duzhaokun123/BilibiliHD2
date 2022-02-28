@@ -133,6 +133,13 @@ fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, ext
         extra?.invoke(t)
     }
 
+fun <R> Result<R>.commonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
+    onFailure { t ->
+        t.printStackTrace()
+        TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
+        extra?.invoke(t)
+    }
+
 fun <R> Any.getAnyFieldAs(name: String, clazz: Class<*> = this::class.java): R {
     val f = clazz.getDeclaredField(name)
     f.isAccessible = true

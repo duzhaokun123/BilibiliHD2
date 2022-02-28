@@ -50,4 +50,5 @@
     <string name="refresh_token">刷新 token</string>
     <string name="donate">捐赠</string>
     <string name="qr_code">二维码</string>
+    <string name="report">举报</string>
 </resources>

@@ -4,5 +4,6 @@ data class UserModel(
     val name: String,
     val uid: Long,
     val faceUrl: String?,
-    val desc: String
+    val desc: String = "",
+    val level: Int = 0,
 )

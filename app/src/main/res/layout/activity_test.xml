@@ -25,16 +25,29 @@
                 android:text="start" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_scan"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="扫码" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_hideShow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="hide/show" />
+            <Button
+                android:id="@+id/btn_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="扫码" />
+
+            <Button
+                android:id="@+id/btn_hideShow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hide/show" />
+
+            <Button
+                android:id="@+id/btn_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论" />
+        </LinearLayout>
+
     </LinearLayout>
 </layout>

@@ -23,7 +23,7 @@ class HistoryFragment :
         Settings.mainCardWidthDp.let { run { if (it == 0) 500 else it }.dpToPx() },
         HistoryModel::class
     ) {
-    class HistoryModel : BaseSimpleCardGridSRRVFragment.BaseModel<HistoryCardModel>() {
+    class HistoryModel : BaseModel<HistoryCardModel>() {
         val max = MutableLiveData<Long>(0)
         val tabs = MutableLiveData<List<History.Data.Tab>>(emptyList())
         val selectedTab = MutableLiveData("all")

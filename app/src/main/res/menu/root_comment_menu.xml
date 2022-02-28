@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_like"
+        android:title="@string/like" />
+    <item
+        android:id="@+id/menu_dislike"
+        android:title="@string/dislike" />
+    <item
+        android:id="@+id/menu_cancel"
+        android:title="@android:string/cancel" />
+    <item
+        android:id="@+id/menu_report"
+        android:title="@string/report" />
+    <item
+        android:id="@+id/menu_delete"
+        android:title="@string/delete" />
+</menu>

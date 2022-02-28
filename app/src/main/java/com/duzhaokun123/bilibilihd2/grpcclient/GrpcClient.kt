@@ -1,6 +1,7 @@
 package com.duzhaokun123.bilibilihd2.grpcclient
 
 import com.bapis.bilibili.community.service.dm.v1.*
+import com.bapis.bilibili.main.community.reply.v1.*
 import com.duzhaokun123.bilibilihd2.utils.application
 import com.duzhaokun123.bilibilihd2.utils.bilibiliClient
 import io.grpc.*
@@ -14,7 +15,10 @@ class GrpcClient {
 
     private var channel: ManagedChannel? = null
 
-    private lateinit var dmStub: DMGrpc.DMBlockingStub
+    lateinit var dm: Dm
+        private set
+    lateinit var reply: Reply
+        private set
 
     fun rebuildChannel() {
         channel?.shutdown()
@@ -26,17 +30,7 @@ class GrpcClient {
                 }.build().toByteArray())
             }))
             .build()
-        dmStub = DMGrpc.newBlockingStub(channel)
-    }
-
-    fun dmSegVideo(aid: Long, cid: Long, segmentIndex: Long): DmSegMobileReply {
-        val dmSegMobileReply = DmSegMobileReq.newBuilder()
-            .setPid(aid)
-            .setOid(cid)
-            .setType(1)
-            .setSegmentIndex(segmentIndex)
-            .setTeenagersMode(0)
-            .build()
-        return dmStub.dmSegMobile(dmSegMobileReply)
+        dm = Dm(DMGrpc.newBlockingStub(channel))
+        reply = Reply(ReplyGrpc.newBlockingStub(channel))
     }
 }

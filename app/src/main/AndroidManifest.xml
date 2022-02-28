@@ -112,6 +112,7 @@
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="unspecified"
             tools:replace="screenOrientation" />
+        <activity android:name=".ui.comment.CommentActivity" />
     </application>
 
 </manifest>
