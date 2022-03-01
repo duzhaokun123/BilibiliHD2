@@ -11,6 +11,9 @@ import kotlinx.coroutines.launch
 val WindowInsetsCompat.maxSystemBarsDisplayCutout
     get() = getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
 
+val WindowInsetsCompat.maxSystemBarsDisplayCutoutIme
+    get() = getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime())
+
 fun runMain(block: suspend CoroutineScope.() -> Unit) =
     GlobalScope.launch(Dispatchers.Main, block = block)
 

@@ -1,6 +1,14 @@
 package com.duzhaokun123.bilibilihd2.ui.comment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.view.View
+import android.widget.EditText
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import com.bapis.bilibili.main.community.reply.v1.Mode
 import com.duzhaokun123.bilibilihd2.R
@@ -8,8 +16,10 @@ import com.duzhaokun123.bilibilihd2.bases.BaseSimpleCardGridSRRVFragment
 import com.duzhaokun123.bilibilihd2.databinding.ItemRootCommentBinding
 import com.duzhaokun123.bilibilihd2.model.RootCommentCardModel
 import com.duzhaokun123.bilibilihd2.model.toRootCommentCardModel
+import com.duzhaokun123.bilibilihd2.ui.WebViewActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
@@ -51,6 +61,25 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
             .onSuccess { r ->
                 baseModel.next.postValue(r.cursor.next)
             }.getOrNull()?.repliesList?.toRootCommentCardModel()
+    }
+
+    override fun initViews() {
+        super.initViews()
+        val etId = View.generateViewId()
+        EditText(requireContext()).apply {
+            id = etId
+        }.also {
+            baseBinding.rl.addView(it, RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+                addRule(RelativeLayout.CENTER_HORIZONTAL)
+            })
+        }
+        baseBinding.srl.updateLayoutParams<RelativeLayout.LayoutParams> {
+            addRule(RelativeLayout.ABOVE, etId)
+        }
     }
 
     override fun initItemView(
@@ -119,7 +148,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                             true
                         }
                         R.id.menu_report -> {
-                            TipUtil.showTip(context, "TODO")
+                            BrowserUtil.openInApp(requireContext(), "https://www.bilibili.com/h5/comment/report?pageType=${type.toInt()}&oid=$oid&rpid=${itemModel.rpid}")
                             true
                         }
                         R.id.menu_delete -> {
@@ -133,11 +162,29 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                                 }.launch()
                             true
                         }
+                        R.id.menu_copy -> {
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setTitle("复制")
+                                .setMessage(itemModel.content)
+                                .setPositiveButton("复制全部") { _, _ ->
+                                    val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                    val clip = ClipData.newPlainText("reply", itemModel.content)
+                                    clipboard.setPrimaryClip(clip)
+                                    TipUtil.showTip(requireContext(), "已复制")
+                                }
+                                .setNegativeButton("取消", null)
+                                .show()
+                                .findViewById<TextView>(android.R.id.message)?.setTextIsSelectable(true)
+                            true
+                        }
                         else -> false
                     }
                 }
                 show()
             }
+        }
+        itemBinding.cv.setOnClickListener {
+            TipUtil.showTip(requireContext(), "TODO")
         }
     }
 
