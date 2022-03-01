@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package bilibili.broadcast.message.main;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/broadcast/message/main;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.broadcast.message.main";
+option objc_class_prefix = "BAPIBroadcastMessageMain";
+
+// DanmakuElem .
+message DanmakuElem {
+    // 弹幕id
+    int64 id = 1;
+    // 弹幕位置
+    int32 progress = 2;
+    // 弹幕类型
+    int32 mode = 3;
+    // 弹幕字体
+    int32 fontsize = 4;
+    // 弹幕颜色
+    uint32 color = 5;
+    // 弹幕发送者md5哈希
+    string mid_hash = 6;
+    // 弹幕文本内容
+    string content = 7;
+    // 弹幕发送时间  时间戳
+    int64 ctime = 8;
+    // 弹幕动作
+    string action = 9;
+    // 弹幕池
+    int32 pool = 10;
+    // 弹幕id_str
+    string id_str = 11;
+}
+
+message DanmukuEvent {
+    repeated DanmakuElem elems = 1;
+}
+
+message CommandDm {
+    int64 id = 1; //弹幕id
+    int64 oid = 2; //oid
+    int64 mid = 3; //mid
+    int32 type = 4;
+    string command = 5; //弹幕指令
+    string content = 6; //弹幕内容
+    int32 state = 7; //弹幕状态
+    int32 progress = 8;
+    string ctime = 9;
+    string mtime = 10;
+    string extra = 11;
+    string idStr = 12; //弹幕id
+}

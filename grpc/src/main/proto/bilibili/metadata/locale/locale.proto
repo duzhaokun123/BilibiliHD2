@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package bilibili.metadata.locale;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/metadata/locale;locale";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.metadata.locale";
+option objc_class_prefix = "BAPIMetadataLocale";
+
+// Defined by https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/LanguageandLocaleIDs/LanguageandLocaleIDs.html
+message LocaleIds {
+    // A language designator is a code that represents a language.
+    string language = 1;
+    // Writing systems.
+    string script = 2;
+    // A region designator is a code that represents a country or an area.
+    string region = 3;
+}
+ 
+message Locale {
+   // App设置的locale.
+   LocaleIds c_locale = 1;
+   // 系统默认的locale.
+   LocaleIds s_locale = 2;
+}

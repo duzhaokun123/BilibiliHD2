@@ -1,0 +1,173 @@
+syntax = "proto3";
+
+package archive.service.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/archive/v1;v1";
+option java_package = "com.bapis.bilibili.app.archive.v1";
+option java_multiple_files = true;
+option objc_class_prefix = "BAPIAppArchiveV1";
+
+
+message Arc {
+    int64 aid = 1;
+    // 稿件一共有多少分P
+    int64 videos = 2;
+    // 分区ID
+    int32 type_id = 3;
+    // 分区名
+    string type_name = 4;
+    // 是否转载  1=原创  2=转载 0=历史上可能遗留的脏数据
+    int32 copyright = 5;
+    // 稿件封面图地址，绝对地址 如 http://i0.hdslb.com/bfs/xxx.jpg
+    string pic = 6;
+    // 稿件标题
+    string title = 7;
+    // 稿件发布时间 对外展示的标准时间  时间戳格式
+    int64 pubdate = 8;
+    // 用户提交稿件的时间 一般不对外展示 时间戳格式
+    int64 ctime = 9;
+    // 稿件简介
+    string desc = 10;
+    // 稿件状态，>=0为前台用户可见状态，其他值详见 http://info.bilibili.co/pages/viewpage.action?pageId=3686597#id-%E7%A8%BF%E4%BB%B6%E5%AD%97%E6%AE%B5%E6%9E%9A%E4%B8%BE%E5%80%BC%E5%B1%9E%E6%80%A7%E8%AF%B4%E6%98%8E-%E7%A8%BF%E4%BB%B6%E7%8A%B6%E6%80%81state&access
+    int32 state = 11;
+    // 稿件访问属性 0=全员可见 10000=登录用户可见（极少)
+    int32 access = 12;
+    // 稿件属性 详见State字段的文档
+    int32 attribute = 13;
+    // 废弃字段
+    string tag = 14;
+    // 废弃字段
+    repeated string tags = 15;
+    // 稿件总时长（所有分P加起来的） 单位=秒
+    int64 duration = 16;
+    // 稿件绑定的活动id
+    int64 mission_id = 17;
+    // 稿件绑定的商单id
+    int64 order_id = 18;
+    // 稿件后台设置的强制跳转地址，如果该值不为空，则必须调转到它对应的页面上
+    string redirect_url = 19;
+    int64 forward = 20;
+    // 见Rights字段说明
+    Rights rights = 21;
+    // 稿件作者信息，详见Author字段说明
+    Author author = 22;
+    // 稿件计数信息，详见Stat字段说明
+    Stat stat = 23;
+    string report_result = 24;
+    // 发布稿件时Up主设置的动态描述（仅在动态展示）
+    string dynamic = 25;
+    // 稿件第一P的cid，供秒开使用
+    int64 first_cid = 26;
+    // 稿件第一P的分辨率，详见Dimession字段说明
+    Dimension dimension = 27;
+    // 联合投稿信息，内部使用，详见StaffInfo说明
+    repeated StaffInfo staff_info  = 28;
+    // ugc剧集ID
+    int64 season_id = 29;
+    // 新版attibute属性，老业务的int32已经用完
+    int64 attribute_v2 = 30;
+}
+
+message StaffInfo {
+    // 联合投稿的成员Up主id
+    int64 mid = 1;
+    // 联合投稿的成员角色（如 声优、字幕）
+    string title = 2;
+    // 属性位（文档见https://info.bilibili.co/pages/viewpage.action?pageId=83773767）
+    int64 attribute = 3 ;
+}
+
+// Dimension 视频分辨率
+message Dimension {
+    // 宽 如 1920
+    int64 width = 1;
+    // 高 如 1080
+    int64 height = 2;
+    // 是否翻转 0=否 1=是
+    int64 rotate = 3;
+}
+
+// Rights 稿件各常用属性 0=否 1=是
+message Rights {
+    // 老版是否付费
+    int32 bp = 1;
+    // 是否支持充电 （不可直接使用，网关层请求业务方后才有值）
+    int32 elec = 2;
+    // 是否下载（不可直接使用，网关层请求业务方后才有值）
+    int32 download = 3;
+    // 是否电影
+    int32 movie = 4;
+    // 是否PGC付费
+    int32 pay = 5;
+    // 无用
+    int32 hd5 = 6;
+    // 是否允许转发
+    int32 no_reprint = 7;
+    // 是否可以自动播放
+    int32 autoplay = 8;
+    // 是否UGC付费
+    int32 ugc_pay = 9;
+    // 是否联合投稿
+    int32 is_cooperation = 10;
+    // 是否有UGC付费预览
+    int32 ugc_pay_preview = 11;
+    // 是否禁止后台播放
+    int32 no_background = 12;
+}
+
+// Author 稿件作者信息
+message Author {
+    // Up主mid
+    int64 mid = 1;
+    // Up主名称
+    string name = 2;
+    // Up主头像地址 绝对地址
+    string face = 3;
+}
+
+// Stat 稿件的所有计数信息
+message Stat {
+    int64 aid = 1;
+    // 播放数
+    int32 view = 2;
+    // 弹幕数
+    int32 danmaku = 3;
+    // 评论数
+    int32 reply = 4;
+    // 收藏数
+    int32 fav = 5;
+    // 投币数
+    int32 coin = 6;
+    // 分享数
+    int32 share = 7;
+    // 当前排名
+    int32 now_rank = 8;
+    // 历史最高排名
+    int32 his_rank = 9;
+    // 点赞数
+    int32 like = 10;
+    // 点踩数 已取消前台展示，现在均返回0
+    int32 dislike = 11;
+}
+
+// Page 分P信息
+message Page {
+    // 视频的cid
+    int64 cid = 1;
+    // 视频的序号顺序，从小到大
+    int32 page = 2;
+    // 视频的来源，99%为vupload=B站自己的，少部分为腾讯（qq）、湖南tv(hunan)
+    string from = 3;
+    // 视频的标题
+    string part = 4;
+    // 视频的时长 单位=秒
+    int64 duration = 5;
+    // 站外视频才有vid属性
+    string vid = 6;
+    // 视频的简介，多P视频才可填写简介
+    string desc = 7;
+    // 站外视频跳转地址
+    string webLink = 8;
+    // 视频分辨率信息
+    Dimension dimension = 9;
+}

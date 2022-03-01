@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package bilibili.metadata.network;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/metadata/network;network";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.metadata.network";
+option objc_class_prefix = "BAPIMetadataNetwork";
+
+enum NetworkType {
+    NT_UNKNOWN = 0; // 未知
+    WIFI = 1;       // WIFI
+    CELLULAR = 2;   // 移动网络
+    OFFLINE = 3;    // 未连接
+    OTHERNET = 4;   // 其他网络
+    ETHERNET = 5;   // 以太网
+}
+enum TFType {
+    TF_UNKNOWN = 0; // 正常计费
+    U_CARD = 1;     // 联通卡
+    U_PKG = 2;      // 联通包
+    C_CARD = 3;     // 移动卡
+    C_PKG = 4;      // 移动包
+    T_CARD = 5;     // 电信卡
+    T_PKG = 6;      // 电信包
+}
+message Network {
+    NetworkType type = 1; // 网络类型
+    TFType tf = 2;        // 免流类型
+    string oid = 3;       // 运营商
+}

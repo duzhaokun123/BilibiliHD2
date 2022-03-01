@@ -45,22 +45,3 @@ java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
-
-task getBiliProto(type: Copy) {
-    def biliApk6220 = new File(buildDir, "download/biliApk_6.22.0.apk")
-    if (!biliApk6220.exists()) {
-        biliApk6220.parentFile.mkdirs()
-        new URL("https://dl.love4taylor.com/bilibili-apk/arm64-v8a/iBiliPlayer-apinkRelease-6.22.0-b5189578.apk")
-                .withInputStream { i -> biliApk6220.withOutputStream { it << i } }
-    }
-
-    from(zipTree(biliApk6220)) {
-        include "bilibili/**"
-        include "github.com/**"
-    }
-    into new File(projectDir, "src/main/proto")
-}
-
-afterEvaluate {
-    extractIncludeProto.dependsOn getBiliProto
-}

@@ -1,0 +1,618 @@
+syntax = "proto3";
+
+package bilibili.app.playurl.v1;
+
+option go_package          = "git.bilibili.co/bapis/bapis-go/bilibili/app/playurl/v1;v1";
+option java_multiple_files = true;
+option java_package        = "com.bapis.bilibili.app.playurl.v1";
+option objc_class_prefix   = "BAPIAppPlayurlV1";
+
+// PlayURL 播放地址
+service PlayURL {
+    // 获取播放地址
+    rpc PlayURL(PlayURLReq) returns (PlayURLReply);
+    // 获取投屏地址
+    rpc Project(ProjectReq) returns (ProjectReply);
+    // 获取播放地址和云控配置信息
+    rpc PlayView(PlayViewReq) returns (PlayViewReply);
+    // 编辑云控的配置面板信息
+    rpc PlayConfEdit(PlayConfEditReq) returns (PlayConfEditReply);
+    // 云控配置信息
+    rpc PlayConf(PlayConfReq) returns (PlayConfReply);
+}
+
+// PlayURLReq 播放地址请求参数
+message PlayURLReq {
+    // aid
+    int64 aid = 1;
+    // cid
+    int64 cid = 2;
+    // qn清晰度
+    int64 qn = 3;
+    // fnver和fnval标识视频格式
+    int32 fnver = 4;
+    // fnver和fnval标识视频格式
+    int32 fnval = 5;
+    // 下载参数 0-非下载 1-下载flv 2-下载dash
+    uint32 download = 6;
+    // 返回url是否强制使用域名(非ip地址), 1-http域名 2-https域名
+    int32 force_host = 7;
+    // 是否需要4k清晰度
+    bool fourk = 8;
+    // spmid 当前页面
+    string spmid = 9;
+    // from_spmid 上级页面
+    string from_spmid = 10;
+}
+
+//  PlayURLReply 播放地址返回结果
+message PlayURLReply {
+    //返回视频的清晰度
+    uint32 quality = 1;
+    //返回视频的格式
+    string format = 2;
+    //返回视频的总时长, 单位为ms
+    uint64 timelength = 3;
+    //返回视频的编码号
+    uint32 video_codecid = 4;
+    //透传返回请求的fnver
+    uint32 fnver = 5;
+    //透传返回请求的fnval
+    uint32 fnval = 6;
+    //返回视频的是否支持投影
+    bool video_project = 7;
+    //返回视频播放url的列表，有durl则没dash字段
+    repeated ResponseUrl durl = 8;
+    //返回DASH视频的MPD格式文件,有dash则没durl字段
+    ResponseDash dash = 9;
+    //表示cid是否非全二压，1表示非全二压
+    int32 no_rexcode = 10;
+    //互动视频升级提示
+    UpgradeLimit upgrade_limit = 11;
+    //返回视频的拥有的清晰度描述的列表
+    repeated FormatDescription support_formats = 12;
+    //视频类型 1-flv 2-dash 3-mp4（只标识一个清晰度的格式）
+    VideoType type = 13;
+}
+
+// ResponseUrl flv url信息
+message ResponseUrl {
+    //视频的分片序列号
+    uint32 order = 1;
+    //视频分片的时长, 单位ms
+    uint64 length = 2;
+    //视频分片的大小, 单位Byte
+    uint64 size = 3;
+    //视频分片的url地址
+    string url = 4;
+    //视频分片的备用url地址列表
+    repeated string backup_url = 5;
+    //视频分片的md5,只有离线下载才有值
+    string md5 = 6;
+}
+
+// ResponseDash dash信息
+message ResponseDash {
+    //dash视频信息
+    repeated DashItem video = 1;
+    //dash视频信息
+    repeated DashItem audio = 2;
+}
+
+// DashItem dash具体信息
+message DashItem {
+    //dash的清晰度
+    uint32 id = 1;
+    //dash的url地址
+    string base_url = 2;
+    //dash的backup url地址
+    repeated string backup_url = 3;
+    //dash的信息
+    uint32 bandwidth = 4;
+    //dash的信息
+    uint32 codecid = 5;
+    //视频分片的md5,只有dash离线下载才有值
+    string md5 = 6;
+    //视频分片的大小, 单位Byte,只有dash离线下载才有值
+    uint64 size = 7;
+}
+
+// UpgradeLimit 互动视频升级信息
+message UpgradeLimit {
+    //错误码
+    int32 code = 1;
+    //错误信息
+    string message = 2;
+    //图片
+    string image = 3;
+    //升级按钮信息
+    UpgradeButton button = 4;
+}
+
+// UpgradeButton 互动视频升级按钮信息
+message UpgradeButton {
+    //标题
+    string title = 1;
+    //链接
+    string link = 2;
+}
+
+message FormatDescription {
+    //清晰度qn
+    uint32 quality = 1;
+    //清晰度格式
+    string format = 2;
+    //清晰度描述
+    string description = 3;
+    //新描述（6.9版本开始使用）
+    string new_description = 4;
+    //选中态的清晰度描述
+    string display_desc = 5;
+    //选中态的清晰度描述的角标
+    string superscript = 6;
+}
+
+// ProjectReq 投屏地址请求参数
+message ProjectReq {
+    // aid
+    int64 aid = 1;
+    // cid
+    int64 cid = 2;
+    // qn清晰度
+    int64 qn = 3;
+    // fnver和fnval标识视频格式
+    int32 fnver = 4;
+    // fnver和fnval标识视频格式
+    int32 fnval = 5;
+    // 下载参数 0-非下载 1-下载flv 2-下载dash
+    uint32 download = 6;
+    // 返回url是否强制使用域名(非ip地址), 1-http域名 2-https域名
+    int32 force_host = 7;
+    // 是否需要4k清晰度（6.8版本开始已集成到fnval表示，该字段可不传）
+    bool fourk = 8;
+    // spmid 当前页面
+    string spmid = 9;
+    // from_spmid 上级页面
+    string from_spmid = 10;
+    // 使用协议 默认乐播=0，自建协议=1，云投屏=2，airplay=3
+    int32 protocol = 11;
+    // 投屏设备 默认其他=0，OTT设备=1
+    int32 device_type = 12;
+}
+
+// ProjectReply 投屏地址返回结果
+message ProjectReply {
+    PlayURLReply project = 1;
+}
+
+// PlayViewReq 播放view请求参数
+message PlayViewReq {
+    // aid
+    int64 aid = 1;
+    // cid
+    int64 cid = 2;
+    // qn清晰度
+    int64 qn = 3;
+    // fnver  | fnval  | 功能
+    // 0          0       flv请求，优先返回flv格式视频地址
+    // 0          1       flv请求，只返回mp4格式的视频地址
+    // 0          16      优先返回DASH-H265视频的JSON内容
+    // 0          64      设备支持HDR 视频播放，此位为0，代表不支持HDR，为1，代表支持HDR
+    // 0          128     是否需要4k视频，此位为0，代表不需要4k视频，为1，代表需要4k视频
+    // 0          256     是否需要杜比音频，此位为0，代表不需要杜比音频，为1，代表需要杜比音频
+    // fnval 每位(为1)标识一个功能, 其中HDR/4K位数 与 视频格式位数是可 或 关系，如：80 (01010000) 代表需要请求DASH格式的视频且设备支持HDR
+    // fnver和fnval标识视频格式
+    int32 fnver = 4;
+    // fnver和fnval标识视频格式
+    int32 fnval = 5;
+    // 下载参数 0-非下载 1-下载flv 2-下载dash
+    uint32 download = 6;
+    // 返回url是否强制使用域名(非ip地址), 1-http域名 2-https域名
+    int32 force_host = 7;
+    // 是否需要4k清晰度
+    bool fourk = 8;
+    // spmid 当前页面
+    string spmid = 9;
+    // from_spmid 上级页面
+    string from_spmid = 10;
+    // 青少年模式
+    int32 teenagers_mode = 11;
+    // 优先返回视频格式(h264 ,h265)
+    CodeType prefer_codec_type = 12;
+}
+
+enum CodeType {
+    //default
+    NOCODE = 0;
+    //编码264
+    CODE264 = 1;
+    //编码265
+    CODE265 = 2;
+}
+
+//  PlayViewReply 播放页返回结果
+message PlayViewReply {
+    // play基础信息
+    VideoInfo video_info = 1;
+    //云控配置信息-用户维度
+    PlayAbilityConf play_conf = 2;
+    //互动视频升级提示
+    UpgradeLimit upgrade_limit = 3;
+    // Chronos灰度管理（6.6版本开始不返回，已迁移到ViewProgress接口）
+    Chronos chronos = 4;
+    //云控是否可用配置-稿件维度
+    PlayArcConf play_arc = 5;
+    //播放事件
+    Event event = 6;
+}
+
+// Event is
+message Event {
+    // 震动事件
+    Shake shake = 1;
+}
+
+// Shake Event
+message Shake {
+    //文件地址
+    string file = 1;
+}
+
+// Chronos灰度管理
+message Chronos {
+    //唯一key
+    string md5 = 1;
+    //文件地址
+    string file = 2;
+}
+
+// PlayConfReq 控制面板信息req
+message PlayConfReq {
+}
+
+// PlayConfReply 控制面板信息reply
+message PlayConfReply {
+    //云控配置信息
+    PlayAbilityConf play_conf = 1;
+}
+
+// PlayConf 播放三点配置信息
+message PlayAbilityConf {
+    //后台播放
+    CloudConf background_play_conf = 1;
+    //镜像反转
+    CloudConf flip_conf = 2;
+    //返回视频的是否支持投屏
+    CloudConf cast_conf = 3;
+    //反馈
+    CloudConf feedback_conf = 4;
+    //字幕
+    CloudConf subtitle_conf = 5;
+    //播放速度
+    CloudConf playback_rate_conf = 6;
+    //定时停止播放
+    CloudConf time_up_conf = 7;
+    //播放方式
+    CloudConf playback_mode_conf = 8;
+    //画面尺寸
+    CloudConf scale_mode_conf = 9;
+    //顶
+    CloudConf like_conf = 10;
+    //踩
+    CloudConf dislike_conf = 11;
+    //投币
+    CloudConf coin_conf = 12;
+    //充电
+    CloudConf elec_conf = 13;
+    //分享
+    CloudConf share_conf = 14;
+    //截图/gif
+    CloudConf screen_shot_conf = 15;
+    //锁屏
+    CloudConf lock_screen_conf = 16;
+    //相关推荐
+    CloudConf recommend_conf = 17;
+    //倍速
+    CloudConf playback_speed_conf = 18;
+    //清晰度
+    CloudConf definition_conf = 19;
+    //选集
+    CloudConf selections_conf = 20;
+    //下一集
+    CloudConf next_conf = 21;
+    //编辑弹幕
+    CloudConf edit_dm_conf = 22;
+    //小窗
+    CloudConf small_window_conf = 23;
+    //播放震动
+    CloudConf shake_conf = 24;
+    //外层面板弹幕设置（实验组1）
+    CloudConf outer_dm_conf = 25;
+    //三点内弹幕设置（实验组2）
+    CloudConf inner_dm_conf = 26;
+    //全景
+    CloudConf panorama_conf = 27;
+    //杜比
+    CloudConf dolby_conf = 28;
+}
+
+// PlayArcConf 播放三点配置信息-稿件维度
+message PlayArcConf {
+    //后台播放
+    ArcConf background_play_conf = 1;
+    //镜像反转
+    ArcConf flip_conf = 2;
+    //返回视频的是否支持投屏
+    ArcConf cast_conf = 3;
+    //反馈
+    ArcConf feedback_conf = 4;
+    //字幕
+    ArcConf subtitle_conf = 5;
+    //播放速度
+    ArcConf playback_rate_conf = 6;
+    //定时停止播放
+    ArcConf time_up_conf = 7;
+    //播放方式
+    ArcConf playback_mode_conf = 8;
+    //画面尺寸
+    ArcConf scale_mode_conf = 9;
+    //顶
+    ArcConf like_conf = 10;
+    //踩
+    ArcConf dislike_conf = 11;
+    //投币
+    ArcConf coin_conf = 12;
+    //充电
+    ArcConf elec_conf = 13;
+    //分享
+    ArcConf share_conf = 14;
+    //截图/gif
+    ArcConf screen_shot_conf = 15;
+    //锁屏
+    ArcConf lock_screen_conf = 16;
+    //相关推荐
+    ArcConf recommend_conf = 17;
+    //倍速
+    ArcConf playback_speed_conf = 18;
+    //清晰度
+    ArcConf definition_conf = 19;
+    //选集
+    ArcConf selections_conf = 20;
+    //下一集
+    ArcConf next_conf = 21;
+    //编辑弹幕
+    ArcConf edit_dm_conf = 22;
+    //小窗
+    ArcConf small_window_conf = 23;
+    //播放震动
+    ArcConf shake_conf = 24;
+    //外层面板弹幕设置（实验组1）
+    ArcConf outer_dm_conf = 25;
+    //三点内弹幕设置（实验组2）
+    ArcConf inner_dm_conf = 26;
+    //全景
+    ArcConf panorama_conf = 27;
+    //杜比
+    ArcConf dolby_conf = 28;
+}
+
+enum ConfType {
+    // default
+    NoType = 0;
+    //镜像反转
+    FLIPCONF = 1;
+    //视频投屏
+    CASTCONF = 2;
+    //反馈
+    FEEDBACK = 3;
+    //字幕
+    SUBTITLE = 4;
+    //播放速度
+    PLAYBACKRATE = 5;
+    //定时停止播放
+    TIMEUP = 6;
+    //播放方式
+    PLAYBACKMODE = 7;
+    //画面尺寸
+    SCALEMODE = 8;
+    //后台播放
+    BACKGROUNDPLAY = 9;
+    //顶
+    LIKE = 10;
+    //踩
+    DISLIKE = 11;
+    //投币
+    COIN = 12;
+    //充电
+    ELEC = 13;
+    //分享
+    SHARE = 14;
+    //截图/gif
+    SCREENSHOT = 15;
+    //锁屏
+    LOCKSCREEN = 16;
+    //相关推荐
+    RECOMMEND = 17;
+    //倍速
+    PLAYBACKSPEED = 18;
+    //清晰度
+    DEFINITION = 19;
+    //选集
+    SELECTIONS = 20;
+    //下一集
+    NEXT = 21;
+    //编辑弹幕
+    EDITDM = 22;
+    //小窗
+    SMALLWINDOW = 23;
+    //播放震动
+    SHAKE = 24;
+    //外层面板弹幕设置（实验组1）
+    OUTERDM = 25;
+    //三点内弹幕设置（实验组2）
+    INNERDM = 26;
+    //全景
+    PANORAMA = 27;
+    //杜比
+    DOLBY = 28;
+}
+
+// CloudConf 设备维度.
+message CloudConf {
+    //是否展示功能
+    bool show = 1;
+    // 标记类型
+    ConfType conf_type     = 2;
+    FieldValue field_value = 3;
+}
+
+message FieldValue {
+    oneof value {
+        bool switch = 1;  //开关
+    }
+}
+
+// ArcConf 稿件维度
+message ArcConf {
+    //是否可用
+    bool is_support = 1;
+}
+
+// VideoInfo 播放地址返回结果
+message VideoInfo {
+    //返回视频的清晰度
+    uint32 quality = 1;
+    //返回视频的格式
+    string format = 2;
+    //返回视频的总时长, 单位为ms
+    uint64 timelength = 3;
+    //返回视频的编码号
+    uint32 video_codecid = 4;
+    //流信息
+    repeated Stream stream_list = 5;
+    // aduio info
+    repeated DashItem dash_audio = 6;
+    // dolby
+    DolbyItem dolby = 7;
+}
+
+// DolbyItem .
+message DolbyItem {
+    enum Type {
+        // NONE
+        NONE = 0;
+        // 普通杜比音效
+        COMMON = 1;
+        // 全景杜比音效
+        ATMOS = 2;
+    }
+    //杜比类型
+    Type type = 1;
+    //杜比音频信息
+    repeated DashItem audio = 2;
+}
+
+//返回视频的拥有的清晰度描述的列表
+message Stream {
+    StreamInfo stream_info = 1;
+    oneof content {
+        //返回DASH视频的MPD格式文件,有dash则没durl字段
+        DashVideo dash_video = 2;
+        //返回视频播放url的列表，有durl则没dash字段
+        SegmentVideo segment_video = 3;
+    }
+}
+
+//返回DASH视频的MPD格式文件,有dash则没durl字段
+message SegmentVideo {
+    repeated ResponseUrl segment = 1;
+}
+
+enum PlayErr {
+    NoErr                   = 0;
+    WithMultiDeviceLoginErr = 1;  //管控类型的错误码
+}
+
+message StreamInfo {
+    //清晰度qn
+    uint32 quality = 1;
+    //清晰度格式
+    string format = 2;
+    //清晰度描述
+    string description = 3;
+    //错误码
+    PlayErr err_code = 4;
+    //不满足播放条件时的提示文案
+    StreamLimit limit = 5;
+    bool need_vip     = 6;
+    bool need_login   = 7;
+    //是否是完整的
+    bool intact = 8;
+    //表示cid是否非全二压，true表示非全二压
+    bool no_rexcode = 9;
+    //清晰度属性位（每位为1表示不同属性，第0位为1->是HDR）
+    int64 attribute = 10;
+    //新描述（6.9版本开始使用）
+    string new_description = 11;
+    //选中态的清晰度描述
+    string display_desc = 12;
+    //选中态的清晰度描述的角标
+    string superscript = 13;
+}
+
+// 清晰度不满足条件时，提示文案
+message StreamLimit {
+    //标题
+    string title = 1;
+    //跳转地址
+    string uri = 2;
+    //提示信息
+    string msg = 3;
+}
+
+message PlayConfEditReply {
+}
+
+// 编辑控制面板
+message PlayConfEditReq {
+    repeated PlayConfState play_conf = 1;
+}
+
+message PlayConfState {
+    //云控类型
+    ConfType conf_type = 1;
+    //true:展示 false:隐藏
+    bool show = 2;
+    //云控value
+    FieldValue field_value = 3;
+}
+
+// DashVideo dash信息
+message DashVideo {
+    //dash的url地址
+    string base_url = 1;
+    //dash的backup url地址
+    repeated string backup_url = 2;
+    //dash的信息
+    uint32 bandwidth = 3;
+    //dash的信息
+    uint32 codecid = 4;
+    //视频分片的md5,只有dash离线下载才有值
+    string md5 = 5;
+    //视频分片的大小, 单位Byte,只有dash离线下载才有值
+    uint64 size = 6;
+    //dash视频信息id,default id
+    uint32 audio_id = 7;
+    //表示cid是否非全二压，true表示非全二压
+    bool no_rexcode = 8;
+}
+
+enum VideoType {
+    Unknown = 0;
+    //flv格式
+    FLV = 1;
+    //dash格式
+    DASH = 2;
+    //mp4格式
+    MP4 = 3;
+}

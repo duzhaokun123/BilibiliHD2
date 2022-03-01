@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package bilibili.app.archive.middleware.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/archive/middleware/v1;v1";
+option java_package = "com.bapis.bilibili.app.archive.middleware.v1";
+option java_multiple_files = true;
+option objc_class_prefix = "BAPIAppArchiveMiddlewareV1";
+
+message PlayerArgs {
+    // 清晰度
+    int64 qn = 1;
+    // 功能版本号
+    int64 fnver = 2;
+    // 功能标识
+    // fnver  | fnval  | 功能
+    // 0          0       flv请求，优先返回flv格式视频地址
+    // 0          1       flv请求，只返回mp4格式的视频地址
+    // 0          16      优先返回DASH-H265视频的JSON内容
+    // 0          64      设备支持HDR 视频播放，此位为0，代表不支持HDR，为1，代表支持HDR
+    // 0          128     是否需要4k视频，此位为0，代表不需要4k视频，为1，代表需要4k视频
+    // 0          256     是否需要杜比音频，此位为0，代表不需要杜比音频，为1，代表需要杜比音频
+    // fnval 每位(为1)标识一个功能, 其中HDR/4K位数 与 视频格式位数是可 或 关系，如：80 (01010000) 代表需要请求DASH格式的视频且设备支持HDR
+    int64 fnval = 3;
+    // 返回url是否强制使用域名 1-http域名 2-https域名
+    int64 force_host = 4;
+}

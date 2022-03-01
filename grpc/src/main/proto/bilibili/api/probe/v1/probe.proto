@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package bilibili.api.probe.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/api/probe/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.api.probe.v1";
+option objc_class_prefix = "BAPIApiProbeV1";
+
+message ProbeReq {
+  int64 mid = 1;
+  string buvid = 2;
+}
+
+message ProbeReply {
+  string content = 1;
+  int64 timestamp = 2;
+}
+
+message ProbeStreamReq {
+  int64 mid = 1;
+  int64 sequence = 2;
+}
+
+message ProbeStreamReply {
+  int64 sequence = 1;
+  int64 timestamp = 2;
+  string content = 3;
+}
+
+message ProbeSubReq {
+  string buvid = 1;
+}
+
+message ProbeSubReply {
+  int64 message_id = 1;
+}
+
+message CodeReq {
+    int64 code = 1;
+}
+
+message CodeReply {}
+
+service Probe {
+  // TestReq 测试一个普通请求, 可以放在某一个 API 一起，测试连通性.
+  rpc TestReq(ProbeReq) returns (ProbeReply) {}
+  // TODO: 暂时不测试
+  rpc TestStream(stream ProbeStreamReq) returns (stream ProbeStreamReply) {}
+  // TestSub 测试环境每隔一分钟会下发一条消息，包含 message id, 移动端需要记录并上报 message id.
+  rpc TestSub(ProbeSubReq) returns (stream ProbeSubReply) {}
+  // TestCode 模拟错误码返回到status中
+  rpc TestCode(CodeReq) returns (CodeReply) {}
+}

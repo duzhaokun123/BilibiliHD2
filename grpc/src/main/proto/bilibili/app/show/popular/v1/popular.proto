@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package bilibili.app.show.v1;
+option go_package          = "git.bilibili.co/bapis/bapis-go/bilibili/app/show/popular/v1";
+option java_multiple_files = true;
+option java_package        = "com.bapis.bilibili.app.show.popular.v1";
+option objc_class_prefix   = "BAPIAppShowPopularV1";
+
+import "bilibili/app/card/v1/card.proto";
+import "bilibili/app/archive/middleware/v1/preload.proto";
+
+// 热门
+service Popular {
+    // 热门列表
+    rpc Index(PopularResultReq) returns (PopularReply);
+}
+
+message PopularResultReq {
+    // 索引ID，请求上一次最后一条返回的idx，默认第一次请求为 0
+    int64 idx = 1;
+    // 1:未登陆用户第一页，2:登陆用户第一页
+    int32 login_event = 2;
+    // (新版本废弃，统一使用player_args）清晰度（秒开用）
+    int32 qn = 3;
+    // (新版本废弃，统一使用player_args）功能版本号（秒开用）
+    int32 fnver = 4;
+    // (新版本废弃，统一使用player_args）功能标识（秒开用）
+    int32 fnval = 5;
+    // (新版本废弃，统一使用player_args）返回url是否强制使用域名（秒开用）
+    int32 force_host = 6;
+    // (新版本废弃，统一使用player_args）是否需要4K视频, fourk=1表示需要4K视频, 其他都是不需要, 默认值为0（秒开用）
+    int32 fourk = 7;
+    // 上报视频展示是在热门tab，还是热门页面 creation.hot-tab.0.0 或 creation.hot-page.0.0
+    string spmid = 8;
+    // 上一次请求最后一条返回的param，默认第一次请求为 ""
+    string last_param = 9;
+    // 客户端上一刷的ver值，用户给服务端做特殊处理用
+    string ver = 10;
+    // 分品类热门的入口ID，0代表走全部热门
+    int64 entrance_id = 11;
+    // 热门定位id集合，用逗号分隔
+    string location_ids = 12;
+    // 0代表tag页， 1代表中间页
+    int32 source_id = 13;
+    //数据埋点上报 0代表手动刷新,1代表自动刷新
+    int32 flush = 14;
+    // 秒开用参数
+    bilibili.app.archive.middleware.v1.PlayerArgs player_args = 15;
+}
+
+message PopularReply {
+    // 卡片列表
+    repeated .bilibili.app.card.v1.Card items = 1;
+    // 配置信息
+    Config config = 2;
+    // 当前的ver值，用户给服务端做特殊处理用
+    string ver = 3;
+}
+
+message Config {
+    // 标题
+    string item_title = 1;
+    // 底部按钮文案
+    string bottom_text = 2;
+    // 底部按钮图片
+    string bottom_text_cover = 3;
+    // 底部按钮跳转链接
+    string bottom_text_url = 4;
+    // 顶部入口(只有ipad)
+    repeated EntranceShow top_items = 5;
+    // 中间页头图
+    string head_image = 6;
+    // 中间页入口
+    repeated EntranceShow page_items = 7;
+    //ab test
+    int64 hit = 8;
+}
+
+message EntranceShow {
+    // 图标地址
+    string icon = 1;
+    // 标题
+    string title = 2;
+    // module_id 入口id
+    string module_id = 3;
+    // 跳转url
+    string uri = 4;
+    // 气泡
+    Bubble bubble = 5;
+    // 对应入口id
+    int64 entrance_id = 6;
+    // 对应入口的头图
+    string top_photo = 7;
+    // 对应的入口类型，1代表分品类热门
+    int32 entrance_type = 8;
+}
+
+message Bubble {
+    // 气泡文案
+    string bubble_content = 1;
+    // 气泡版本号
+    int32 version = 2;
+    // 时间戳
+    int64 stime = 3;
+}

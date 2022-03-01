@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package bilibili.live.generalinterface.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/live/general-interface/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.live.general.interfaces.v1";
+option objc_class_prefix = "BAPILiveGeneral-interfaceV1";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+
+service Rank {
+  //在线榜榜单
+  rpc GetOnlineRank (GetOnlineRankReq) returns (GetOnlineRankResp);
+}
+
+message GetOnlineRankReq {
+  int64 ruid = 1 [(gogoproto.jsontag) = "ruid", (gogoproto.moretags) = 'form:"ruid"', json_name = "ruid"];
+  int64 roomId = 2 [(gogoproto.jsontag) = "roomId", (gogoproto.moretags) = 'form:"roomId" validate:"required"', json_name = "roomId"];
+  int64 page = 3 [(gogoproto.jsontag) = "page", (gogoproto.moretags) = 'form:"page" validate:"required"', json_name = "page"];
+  int64 pageSize = 4 [(gogoproto.jsontag) = "pageSize", (gogoproto.moretags) = 'form:"pageSize" validate:"required"', json_name = "pageSize"];
+  string platform = 5 [(gogoproto.jsontag) = "platform", (gogoproto.moretags) = 'form:"platform" validate:"required"', json_name = "platform"];
+
+}
+
+
+message GetOnlineRankResp {
+  repeated OnlineRankItem item = 1 [(gogoproto.jsontag) = "item", json_name = "item"];
+  // 高能榜+在线榜人数
+  int64 onlineNum = 2 [(gogoproto.jsontag) = "onlineNum", json_name = "onlineNum"];
+
+  message OnlineRankItem {
+    // uid
+    int64 uid = 1 [(gogoproto.jsontag) = "uid", json_name = "uid"];
+    // 用户昵称
+    string uname = 2 [(gogoproto.jsontag) = "name", json_name = "name"];
+    // 头像
+    string face = 3 [(gogoproto.jsontag) = "face", json_name = "face"];
+    // 持续观看 1为持续观看 0为没有持续观看
+    int64 continueWatch = 4 [(gogoproto.jsontag) = "continueWatch", json_name = "continueWatch"];
+    // 勋章信息
+    MedalInfo medalInfo = 5 [(gogoproto.jsontag) = "medalInfo", json_name = "medalInfo"];
+    // 大航海等级
+    int64 guardLevel = 6 [(gogoproto.jsontag) = "guardLevel", json_name = "guardLevel"];
+  }
+}
+message MedalInfo {
+  // 大航海等级
+  int64 guardLevel = 1 [(gogoproto.jsontag) = "guardLevel", json_name = "guardLevel"];
+  //渐变色开始色
+  int64 medalColorStart = 2 [(gogoproto.jsontag) = "medalColorStart", json_name = "medalColorStart"];
+  // 渐变色结束色
+  int64 medalColorEnd = 3 [(gogoproto.jsontag) = "medalColorEnd", json_name = "medalColorEnd"];
+  // 边框颜色
+  int64 medalColorBorder = 4 [(gogoproto.jsontag) = "medalColorBorder", json_name = "medalColorBorder"];
+  // 粉丝勋章名称
+  string medalName = 5 [(gogoproto.jsontag) = "medalName", json_name = "medalName"];
+  // 勋章等级
+  int64 level = 6 [(gogoproto.jsontag) = "level", json_name = "level"];
+  // 主播uid
+  int64 targetId = 7 [(gogoproto.jsontag) = "targetId", json_name = "targetId"];
+  // 勋章点亮状态
+  int64 isLight = 8 [(gogoproto.jsontag) = "isLight", json_name = "isLight"];
+}

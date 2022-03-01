@@ -1,0 +1,2038 @@
+syntax = "proto3";
+
+package bilibili.web.interface.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/web/interface/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.web.interfaces.v1";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+service WebInterface {
+  rpc ViewDetail(ViewDetailReq) returns (ViewDetailReply);
+  // 大型活动页获取信息接口
+  rpc ActivitySeason(ActivitySeasonReq) returns (ActivitySeasonReply);
+  // 点击大型活动页预约
+  rpc ClickActivitySeason(ClickActivitySeasonReq) returns (NoReply);
+  // 大型活动刷新稿件信息接口
+  rpc ActivityArchive(ActivityArchiveReq) returns (ActivityArchiveReply);
+  // 大型活动直播时间相关信息接口
+  rpc ActivityLiveTimeInfo(ActivityLiveTimeInfoReq) returns (ActivityLiveTimeInfoReply);
+}
+
+message NoReply {}
+
+message ActivityLiveTimeInfoReq {
+  // 大型活动唯一标识
+  string activity_key = 1 [(gogoproto.moretags) = 'form:"activity_key" validate:"required"'];
+}
+
+message ActivityLiveTimeInfoReply {
+  // 当前时间戳
+  int64 now_time = 1 [(gogoproto.jsontag) = "now_time", json_name = "now_time"];
+  // 开始时间
+  int64 start_time = 2 [(gogoproto.jsontag) = "start_time", json_name = "start_time"];
+  // 结束时间
+  int64 end_time = 3 [(gogoproto.jsontag) = "end_time", json_name = "end_time"];
+  // 节目单
+  repeated LiveTimeline timeline = 4  [(gogoproto.jsontag) = "timeline", json_name = "timeline"];
+}
+
+message ActivityArchiveReq {
+  // Aid
+  int64 aid = 1 [(gogoproto.moretags) = 'form:"aid"'];
+  // bvid 和aid 二个参数必传一个，bvid优先级比aid高
+  string bvid = 2 [(gogoproto.moretags) = 'form:"bvid"'];
+  // 大型活动唯一标识
+  string activity_key = 3 [(gogoproto.moretags) = 'form:"activity_key" validate:"required"'];
+}
+
+message ActivityArchiveReply {
+  // 稿件信息
+  Arc arc = 1 [(gogoproto.jsontag) = "arc", json_name = "arc"];
+  // bvid
+  string bvid = 2 [(gogoproto.jsontag) = "bvid", json_name = "bvid"];
+  // 分p信息
+  repeated Page pages = 3 [(gogoproto.jsontag) = "pages", json_name = "pages"];
+  // 用户和稿件关系
+  ReqUser req_user = 4 [(gogoproto.jsontag) = "req_user", json_name = "req_user"];
+  // staff 信息
+  repeated Staff staff = 5 [(gogoproto.jsontag) = "staff", json_name = "staff"];
+  // 右侧相关推荐模块（运营配置）
+  OperationRelate right_relate = 6 [(gogoproto.jsontag) = "right_relate", json_name = "right_relate"];
+  // 底部相关推荐模块（运营配置）
+  OperationRelate bottom_relate = 7 [(gogoproto.jsontag) = "bottom_relate", json_name = "bottom_relate"];
+}
+
+message ClickActivitySeasonReq{
+  // 预约类型（透传ActivitySeason接口下发）
+  OrderType order_type = 1 [(gogoproto.moretags) = 'form:"order_type" validate:"required"'];
+  oneof param {
+    // 订阅活动参数
+    ReserveActivityParam reserve_param = 2 [(gogoproto.moretags) = 'form:"reserve_param"'];
+    // 收藏剧集参数
+    FavSeasonParam fav_param = 3 [(gogoproto.moretags) = 'form:"fav_param"'];
+    // 跳转参数
+    JumpURLParam jump_param = 4 [(gogoproto.moretags) = 'form:"jump_param"'];
+  }
+  // 页面标识
+  string spmid = 5 [(gogoproto.moretags) = 'form:"spmid"'];
+  // 用户操作 0 确认操作 1 取消操作
+  int64 action = 6 [(gogoproto.moretags) = 'form:"action"'];
+}
+
+message ActivitySeasonReq {
+  // Aid
+  int64 aid = 1 [(gogoproto.moretags) = 'form:"aid"'];
+  // bvid 和aid 二个参数必传一个，bvid优先级比aid高
+  string bvid = 2 [(gogoproto.moretags) = 'form:"bvid"'];
+  // 大型活动唯一标识
+  string activity_key = 3 [(gogoproto.moretags) = 'form:"activity_key" validate:"required"'];
+}
+
+message ActivitySeasonReply {
+  // 页面状态
+  ActivitySeasonStatus status = 1 [(gogoproto.jsontag) = "status", json_name = "status"];
+  // 活动标题
+  string title = 2 [(gogoproto.jsontag) = "title", json_name = "title"];
+  // 直播相关信息
+  ActivityLive live = 3 [(gogoproto.jsontag) = "live", json_name = "live"];
+  // 订阅模块
+  ActivitySubscribe subscribe = 4 [(gogoproto.jsontag) = "subscribe", json_name = "subscribe"];
+  // 游戏模块
+  ActivityGame game = 5 [(gogoproto.jsontag) = "game", json_name = "game"];
+  // 点播相关信息
+  ActivityView view = 6 [(gogoproto.jsontag) = "view", json_name = "view"];
+  // 页面素材相关信息
+  ActivityTheme theme = 7 [(gogoproto.jsontag) = "theme", json_name = "theme"];
+}
+
+// 页面素材相关信息
+message ActivityTheme {
+  // 色值
+  string base_color = 1 [(gogoproto.jsontag) = "base_color", json_name = "base_color"];
+  string loading_bg_color = 2 [(gogoproto.jsontag) = "loading_bg_color", json_name = "loading_bg_color"];
+  string operated_bg_color = 3 [(gogoproto.jsontag) = "operated_bg_color", json_name = "operated_bg_color"];
+  string default_element_color = 4 [(gogoproto.jsontag) = "default_element_color", json_name = "default_element_color"];
+  string hover_element_color = 5 [(gogoproto.jsontag) = "hover_element_color", json_name = "hover_element_color"];
+  string selected_element_color = 6 [(gogoproto.jsontag) = "selected_element_color", json_name = "selected_element_color"];
+  string base_font_color = 7 [(gogoproto.jsontag) = "base_font_color", json_name = "base_font_color"];
+  string info_font_color = 8 [(gogoproto.jsontag) = "info_font_color", json_name = "info_font_color"];
+  string mask_bg_color = 9 [(gogoproto.jsontag) = "mask_bg_color", json_name = "mask_bg_color"];
+  // 大背景底色
+  string page_bg_color = 10 [(gogoproto.jsontag) = "page_bg_color", json_name = "page_bg_color"];
+  // 图片
+  string center_logo_img = 11 [(gogoproto.jsontag) = "center_logo_img", json_name = "center_logo_img"];
+  string page_bg_img = 12 [(gogoproto.jsontag) = "page_bg_img", json_name = "page_bg_img"];
+  string decorations_2233_img = 13 [(gogoproto.jsontag) = "decorations_2233_img", json_name = "decorations_2233_img"];
+  //  点播直播 一级模块背景
+  string main_banner_bg_img = 14 [(gogoproto.jsontag) = "main_banner_bg_img", json_name = "main_banner_bg_img"];
+  // 点播直播 一级模块标题
+  string main_banner_title_img = 15 [(gogoproto.jsontag) = "main_banner_title_img", json_name = "main_banner_title_img"];
+  string like_animation_img = 16 [(gogoproto.jsontag) = "like_animation_img", json_name = "like_animation_img"];
+  string combo_like_img = 17 [(gogoproto.jsontag) = "combo_like_img", json_name = "combo_like_img"];
+  string combo_coin_img = 18 [(gogoproto.jsontag) = "combo_coin_img", json_name = "combo_coin_img"];
+  string combo_fav_img = 19 [(gogoproto.jsontag) = "combo_fav_img", json_name = "combo_fav_img"];
+  string arrow_btn_img = 20 [(gogoproto.jsontag) = "arrow_btn_img", json_name = "arrow_btn_img"];
+  // 分享图标菱形底座
+  string share_icon_bg_img = 21 [(gogoproto.jsontag) = "share_icon_bg_img", json_name = "share_icon_bg_img"];
+  // 直播节目单底部菱形定位图标
+  string live_list_location_img = 22 [(gogoproto.jsontag) = "live_list_location_img", json_name = "live_list_location_img"];
+  // 直播节目单底部菱形定位图标 高亮
+  string live_list_location_img_active = 23 [(gogoproto.jsontag) = "live_list_location_img_active", json_name = "live_list_location_img_active"];
+  // 播放器兜底图
+  string player_loading_img = 24 [(gogoproto.jsontag) = "player_loading_img", json_name = "player_loading_img"];
+  // 分享图的兜底图
+  string share_img = 25 [(gogoproto.jsontag) = "share_img", json_name = "share_img"];
+}
+
+// 点播相关信息
+message ActivityView {
+  // 稿件信息
+  Arc arc = 1 [(gogoproto.jsontag) = "arc", json_name = "arc"];
+  // bvid
+  string bvid = 2 [(gogoproto.jsontag) = "bvid", json_name = "bvid"];
+  // 分p信息
+  repeated Page pages = 3 [(gogoproto.jsontag) = "pages", json_name = "pages"];
+  // staff 信息
+  repeated Staff staff = 4 [(gogoproto.jsontag) = "staff", json_name = "staff"];
+  // 用户和稿件关系
+  ReqUser req_user = 5 [(gogoproto.jsontag) = "req_user", json_name = "req_user"];
+  // 右侧相关推荐模块（运营配置）
+  OperationRelate right_relate = 6 [(gogoproto.jsontag) = "right_relate", json_name = "right_relate"];
+  // 底部相关推荐模块（运营配置）
+  OperationRelate bottom_relate = 7 [(gogoproto.jsontag) = "bottom_relate", json_name = "bottom_relate"];
+  // ugc season 剧集信息
+  repeated ActivitySeasonSection sections = 8 [(gogoproto.jsontag) = "sections", json_name = "sections"];
+}
+
+message ReqUser {
+  // 是否收藏
+  bool favorite = 1  [(gogoproto.jsontag) = "favorite", json_name = "favorite"];
+  // 是否点赞
+  bool like = 2 [(gogoproto.jsontag) = "like", json_name = "like"];
+  // 是否点踩
+  bool dislike = 3  [(gogoproto.jsontag) = "dislike", json_name = "dislike"];
+  // 投币数
+  int64 multiply = 4  [(gogoproto.jsontag) = "multiply", json_name = "multiply"];
+}
+
+message ActivitySeasonSection {
+  // 小节id
+  int64 id = 1 [(gogoproto.jsontag) = "id", json_name = "id"];
+  // 小节标题
+  string title = 2 [(gogoproto.jsontag) = "title", json_name = "title"];
+  // 小节类型 0其他 1正片
+  int64 type = 3 [(gogoproto.jsontag) = "type", json_name = "type"];
+  // 单集列表
+  repeated ActivityEpisode episodes = 4 [(gogoproto.jsontag) = "episodes", json_name = "episodes"];
+}
+
+message ActivityEpisode {
+  // 单集ID
+  int64 id  = 1 [(gogoproto.jsontag) = "id", json_name = "id"];
+  // 对应稿件的aid
+  int64 aid = 2 [(gogoproto.jsontag) = "aid", json_name = "aid"];
+  // 对应稿件的bvid
+  string bvid = 3 [(gogoproto.jsontag) = "bvid", json_name = "bvid"];
+  // 对应视频的cid
+  int64 cid = 4 [(gogoproto.jsontag) = "cid", json_name = "cid"];
+  // 单集的标题
+  string title = 5 [(gogoproto.jsontag) = "title", json_name = "title"];
+  // ep封面，等同于稿件封面
+  string cover = 6 [(gogoproto.jsontag) = "cover", json_name = "cover"];
+  // 单集作者信息
+  Author author = 7 [(gogoproto.jsontag) = "author", json_name = "author"];
+  // 稿件rights
+  Rights rights = 8 [(gogoproto.jsontag) = "rights", json_name = "rights"];
+}
+
+// 活动游戏
+message ActivityGame {
+  // 活动游戏iframe地址，多个
+  repeated ActivityGameIframe iframes = 1 [(gogoproto.jsontag) = "iframes", json_name = "iframes"];
+  // 活动免责说明文案
+  string disclaimer = 2 [(gogoproto.jsontag) = "disclaimer", json_name = "disclaimer"];
+  // 活动免责说明跳转地址
+  string disclaimer_url = 3 [(gogoproto.jsontag) = "disclaimer_url", json_name = "disclaimer_url"];
+}
+
+message ActivityGameIframe {
+  // iframe 地址
+  string url = 1 [(gogoproto.jsontag) = "url", json_name = "url"];
+  // iframe 高度
+  int64 height = 2 [(gogoproto.jsontag) = "height", json_name = "height"];
+}
+
+// 活动直播相关信息
+message ActivityLive {
+  // 直播间id
+  int64 room_id = 1 [(gogoproto.jsontag) = "room_id", json_name = "room_id"];
+  // 当前时间戳
+  int64 now_time = 2 [(gogoproto.jsontag) = "now_time", json_name = "now_time"];
+  // 开始时间
+  int64 start_time = 3 [(gogoproto.jsontag) = "start_time", json_name = "start_time"];
+  // 结束时间
+  int64 end_time = 4 [(gogoproto.jsontag) = "end_time", json_name = "end_time"];
+  // 直播结束后弹窗图地址
+  string hover_pic = 5 [(gogoproto.jsontag) = "hover_pic", json_name = "hover_pic"];
+  // 直播结束后弹窗图跳转地址
+  string hover_jump_url = 6 [(gogoproto.jsontag) = "hover_jump_url", json_name = "hover_jump_url"];
+  // 打散周期,单位秒
+  int64 break_cycle = 7 [(gogoproto.jsontag) = "break_cycle", json_name = "break_cycle"];
+  // 节目单
+  repeated LiveTimeline timeline = 8  [(gogoproto.jsontag) = "timeline", json_name = "timeline"];
+  // 相关推荐模块（运营配置）
+  OperationRelate operation_relate = 9 [(gogoproto.jsontag) = "operation_relate", json_name = "operation_relate"];
+  // 直播评论类型
+  int64 reply_type = 10 [(gogoproto.jsontag) = "reply_type", json_name = "reply_type"];
+  // 直播评论id
+  int64 reply_id = 11 [(gogoproto.jsontag) = "reply_id", json_name = "reply_id"];
+  // 引导弹窗关闭图片
+  string hover_pic_close = 12 [(gogoproto.jsontag) = "hover_pic_close", json_name = "hover_pic_close"];
+  // 礼物免责说明
+  string gift_disclaimer = 13 [(gogoproto.jsontag) = "gift_disclaimer", json_name = "gift_disclaimer"];
+}
+
+//  相关推荐（运营配置）
+message OperationRelate {
+  // 模块标题（如相关推荐）
+  string title = 1;
+  // 相关推荐模块内容
+  repeated RelateItem relate_item = 2;
+  // AI相关推荐
+  repeated Relate ai_relate_item = 3;
+}
+
+// 相关推荐内容
+message RelateItem {
+  // 跳链
+  string url = 1;
+  // 封面
+  string cover = 2;
+}
+
+message Relate {
+  Arc arc = 1 [(gogoproto.jsontag) = "arc", json_name = "arc"];
+  string bvid = 2 [(gogoproto.jsontag) = "bvid", json_name = "bvid"];
+  int64 season_type = 3 [(gogoproto.jsontag) = "season_type", json_name = "season_type"];
+}
+
+// 直播节目单
+message LiveTimeline {
+  // 节目名
+  string name = 1 [(gogoproto.jsontag) = "name", json_name = "name"];
+  // 开始时间（时间戳）
+  int64 start_time = 2 [(gogoproto.jsontag) = "start_time", json_name = "start_time"];
+  // 结束时间（时间戳）
+  int64 end_time = 3 [(gogoproto.jsontag) = "end_time", json_name = "end_time"];
+  // 封面
+  string cover = 4 [(gogoproto.jsontag) = "cover", json_name = "cover"];
+  // 副标题
+  string subtitle = 5 [(gogoproto.jsontag) = "subtitle", json_name = "subtitle"];
+  // h5封面
+  string h5_cover = 6 [(gogoproto.jsontag) = "h5_cover", json_name = "h5_cover"];
+}
+
+// 活动订阅相关信息
+message ActivitySubscribe {
+  // 用户操作态 true已操作 false未操作
+  bool status = 1 [(gogoproto.jsontag) = "status", json_name = "status"];
+  // 模块标题
+  string title = 2 [(gogoproto.jsontag) = "title", json_name = "title"];
+  // 按钮文字 未操作
+  string button_title = 3 [(gogoproto.jsontag) = "button_title", json_name = "button_title"];
+  // 按钮文字 已操作
+  string button_selected_title = 4 [(gogoproto.jsontag) = "button_selected_title", json_name = "button_selected_title"];
+  // 合集播放数
+  int64 season_stat_view = 5 [(gogoproto.jsontag) = "season_stat_view", json_name = "season_stat_view"];
+  // 合集弹幕数
+  int64 season_stat_danmaku = 6 [(gogoproto.jsontag) = "season_stat_danmaku", json_name = "season_stat_danmaku"];
+  // 预约类型（点击时透传）
+  OrderType order_type = 7 [(gogoproto.jsontag) = "order_type", json_name = "order_type"];
+  oneof Param {
+    // 订阅活动参数
+    ReserveActivityParam ReserveParam = 8;
+    // 收藏剧集参数
+    FavSeasonParam FavParam = 9;
+    // 跳转参数
+    JumpURLParam JumpParam = 10;
+  }
+}
+
+message ReserveActivityParam {
+  // 预约活动id
+  int64 reserve_id = 1 [(gogoproto.jsontag) = "reserve_id", json_name = "reserve_id"];
+  // 预约业务来源
+  string from = 2 [(gogoproto.jsontag) = "from", json_name = "from"];
+  // 预约业务类型
+  string type = 3 [(gogoproto.jsontag) = "type", json_name = "type"];
+  // 预约业务资源id
+  int64 oid = 4 [(gogoproto.jsontag) = "oid", json_name = "oid"];
+}
+
+message FavSeasonParam {
+  // 收藏合集id
+  int64 season_id = 1 [(gogoproto.jsontag) = "season_id", json_name = "season_id"];
+}
+
+message JumpURLParam {
+  string jump_url = 1 [(gogoproto.jsontag) = "jump_url", json_name = "jump_url"];
+}
+
+// 页面状态
+enum ActivitySeasonStatus {
+  // 未知
+  StatusNone = 0;
+  // 直播
+  StatusLive = 1;
+  // 点播
+  StatusView = 2;
+}
+
+// 预约类型
+enum OrderType {
+  // 未知
+  TypeNone = 0;
+  // 直播开始前预约
+  TypeOrderActivity = 1;
+  // 直播结束后仅收藏
+  TypeFavSeason = 2;
+  // 直播开始后看点播视频(点击去直播)
+  TypeClick = 3;
+}
+
+message ViewDetailReq {
+  // Aid
+  int64 aid = 1 [(gogoproto.moretags) = 'form:"aid"'];
+  // bvid 和aid 二个参数必传一个，bvid优先级比aid高
+  string bvid = 2 [(gogoproto.moretags) = 'form:"bvid"'];
+}
+
+// ViewDetailReply
+message ViewDetailReply {
+  View view = 1 [
+    (gogoproto.jsontag) = "View",
+    json_name = "View"
+  ];
+  Card card = 2 [
+    (gogoproto.jsontag) = "Card",
+    json_name = "Card"
+  ];
+  repeated Tag tags = 3 [
+    (gogoproto.jsontag) = "Tags",
+    json_name = "Tags"
+  ];
+  HotReply reply = 4 [
+    (gogoproto.jsontag) = "Reply",
+    json_name = "Reply"
+  ];
+  repeated Arc related = 5 [
+    (gogoproto.jsontag) = "Related",
+    json_name = "Related"
+  ];
+}
+
+// View
+message View {
+  Arc arc = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.jsontag) = ""
+  ];
+  // node ssr 该稿件是否缓存
+  bool no_cache = 2 [
+    (gogoproto.jsontag) = "no_cache",
+    json_name = "no_cache"
+  ];
+  // 分p信息
+  repeated Page pages = 3 [
+    (gogoproto.jsontag) = "pages,omitempty",
+    json_name = "pages"
+  ];
+  // 字幕信息
+  Subtitle subtitle = 4 [
+    (gogoproto.jsontag) = "subtitle",
+    json_name = "subtitle"
+  ];
+  // ugc 付费稿件价格信息
+  UGCPayAsset asset = 5 [
+    (gogoproto.jsontag) = "asset,omitempty",
+    json_name = "asset"
+  ];
+  // 标签 热门等
+  ViewLabel label = 6 [
+    (gogoproto.jsontag) = "label,omitempty",
+    json_name = "label"
+  ];
+  // 联合投稿作者信息
+  repeated Staff staff = 7 [
+    (gogoproto.jsontag) = "staff,omitempty",
+    json_name = "staff"
+  ];
+  // UGC剧集信息
+  UGCSeason ugc_season = 8 [
+    (gogoproto.jsontag) = "ugc_season,omitempty",
+    json_name = "ugc_season"
+  ];
+  // 互动视频引导视频cid
+  int64 stein_guide_cid = 9 [
+    (gogoproto.jsontag) = "stein_guide_cid,omitempty",
+    json_name = "stein_guide_cid"
+  ];
+}
+
+// Rights 稿件各常用属性 0=否 1=是
+message Rights {
+  // 老版是否付费
+  int32 bp = 1 [
+    (gogoproto.jsontag) = "bp",
+    json_name = "bp"
+  ];
+  // 是否支持充电 （不可直接使用，网关层请求业务方后才有值）
+  int32 elec = 2 [
+    (gogoproto.jsontag) = "elec",
+    json_name = "elec"
+  ];
+  // 是否下载（不可直接使用，网关层请求业务方后才有值）
+  int32 download = 3 [
+    (gogoproto.jsontag) = "download",
+    json_name = "download"
+  ];
+  // 是否电影
+  int32 movie = 4 [
+    (gogoproto.jsontag) = "movie",
+    json_name = "movie"
+  ];
+  // 是否PGC付费
+  int32 pay = 5 [
+    (gogoproto.jsontag) = "pay",
+    json_name = "pay"
+  ];
+  // 无用
+  int32 hd5 = 6 [
+    (gogoproto.jsontag) = "hd5",
+    json_name = "hd5"
+  ];
+  // 是否允许转发
+  int32 no_reprint = 7 [
+    (gogoproto.jsontag) = "no_reprint",
+    json_name = "no_reprint"
+  ];
+  // 是否可以自动播放
+  int32 autoplay = 8 [
+    (gogoproto.jsontag) = "autoplay",
+    json_name = "autoplay"
+  ];
+  // 是否UGC付费
+  int32 ugc_pay = 9 [
+    (gogoproto.jsontag) = "ugc_pay",
+    json_name = "ugc_pay"
+  ];
+  // 是否联合投稿
+  int32 is_cooperation = 10 [
+    (gogoproto.jsontag) = "is_cooperation",
+    json_name = "is_cooperation"
+  ];
+  // 是否有UGC付费预览
+  int32 ugc_pay_preview = 11 [
+    (gogoproto.jsontag) = "ugc_pay_preview",
+    json_name = "ugc_pay_preview"
+  ];
+}
+
+// Author 稿件作者信息
+message Author {
+  // Up主mid
+  int64 mid = 1 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  // Up主名称
+  string name = 2 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  // Up主头像地址 绝对地址
+  string face = 3 [
+    (gogoproto.jsontag) = "face",
+    json_name = "face"
+  ];
+}
+
+// Stat 稿件的所有计数信息
+message Stat {
+  int64 aid = 1 [
+    (gogoproto.jsontag) = "aid",
+    json_name = "aid"
+  ];
+  // 播放数
+  int32 view = 2 [
+    (gogoproto.jsontag) = "view",
+    json_name = "view"
+  ];
+  // 弹幕数
+  int32 danmaku = 3 [
+    (gogoproto.jsontag) = "danmaku",
+    json_name = "danmaku"
+  ];
+  // 评论数
+  int32 reply = 4 [
+    (gogoproto.jsontag) = "reply",
+    json_name = "reply"
+  ];
+  // 收藏数
+  int32 fav = 5 [
+    (gogoproto.jsontag) = "fav",
+    json_name = "fav"
+  ];
+  // 投币数
+  int32 coin = 6 [
+    (gogoproto.jsontag) = "coin",
+    json_name = "coin"
+  ];
+  // 分享数
+  int32 share = 7 [
+    (gogoproto.jsontag) = "share",
+    json_name = "share"
+  ];
+  // 当前排名
+  int32 now_rank = 8 [
+    (gogoproto.jsontag) = "now_rank",
+    json_name = "now_rank"
+  ];
+  // 历史最高排名
+  int32 his_rank = 9 [
+    (gogoproto.jsontag) = "his_rank",
+    json_name = "his_rank"
+  ];
+  // 点赞数
+  int32 like = 10 [
+    (gogoproto.jsontag) = "like",
+    json_name = "like"
+  ];
+  // 点踩数 已取消前台展示，现在均返回0
+  int32 dislike = 11 [
+    (gogoproto.jsontag) = "dislike",
+    json_name = "dislike"
+  ];
+  // 互动视频评分
+  string evaluation = 12 [
+    (gogoproto.jsontag) = "evaluation",
+    json_name = "evaluation"
+  ];
+  // 争议内容
+  string argue_msg = 13 [
+    (gogoproto.jsontag) = "argue_msg",
+    json_name = "argue_msg"
+  ];
+}
+
+// Page 分P信息
+message Page {
+  // 视频的cid
+  int64 cid = 1 [
+    (gogoproto.jsontag) = "cid",
+    json_name = "cid"
+  ];
+  // 视频的序号顺序，从小到大
+  int32 page = 2 [
+    (gogoproto.jsontag) = "page",
+    json_name = "page"
+  ];
+  // 视频的来源，99%为vupload=B站自己的，少部分为腾讯（qq）、湖南tv(hunan)
+  string from = 3 [
+    (gogoproto.jsontag) = "from",
+    json_name = "from"
+  ];
+  // 视频的标题
+  string part = 4 [
+    (gogoproto.jsontag) = "part",
+    json_name = "part"
+  ];
+  // 视频的时长 单位=秒
+  int64 duration = 5 [
+    (gogoproto.jsontag) = "duration",
+    json_name = "duration"
+  ];
+  // 站外视频才有vid属性
+  string vid = 6 [
+    (gogoproto.jsontag) = "vid",
+    json_name = "vid"
+  ];
+  // 视频的简介，多P视频才可填写简介
+  string desc = 7 [
+    (gogoproto.jsontag) = "description,omitempty",
+    json_name = "description"
+  ];
+  // 站外视频跳转地址
+  string weblink = 8 [
+    (gogoproto.jsontag) = "weblink",
+    json_name = "weblink"
+  ];
+  // 视频分辨率信息
+  Dimension dimension = 9 [
+    (gogoproto.jsontag) = "dimension",
+    (gogoproto.nullable) = false,
+    json_name = "dimension"
+  ];
+}
+
+// Dimension 视频分辨率
+message Dimension {
+  // 宽 如 1920
+  int64 width = 1 [
+    (gogoproto.jsontag) = "width",
+    json_name = "width"
+  ];
+  // 高 如 1080
+  int64 height = 2 [
+    (gogoproto.jsontag) = "height",
+    json_name = "height"
+  ];
+  // 是否翻转 0=否 1=是
+  int64 rotate = 3 [
+    (gogoproto.jsontag) = "rotate",
+    json_name = "rotate"
+  ];
+}
+
+// Subtitle 字幕信息
+message Subtitle {
+  bool allow_submit = 1 [
+    (gogoproto.jsontag) = "allow_submit",
+    json_name = "allow_submit"
+  ];
+  repeated SubtitleItem list = 2 [
+    (gogoproto.jsontag) = "list",
+    json_name = "list"
+  ];
+}
+
+// SubtitleItem 字幕创作者详情
+message SubtitleItem {
+  int64 id = 1 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  string lan = 2 [
+    (gogoproto.jsontag) = "lan",
+    json_name = "lan"
+  ];
+  string lan_doc = 3 [
+    (gogoproto.jsontag) = "lan_doc",
+    json_name = "lan_doc"
+  ];
+  bool is_lock = 4 [
+    (gogoproto.jsontag) = "is_lock",
+    json_name = "is_lock"
+  ];
+  int64 author_mid = 5 [
+    (gogoproto.jsontag) = "author_mid,omitempty",
+    json_name = "author_mid"
+  ];
+  string subtitle_url = 6 [
+    (gogoproto.jsontag) = "subtitle_url",
+    json_name = "subtitle_url"
+  ];
+  AccInfo author = 7 [
+    (gogoproto.jsontag) = "author",
+    json_name = "author"
+  ];
+}
+
+// AccInfo 用户账号基础信息
+message AccInfo {
+  int64 mid = 1 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  string name = 2 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  string sex = 3 [
+    (gogoproto.jsontag) = "sex",
+    json_name = "sex"
+  ];
+  string face = 4 [
+    (gogoproto.jsontag) = "face",
+    json_name = "face"
+  ];
+  string sign = 5 [
+    (gogoproto.jsontag) = "sign",
+    json_name = "sign"
+  ];
+}
+
+// UGCPayAsset ugc 付费稿件加个信息
+message UGCPayAsset {
+  // price 内容注册价格(分)
+  int64 price = 1;
+  // platform_price 平台价格(分)
+  map<string, int64> platform_price = 2;
+}
+
+// ViewLabel 标签，热门等
+message ViewLabel {
+  int64 type = 1 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+}
+
+// Staff 联合投稿创作者信息
+message Staff {
+  int64 mid = 1 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  string title = 2 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  string name = 3 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  string face = 4 [
+    (gogoproto.jsontag) = "face",
+    json_name = "face"
+  ];
+  VipInfo vip = 5 [
+    (gogoproto.jsontag) = "vip",
+    json_name = "vip"
+  ];
+  OfficialInfo official = 6 [
+    (gogoproto.jsontag) = "official",
+    json_name = "official"
+  ];
+  int64 follower = 7 [
+    (gogoproto.jsontag) = "follower",
+    json_name = "follower"
+  ];
+  int32 label_style = 8 [
+    (gogoproto.jsontag) = "label_style",
+    json_name = "label_style"
+  ];
+  Relation relation = 9 [
+    (gogoproto.jsontag) = "relation",
+    json_name = "relation"
+  ];
+}
+
+message Relation {
+  // 1表示悄悄关注，2表示关注，6表示双向关注，大于等于128表示拉黑
+  int64 attribute = 1 [ (gogoproto.jsontag) = "attribute", json_name = "attribute"];
+  // tag 关注分组
+  repeated int64 tag = 2 [ (gogoproto.jsontag) = "tag", json_name = "tag"];
+  // special 特别关注：1是特别关注
+  int64 special = 3 [ (gogoproto.jsontag) = "special", json_name = "special"];
+}
+
+// VipInfo vip信息
+message VipInfo {
+  int32 type = 1 [
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  int32 status = 2 [
+    (gogoproto.jsontag) = "status",
+    json_name = "status"
+  ];
+  int32 vip_pay_type = 3 [
+    (gogoproto.jsontag) = "vip_pay_type",
+    json_name = "vip_pay_type"
+  ];
+  int32 theme_type = 4 [
+    (gogoproto.jsontag) = "theme_type",
+    json_name = "theme_type"
+  ];
+}
+
+// OfficialInfo 实名认证信息
+message OfficialInfo {
+  int32 role = 1 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "role",
+    json_name = "role"
+  ];
+  string title = 2 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  string desc = 3 [
+    (gogoproto.jsontag) = "desc",
+    json_name = "desc"
+  ];
+}
+
+// UGCSeason ugc 剧集信息
+message UGCSeason {
+  int64 id = 1 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  // 剧集标题
+  string title = 2 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  // 剧集封面图地址，绝对地址 如 http://i0.hdslb.com/bfs/xxx.jpg
+  string cover = 3 [
+    (gogoproto.jsontag) = "cover",
+    json_name = "cover"
+  ];
+  // 用户mid
+  int64 mid = 4 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  // 剧集简介
+  string intro = 5 [
+    (gogoproto.jsontag) = "intro",
+    json_name = "intro"
+  ];
+  // 签约状态 0未签约 1独家 2首发
+  int32 sign_state = 6 [
+    (gogoproto.jsontag) = "sign_state",
+    json_name = "sign_state"
+  ];
+  // 属性位
+  int64 attribute = 7 [
+    (gogoproto.jsontag) = "attribute",
+    json_name = "attribute"
+  ];
+  // 小节列表
+  repeated SeasonSection sections = 8;
+  // 剧集计数信息，详见Stat字段说明
+  SeasonStat stat = 9 [
+    (gogoproto.jsontag) = "stat",
+    (gogoproto.nullable) = false,
+    json_name = "stat"
+  ];
+  // 单集数量
+  int64 ep_count = 10 [
+    (gogoproto.jsontag) = "ep_count",
+    json_name = "ep_count"
+  ];
+  // 合集类型 0:精选合集 1:基础合集
+  int64 SeasonType = 11 [
+    (gogoproto.jsontag) = "season_type",
+    json_name = "season_type"
+  ];
+}
+
+// SeasonSection 剧集小节
+message SeasonSection {
+  // 剧集ID
+  int64 season_id = 1 [
+    (gogoproto.jsontag) = "season_id",
+    json_name = "season_id"
+  ];
+  // 小节ID
+  int64 id = 2 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  // 小节标题
+  string title = 3 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  // 小节类型 0其他 1正片
+  int64 type = 4 [
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  // 单集列表
+  repeated SeasonEpisode episodes = 5;
+}
+
+// SeasonEpisode 剧集单集
+message SeasonEpisode {
+  // 剧集ID
+  int64 season_id = 1 [
+    (gogoproto.jsontag) = "season_id",
+    json_name = "season_id"
+  ];
+  // 小节ID
+  int64 section_id = 2 [
+    (gogoproto.jsontag) = "section_id",
+    json_name = "section_id"
+  ];
+  // 单集ID
+  int64 id = 3 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  // 对应稿件的aid
+  int64 aid = 4 [
+    (gogoproto.jsontag) = "aid",
+    json_name = "aid"
+  ];
+  // 对应视频的cid
+  int64 cid = 5 [
+    (gogoproto.jsontag) = "cid",
+    json_name = "cid"
+  ];
+  // 单集的标题
+  string title = 6 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  // 属性位
+  int64 attribute = 7 [
+    (gogoproto.jsontag) = "attribute",
+    json_name = "attribute"
+  ];
+  // 对应的稿件信息
+  Arc arc = 8;
+  // 对应的单p信息
+  Page page = 9;
+  // 对应视频的bvid
+  string bvid = 10 [
+    (gogoproto.jsontag) = "bvid",
+    json_name = "bvid"
+  ];
+}
+
+// 稿件结构体
+message Arc {
+  int64 aid = 1 [
+    (gogoproto.jsontag) = "aid",
+    json_name = "aid"
+  ];
+  // 稿件一共有多少分P
+  int64 videos = 2 [
+    (gogoproto.jsontag) = "videos",
+    json_name = "videos"
+  ];
+  // 分区ID
+  int32 type_id = 3 [
+    (gogoproto.jsontag) = "type_id",
+    json_name = "type_id"
+  ];
+  // 分区名
+  string type_name = 4 [
+    (gogoproto.jsontag) = "type_name",
+    json_name = "type_name"
+  ];
+  // 是否转载  1=原创  2=转载 0=历史上可能遗留的脏数据
+  int32 copyright = 5 [
+    (gogoproto.jsontag) = "copyright",
+    json_name = "copyright"
+  ];
+  // 稿件封面图地址，绝对地址 如 http://i0.hdslb.com/bfs/xxx.jpg
+  string pic = 6 [
+    (gogoproto.jsontag) = "pic",
+    json_name = "pic"
+  ];
+  // 稿件标题
+  string title = 7 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  // 稿件发布时间 对外展示的标准时间  时间戳格式
+  int64 pubdate = 8 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "pubdate",
+    json_name = "pubdate"
+  ];
+  // 用户提交稿件的时间 一般不对外展示 时间戳格式
+  int64 ctime = 9 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "ctime",
+    json_name = "ctime"
+  ];
+  // 稿件简介
+  string desc = 10 [
+    (gogoproto.jsontag) = "desc",
+    json_name = "desc"
+  ];
+  // 稿件状态，>=0为前台用户可见状态，其他值详见 http://info.bilibili.co/pages/viewpage.action?pageId=3686597#id-%E7%A8%BF%E4%BB%B6%E5%AD%97%E6%AE%B5%E6%9E%9A%E4%B8%BE%E5%80%BC%E5%B1%9E%E6%80%A7%E8%AF%B4%E6%98%8E-%E7%A8%BF%E4%BB%B6%E7%8A%B6%E6%80%81state&access
+  int32 state = 11 [
+    (gogoproto.jsontag) = "state",
+    json_name = "state"
+  ];
+  // 稿件访问属性 0=全员可见 10000=登录用户可见（极少)
+  int32 access = 12 [
+    (gogoproto.jsontag) = "access,omitempty",
+    json_name = "access"
+  ];
+  // 稿件属性 详见State字段的文档
+  int32 attribute = 13 [
+    (gogoproto.jsontag) = "attribute,omitempty",
+    json_name = "attribute"
+  ];
+  // 废弃字段
+  string tag = 14 [(gogoproto.jsontag) = "-"];
+  // 废弃字段
+  repeated string tags = 15 [
+    (gogoproto.jsontag) = "tags,omitempty",
+    json_name = "tags"
+  ];
+  // 稿件总时长（所有分P加起来的） 单位=秒
+  int64 duration = 16 [
+    (gogoproto.jsontag) = "duration",
+    json_name = "duration"
+  ];
+  // 稿件绑定的活动id
+  int64 mission_id = 17 [
+    (gogoproto.jsontag) = "mission_id,omitempty",
+    json_name = "mission_id"
+  ];
+  // 稿件绑定的商单id
+  int64 order_id = 18 [
+    (gogoproto.jsontag) = "order_id,omitempty",
+    json_name = "order_id"
+  ];
+  // 稿件后台设置的强制跳转地址，如果该值不为空，则必须调转到它对应的页面上
+  string redirect_url = 19 [
+    (gogoproto.jsontag) = "redirect_url,omitempty",
+    json_name = "redirect_url"
+  ];
+  int64 forward = 20 [
+    (gogoproto.jsontag) = "forward,omitempty",
+    json_name = "forward"
+  ];
+  // 见Rights字段说明
+  Rights rights = 21 [
+    (gogoproto.jsontag) = "rights",
+    (gogoproto.nullable) = false,
+    json_name = "rights"
+  ];
+  // 稿件作者信息，详见Author字段说明
+  Author author = 22 [
+    (gogoproto.jsontag) = "author",
+    (gogoproto.nullable) = false,
+    json_name = "author"
+  ];
+  // 稿件计数信息，详见Stat字段说明
+  Stat stat = 23 [
+    (gogoproto.jsontag) = "stat",
+    (gogoproto.nullable) = false,
+    json_name = "stat"
+  ];
+  string report_result = 24 [
+    (gogoproto.jsontag) = "report_result,omitempty",
+    json_name = "report_result"
+  ];
+  // 发布稿件时Up主设置的动态描述（仅在动态展示）
+  string dynamic = 25 [
+    (gogoproto.jsontag) = "dynamic",
+    json_name = "dynamic"
+  ];
+  // 稿件第一P的cid，供秒开使用
+  int64 first_cid = 26 [
+    (gogoproto.jsontag) = "first_cid,omitempty",
+    json_name = "first_cid"
+  ];
+  // 稿件第一P的分辨率，详见Dimession字段说明
+  Dimension dimension = 27 [
+    (gogoproto.jsontag) = "dimension,omitempty",
+    (gogoproto.nullable) = false,
+    json_name = "dimension"
+  ];
+  // 联合投稿信息，内部使用，详见StaffInfo说明
+  repeated StaffInfo staff_info = 28 [(gogoproto.jsontag) = "-"];
+  // 剧集ID
+  int64 season_id = 29 [
+    (gogoproto.jsontag) = "season_id,omitempty",
+    json_name = "season_id"
+  ];
+}
+
+// 联合投稿信息 staff信息
+message StaffInfo {
+  // 联合投稿的成员Up主id
+  int64 mid = 1 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  // 联合投稿的成员角色（如 声优、字幕）
+  string title = 2 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+}
+
+message SeasonStat {
+  int64 season_id = 1 [
+    (gogoproto.jsontag) = "season_id",
+    json_name = "season_id"
+  ];
+  // 播放数
+  int32 view = 2 [
+    (gogoproto.jsontag) = "view",
+    json_name = "view"
+  ];
+  // 弹幕数
+  int32 danmaku = 3 [
+    (gogoproto.jsontag) = "danmaku",
+    json_name = "danmaku"
+  ];
+  // 评论数
+  int32 reply = 4 [
+    (gogoproto.jsontag) = "reply",
+    json_name = "reply"
+  ];
+  // 收藏数
+  int32 fav = 5 [
+    (gogoproto.jsontag) = "fav",
+    json_name = "fav"
+  ];
+  // 投币数
+  int32 coin = 6 [
+    (gogoproto.jsontag) = "coin",
+    json_name = "coin"
+  ];
+  // 分享数
+  int32 share = 7 [
+    (gogoproto.jsontag) = "share",
+    json_name = "share"
+  ];
+  // 当前排名
+  int32 now_rank = 8 [
+    (gogoproto.jsontag) = "now_rank",
+    json_name = "now_rank"
+  ];
+  // 历史最高排名
+  int32 his_rank = 9 [
+    (gogoproto.jsontag) = "his_rank",
+    json_name = "his_rank"
+  ];
+  // 点赞数
+  int32 like = 10 [
+    (gogoproto.jsontag) = "like",
+    json_name = "like"
+  ];
+}
+
+// Card view card信息
+message Card {
+  AccountCard card = 1 [
+    (gogoproto.jsontag) = "card",
+    json_name = "card"
+  ];
+  // 空间头图信息
+  Space space = 2 [
+    (gogoproto.jsontag) = "space,omitempty",
+    json_name = "space"
+  ];
+  // 是否关注
+  bool following = 3 [
+    (gogoproto.jsontag) = "following",
+    json_name = "following"
+  ];
+  // 稿件投稿数
+  int64 archive_count = 4 [
+    (gogoproto.jsontag) = "archive_count",
+    json_name = "archive_count"
+  ];
+  // 专栏投稿数
+  int32 article_count = 5 [
+    (gogoproto.jsontag) = "article_count",
+    json_name = "article_count"
+  ];
+  // 粉丝数
+  int64 follower = 6 [
+    (gogoproto.jsontag) = "follower",
+    json_name = "follower"
+  ];
+}
+
+// AccountCard account card 信息
+message AccountCard {
+  // 用户mid
+  string mid = 1 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  // 用户昵称
+  string name = 2 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  // 性别
+  string sex = 3 [
+    (gogoproto.jsontag) = "sex",
+    json_name = "sex"
+  ];
+  // 用户rank值
+  string rank = 4 [
+    (gogoproto.jsontag) = "rank",
+    json_name = "rank"
+  ];
+  // 用户头像
+  string face = 5 [
+    (gogoproto.jsontag) = "face",
+    json_name = "face"
+  ];
+  // 用户封禁状态 -2 用户封禁中
+  int32 spacesta = 6 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "spacesta",
+    json_name = "spacesta"
+  ];
+  // 用户签名
+  string sign = 7 [
+    (gogoproto.jsontag) = "sign",
+    json_name = "sign"
+  ];
+  // 等级信息
+  CardLevelInfo level_info = 8 [
+    (gogoproto.jsontag) = "level_info",
+    (gogoproto.nullable) = false,
+    json_name = "level_info"
+  ];
+  // 用户挂件
+  PendantInfo pendant = 9 [
+    (gogoproto.jsontag) = "pendant",
+    (gogoproto.nullable) = false,
+    json_name = "pendant"
+  ];
+  // 用户勋章
+  NameplateInfo nameplate = 10 [
+    (gogoproto.jsontag) = "nameplate",
+    (gogoproto.nullable) = false,
+    json_name = "nameplate"
+  ];
+  // 新版用户认证信息
+  OfficialInfo official = 11 [
+    (gogoproto.jsontag) = "official",
+    (gogoproto.nullable) = false,
+    json_name = "official"
+  ];
+  // 兼容版用户认证信息
+  OfficialVerify official_verify = 12 [
+    (gogoproto.jsontag) = "official_verify",
+    (gogoproto.nullable) = false,
+    json_name = "official_verify"
+  ];
+  // vip 信息
+  CardVip vip = 13 [
+    (gogoproto.jsontag) = "vip",
+    (gogoproto.nullable) = false,
+    json_name = "vip"
+  ];
+  int64 fans = 14 [
+    (gogoproto.jsontag) = "fans",
+    json_name = "fans"
+  ];
+  int64 friend = 15 [
+    (gogoproto.jsontag) = "friend",
+    json_name = "friend"
+  ];
+  int64 attention = 16 [
+    (gogoproto.jsontag) = "attention",
+    json_name = "attention"
+  ];
+}
+
+// Space 空间头图信息
+message Space {
+  string s_img = 1 [
+    (gogoproto.jsontag) = "s_img",
+    json_name = "s_img"
+  ];
+  string l_img = 2 [
+    (gogoproto.jsontag) = "l_img",
+    json_name = "l_img"
+  ];
+}
+
+// PendantInfo 挂件信息
+message PendantInfo {
+  int32 pid = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "pid",
+    json_name = "pid"
+  ];
+  string name = 2 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  string image = 3 [
+    (gogoproto.jsontag) = "image",
+    json_name = "image"
+  ];
+  int64 expire = 4 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "expire",
+    json_name = "expire"
+  ];
+}
+
+// NameplateInfo 勋章信息
+message NameplateInfo {
+  int32 nid = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "nid",
+    json_name = "nid"
+  ];
+  string name = 2 [
+    (gogoproto.jsontag) = "name",
+    json_name = "name"
+  ];
+  string image = 3 [
+    (gogoproto.jsontag) = "image",
+    json_name = "image"
+  ];
+  string image_small = 4 [
+    (gogoproto.jsontag) = "image_small",
+    json_name = "image_small"
+  ];
+  string level = 5 [
+    (gogoproto.jsontag) = "level",
+    json_name = "level"
+  ];
+  string condition = 6 [
+    (gogoproto.jsontag) = "condition",
+    json_name = "condition"
+  ];
+}
+
+message CardLevelInfo {
+  int32 cur = 1 [
+    (gogoproto.jsontag) = "current_level",
+    json_name = "current_level"
+  ];
+  int32 min = 2 [
+    (gogoproto.jsontag) = "current_min",
+    json_name = "current_min"
+  ];
+  int32 now_exp = 3 [
+    (gogoproto.jsontag) = "current_exp",
+    json_name = "current_exp"
+  ];
+  int32 next_exp = 4 [
+    (gogoproto.jsontag) = "next_exp",
+    json_name = "next_exp"
+  ];
+}
+
+message CardVip {
+  int32 type = 1 [
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  string due_remark = 2 [
+    (gogoproto.jsontag) = "dueRemark",
+    json_name = "dueRemark"
+  ];
+  int32 access_status = 3 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "accessStatus",
+    json_name = "accessStatus"
+  ];
+  int32 vip_status = 4 [
+    (gogoproto.jsontag) = "vipStatus",
+    json_name = "vipStatus"
+  ];
+  string vip_status_warn = 5 [
+    (gogoproto.jsontag) = "vipStatusWarn",
+    json_name = "vipStatusWarn"
+  ];
+  int32 theme_type = 6 [
+    (gogoproto.jsontag) = "theme_type",
+    json_name = "theme_type"
+  ];
+}
+
+// OfficialVerify 实名认证兼容结构
+message OfficialVerify {
+  int32 type = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  string desc = 2 [
+    (gogoproto.jsontag) = "desc",
+    json_name = "desc"
+  ];
+}
+
+// Tag tag信息
+message Tag {
+  int64 id = 1 [
+    (gogoproto.jsontag) = "tag_id",
+    json_name = "tag_id"
+  ];
+  string name = 2 [
+    (gogoproto.jsontag) = "tag_name",
+    json_name = "tag_name"
+  ];
+  string cover = 3 [
+    (gogoproto.jsontag) = "cover",
+    json_name = "cover"
+  ];
+  string head_cover = 4 [
+    (gogoproto.jsontag) = "head_cover",
+    json_name = "head_cover"
+  ];
+  string content = 5 [
+    (gogoproto.jsontag) = "content",
+    json_name = "content"
+  ];
+  string short_content = 6 [
+    (gogoproto.jsontag) = "short_content",
+    json_name = "short_content"
+  ];
+  int32 type = 7 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  int32 state = 8 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "state",
+    json_name = "state"
+  ];
+  int64 ctime = 9 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "ctime",
+    json_name = "ctime"
+  ];
+  TagCount tag_count = 10 [
+    (gogoproto.jsontag) = "count",
+    json_name = "count"
+  ];
+  int32 is_atten = 11 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "is_atten",
+    json_name = "is_atten"
+  ];
+  int64 likes = 12 [
+    (gogoproto.jsontag) = "likes",
+    json_name = "likes"
+  ];
+  int64 hates = 13 [
+    (gogoproto.jsontag) = "hates",
+    json_name = "hates"
+  ];
+  int32 attribute = 14 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "attribute",
+    json_name = "attribute"
+  ];
+  int32 liked = 15 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "liked",
+    json_name = "liked"
+  ];
+  int32 hated = 16 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "hated",
+    json_name = "hated"
+  ];
+}
+
+// TagCount tag计数信息
+message TagCount {
+  int64 view = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "view",
+    json_name = "view"
+  ];
+  int64 use = 2 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "use",
+    json_name = "use"
+  ];
+  int64 atten = 3 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "atten",
+    json_name = "atten"
+  ];
+}
+
+message HotReply {
+  ReplyPage page = 1 [
+    (gogoproto.jsontag) = "page",
+    json_name = "page"
+  ];
+  repeated Reply replies = 2 [
+    (gogoproto.jsontag) = "replies",
+    json_name = "replies"
+  ];
+}
+
+message ReplyPage {
+  int64 acount = 1 [
+    (gogoproto.jsontag) = "acount",
+    json_name = "acount"
+  ];
+  int64 count = 2 [
+    (gogoproto.jsontag) = "count",
+    json_name = "count"
+  ];
+  int64 num = 3 [
+    (gogoproto.jsontag) = "num",
+    json_name = "num"
+  ];
+  int64 size = 4 [
+    (gogoproto.jsontag) = "size",
+    json_name = "size"
+  ];
+}
+
+message Reply {
+  int64 rpid = 1 [
+    (gogoproto.jsontag) = "rpid",
+    json_name = "rpid"
+  ];
+  int64 oid = 2 [
+    (gogoproto.jsontag) = "oid",
+    json_name = "oid"
+  ];
+  int32 type = 3 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  int64 mid = 4 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  int64 root = 5 [
+    (gogoproto.jsontag) = "root",
+    json_name = "root"
+  ];
+  int64 parent = 6 [
+    (gogoproto.jsontag) = "parent",
+    json_name = "parent"
+  ];
+  int64 dialog = 7 [
+    (gogoproto.jsontag) = "dialog",
+    json_name = "dialog"
+  ];
+  int32 count = 8 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "count",
+    json_name = "count"
+  ];
+  int32 rcount = 9 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "rcount",
+    json_name = "rcount"
+  ];
+  int32 floor = 10 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "floor,omitempty",
+    json_name = "floor"
+  ];
+  int32 state = 11 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "state",
+    json_name = "state"
+  ];
+  int32 fans_grade = 12 [
+    (gogoproto.jsontag) = "fansgrade",
+    json_name = "fansgrade"
+  ];
+  uint32 attr = 13 [
+    (gogoproto.jsontag) = "attr",
+    json_name = "attr"
+  ];
+  int64 ctime = 14 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "ctime",
+    json_name = "ctime"
+  ];
+  // string
+  string rpid_str = 15 [
+    (gogoproto.jsontag) = "rpid_str,omitempty",
+    json_name = "rpid_str"
+  ];
+  string root_str = 16 [
+    (gogoproto.jsontag) = "root_str,omitempty",
+    json_name = "root_str"
+  ];
+  string parent_str = 17 [
+    (gogoproto.jsontag) = "parent_str,omitempty",
+    json_name = "parent_str"
+  ];
+  string dialog_str = 18 [
+    (gogoproto.jsontag) = "dialog_str,omitempty",
+    json_name = "dialog_str"
+  ];
+  // action count, from ReplyAction count
+  int32 like = 19 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "like",
+    json_name = "like"
+  ];
+  int32 hate = 20 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "-"
+  ];
+  int32 action = 21 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "action",
+    json_name = "action"
+  ];
+  // member info
+  ReplyMember member = 22 [
+    (gogoproto.jsontag) = "member",
+    json_name = "member"
+  ];
+  // other
+  ReplyContent content = 23 [
+    (gogoproto.jsontag) = "content",
+    json_name = "content"
+  ];
+  repeated Reply replies = 24 [
+    (gogoproto.jsontag) = "replies",
+    json_name = "replies"
+  ];
+  int32 assist = 25 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "assist",
+    json_name = "assist"
+  ];
+  // 是否有折叠评论
+  ReplyFolder folder = 26 [
+    (gogoproto.jsontag) = "folder",
+    (gogoproto.nullable) = false,
+    json_name = "folder"
+  ];
+  ReplyUpAction up_action = 27 [
+    (gogoproto.jsontag) = "up_action",
+    (gogoproto.nullable) = false,
+    json_name = "up_action"
+  ];
+  ReplyLabel label = 28 [
+    (gogoproto.jsontag) = "label,omitempty",
+    json_name = "label"
+  ];
+  string raw_input = 29 [(gogoproto.jsontag) = "-"];
+  bool show_follow = 30 [
+    (gogoproto.jsontag) = "show_follow",
+    json_name = "show_follow"
+  ];
+}
+
+message ReplyMember {
+  ReplyMemberInfo info = 1 [
+    (gogoproto.embed) = true,
+    (gogoproto.jsontag) = ""
+  ];
+  ReplyFansDetail fans_detail = 2 [
+    (gogoproto.jsontag) = "fans_detail",
+    json_name = "fans_detail"
+  ];
+  int32 following = 3 [
+    (gogoproto.casttype) = "int16",
+    (gogoproto.jsontag) = "following",
+    json_name = "following"
+  ];
+}
+
+message ReplyMemberInfo {
+  int32 role = 1 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "-"
+  ];
+  string mid = 2 [
+    (gogoproto.jsontag) = "mid",
+    json_name = "mid"
+  ];
+  string name = 3 [
+    (gogoproto.jsontag) = "uname",
+    json_name = "uname"
+  ];
+  string sex = 4 [
+    (gogoproto.jsontag) = "sex",
+    json_name = "sex"
+  ];
+  string sign = 5 [
+    (gogoproto.jsontag) = "sign",
+    json_name = "sign"
+  ];
+  string avatar = 6 [
+    (gogoproto.jsontag) = "avatar",
+    json_name = "avatar"
+  ];
+  string rank = 7 [
+    (gogoproto.jsontag) = "rank",
+    json_name = "rank"
+  ];
+  string display_rank = 8 [
+    (gogoproto.jsontag) = "DisplayRank",
+    json_name = "DisplayRank"
+  ];
+  ReplyLevelInfo level_info = 9 [
+    (gogoproto.jsontag) = "level_info",
+    json_name = "level_info"
+  ];
+  PendantInfo pendant = 10 [
+    (gogoproto.jsontag) = "pendant",
+    json_name = "pendant"
+  ];
+  NameplateInfo nameplate = 11 [
+    (gogoproto.jsontag) = "nameplate",
+    json_name = "nameplate"
+  ];
+  OfficialVerify official_verify = 12 [
+    (gogoproto.jsontag) = "official_verify",
+    json_name = "official_verify"
+  ];
+  ReplyVip vip = 13 [
+    (gogoproto.jsontag) = "vip",
+    json_name = "vip"
+  ];
+}
+
+message ReplyLevelInfo {
+  int32 cur = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "current_level",
+    json_name = "current_level"
+  ];
+  int32 min = 2 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "current_min",
+    json_name = "current_min"
+  ];
+  int32 now_exp = 3 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "current_exp",
+    json_name = "current_exp"
+  ];
+  int32 next_exp = 4 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "next_exp",
+    json_name = "next_exp"
+  ];
+}
+
+message ReplyVip {
+  int32 type = 1 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "vipType",
+    json_name = "vipType"
+  ];
+  int64 due_date = 2 [
+    (gogoproto.jsontag) = "vipDueDate",
+    json_name = "vipDueDate"
+  ];
+  string due_remark = 3 [
+    (gogoproto.jsontag) = "dueRemark",
+    json_name = "dueRemark"
+  ];
+  int32 access_status = 4 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "accessStatus",
+    json_name = "accessStatus"
+  ];
+  int32 vip_status = 5 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "vipStatus",
+    json_name = "vipStatus"
+  ];
+  string vip_status_warn = 6 [
+    (gogoproto.jsontag) = "vipStatusWarn",
+    json_name = "vipStatusWarn"
+  ];
+  int32 theme_type = 7 [
+    (gogoproto.jsontag) = "themeType",
+    json_name = "themeType"
+  ];
+  VipLabel label = 8 [
+    (gogoproto.jsontag) = "label",
+    json_name = "label"
+  ];
+}
+
+message VipLabel {
+  string path = 1 [
+    (gogoproto.jsontag) = "path",
+    json_name = "path"
+  ];
+}
+
+message ReplyFansDetail {
+  int64 uid = 1 [
+    (gogoproto.jsontag) = "uid",
+    json_name = "uid"
+  ];
+  int32 medal_id = 2 [
+    (gogoproto.jsontag) = "medal_id",
+    json_name = "medal_id"
+  ];
+  string medal_name = 3 [
+    (gogoproto.jsontag) = "medal_name",
+    json_name = "medal_name"
+  ];
+  int32 score = 4 [
+    (gogoproto.jsontag) = "score",
+    json_name = "score"
+  ];
+  int32 level = 5 [
+    (gogoproto.jsontag) = "level",
+    json_name = "level"
+  ];
+  int32 intimacy = 6 [
+    (gogoproto.jsontag) = "intimacy",
+    json_name = "intimacy"
+  ];
+  int32 status = 7 [
+    (gogoproto.jsontag) = "master_status",
+    json_name = "master_status"
+  ];
+  int32 received = 8 [
+    (gogoproto.jsontag) = "is_receive",
+    json_name = "is_receive"
+  ];
+}
+
+message ReplyContent {
+  int64 rp_id = 1 [(gogoproto.jsontag) = "-"];
+  string message = 2 [
+    (gogoproto.jsontag) = "message",
+    json_name = "message"
+  ];
+  ReplyVote vote = 3 [
+    (gogoproto.jsontag) = "vote,omitempty",
+    json_name = "vote"
+  ];
+  repeated int64 ats = 4 [
+    (gogoproto.jsontag) = "ats,omitempty",
+    json_name = "ats"
+  ];
+  repeated string topics = 5 [
+    (gogoproto.jsontag) = "topics,omitempty",
+    json_name = "topics"
+  ];
+  uint32 ip = 6 [
+    (gogoproto.jsontag) = "ipi,omitempty",
+    json_name = "ipi"
+  ];
+  int32 plat = 7 [
+    (gogoproto.casttype) = "int8",
+    (gogoproto.jsontag) = "plat",
+    json_name = "plat"
+  ];
+  string device = 8 [
+    (gogoproto.jsontag) = "device",
+    json_name = "device"
+  ];
+  string version = 9 [
+    (gogoproto.jsontag) = "version,omitempty",
+    json_name = "version"
+  ];
+  // ats member info
+  repeated ReplyMemberInfo members = 10 [
+    (gogoproto.jsontag) = "members",
+    json_name = "members"
+  ];
+  map<string, ReplyEmote> emote = 11 [
+    (gogoproto.jsontag) = "emote,omitempty",
+    json_name = "emote"
+  ];
+}
+
+message ReplyEmote {
+  int64 id = 1 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  int64 package_id = 2 [
+    (gogoproto.jsontag) = "package_id",
+    json_name = "package_id"
+  ];
+  int64 state = 3 [
+    (gogoproto.jsontag) = "state",
+    json_name = "state"
+  ];
+  int64 type = 4 [
+    (gogoproto.jsontag) = "type",
+    json_name = "type"
+  ];
+  int64 attr = 5 [
+    (gogoproto.jsontag) = "attr",
+    json_name = "attr"
+  ];
+  string text = 6 [
+    (gogoproto.jsontag) = "text",
+    json_name = "text"
+  ];
+  string url = 7 [
+    (gogoproto.jsontag) = "url",
+    json_name = "url"
+  ];
+  ReplyEmoteMeta meta = 8 [
+    (gogoproto.jsontag) = "meta",
+    json_name = "meta"
+  ];
+  int64 ctime = 9 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "-"
+  ];
+  int64 mtime = 10 [
+    (gogoproto.casttype) = "go-common/library/time.Time",
+    (gogoproto.jsontag) = "mtime",
+    json_name = "mtime"
+  ];
+}
+
+message ReplyEmoteMeta {
+  ReplyEmoteMetaSize size = 1 [
+    (gogoproto.jsontag) = "size",
+    json_name = "size"
+  ];
+}
+
+enum ReplyEmoteMetaSize {
+  EMOTE_META_SIZE_UNSPECIFIED = 0;
+  EMOTE_META_SIZE_SMALL = 1;
+  EMOTE_META_SIZE_BIG = 2;
+}
+
+message ReplyVote {
+  int64 id = 1 [
+    (gogoproto.jsontag) = "id",
+    json_name = "id"
+  ];
+  string title = 2 [
+    (gogoproto.jsontag) = "title",
+    json_name = "title"
+  ];
+  int32 cnt = 3 [
+    (gogoproto.casttype) = "int",
+    (gogoproto.jsontag) = "cnt",
+    json_name = "cnt"
+  ];
+  string desc = 4 [
+    (gogoproto.jsontag) = "desc",
+    json_name = "desc"
+  ];
+  bool deleted = 5 [
+    (gogoproto.jsontag) = "deleted",
+    json_name = "deleted"
+  ];
+}
+
+message ReplyFolder {
+  bool has_folded = 1 [
+    (gogoproto.jsontag) = "has_folded",
+    json_name = "has_folded"
+  ];
+  bool is_folded = 2 [
+    (gogoproto.jsontag) = "is_folded",
+    json_name = "is_folded"
+  ];
+  string rule = 3 [
+    (gogoproto.jsontag) = "rule",
+    json_name = "rule"
+  ];
+}
+
+message ReplyUpAction {
+  bool like = 1 [
+    (gogoproto.jsontag) = "like",
+    json_name = "like"
+  ];
+  bool reply = 2 [
+    (gogoproto.jsontag) = "reply",
+    json_name = "reply"
+  ];
+}
+
+message ReplyLabel {
+  int64 rpid = 1 [
+    (gogoproto.jsontag) = "rpid",
+    json_name = "rpid"
+  ];
+  string content = 2 [
+    (gogoproto.jsontag) = "content",
+    json_name = "content"
+  ];
+  // 文字色
+  string text_color = 3 [
+    (gogoproto.jsontag) = "text_color",
+    json_name = "text_color"
+  ];
+  string text_color_night_mode = 4 [
+    (gogoproto.jsontag) = "text_color_n",
+    json_name = "text_color_n"
+  ];
+  // 背景色
+  string bg_color = 5 [
+    (gogoproto.jsontag) = "bg_color",
+    json_name = "bg_color"
+  ];
+  string bg_color_night_mode = 6 [
+    (gogoproto.jsontag) = "bg_color_n",
+    json_name = "bg_color_n"
+  ];
+  string link = 7 [
+    (gogoproto.jsontag) = "link",
+    json_name = "link"
+  ];
+  string position = 8 [
+    (gogoproto.jsontag) = "position",
+    json_name = "position"
+  ];
+}

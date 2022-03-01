@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package bilibili.live.approom.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/live/app-room/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.live.app.room.v1";
+option objc_class_prefix = "BAPILiveApp-roomV1";
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+service Studio {
+  // 获取在线演播厅主播列表
+  // `midware:"guest"`
+  rpc GetList(GetStudioListReq) returns (GetStudioListResp);
+}
+
+message GetStudioListReq {
+  // 房间id
+  int64 room_id = 1 [(gogoproto.moretags) = 'form:"room_id" validate:"required"'];
+}
+
+message GetStudioListResp {
+  // 演播厅状态 1.在线演播厅 0.非在线演播厅
+  int64 status = 1 [(gogoproto.jsontag) = 'status', json_name = "status"];
+  // 主播列表，如果没有的话，为空数组
+  repeated StudioMaster master_list = 2 [(gogoproto.jsontag) = 'master_list', json_name = "master_list"];
+
+  message StudioMaster {
+    // uid
+    int64 uid = 1 [(gogoproto.jsontag) = 'uid', json_name = "uid"];
+    // room_id
+    int64 room_id = 2 [(gogoproto.jsontag) = 'room_id', json_name = "room_id"];
+    // 名字、标识
+    string uname = 3 [(gogoproto.jsontag) = 'uname', json_name = "uname"];
+    // 主播头像
+    string face = 4 [(gogoproto.jsontag) = 'face', json_name = "face"];
+    // 主播头像框
+    Pendants pendants = 5 [(gogoproto.jsontag) = 'pendants', json_name = "pendants"];
+    // 主播特殊标识，默认为nul
+    string tag = 6 [(gogoproto.jsontag) = 'tag', json_name = "tag"];
+    // 主播特殊标记类型 0 没有 1 最后投喂 2 当前主播
+    int64 tag_type = 7 [(gogoproto.jsontag) = 'tag_type', json_name = "tag_type"];
+  }
+
+  message Pendants {
+    // 头像边框 暂时用到这个，默认为null
+    Pendant frame = 1 [(gogoproto.jsontag) = 'frame', json_name = "frame"];
+    // 头像角标
+    Pendant badge = 2 [(gogoproto.jsontag) = 'badge', json_name = "badge"];
+    message Pendant {
+      // 名字、标识
+      string name = 1 [(gogoproto.jsontag) = 'name', json_name = "name"];
+      // 位置0无1左上2右上3右下4左下
+      int64 position = 2 [(gogoproto.jsontag) = 'position', json_name = "position"];
+      // name对应的value，可以是挂件的展示名字/对应的图片地址
+      string value = 3 [(gogoproto.jsontag) = 'value', json_name = "value"];
+      // 描述
+      string desc = 4 [(gogoproto.jsontag) = 'desc', json_name = "desc"];
+    }
+  }
+
+}

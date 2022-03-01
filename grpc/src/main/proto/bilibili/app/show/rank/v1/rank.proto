@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package bilibili.app.show.v1;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/show/rank/v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.app.show.rank.v1";
+option objc_class_prefix = "BAPIAppShowRankV1";
+
+// Rank 排行榜
+service Rank {
+    // 全站排行榜
+    rpc RankAll (RankAllResultReq) returns (RankListReply);
+    // 分区排行榜
+    rpc RankRegion (RankRegionResultReq) returns (RankListReply);
+}
+
+// RankAllResultReq 全站排行榜请求参数
+message RankAllResultReq {
+    // 原创排行：origin 、全站排行：all 、新番排行：bangumi
+    string order = 1;
+    // 页数
+    int32 pn = 2;
+    // 当前页最大显示条数
+    int32 ps = 3;
+}
+// RankRegionResultReq 分区排行榜请求参数
+message RankRegionResultReq {
+    // 原创排行：origin 、全站排行：all 、新番排行：bangumi
+    int32 rid = 1;
+    // 页数
+    int32 pn = 2;
+    // 当前页最大显示条数
+    int32 ps = 3;
+}
+
+// RankListReply 排行榜返回结果
+message RankListReply{
+    repeated Item items = 1;
+}
+
+// Item 排行榜item
+message Item {
+    // 标题
+    string title = 1;
+    // 封面
+    string cover = 2;
+    // 跳转参数
+    string param = 3;
+    // 跳转uri
+    string uri = 4;
+    // 服务端内部逻辑使用，请不要乱用
+    string redirect_url = 5;
+    // 跳转类型
+    string goto = 6;
+    // 播放次数
+    int32 play = 7;
+    // 弹幕数
+    int32 danmaku = 8;
+    // 用户mid
+    int64 mid = 9;
+    // 用户名
+    string name = 10;
+    // 用户头像
+    string face = 11;
+    // 评论数
+    int32 reply = 12;
+    // 收藏数
+    int32 favourite = 13;
+    // 稿件发布时间
+    int64 pub_date = 14;
+    // 分区id
+    int32 rid = 15;
+    // 分区名
+    string rname = 16;
+    // 时长
+    int64 duration = 17;
+    // 点赞数
+    int32 like = 18;
+    // 稿件第一P的cid first_cid
+    int64 cid = 19;
+    // 评分
+    int64 pts = 20;
+    // UP主联合投稿描述，字段没有或者为空则不是联合创作
+    string cooperation = 21;
+    // 0：未关注、1：已关注
+    int32 attribute = 22;
+    // 粉丝数
+    int64 follower = 23;
+    // official_verify：type，0=个人,1=企业,-1=未进行实名认证，desc为描述
+    OfficialVerify official_verify = 24;
+    // 返回的数据数组
+    repeated Item children = 25;
+    // 新关注组件
+    Relation relation = 26;
+}
+
+// OfficialVerify
+message OfficialVerify {
+    // 0=个人,1=企业,-1=未进行实名认证
+    int32 type = 1;
+    // 描述
+    string desc = 2;
+}
+
+// 新关注组件
+message Relation {
+    // 按钮展示文案：1：未关注、2：已关注、3：被关注、4：互相关注
+    int32 status = 1;
+    // 用户关注UP主：0或者字段不存在：未关注、1：已关注
+    int32 is_follow = 2;
+    // UP主关注用户：0或者字段不存在：未被关注、1：被关注
+    int32 is_followed = 3;
+}

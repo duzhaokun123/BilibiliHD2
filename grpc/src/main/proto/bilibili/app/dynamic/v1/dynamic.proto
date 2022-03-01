@@ -1,0 +1,1216 @@
+syntax = "proto3";
+
+package bilibili.app.dynamic.v1;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/dynamic/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.app.dynamic.v1";
+option objc_class_prefix = "BAPIAppDynamicV1";
+
+import "bilibili/app/archive/middleware/v1/preload.proto";
+
+// Dynamic 动态
+service Dynamic {
+    // 动态视频页
+    rpc DynVideo (DynVideoReq) returns (DynVideoReqReply);
+    // 批量动态id获取动态详情
+    rpc DynDetails (DynDetailsReq) returns (DynDetailsReply);
+    // 小视频连播页
+    rpc SVideo (SVideoReq) returns (SVideoReply);
+    // 动态tab页
+    rpc DynTab (DynTabReq) returns (DynTabReply);
+    // 同城接口开关
+    rpc DynOurCitySwitch (DynOurCitySwitchReq) returns (NoReply);
+    // 动态同城页
+    rpc DynOurCity(DynOurCityReq) returns (DynOurCityReply);
+    // 最近访问-个人视频feed流
+    rpc DynVideoPersonal(DynVideoPersonalReq) returns (DynVideoPersonalReply);
+    // 最近访问-标记已读
+    rpc DynUpdOffset(DynUpdOffsetReq) returns (NoReply);
+    // 动态红点接口
+    rpc DynRed(DynRedReq) returns(DynRedReply);
+    // 网关调用 - 动态综合-查看更多-列表
+    rpc DynMixUpListViewMore(NoReq) returns (DynMixUpListViewMoreReply);
+    // 网关调用 - 动态综合-查看更多-搜索
+    rpc DynMixUpListSearch(DynMixUpListSearchReq) returns (DynMixUpListSearchReply);
+    // 同城点击上报
+    rpc OurCityClickReport(OurCityClickReportReq) returns (OurCityClickReportReply);
+}
+
+message NoReq {}
+
+message NoReply {}
+
+// DynVideoReq 动态视频页请求参数
+message DynVideoReq {
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 1;
+    // 透传 update_baseline
+    string update_baseline = 2;
+    // 透传 history_offset
+    string offset = 3;
+    // 向下翻页数
+    int32 page = 4;
+    // 刷新方式 1向上刷新 2向下翻页
+    int32 refresh_type = 5;
+    // 秒开清晰度（秒开用）
+    int32 qn = 6;
+    // 功能版本号（秒开用）
+    int32 fnver = 7;
+    // 功能标识（秒开用）
+    int32 fnval = 8;
+    // 返回url是否强制使用域名（秒开用）
+    int32 force_host = 9;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 10;
+}
+
+// DynVideoReqReply 动态视频页返回值
+message DynVideoReqReply {
+    // 动态列表
+    repeated DynamicItem list = 1;
+    // 更新的动态数
+    int32 update_num = 2;
+    // 历史偏移
+    string history_offset = 3;
+    // 更新基础信息
+    string update_baseline = 4;
+    // 是否还有更多数据
+    int32 has_more = 5;
+}
+
+// DynamicItem 动态卡片项
+message DynamicItem {
+    // 卡片类型 转发-forward;稿件视频-av;折叠-fold;pgc内容-pgc;付费视频-courses;最近访问列表-upList;我的追番列表-followList
+    string card_type = 1;
+    // 转发类型下，items的类型
+    string item_type = 2;
+    // 模块内容
+    repeated Module modules = 3;
+    // 动态ID(string)
+    string dyn_id_str = 4;
+    // 转发动态ID(string)
+    string orig_dyn_id_str = 5;
+    // r_type
+    int32 r_type = 6;
+    // 该卡片下面是否含有折叠卡
+    int32 has_fold = 7;
+}
+
+// Module 模块
+message Module {
+    // 折叠-fold，发布人-author，动态卡片内容-dynamic，描述信息-desc，争议小黄条-dispute，转发-forward，点赞用户-likeUser
+    // 小卡信息-extend，计数信息-state，最近访问列表-upList，我的追番-followList
+    string module_type = 1;
+    oneof module_item{
+        ModuleFold module_fold = 2;         // type: fold
+        ModuleAuthor module_author = 3;     // type: author
+        ModuleDynamic module_dynamic = 4;   // type: dynamic
+        ModuleState module_state = 5;       // type: state
+        ModuleForward module_forward = 6;   // type: forward
+        ModuleExtend module_extend = 7;     // type: extend
+        ModuleDispute module_dispute = 8;   // type: dispute
+        ModuleDesc module_desc = 9;         // type: desc
+        ModuleLikeUser module_likeUser= 10; // type: likeUser
+        ModuleDynUpList module_upList = 11; // type: upList
+        ModuleFollowList module_followList = 12; // type: followList
+    }
+}
+
+// ModuleFold 折叠模块
+message ModuleFold {
+    // 折叠分类（该字段废弃）
+    int32 fold_type = 1;
+    // 折叠文案
+    string text = 2;
+    // 被折叠的动态
+    string fold_ids = 3;
+    // 被折叠的用户信息
+    repeated UserInfo fold_users = 4;
+    // 折叠分类
+    FoldType fold_type_v2 = 5;
+}
+
+enum FoldType {
+    // 占位
+    FoldTypeZero = 0;
+    // 用户发布折叠
+    FoldTypePublish = 1;
+    // 转发超频折叠
+    FoldTypeFrequent = 2;
+    // 联合投稿折叠
+    FoldTypeUnite = 3;
+    // 动态受限折叠
+    FoldTypeLimit = 4;
+}
+
+// ModuleAuthor 作者信息模块
+message ModuleAuthor {
+    // 用户mid
+    int64 id = 1;
+    // 时间标签
+    string ptime_label_text = 2;
+    // 用户详情
+    UserInfo author = 3;
+    // 装扮卡片
+    DecorateCard decorate_card = 4;
+}
+
+// ModuleDispute 争议小黄条模块
+message ModuleDispute {
+    // 标题
+    string title = 1;
+    // 描述内容
+    string desc = 2;
+    // 跳转链接
+    string uri = 3;
+}
+
+// ModuleDesc 文本内容模块
+message ModuleDesc {
+    repeated Description desc = 1;
+}
+
+// ModuleDynamic 动态详情模块
+message ModuleDynamic {
+    // 卡片类型 ugc卡-ugc、pgc卡-pgc、付费课程系列-currSeason、付费课程批次-currBatch
+    string card_type = 1;
+    // 正文卡片
+    oneof card {
+        CardUGC card_ugc = 2;
+        CardPGC card_pgc = 3;
+        CardCurrSeason card_curr_season = 4;
+        CardCurrBatch card_curr_batch = 5;
+    }
+}
+
+// ModuleLikeUser 点赞用户模块
+message ModuleLikeUser {
+    // 点赞用户
+    repeated LikeUser like_users = 1;
+    // 文案
+    string display_text = 2;
+}
+
+// ModuleState 计数信息模块
+message ModuleState {
+    // 转发数
+    int32 repost = 1;
+    // 点赞数
+    int32 like = 2;
+    // 评论数
+    int32 reply = 3;
+    // 点赞拓展信息
+    LikeInfo like_info = 4;
+    // 禁评
+    bool no_comment = 5;
+    // 禁转
+    bool no_forward = 6;
+}
+
+// ModuleForward 转发模块
+message ModuleForward {
+    // 卡片类型
+    string card_type = 1;
+    // 嵌套模型
+    repeated Module modules= 2;
+}
+
+// CardUGC UGC视频卡片数据
+message CardUGC {
+    // 标题
+    string title = 1;
+    // 封面图
+    string cover = 2;
+    // 秒开地址
+    string uri = 3;
+    // 视频封面展示项 1
+    string cover_left_text_1 = 4;
+    // 视频封面展示项 2
+    string cover_left_text_2 = 5;
+    // 封面视频展示项 3
+    string cover_left_text_3 = 6;
+    // avid
+    int64 avid = 7;
+    // cid
+    int64 cid = 8;
+    // 视频源类型
+    MediaType media_type = 9;
+    // 尺寸信息
+    Dimension dimension = 10;
+    // 角标
+    repeated VideoBadge badge = 11;
+    // 是否能够自动播放
+    int32  can_play= 12;
+}
+
+// CardPGC PGC视频卡片数据
+message CardPGC {
+    // 标题
+    string title = 1;
+    // 封面图
+    string cover = 2;
+    // 秒开地址
+    string uri = 3;
+    // 视频封面展示项 1
+    string cover_left_text_1 = 4;
+    // 视频封面展示项 2
+    string cover_left_text_2 = 5;
+    // 封面视频展示项 3
+    string cover_left_text_3 = 6;
+    // cid
+    int64 cid = 7;
+    // season_id
+    int64 season_id = 8;
+    // epid
+    int64 epid = 9;
+    // aid
+    int64 aid = 10;
+    // 视频源类型
+    MediaType media_type = 11;
+    // 番剧类型
+    VideoSubType sub_type = 12;
+    // 番剧是否为预览视频 0:否，1:是
+    int32 is_preview = 13;
+    // 尺寸信息
+    Dimension dimension = 14;
+    // 角标
+    repeated VideoBadge badge = 15;
+    // 是否能够自动播放
+    int32  can_play= 16;
+    // season
+    PGCSeason season = 17;
+}
+
+// CardCurrSeason 付费课程系列卡
+message CardCurrSeason {
+    // 标题
+    string title = 1;
+    // 封面图
+    string cover = 2;
+    // 跳转地址
+    string uri = 3;
+    // 展示项 1（更新信息）
+    string text_1 = 4;
+    // 描述信息
+    string desc = 5;
+    // 角标
+    VideoBadge badge = 6;
+}
+
+// CardCurrBatch 付费课程批次卡
+message CardCurrBatch {
+    // 标题
+    string title = 1;
+    // 封面图
+    string cover = 2;
+    // 跳转地址
+    string uri = 3;
+    // 展示项 1(本集标题）
+    string text_1 = 4;
+    // 展示项 2（更新了多少个视频）
+    string text_2 = 5;
+    // 角标
+    VideoBadge badge = 6;
+}
+
+// VideoBadge 角标信息
+message VideoBadge {
+    // 文案
+    string text = 1;
+    // 文案颜色-日间
+    string text_color = 2;
+    // 文案颜色-夜间
+    string text_color_night = 3;
+    // 背景颜色-日间
+    string bg_color = 4;
+    // 背景颜色-夜间
+    string bg_color_night = 5;
+    // 边框颜色-日间
+    string border_color = 6;
+    // 边框颜色-夜间
+    string border_color_night = 7;
+    // 样式
+    int32 bg_style = 8;
+}
+
+// Dimension 尺寸信息
+message Dimension {
+    int64 height = 1;
+    int64 width = 2;
+    int64 rotate = 3;
+}
+
+// 番剧类型
+enum VideoSubType {
+    // 没有子类型
+    VideoSubTypeNone = 0;
+    // 番剧
+    VideoSubTypeBangumi = 1;
+    // 电影
+    VideoSubTypeMovie = 2;
+    // 纪录片
+    VideoSubTypeDocumentary = 3;
+    // 国创
+    VideoSubTypeDomestic = 4;
+    // 电视剧
+    VideoSubTypeTeleplay = 5;
+}
+
+// 播放器类型
+enum MediaType {
+    // 本地
+    MediaTypeNone = 0;
+    // UGC
+    MediaTypeUGC = 1;
+    // PGC
+    MediaTypePGC = 2;
+    // 直播
+    MediaTypeLive = 3;
+    // 小视频
+    MediaTypeVCS = 4;
+}
+
+// ModuleExtend 拓展信息
+message ModuleExtend {
+    repeated Extend extend = 1;
+}
+
+// Extend 拓展
+message Extend {
+    // 类型 话题小卡-topic, lbs-lbs, 热门视频-hot
+    string type = 1;
+    // 卡片详情
+    oneof extend {
+        ExtInfoTopic ext_info_topic = 2;
+        ExtInfoLBS ext_info_lbs = 3;
+        ExtInfoHot ext_info_hot = 4;
+        ExtInfoGame ext_info_game = 5;
+    }
+}
+
+// 拓展信息 - 游戏小卡
+message ExtInfoGame {
+    // 标题
+    string title = 1;
+    // 跳转地址
+    string uri = 2;
+    // 小图标
+    string icon = 3;
+}
+
+// 拓展信息 - 话题小卡
+message ExtInfoTopic {
+    // 标题 - 话题名
+    string title = 1;
+    // 跳转地址
+    string uri = 2;
+    // 小图标
+    string icon = 3;
+}
+
+// 拓展信息 - lbs
+message ExtInfoLBS {
+    // 标题
+    string title = 1;
+    // 跳转地址
+    string uri = 2;
+    // 小图标
+    string icon = 3;
+    // poiType
+    int32 poi_type = 4;
+}
+
+// 拓展信息 - 热门视频
+message ExtInfoHot {
+    // 标题
+    string title = 1;
+    // 跳转地址
+    string uri = 2;
+    // 小图标
+    string icon = 3;
+}
+
+// LikeInfo 点赞拓展信息
+message LikeInfo {
+    // 点赞动画
+    LikeAnimation animation = 1;
+    // 是否点赞
+    int32 is_like = 2;
+}
+
+// LikeUser 点赞用户
+message LikeUser {
+    // 用户mid
+    int64 uid = 1;
+    // 用户昵称
+    string uname = 2;
+    // 点击跳转链接
+    string uri = 3;
+}
+
+// LikeAnimation 点赞动画
+message LikeAnimation {
+    // 开始动画
+    string begin = 1;
+    // 过程动画
+    string proc = 2;
+    // 结束动画
+    string end = 3;
+    // id
+    int64 like_icon_id = 4;
+}
+
+// Description 文本描述
+message Description {
+    // 文本内容
+    string text = 1;
+    // 文本类型
+    string type = 2;
+    // 点击跳转链接
+    string uri = 3;
+    // emoji类型
+    string emoji_type = 4;
+    // 商品类型
+    string goods_type = 5;
+}
+
+// DecorateCard 装扮卡片
+message DecorateCard {
+    // 装扮卡片id
+    int64 id = 1;
+    // 装扮卡片链接
+    string card_url = 2;
+    // 装扮卡片点击跳转链接
+    string jump_url = 3;
+    // 粉丝样式
+    DecoCardFan fan = 4;
+}
+
+message DecoCardFan {
+    // 是否是粉丝
+    int32 is_fan = 1;
+    // 数量
+    int32 number = 2;
+    // 颜色
+    string color = 3;
+}
+
+// UserInfo 用户信息
+message UserInfo {
+    // 用户Mid
+    int64 mid = 1;
+    // 用户昵称
+    string name = 2;
+    // 用户头像
+    string face = 3;
+    // 认证信息
+    OfficialVerify official = 4;
+    // 大会员信息
+    VipInfo vip = 5;
+    // 直播信息
+    LiveInfo live = 6;
+    // 空间页跳转链接
+    string uri = 7;
+    // 挂件信息
+    UserPendant pendant = 8;
+    // 认证名牌
+    Nameplate nameplate = 9;
+}
+
+// 认证名牌
+message Nameplate {
+    // nid
+    int64 nid = 1;
+    // 名称
+    string name = 2;
+    // 图片地址
+    string image = 3;
+    // 小图地址
+    string image_small = 4;
+    // 等级
+    string level = 5;
+    // 获取条件
+    string condition = 6;
+}
+
+// UserPendant 头像挂件信息
+message UserPendant {
+    // pid
+    int64 pid = 1;
+    // 名称
+    string name = 2;
+    // 图片链接
+    string image = 3;
+    // 有效期
+    int64 expire = 4;
+}
+
+// OfficialVerify 认证信息
+message OfficialVerify {
+    // 0：个人；1：官方；127：未认证
+    int32 type = 1;
+    // 认证描述
+    string desc = 2;
+    int32 is_atten = 3;
+}
+
+// VipInfo 大会员信息
+message VipInfo {
+    // 大会员类型
+    int32 Type = 1;
+    // 大会员状态
+    int32 status = 2;
+    // 到期时间
+    int64 due_date = 3;
+    // 标签
+    VipLabel label = 4;
+    // 主题
+    int32 theme_type = 5;
+}
+
+// 大会员标签
+message VipLabel {
+    // 图片地址
+    string path = 1;
+}
+
+// LiveInfo 直播信息
+message LiveInfo {
+    // 是否在直播，0未直播，1正在直播
+    int32 is_living = 1;
+    // 跳转链接
+    string uri = 2;
+}
+
+// DynDetailsReq 批量动态id获取动态详情请求参数
+message DynDetailsReq {
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 1;
+    // 动态id
+    string dynamic_ids = 2;
+    // 秒开清晰度（秒开用）
+    int32 qn = 3;
+    // 功能版本号（秒开用）
+    int32 fnver = 4;
+    // 功能标识（秒开用）
+    int32 fnval = 5;
+    // 返回url是否强制使用域名（秒开用）
+    int32 force_host = 6;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 7;
+}
+
+// DynDetailsReply 批量动态id获取动态详情返回值
+message DynDetailsReply {
+    // 动态列表
+    repeated DynamicItem list = 1;
+}
+
+// SVideoReq 小视频连播页请求参数
+message SVideoReq {
+    // 当前素材的id，外部点击进来要传，联播页内翻页不用传（如动态id/热门分类id/热词id）
+    int64 oid = 1;
+    // 当前素材类型，动态=1（如果有oid则必传）热门分类=2 热点聚合=3
+    SVideoType type = 2;
+    // 首页不需要传，翻页透传上次结果的offset
+    string offset = 3;
+    // 秒开清晰度（秒开用）新版本废弃，统一使用player_args
+    int32 qn = 4;
+    // 功能版本号（秒开用）新版本废弃，统一使用player_args
+    int32 fnver = 5;
+    // 功能标识（秒开用）新版本废弃，统一使用player_args
+    int32 fnval = 6;
+    // 返回url是否强制使用域名（秒开用）新版本废弃，统一使用player_args
+    int32 force_host = 7;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 8;
+    // spmid 当前页面
+    string spmid = 9;
+    // from_spmid 上级页面
+    string from_spmid = 10;
+    // 秒开参数
+    PlayerPreloadParams player_preload = 11;
+    // 热门进入联播页的锚点aid
+    int64 focus_aid = 12;
+    // 秒开用
+    bilibili.app.archive.middleware.v1.PlayerArgs player_args = 13;
+}
+
+// SVideoType 入口联播页类型
+enum SVideoType {
+    // 无类型
+    TypeNone = 0;
+    // 动态
+    TypeDynamic = 1;
+    // 热门分类
+    TypePopularIndex = 2;
+    // 热点聚合
+    TypePopularHotword = 3;
+}
+
+// SVideoReply 小视频连播页返回值
+message SVideoReply {
+    // 列表
+    repeated SVideoItem list = 1;
+    // 翻页游标
+    string offset = 2;
+    // 是否还有更多数据 1=有
+    int32 has_more = 3;
+    // 顶部
+    SVideoTop top = 4;
+}
+
+message SVideoTop {
+    // 联播页标题
+    string Title = 1;
+    // 联播页导语
+    string Desc = 2;
+}
+
+// 秒开参数
+message PlayerPreloadParams {
+    int32 qn = 1;
+    // 功能版本号（秒开用）
+    int32 fnver = 2;
+    // 功能标识（秒开用）
+    int32 fnval = 3;
+    // 返回url是否强制使用域名（秒开用）
+    int32 force_host = 4;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 5;
+}
+
+// SVideoItem 小视频卡片项
+message SVideoItem {
+    // 卡片类型 稿件视频-av
+    string card_type = 1;
+    // 模块内容
+    repeated SVideoModule modules = 2;
+    // 动态ID(string)
+    string dyn_id_str = 3;
+    // 卡片游标
+    int64 index = 4;
+}
+
+// SVideoModule 模块
+message SVideoModule {
+    // 发布人-author，播放器内容-player，描述信息-desc，计数信息-stat
+    string module_type = 1;
+    oneof module_item{
+        SVideoModuleAuthor module_author = 2;     // type: author
+        SVideoModulePlayer module_player = 3;     // type: player
+        SVideoModuleDesc module_desc = 4;         // type: desc
+        SVideoModuleStat module_stat = 5;         // type: stat
+    }
+}
+
+// SVideoModuleAuthor 作者信息模块
+message SVideoModuleAuthor {
+    // 用户mid
+    int64 mid = 1;
+    // 用户昵称
+    string name = 2;
+    // 用户头像
+    string face = 3;
+    // 发布描述
+    string pub_desc = 4;
+    // 是否关注up 1-已关注
+    int32 is_attention = 5;
+    // 跳转地址
+    string uri = 6;
+}
+
+// SVideoModulePlayer 播放器模块
+message SVideoModulePlayer {
+    // 标题
+    string title = 1;
+    // 封面图
+    string cover = 2;
+    // 跳转地址，秒开地址如果有会拼接player_preload可参考天马
+    string uri = 3;
+    // aid
+    int64 aid = 4;
+    // cid
+    int64 cid = 5;
+    // 视频时长
+    int64 duration = 6;
+    // 尺寸信息
+    Dimension dimension = 7;
+}
+
+// SVideoModuleDesc 文本内容模块
+message SVideoModuleDesc {
+    // 文本内容
+    string text = 1;
+    // 跳转地址
+    string uri = 2;
+}
+
+// SVideoModuleStat 计数信息模块
+message SVideoModuleStat {
+    repeated SVideoStatInfo stat_info = 1;
+    ShareInfo share_info = 2;
+}
+
+// StatInfo 计数内容
+message SVideoStatInfo{
+    // 计数icon 1-分享符号 2-评论符号 3-点赞符号
+    int32 icon = 1;
+    // 计数值
+    int64 num = 2;
+    // 选中状态 1-选中
+    int32 selected = 3;
+    // 跳转链接（如评论）
+    string uri = 4;
+}
+
+// ShareInfo 分享需要
+message ShareInfo {
+    // 稿件 aid
+    int64 aid = 1;
+    // 稿件 bvid
+    string bvid = 2;
+    // 标题
+    string title = 3;
+    // 副标题
+    string subtitle = 4;
+    // 稿件封面
+    string cover = 5;
+    // up mid
+    int64 mid = 6;
+    // up name
+    string name = 7;
+}
+
+// DynTabReq 动态tab请求参数
+message DynTabReq{
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 1;
+}
+
+// DynTabReply 动态tab返回
+message DynTabReply{
+    repeated DynTab dyn_tab = 1;
+}
+
+// DynTab 动态tab详情
+message DynTab {
+    // tab标题 优先展示用,未开启状态第一次请求返回同城,后续请求返回对应城市名
+    string title = 1;
+    // 跳转链接
+    string uri = 2;
+    // 气泡内容
+    string bubble = 3;
+    // 是否推红点
+    int32 red_point = 4;
+    // 城市ID
+    int64 city_id = 5;
+    // 是否弹窗
+    int32 is_popup = 6;
+    // 弹窗内容
+    Popup popup = 7;
+    // 是否默认tab
+    bool defaultTab = 8;
+    // 副标题 对应城市名
+    string sub_title = 9;
+    // 锚点字段
+    string anchor = 10;
+    // 内测文案
+    string internal_test = 11;
+}
+
+// 动态tab弹窗详情
+message Popup{
+    // 标题
+    string title = 1;
+    // 文案
+    string desc = 2;
+    // 文案附加跳转地址
+    string uri = 3;
+}
+
+// 动态同城开关请求参数
+message DynOurCitySwitchReq{
+    // 开关参数 0关闭 1开启
+    int32 switch = 1;
+}
+
+// 动态同城页请求
+message DynOurCityReq{
+    // 城市ID
+    int64 city_id = 1;
+    // 纬度
+    double lat = 2;
+    // 经度
+    double lng = 3;
+    // 透传上一次接口请求返回的offset
+    string offset = 4;
+    // 每页元素个数
+    int32 page_size = 5;
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 6;
+    // 秒开清晰度（秒开用）新版本废弃，统一使用player_args
+    int32 qn = 7;
+    // 功能版本号（秒开用）新版本废弃，统一使用player_args
+    int32 fnver = 8;
+    // 功能标识（秒开用）新版本废弃，统一使用player_args
+    int32 fnval = 9;
+    // 返回url是否强制使用域名（秒开用）新版本废弃，统一使用player_args
+    int32 force_host = 10;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 11;
+    // 是否开启lbs 0关闭;1开启
+    int32 lbs_state = 12;
+    // 是否刷新城市
+    uint32 refresh_city = 13;
+    // 魔镜设置
+    ExpConf exp_conf = 14;
+    // 秒开用
+    bilibili.app.archive.middleware.v1.PlayerArgs player_args = 15;
+}
+
+// 魔镜设置
+message ExpConf {
+    // 是否是魔镜请求
+    int32 exp_enable = 1;
+    // 实验配置
+    repeated Exp exps = 2;
+}
+
+// 魔镜实验配置项
+message Exp {
+    // 实验名
+    string exp_name = 1;
+    // 实验组
+    string exp_group = 2;
+}
+
+// 动态同城返回结果
+message DynOurCityReply {
+    // 翻页游标
+    string offset = 1;
+    // 是否还有更多数据 1=有
+    int32 has_more = 2;
+    // 样式类型 1-双列 2-瀑布流
+    int32 style = 3;
+    // 顶导信息
+    string top_label = 4;
+    // 列表详情
+    repeated DynOurCityItem list = 5;
+    // 顶导按钮信息
+    string top_button_label = 6;
+    // 城市ID
+    int32 city_id = 7;
+    // 城市名
+    string city_name = 8;
+}
+
+// 动态同城物料
+message DynOurCityItem{
+    // 卡片类型 av-稿件 draw-图文
+    string card_type = 1;
+    // 动态ID
+    int64 dyn_id = 2;
+    // 跳转地址
+    string uri = 3;
+    // 模块列表
+    repeated DynOurCityModule modules = 4;
+    // 资源ID
+    int64 rid = 5;
+    // 透传服务端魔镜参数
+    string debug_info = 6;
+}
+
+// 动态同城物料模块
+message DynOurCityModule{
+    // 模块类型 cover-封面 desc-描述 author-发布人 extend-扩展部分
+    string module_type = 1;
+    oneof module_item {
+        DynOurCityModuleCover module_cover = 2;
+        DynOurCityModuleDesc module_desc = 3;
+        DynOurCityModuleAuthor module_author = 4;
+        DynOurCityModuleExtend module_extend = 5;
+}
+}
+
+// 动态同城物料cover模块
+message DynOurCityModuleCover{
+    // 封面图 单图样式取第一个元素
+    repeated string covers = 1;
+    // 封面样式 1-横图 2-竖图 3-方图
+    int32 style = 2;
+    // 视频封面展示项图标 1
+    int32 cover_left_icon_1 = 3;
+    // 视频封面展示项 1
+    string cover_left_text_1 = 4;
+    // 视频封面展示项图标 2
+    int32 cover_left_icon_2 = 5;
+    // 视频封面展示项 2
+    string cover_left_text_2 = 6;
+    // 封面视频展示项 3
+    string cover_left_text_3 = 7;
+    // 角标
+    repeated VideoBadge badge = 8;
+}
+
+// 动态同城物料desc模块
+message DynOurCityModuleDesc{
+    string desc = 1;
+}
+
+// 动态同城物料author模块
+message DynOurCityModuleAuthor{
+    // 用户Mid
+    int64 mid = 1;
+    // 用户昵称
+    string name = 2;
+    // 用户头像
+    string face = 3;
+    // 跳转地址
+    string uri = 4;
+}
+
+// 动态同城物料extend模块
+message DynOurCityModuleExtend{
+    string type = 1;
+    oneof extend {
+        DynOurCityModuleExtendLBS extend_lbs = 2;
+    }
+}
+
+// 动态同城物料extent模块LBS
+message DynOurCityModuleExtendLBS{
+    // 标题
+    string title = 1;
+    // 跳转地址
+    string uri = 2;
+    // 小图标
+    string icon = 3;
+    // poiType
+    int32 poi_type = 4;
+}
+
+// DynUpList 最近访问 up主列表
+message ModuleDynUpList {
+    // 标题展示文案
+    string module_title = 1;
+    // “全部”按钮文案
+    string show_all = 2;
+    // up主列表
+    repeated UpListItem list = 3;
+}
+
+// UpListItem up主列表
+message UpListItem {
+    // 是否有更新，0没有，1有
+    int32 has_update = 1;
+    // up主头像
+    string face = 2;
+    // up主昵称
+    string name = 3;
+    // up主uid
+    int64 uid = 4;
+}
+
+// FollowList 我的追番列表
+message ModuleFollowList {
+    // 查看全部的跳转链接
+    string view_all_link = 1;
+    repeated FollowListItem list = 2;
+}
+
+// FollowListItem 我的追番列表Item
+message FollowListItem {
+    // season_id
+    int32 season_id = 1;
+    // 标题
+    string title = 2;
+    // 封面图
+    string cover = 3;
+    // 跳转链接
+    string url = 4;
+    // new_ep
+    NewEP new_ep = 5;
+}
+
+// NewEP 最新ep
+message NewEP {
+    // 最新话epid
+    int32 id = 1;
+    // 更新至XX话
+    string index_show = 2;
+    // 更新剧集的封面
+    string cover = 3;
+}
+
+// DynVideoPersonalReq 最近访问-个人feed流列表 请求参数
+message DynVideoPersonalReq {
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 1;
+    // 被访问者的 UID
+    int64 host_uid = 2;
+    // 偏移量 第一页可传空
+    string offset = 3;
+    // 标明下拉几次
+    int32 page = 4;
+    // 是否是预加载
+    int32 is_preload = 5;
+    // 秒开清晰度（秒开用）
+    int32 qn = 6;
+    // 功能版本号（秒开用）
+    int32 fnver = 7;
+    // 功能标识（秒开用）
+    int32 fnval = 8;
+    // 返回url是否强制使用域名（秒开用）
+    int32 force_host = 9;
+    // 是否需要4k视频，fourk=1 表示需要，其他表示不需要
+    int32 fourk = 10;
+}
+
+// DynVideoPersonalReply 最近访问-个人feed流列表 返回值
+message DynVideoPersonalReply {
+    // 动态列表
+    repeated DynamicItem list = 1;
+    // 偏移量
+    string offset = 2;
+    // 是否还有更多数据
+    int32 has_more = 3;
+    // 已读进度
+    string read_offset = 4;
+}
+
+// DynUpdOffsetReq 最近访问-标记已读 请求参数
+message DynUpdOffsetReq {
+    // 被访问者的UID
+    int64 host_uid = 1;
+    // 用户已读进度
+    string read_offset = 2;
+}
+
+// PGCSeason season information
+message PGCSeason {
+    // is_finish
+    int32 is_finish = 1;
+    // 标题
+    string title = 2;
+    // 类型
+    int32 type = 3;
+}
+
+
+// DynRedReq 动态红点接口
+message DynRedReq{
+    repeated TabOffset tab_offset = 1;
+}
+
+// TabOffset 动态红点接口各tab offset信息
+message TabOffset{
+    // 1-综合页 2-视频页
+    int32  tab         = 1;
+    // 上一次对应列表页offset
+    string offset      = 2;
+}
+
+// DynRedReply 红点接口返回值
+message DynRedReply{
+    // 类型 count-数字红点 point-普通红点 no_point-没有红点
+    string red_type = 1;
+    // 红点具体信息
+    DynRedItem dyn_red_item = 2;
+    // 默认tab 值对应tab接口下发的anchor
+    string default_tab = 3;
+}
+
+// DynRedItem 红点接口物料
+message DynRedItem{
+    // 数字红点有效 更新数
+    uint64 count = 1;
+}
+
+message MixUpListLiveItem {
+    // 直播状态，0未直播 1直播中
+    bool status  = 1;
+    // 房间号
+    int64 room_id = 2;
+    // 跳转地址
+    string uri = 3;
+}
+
+// 查看更多-列表单条数据
+message MixUpListItem {
+    // 用户mid
+    int64 uid = 1;
+    // 特别关注，0否 1是
+    int32 special_attention = 2;
+    // 小红点状态，0没有 1有
+    int32 reddot_state = 3;
+    // 直播信息
+    MixUpListLiveItem live_info = 4;
+    // 昵称
+    string name = 5;
+    // 头像
+    string face = 6;
+    // 认证信息
+    OfficialVerify official = 7;
+    // 大会员信息
+    VipInfo vip = 8;
+    // 关注状态
+    Relation relation = 9;
+}
+
+// 查看更多-列表返回
+message DynMixUpListViewMoreReply {
+    // 关注up主列表信息
+    repeated MixUpListItem items = 1;
+    // 默认搜索文案
+    string  search_default_text = 2;
+}
+
+// 查看更多-搜索请求
+message DynMixUpListSearchReq {
+  string name    = 1; // key
+}
+
+// 查看更多-搜索返回
+message DynMixUpListSearchReply {
+  repeated MixUpListItem items = 1;
+}
+
+// 关注关系
+message Relation {
+    // 关注状态
+    RelationStatus status = 1;
+    // 关注
+    int32 is_follow = 2;
+    // 被关注
+    int32 is_followed = 3;
+    // 文案
+    string title = 4;
+}
+
+// 关注关系 枚举
+enum RelationStatus {
+    // 1-未关注 2-关注 3-被关注 4-互相关注 5-特别关注
+    relation_status_none = 0;
+    relation_status_nofollow = 1;
+    relation_status_follow = 2;
+    relation_status_followed = 3;
+    relation_status_mutual_concern = 4;
+    relation_status_special = 5;
+}
+
+
+// 动态同城点击上报请求
+message OurCityClickReportReq {
+    // 动态ID
+    string dynamic_id = 1;
+    // 城市ID
+    int64 city_id = 2;
+    // 纬度
+    double lat = 3;
+    // 经度
+    double lng = 4;
+}
+
+// 动态同城点击上报返回
+message OurCityClickReportReply {}

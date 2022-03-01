@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package bilibili.metadata;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/metadata;metadata";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.metadata";
+option objc_class_prefix = "BAPIMetadata";
+
+message Metadata {
+    // 登录鉴权
+    string access_key = 1;
+    // 包类型
+    string mobi_app = 2;
+    // 运行设备
+    string device = 3;
+    // 构建号
+    int32 build = 4;
+    // 渠道
+    string channel = 5;
+    // 设备buvid
+    string buvid = 6;
+    // 设备类型
+    string platform = 7;
+}

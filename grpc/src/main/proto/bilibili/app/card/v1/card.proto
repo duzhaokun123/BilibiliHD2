@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package bilibili.app.card.v1;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/card/v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.app.card.v1";
+option objc_class_prefix = "BAPIAppCardV1";
+
+import "bilibili/app/card/v1/single.proto";
+
+message Card {
+    oneof item {
+        SmallCoverV5 small_cover_v5 = 1;
+        LargeCoverV1 large_cover_v1 = 2;
+        ThreeItemAllV2 three_item_all_v2 = 3;
+        ThreeItemV1 three_item_v1 = 4;
+        HotTopic hot_topic = 5;
+        DynamicHot three_item_h_v5 = 6;
+        MiddleCoverV3 middle_cover_v3 = 7;
+        LargeCoverV4 large_cover_v4 = 8;
+        PopularTopEntrance popular_top_entrance = 9;
+        RcmdOneItem rcmd_one_item = 10;
+    }
+}

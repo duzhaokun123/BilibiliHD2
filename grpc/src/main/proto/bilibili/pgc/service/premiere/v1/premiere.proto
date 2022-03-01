@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package bilibili.pgc.service.premiere.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/pgc/service/premiere/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.pgc.service.premiere.v1";
+option objc_class_prefix = "BAPIPgcServicePremiereV1";
+
+// 首播服务
+service Premiere {
+    // 获取首播状态
+    rpc Status (PremiereStatusReq) returns (PremiereStatusReply);
+}
+
+message PremiereStatusReq {
+    // episode_id
+    int64 ep_id = 1;
+}
+
+message PremiereStatusReply {
+    // 服务端播放进度，未打散，负数表示距离开播时间，正数表示已开播时间，单位：毫秒
+    // 用户实际播放进度：progress - delay_time
+    int64 progress = 1;
+    // 起播时间戳，未打散，单位：毫秒
+    int64 start_time = 2;
+    // 延迟播放时长，已打散，单位：毫秒
+    int64 delay_time = 3;
+    // 首播在线人数
+    int64 online_count = 4;
+    // 首播状态 1.预热 2.首播中 3.紧急停播 4.已结束
+    int32 status = 5;
+    // 首播结束后跳转类型 1.下架 2.转点播
+    int32 after_premiere_type = 6;
+}

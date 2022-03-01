@@ -62,7 +62,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getAt("release")
+            signingConfig = if (System.getenv("REL_KEY") != null) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
         getByName("debug") {
             val localProperties = gradleLocalProperties(rootDir)
@@ -104,12 +108,12 @@ dependencies {
     implementation("com.hiczp", "bilibili-api", "bilibiliHD")
 
     //preferencex
-    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.2.0")
     implementation("com.takisoft.preferencex:preferencex:1.1.0")
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))

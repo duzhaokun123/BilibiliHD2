@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package bilibili.broadcast.v2;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/broadcast/v2;v2";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.broadcast.v2";
+option objc_class_prefix = "BAPIBroadcastV2";
+
+import "google/protobuf/empty.proto";
+
+// 服务端下发Laser事件
+message LaserEventResp {
+    // 任务id
+    int64 taskid = 1 [json_name="taskid"];
+    // 指令名
+    string action = 2 [json_name="action"];
+    // 指令参数json字符串
+    string params = 3 [json_name="params"];
+}
+
+// Laser
+service Laser {
+    // 监听Laser事件
+    rpc WatchEvent(google.protobuf.Empty) returns (stream LaserEventResp);
+}

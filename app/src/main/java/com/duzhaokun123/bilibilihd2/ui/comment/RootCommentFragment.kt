@@ -39,7 +39,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
 
     override suspend fun onRefreshIO(): List<RootCommentCardModel>? {
         return runCatching { grpcClidet.reply.mainList(oid, type, 0, mode) }
-            .commonOnFailureHandler(requireContext())
+            .commonOnFailureHandler(context)
             .onSuccess { r ->
                 baseModel.next.postValue(r.cursor.next)
             }.getOrNull()?.repliesList?.toRootCommentCardModel()
@@ -47,7 +47,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
 
     override suspend fun onLoadMorIO(): List<RootCommentCardModel>? {
         return runCatching { grpcClidet.reply.mainList(oid, type, next, mode) }
-            .commonOnFailureHandler(requireContext())
+            .commonOnFailureHandler(context)
             .onSuccess { r ->
                 baseModel.next.postValue(r.cursor.next)
             }.getOrNull()?.repliesList?.toRootCommentCardModel()
@@ -76,7 +76,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                         R.id.menu_like -> {
                             runIOCatching {
                                 bilibiliClient.mainAPI.likeReply(1, oid, itemModel.rpid, type.toInt()).await()
-                            }.setCommonOnFailureHandler(requireContext())
+                            }.setCommonOnFailureHandler(context)
                                 .onSuccess {
                                     itemModel.likeStatus = 1
                                     itemModel.like += 1
@@ -89,7 +89,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                         R.id.menu_dislike -> {
                             runIOCatching {
                                 bilibiliClient.mainAPI.dislikeReply(1, oid, itemModel.rpid, type.toInt()).await()
-                            }.setCommonOnFailureHandler(requireContext())
+                            }.setCommonOnFailureHandler(context)
                                 .onSuccess {
                                     if (itemModel.likeStatus == 1)
                                         itemModel.like -= 1
@@ -107,7 +107,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                                     2 -> bilibiliClient.mainAPI.dislikeReply(0, oid, itemModel.rpid, type.toInt()).await()
                                     else -> TipUtil.showTip(requireContext(), "无效操作")
                                 }
-                            }.setCommonOnFailureHandler(requireContext())
+                            }.setCommonOnFailureHandler(context)
                                 .onSuccess {
                                     if (itemModel.likeStatus == 1)
                                         itemModel.like -= 1
@@ -119,12 +119,12 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                             true
                         }
                         R.id.menu_report -> {
-                            TipUtil.showTip(requireContext(), "TODO")
+                            TipUtil.showTip(context, "TODO")
                             true
                         }
                         R.id.menu_delete -> {
                             runIOCatching { bilibiliClient.mainAPI.delReply(type.toInt(), oid, itemModel.rpid).await() }
-                                .setCommonOnFailureHandler(requireContext())
+                                .setCommonOnFailureHandler(context)
                                 .onSuccess {
                                     (baseModel.itemModel.value!! as? MutableList)?.removeAt(position)
                                     runMain {

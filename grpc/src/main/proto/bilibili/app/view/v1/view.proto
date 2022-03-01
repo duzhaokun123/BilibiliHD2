@@ -1,0 +1,1117 @@
+syntax = "proto3";
+
+package bilibili.app.view.v1;
+
+import "bilibili/app/archive/v1/archive.proto";
+import "bilibili/app/archive/middleware/v1/preload.proto";
+import "google/protobuf/any.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option go_package          = "git.bilibili.co/bapis/bapis-go/bilibili/app/view/v1;v1";
+option java_multiple_files = true;
+option java_package        = "com.bapis.bilibili.app.view.v1";
+option objc_class_prefix   = "BAPIAppViewV1";
+
+// View 详情页相关接口
+service View {
+    // 获取详情页数据
+    rpc View(ViewReq) returns (ViewReply);
+    // 视频播放进度相关展示
+    rpc ViewProgress(ViewProgressReq) returns (ViewProgressReply);
+    // 短视频下载
+    rpc ShortFormVideoDownload(ShortFormVideoDownloadReq) returns (ShortFormVideoDownloadReply);
+    // 点击播放器卡片事件
+    rpc ClickPlayerCard(ClickPlayerCardReq) returns (NoReply);
+    // 点击大型活动页预约
+    rpc ClickActivitySeason(ClickActivitySeasonReq) returns (NoReply);
+    // 合集详情页
+    rpc Season(SeasonReq) returns (SeasonReply);
+    // 播放器卡片曝光
+    rpc ExposePlayerCard(ExposePlayerCardReq) returns (NoReply);
+    // 点击签订契约
+    rpc AddContract(AddContractReq) returns (NoReply);
+}
+
+// NoReply 无信息
+message NoReply{}
+
+// ViewReq 详情页请求参数
+message ViewReq {
+    // aid aid和bvid不同时为空
+    int64 aid = 1;
+    // bvid aid和bvid不同时为空
+    string bvid = 2;
+    // 来源from
+    string from = 3;
+    // ai trackid
+    string trackid = 4;
+    // ad
+    string ad_extra = 5;
+    // （新版本废弃，统一使用player_args）清晰度qn
+    int32 qn = 6;
+    // （新版本废弃，统一使用player_args）fnver和fnval标识视频格式
+    int32 fnver = 7;
+    // （新版本废弃，统一使用player_args）fnver和fnval标识视频格式
+    int32 fnval = 8;
+    // （新版本废弃，统一使用player_args）返回url是否强制使用域名(非ip地址), 1-http域名 2-https域名
+    int32 force_host = 9;
+    // （新版本废弃，统一使用player_args）是否需要4k清晰度
+    int32 fourk = 10;
+    // spmid 当前页面
+    string spmid = 11;
+    // from_spmid 上级页面
+    string from_spmid = 12;
+    // autoplay
+    int32 autoplay = 13;
+    // 秒开用参数
+    .bilibili.app.archive.middleware.v1.PlayerArgs player_args = 14;
+}
+
+//  ViewReply 详情页返回结果
+message ViewReply {
+    // 稿件信息
+    .archive.service.v1.Arc arc = 1;
+    // 分p信息
+    repeated ViewPage pages = 2;
+    // up信息
+    OnwerExt owner_ext = 3;
+    // 用户和up关系
+    ReqUser req_user = 4;
+    // tag
+    repeated Tag tag = 5;
+    // tag对应icon
+    map<string, TIcon> t_icon = 6;
+    // pgc season
+    Season season = 7;
+    // 充电排行
+    ElecRank elec_rank = 8;
+    // 历史进度
+    History history = 9;
+    // 相关推荐
+    repeated Relate relates = 10;
+    // 不感兴趣
+    Dislike dislike = 11;
+    // 播放
+    PlayerIcon player_icon = 12;
+    // vip active（已废弃--vip服务）
+    string vip_active = 13;
+    // bvid
+    string bvid = 14;
+    // 稿件荣誉
+    Honor honor = 15;
+    // 相关推荐顶部tab
+    repeated RelateTab relate_tab = 16;
+    // 活动跳转链接
+    string activity_url = 17;
+    // 稿件bgm
+    repeated Bgm bgm = 18;
+    // 联合投稿
+    repeated Staff staff = 19;
+    // 争议信息
+    string argue_msg = 20;
+    // 短链
+    string short_link = 21;
+    // 播放实验 1=相关推荐自动播放
+    int32 play_param = 22;
+    // 标签
+    Label label = 23;
+    // ugc season
+    UgcSeason ugc_season = 24;
+    // 设置信息
+    Config config = 25;
+    // 分享副标题
+    string share_subtitle = 26;
+    // 互动视频信息
+    Interaction interaction = 27;
+    // 特殊处理错误码（优先判断，CODE404时读取custom_config，不处理其他数据）
+    ECode ecode = 28;
+    // 通用配置（404页面使用）
+    CustomConfig custom_config = 29;
+    // 广告字段
+    repeated CM cms = 30;
+    // 广告字段
+    CMConfig cm_config = 31;
+    // 播放页定制tab
+    Tab tab = 32;
+    // 排行榜
+    Rank rank = 33;
+    // 免流面板定制
+    TFPanelCustomized tf_panel_customized = 34;
+    // up主发起活动
+    UpAct up_act = 35;
+    // 用户装扮
+    UserGarb user_garb = 36;
+    // 大型活动合集（如果有该字段说明进入大型活动播放页，一切以内部字段为准）
+    ActivitySeason activity_season = 37;
+    // 评论样式
+    string badge_url = 38;
+
+}
+
+// 大型活动合集
+message ActivitySeason {
+    // 稿件信息
+    .archive.service.v1.Arc arc = 1;
+    // 分p信息
+    repeated ViewPage pages = 2;
+    // up信息
+    OnwerExt owner_ext = 3;
+    // 用户和up关系
+    ReqUser req_user = 4;
+    // 充电排行
+    ElecRank elec_rank = 5;
+    // 历史进度
+    History history = 6;
+    // bvid
+    string bvid = 7;
+    // 稿件荣誉（icon和色值类，优先走mod资源包）
+    Honor honor = 8;
+    // 联合投稿
+    repeated Staff staff = 9;
+    // ugc season（icon和色值类，优先走mod资源包）
+    UgcSeason ugc_season =10;
+    // 播放页定制tab（icon和色值类，优先走mod资源包）
+    Tab tab = 11;
+    // 排行榜（icon和色值类，优先走mod资源包）
+    Rank rank = 12;
+    // 预约模块
+    Order order = 13;
+    // 是否支持点踩
+    bool support_dislike = 14;
+    // 相关推荐（运营配置+AI推荐）
+    OperationRelate operation_relate = 15;
+    // 活动页资源包
+    ActivityResource activity_resource = 16;
+    // 分享短链
+    string short_link = 17;
+    // 标签
+    Label label = 18;
+    // 不感兴趣
+    Dislike dislike = 19;
+    // 播放
+    PlayerIcon player_icon = 20;
+    // 分享副标题
+    string share_subtitle = 21;
+    // 广告字段
+    CMConfig cm_config = 22;
+    // 免流面板定制
+    TFPanelCustomized tf_panel_customized = 23;
+    // 争议信息
+    string argue_msg = 24;
+    // 特殊处理错误码（优先判断，CODE404时读取custom_config，不处理其他数据）
+    ECode ecode = 25;
+    // 通用配置（404页面使用）
+    CustomConfig custom_config = 26;
+    // 评论样式
+    string badge_url = 27;
+}
+
+// 活动页资源包
+message ActivityResource {
+    // mod资源池名称
+    string mod_pool_name = 1;
+    // mod资源名称
+    string mod_resource_name = 2;
+    // 背景色
+    string bg_color = 3;
+    // 选中背景色
+    string selected_bg_color = 4;
+    // 文字颜色
+    string text_color = 5;
+    // 浅字色
+    string light_text_color = 6;
+    // 深字色
+    string dark_text_color = 7;
+    // 分割线色
+    string divider_color = 8;
+}
+
+//  相关推荐（运营配置+AI推荐）
+message OperationRelate {
+    // 模块标题（如相关推荐）
+    string title = 1;
+    // 相关推荐模块内容
+    repeated RelateItem relate_item = 2;
+    // AI相关推荐
+    repeated Relate ai_relate_item = 3;
+}
+
+// 相关推荐内容
+message RelateItem {
+    // 跳链
+    string url = 1;
+    // 封面
+    string cover = 2;
+}
+
+// 预约模块
+message Order {
+    // 用户操作态 true已操作 false未操作
+    bool status = 1;
+    // 模块标题
+    string title = 2;
+    // 按钮文字 未操作
+    string button_title = 3;
+    // 按钮文字 已操作
+    string button_selected_title = 4;
+    // 合集播放数
+    int64 season_stat_view = 5;
+    // 合集弹幕数
+    int64 season_stat_danmaku = 6;
+    // 预约类型（点击时透传，直播开始前预约活动，直播开始后收藏合集）
+    BizType order_type = 7;
+    // 预约业务参数
+    oneof order_param {
+        // 预约活动参数
+        BizReserveActivityParam reserve = 8;
+        // 收藏合集参数
+        BizFavSeasonParam fav_season = 9;
+    }
+    // 合集简介
+    string intro = 10;
+}
+
+// 业务类型
+enum BizType {
+    BizTypeNone = 0;
+    // 追番追剧
+    BizTypeFollowVideo = 1;
+    // 预约活动
+    BizTypeReserveActivity = 2;
+    // 跳转链接
+    BizTypeJumpLink = 3;
+    // 收藏合集
+    BizTypeFavSeason = 4;
+    // 预约游戏
+    BizTypeReserveGame = 5;
+}
+
+// 用户装扮相关信息
+message UserGarb {
+    //点赞动画地址
+    string urlImageAniCut = 1;
+}
+
+message Rank {
+    // 排行榜icon
+    string icon = 1;
+    // 排行榜icon-夜间模式
+    string icon_night = 2;
+    // 排行榜文案
+    string text = 3;
+}
+
+message Tab {
+    // 背景图片
+    string background = 1;
+    // 跳转类型
+    TabOtype otype = 2;
+    // 类型对应id（配置NA时返回）
+    int64 oid = 3;
+    // 跳转链接（配置h5链接时返回）
+    string uri = 4;
+    // 样式
+    TabStyle style = 5;
+    // 文字
+    string text = 6;
+    // 未选中态字色
+    string text_color = 7;
+    // 选中态字色
+    string text_color_selected = 8;
+    // 图片
+    string pic = 9;
+    // ID-后台配置自增（上报用）
+    int64 id = 10;
+}
+
+enum TabStyle {
+    // 未知样式
+    UnknownStyle = 0;
+    // 文字样式
+    Text = 1;
+    // 图片样式
+    Pic = 2;
+}
+
+enum TabOtype {
+    // 未知类型
+    UnknownOtype = 0;
+    // url链接
+    URL = 1;
+    // native话题活动
+    TopicNA = 2;
+}
+
+enum ECode {
+    DEFAULT = 0;
+    CODE404 = 1;
+}
+
+message ViewPage {
+    .archive.service.v1.Page page = 1;
+    Audio audio                  = 2;
+    DM dm                        = 3;
+    string download_title        = 4;
+    string download_subtitle     = 5;
+}
+
+message Audio {
+    string title      = 1;
+    string cover_url  = 2;
+    int64 song_id     = 3;
+    int64 play_count  = 4;
+    int64 reply_count = 5;
+    int64 upper_id    = 6;
+    string entrance   = 7;
+    int64 song_attr   = 8;
+}
+
+message DM {
+    bool closed    = 1;
+    bool real_name = 2;
+    int64 count    = 3;
+}
+
+message OnwerExt {
+    OfficialVerify official_verify = 1;
+    Live live                      = 2;
+    Vip vip                        = 3;
+    repeated int64 assists         = 4;
+    int64 fans                     = 5;
+    string arc_count               = 6;
+}
+
+message OfficialVerify {
+    int32 type  = 1;
+    string desc = 2;
+}
+
+message Live {
+    int64 mid          = 1;
+    int64 roomid       = 2;
+    string uri         = 3;
+    string endpage_uri = 4;
+}
+
+message Vip {
+    int32 type             = 1;
+    int64 due_date         = 2;
+    string due_remark      = 3;
+    int32 access_status    = 4;
+    int32 vip_status       = 5;
+    string vip_status_warn = 6;
+    int32 theme_type       = 7;
+    VipLabel label         = 8;
+}
+
+message VipLabel {
+    //6.20之后的版本不再关注path,使用text和label_theme判断样式
+    string path              = 1;
+    string text              = 2;
+    string label_theme       = 3;
+}
+
+message ReqUser {
+    // 用户是否关注up
+    int32 attention       = 1;
+    // up是否关注用户
+    int32 guest_attention = 2;
+    // 是否收藏
+    int32 favorite        = 3;
+    // 是否点赞
+    int32 like            = 4;
+    // 是否点踩
+    int32 dislike         = 5;
+    // 是否投币
+    int32 coin            = 6;
+    // 关注等级（引导动效）
+    int32 attention_level = 7;
+    // 是否收藏合集
+    int32 fav_season      = 8;
+}
+
+message Tag {
+    int64 id        = 1;
+    string name     = 2;
+    int64 likes     = 3;
+    int64 hates     = 4;
+    int32 liked     = 5;
+    int32 hated     = 6;
+    string uri      = 7;
+    string tag_type = 8;
+}
+
+message TIcon {
+    string icon = 1;
+}
+
+message Season {
+    string allow_download  = 1;
+    int64 season_id        = 2;
+    int32 is_jump          = 3;
+    string title           = 4;
+    string cover           = 5;
+    int32 is_finish        = 6;
+    int64 newest_ep_id     = 7;
+    string newest_ep_index = 8;
+    int64 total_count      = 9;
+    int32 weekday          = 10;
+    UserSeason user_season = 11;
+    SeasonPlayer player    = 12;
+    string ogv_playurl     = 13;
+}
+
+message UserSeason {
+    string attention = 1;
+}
+
+message SeasonPlayer {
+    int64 aid   = 1;
+    string vid  = 2;
+    int64 cid   = 3;
+    string from = 4;
+}
+
+message ElecRank {
+    repeated ElecRankItem list = 1;
+    int64 count                = 2;
+}
+
+message ElecRankItem {
+    string avatar   = 1;
+    string nickname = 2;
+    string message  = 3;
+    int64 mid       = 4;
+}
+
+message History {
+    int64 cid      = 1;
+    int64 progress = 2;
+}
+
+message Relate {
+    int64 aid                        = 1;
+    string pic                       = 2;
+    string title                     = 3;
+    .archive.service.v1.Author author = 4;
+    .archive.service.v1.Stat stat     = 5;
+    int64 duration                   = 6;
+    string goto                      = 7;
+    string param                     = 8;
+    string uri                       = 9;
+    string jump_url                  = 10;
+    double rating                    = 11;
+    string reserve                   = 12;
+    string from                      = 13;
+    string desc                      = 14;
+    string rcmd_reason               = 15;
+    string badge                     = 16;
+    int64 cid                        = 17;
+    int32 season_type                = 18;
+    int32 rating_count               = 19;
+    string tag_name                  = 20;
+    PackInfo pack_info               = 21;
+    Notice notice                    = 22;
+    Button button                    = 23;
+    string trackid                   = 24;
+    //游戏卡片新样式
+    int32 new_card = 25;
+    //推荐理由样式
+    ReasonStyle rcmd_reason_style = 26;
+    string cover_gif              = 27;
+    // 广告卡字段
+    CM cm = 28;
+    // 游戏卡字段：游戏状态：0 下载，1 预约（跳过详情），2 预约，3 测试，4 测试+预约 5.跳过详情页
+    // ref: https://info.bilibili.co/pages/viewpage.action?pageId=6227450
+    int64 reserve_status = 29;
+}
+
+message ReasonStyle {
+    string text = 1;
+    // 日间模式
+    string text_color   = 2;
+    string bg_color     = 3;
+    string border_color = 4;
+    // 夜间模式
+    string text_color_night   = 5;
+    string bg_color_night     = 6;
+    string border_color_night = 7;
+    // 1:填充 2:描边 3:填充 + 描边 4:背景不填充 + 背景不描边
+    int32 bg_style = 8;
+    int32 selected = 9;
+}
+
+message PackInfo {
+    string title = 1;
+    string uri   = 2;
+}
+
+message Notice {
+    string title = 1;
+    string desc  = 2;
+}
+
+message Button {
+    string title = 1;
+    string uri   = 2;
+}
+
+message Dislike {
+    string title                    = 1;
+    string subtitle                 = 2;
+    repeated DislikeReasons reasons = 3;
+}
+
+message DislikeReasons {
+    int64 id     = 1;
+    int64 mid    = 2;
+    int32 rid    = 3;
+    int64 tag_id = 4;
+    string name  = 5;
+}
+
+message PlayerIcon {
+    string url1  = 1;
+    string hash1 = 2;
+    string url2  = 3;
+    string hash2 = 4;
+}
+
+message CM {
+    google.protobuf.Any source_content = 1;
+}
+
+message AdInfo {
+    int64 creative_id                = 1;
+    int64 creative_type              = 2;
+    CreativeContent creative_content = 3;
+    string ad_cb                     = 4;
+    int32 card_type                  = 5;
+    bytes Extra                      = 6;
+}
+
+message CreativeContent {
+    string title        = 1;
+    string description  = 2;
+    string button_title = 3;
+    int64 video_id      = 4;
+    string username     = 5;
+    string image_url    = 6;
+    string image_md5    = 7;
+    string log_url      = 8;
+    string log_md5      = 9;
+    string url          = 10;
+    string click_url    = 11;
+    string show_url     = 12;
+}
+
+message CMConfig {
+    google.protobuf.Any ads_control = 1;
+}
+
+message Asset {
+    int32 paid           = 1;
+    int64 price          = 2;
+    AssetMsg msg         = 3;
+    AssetMsg preview_msg = 4;
+}
+
+message AssetMsg {
+    string desc1 = 1;
+    string desc2 = 2;
+}
+
+message Bgm {
+    int64 sid       = 1;
+    int64 mid       = 2;
+    string title    = 3;
+    string author   = 4;
+    string jump_url = 5;
+    string cover    = 6;
+}
+
+message Staff {
+    int64 mid                      = 1;
+    string title                   = 2;
+    string face                    = 3;
+    string name                    = 4;
+    OfficialVerify official_verify = 5;
+    Vip vip                        = 6;
+    int32 attention                = 7;
+    int32 label_style              = 8;
+}
+
+message Label {
+    int32 type = 1;
+    string uri = 2;
+}
+
+enum SeasonType {
+    Unknown = 0;
+    Base    = 1;
+    Good    = 2;
+}
+
+message UgcSeason {
+    // 合集id
+    int64 id                      = 1;
+    // 合集标题
+    string title                  = 2;
+    // 合集封面
+    string cover                  = 3;
+    // 合集简介
+    string intro                  = 4;
+    // 小节信息
+    repeated Section sections     = 5;
+    // 合集计数
+    UgcSeasonStat stat            = 6;
+    // 标签文案（如签约、独家）
+    string label_text             = 7;
+    // 标签字色
+    string label_text_color       = 8;
+    // 标签背景色
+    string label_bg_color         = 9;
+    // 标签夜间字色
+    string label_text_night_color = 10;
+    // 标签夜间背景色
+    string label_bg_night_color   = 11;
+    // 右侧描述文案（如查看更多）
+    string desc_right             = 12;
+    // 单集数量
+    int64 ep_count                = 13;
+    // 合集类型
+    SeasonType season_type        = 14;
+}
+
+message UgcSeasonStat {
+    // 合集id
+    int64 season_id = 1;
+    // 播放数
+    int32 view = 2;
+    // 弹幕数
+    int32 danmaku = 3;
+    // 评论数
+    int32 reply = 4;
+    // 收藏数
+    int32 fav = 5;
+    // 投币数
+    int32 coin = 6;
+    // 分享数
+    int32 share = 7;
+    // 当前排名
+    int32 now_rank = 8;
+    // 历史最高排名
+    int32 his_rank = 9;
+    // 点赞数
+    int32 like = 10;
+}
+
+message Section {
+    // 小节id
+    int64 id                  = 1;
+    // 小节标题
+    string title              = 2;
+    // 小节类型 0其他 1正片
+    int64 type                = 3;
+    // 单集
+    repeated Episode episodes = 4;
+}
+
+message Episode {
+    // 单集id
+    int64 id  = 1;
+    // 单集aid
+    int64 aid = 2;
+    // 单集cid
+    int64 cid = 3;
+    // ep's title
+    string title = 4;
+    // arc's cover
+    string cover                 = 5;
+    // 封面右下角文案
+    string cover_right_text      = 6;
+    // archive's page
+    .archive.service.v1.Page page = 7;
+    // archive's stat
+    .archive.service.v1.Stat stat = 8;
+    // 单集对应bvid
+    string bvid                  = 9;
+    // archive's author（合集可加入不同up作品）
+    .archive.service.v1.Author author = 10;
+}
+
+message Config {
+    string relates_title = 1;
+    int32 relates_style  = 2;
+    int32 relate_gif_exp = 3;
+    int32 end_page_half  = 4;
+    int32 end_page_full  = 5;
+    // 退出是否自动小窗
+    bool auto_swindow = 6;
+}
+
+message Interaction {
+    Node history_node   = 1;
+    int64 graph_version = 2;
+    string msg          = 3;
+    // 预留字段，暂时无值
+    string evaluation = 4;
+    int64 mark        = 5;
+}
+
+// 稿件荣誉信息
+message Honor {
+    // 图标
+    string icon             = 1;
+    // 夜间图标
+    string icon_night       = 2;
+    // 文案
+    string text             = 3;
+    // 附属文案（如收录）
+    string text_extra       = 4;
+    // 文案颜色
+    string text_color       = 5;
+    // 文案夜间颜色
+    string text_color_night = 6;
+    // 背景色
+    string bg_color         = 7;
+    // 夜间背景色
+    string bg_color_night   = 8;
+    // 跳转链接
+    string url              = 9;
+    // 跳转链接文案
+    string url_text         = 10;
+}
+
+// RelateTab
+message RelateTab {
+    string id    = 1;
+    string title = 2;
+}
+
+message UpAct {
+    int64 sid        = 1;
+    int64 mid        = 2;
+    string title     = 3;
+    string statement = 4;
+    string image     = 5;
+    string url       = 6;
+    string button    = 7;
+}
+
+message Node {
+    int64 node_id = 1;
+    string title  = 2;
+    int64 cid     = 3;
+}
+
+message ViewProgressReq {
+    // 稿件aid
+    int64 aid = 1;
+    // 视频cid
+    int64 cid = 2;
+    // 稿件up主mid
+    int64 up_mid = 3;
+}
+
+message ViewProgressReply {
+    // 视频引导信息
+    VideoGuide video_guide = 1;
+    // Chronos灰度管理
+    Chronos chronos = 2;
+}
+
+// Chronos灰度管理
+message Chronos {
+    string md5  = 1;
+    string file = 2;
+}
+
+message VideoGuide {
+    // 关注展现
+    repeated Attention attention = 1;
+    // 指令弹幕
+    repeated CommandDm commandDms = 2;
+    // 运营卡片（6.13及以前版本使用）
+    repeated OperationCard operation_card = 3;
+    // 新运营卡片（6.14开始使用）
+    repeated OperationCardNew operation_card_new = 4;
+    // 契约卡
+    ContractCard contract_card = 5;
+}
+
+// ContractCard 契约卡
+message ContractCard {
+    // 需要触发的播放进度百分比
+    float display_progress = 1;
+    // 触发位置的前后误差（单位 毫秒）
+    int64 display_accuracy = 2;
+    // 展示持续时间 (单位 毫秒)
+    int64 display_duration = 3;
+}
+
+message OperationCardNew{
+    // 卡片唯一id（点击操作时带回）
+    int64 id = 1;
+    // from 开始时间
+    int32 from = 2;
+    // to 结束时间
+    int32 to = 3;
+    // 用户操作态 true已操作 false未操作
+    bool status = 4;
+    // 卡片样式
+    OperationCardType card_type = 5;
+    // 卡片渲染
+    oneof render {
+        // 标准卡
+        StandardCard standard = 6;
+        // 老运营卡片（原B剪跳转卡）
+        OperationCard skip = 7;
+    }
+    BizType biz_type = 8;
+    oneof param {
+        // 追番追剧参数
+        BizFollowVideoParam follow = 9;
+        // 预约活动参数
+        BizReserveActivityParam reserve = 10;
+        // 跳转参数
+        BizJumpLinkParam jump = 11;
+        // 预约游戏参数
+        BizReserveGameParam game = 12;
+    }
+}
+
+// 卡片样式
+enum OperationCardType {
+    CardTypeNone = 0;
+    //标准卡
+    CardTypeStandard = 1;
+    //原跳转卡
+    CardTypeSkip = 2;
+}
+
+// 标准卡
+message StandardCard {
+    // 卡片文案
+    string title = 1;
+    // 按钮文字 未操作
+    string button_title = 2;
+    // 按钮文字 已操作
+    string button_selected_title = 3;
+    // 已操作态是否显示
+    bool show_selected = 4;
+}
+
+message OperationCard {
+    // 开始时间（秒）
+    int32 start_time = 1;
+    // 结束时间（秒）
+    int32 end_time = 2;
+    // 图标
+    string icon = 3;
+    // 标题
+    string title = 4;
+    // 按钮文案
+    string button_text = 5;
+    // 跳转链接
+    string url = 6;
+    // 内容描述
+    string content = 7;
+}
+
+//指令弹幕
+message CommandDm {
+    int64 id       = 1;  //弹幕id
+    int64 oid      = 2;  //oid
+    int64 mid      = 3;  //mid
+    string command = 4;  //弹幕指令
+    string content = 5;  //弹幕内容
+    int32 progress = 6;
+    string ctime   = 7;   //创建时间
+    string mtime   = 8;   //修改时间
+    string extra   = 9;   //修改时间
+    string idStr   = 10;  //id字符类型
+}
+
+message Attention {
+    // 开始时间（秒）
+    int32 start_time = 1;
+    // 结束时间（秒）
+    int32 end_time = 2;
+    // 位置x坐标
+    double pos_x = 3;
+    // 位置y坐标
+    double pos_y = 4;
+}
+
+message CustomConfig {
+    string redirect_url = 1;
+}
+
+message TFPanelCustomized {
+    // 右侧按钮素材
+    string right_btn_img = 1;
+    // 右侧按钮文案
+    string right_btn_text = 2;
+    // 右侧按钮字体颜色
+    string right_btn_text_color = 3;
+    // 右侧按钮跳转链接
+    string right_btn_link = 4;
+    // 中心主文案内容
+    string main_label = 5;
+    // 运营商（ct 电信 cu 联通 cm 移动）
+    string operator = 6;
+    // 子面板定制化配置，流量启播面板会冗余到上面字段中
+    // 运营商独立定制面板 key 规则：{key}_{operator}，如电信流量启播面板：before_play_ct
+    // 其中运营商独立定制面板优先于通用面板
+    // 流量启播面板：before_play
+    // 免流试看结束面板：after_free_play
+    map<string, subTFPanel> sub_panel = 7;
+}
+
+message subTFPanel {
+    // 右侧按钮素材
+    string right_btn_img = 1;
+    // 右侧按钮文案
+    string right_btn_text = 2;
+    // 右侧按钮字体颜色
+    string right_btn_text_color = 3;
+    // 右侧按钮跳转链接
+    string right_btn_link = 4;
+    // 中心主文案内容
+    string main_label = 5;
+    // 运营商
+    string operator = 6;
+}
+
+message ShortFormVideoDownloadReq {
+    // 视频aid
+    int64 aid = 1 [(gogoproto.moretags) = 'form:"aid" validate:"required,min=1"'];
+    // 视频cid
+    int64 cid = 2 [(gogoproto.moretags) = 'form:"cid" validate:"required,min=1"'];
+    // 用户mid
+    int64 mid = 3 [(gogoproto.moretags) = 'form:"mid"'];
+    // Buvid
+    string buvid = 4 [(gogoproto.moretags) = 'form:"buvid"'];
+    // 移动端包类型
+    string mobi_app = 5 [(gogoproto.moretags) = 'form:"mobi_app" validate:"required"'];
+    // 移动端版本号
+    int64 build = 6 [(gogoproto.moretags) = 'form:"build" validate:"required"'];
+    // 运行设备
+    string device = 7 [(gogoproto.moretags) = 'form:"device"'];
+    // 平台
+    string platform = 8 [(gogoproto.moretags) = 'form:"platform"'];
+    // spmid 当前页面
+    string spmid = 9 [(gogoproto.moretags) = 'form:"spmid"'];
+}
+
+message ShortFormVideoDownloadReply {
+    // 是否有下载分享按钮
+    bool has_download_url = 1 [(gogoproto.jsontag) = 'has_download_url', json_name = "has_download_url"];
+    // 下载链接
+    string download_url = 2 [(gogoproto.jsontag) = 'download_url', json_name = "download_url"];
+    // 文件md5
+    string md5 = 3 [(gogoproto.jsontag) = 'md5', json_name = "md5"];
+    // 文件大小
+    uint64 size = 4 [(gogoproto.jsontag) = 'size', json_name = "size"];
+}
+
+message ClickPlayerCardReq {
+    // 透传下发卡片id
+    int64 id = 1;
+    // 稿件aid
+    int64 aid = 2;
+    // 视频cid
+    int64 cid = 3;
+    // action 0-操作 1-取消操作
+    int64 action = 4;
+    // 页面标识
+    string spmid = 5;
+}
+
+message ClickActivitySeasonReq {
+    // 预约类型（透传view接口下发）
+    BizType order_type = 1;
+    // 页面标识
+    string spmid = 2;
+    // 业务参数（透传view接口下发）
+    oneof order_param {
+        // 预约活动参数
+        BizReserveActivityParam reserve = 3;
+        // 收藏合集参数
+        BizFavSeasonParam fav_season = 4;
+    }
+    // action 0-操作 1-取消操作
+    int64 action = 5;
+}
+
+message BizFollowVideoParam {
+    // ogv seasonID
+    int64 season_id = 1;
+}
+
+message BizReserveActivityParam {
+    // 活动id
+    int64 activity_id = 1;
+    // 场景
+    string from = 2;
+    // 类型
+    string type = 3;
+    // 资源id
+    int64 oid = 4;
+}
+
+message BizJumpLinkParam {
+    // 链接
+    string url = 1;
+}
+
+message BizReserveGameParam {
+    // 游戏id
+    int64 game_id = 1;
+}
+
+message BizFavSeasonParam {
+    // ugc season_id
+    int64 season_id = 1;
+}
+
+message SeasonReq {
+    // ugc season_id
+    int64 season_id = 1;
+}
+
+message SeasonReply {
+    // 合集信息
+    UgcSeason season = 1;
+}
+
+message ExposePlayerCardReq {
+    // 卡片类型
+    PlayerCardType card_type = 1;
+    // 稿件id
+    int64 aid = 2;
+    // 视频id
+    int64 cid = 3;
+    // 页面标识
+    string spmid = 4;
+}
+
+enum PlayerCardType {
+    PlayerCardTypeNone = 0;
+    //关注卡
+    PlayerCardTypeAttention = 1;
+    //运营卡
+    PlayerCardTypeOperation = 2;
+    //契约卡
+    PlayerCardTypeContract = 3;
+}
+
+message AddContractReq {
+    // 稿件aid
+    int64 aid = 1;
+    // up主mid
+    int64 up_mid = 2;
+    // 页面标识
+    string spmid = 3;
+}

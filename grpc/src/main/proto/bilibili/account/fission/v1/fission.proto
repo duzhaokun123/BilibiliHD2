@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package bilibili.account.fission.v1;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/account/fission/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.account.fission.v1";
+option objc_class_prefix = "BAPIAccountFissionV1";
+
+// Fission 裂变
+service Fission {
+    // 活动入口
+    rpc Entrance (EntranceReq) returns (EntranceReply);
+    // 首页弹窗
+    rpc Window (WindowReq) returns (WindowReply);
+}
+
+// EntranceReq 活动入口请求参数
+message EntranceReq {
+}
+
+// EntranceReply 活动入口返回结果
+message EntranceReply {
+    // 展示图标
+    string icon = 1;
+    // 活动名称
+    string name = 2;
+    // 活动跳转链接
+    string url = 3;
+    // 动画效果
+    AnimateIcon animate_icon = 4;
+}
+
+// AnimateIcon 动画效果
+message AnimateIcon {
+    // icon文件
+    string icon = 1;
+    // 动效json文件
+    string json = 2;
+}
+
+// WindowReq 首页弹窗请求参数
+message WindowReq {
+}
+
+// WindowReply 首页弹窗返回结果
+message WindowReply {
+    int32 type = 1; // 弹窗类型  0:弹窗，1:普通页面
+    string url = 2;     // 跳转链接
+    string report_data = 3;     // 上报数据字段
+}

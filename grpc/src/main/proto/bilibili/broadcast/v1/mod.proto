@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package bilibili.broadcast.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/broadcast/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.broadcast.v1";
+option objc_class_prefix = "BAPIBroadcastV1";
+
+import "google/protobuf/empty.proto";
+
+message ModResourceResp {}
+
+// ModManager
+service ModManager {
+    rpc WatchResource(google.protobuf.Empty) returns (stream ModResourceResp);
+}

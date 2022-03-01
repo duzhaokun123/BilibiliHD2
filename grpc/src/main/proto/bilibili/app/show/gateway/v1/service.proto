@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package bilibili.app.show.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/show/gateway/v1";
+option java_package = "com.bapis.bilibili.app.show.gateway.v1";
+option java_multiple_files = true;
+option objc_class_prefix = "BAPIAppShowGatewayV1";
+
+import "bilibili/broadcast/message/main/native.proto";
+
+service AppShow {
+    // 获取Native页进度数据
+    rpc GetActProgress(GetActProgressReq) returns (GetActProgressReply);
+}
+
+message GetActProgressReq {
+    // Native页id
+    int64 PageID = 1;
+    // 用户id
+    int64 Mid = 2;
+}
+
+message GetActProgressReply {
+    // 进度数据
+    .bilibili.broadcast.message.main.NativePageEvent event = 1;
+}

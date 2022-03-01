@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package bilibili.broadcast.message.editor;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/broadcast/message/editor;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.broadcast.message.editor";
+option objc_class_prefix = "BAPIBroadcastMessageEditor";
+
+service OperationNotify {
+	rpc OperationNotify(google.protobuf.Empty) returns (stream Notify);
+}
+
+message Notify {
+    int64   msg_id = 1;//消息唯一标示
+    int32   msg_type = 2;//消息类型
+    int64   receiver_uid = 3;//接收方uid
+    int32   receiver_type = 4;//接收方类型 
+    int64   story_version = 5;// 故事的版本
+    int64   op_hash = 6;//操作结果的hash值
+    int64   op_sender = 7;// 操作产生用户的uid
+    string  op_content = 8;// patch内容
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package bilibili.im.interface.inner.interface.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/im/interface/inner-interface/v1;api";
+option java_package = "com.bapis.bilibili.im.interfaces.inner.interfaces.v1";
+option java_multiple_files = true;
+
+message BanUser{
+    uint64 uid = 1;  // 用户uid
+    int32 limit = 2; // 封禁业务
+    int32 time = 3; // 封禁时间
+    int32 mode = 4; // 1:add; 2:remove;
+};
+
+message ReqOpBlacklist
+{
+    // 需要封禁/解封的用户信息
+    repeated BanUser ban_users = 1;
+};
+
+message RspOpBlacklist
+{
+    repeated uint64 failed_users = 1;
+};
+
+service InnerInterface {
+  rpc UpdateListInn(ReqOpBlacklist) returns(RspOpBlacklist);
+}

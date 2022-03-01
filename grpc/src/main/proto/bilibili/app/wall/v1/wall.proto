@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package bilibili.app.wall.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/wall/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.app.wall.v1";
+option objc_class_prefix = "BAPIAppWallV1";
+
+service Wall {
+    // 获取免流规则信息
+    rpc RuleInfo(RuleRequest) returns (RulesReply);
+}
+
+// RuleRequest
+message RuleRequest {}
+
+// RulesReply
+message RulesReply {
+    map<string, RulesInfo> RulesInfo = 1;
+}
+
+// RuleInfo
+message RulesInfo {
+    repeated RuleInfo RulesInfo = 1;
+}
+
+// RuleInfo
+message RuleInfo {
+    // "tf"：traffic free缩写，表示是否免流
+    bool tf = 1;
+    // "m": 表示操作模式,
+    // break：表示无操作，
+    // replace：表示用"a"的操作参数，替换原有URL中的host，
+    // proxy：表示用"a"的操作参数为host，将原有URL作为query参数（具体转换见示例）
+    string m = 2;
+    // "a"：表示操作参数（通常是一个host域名，支持HTTP与HTTPS连接）
+    string a = 3;
+    // "p"：表示用于匹配的正则表达式；
+    string p = 4;
+}

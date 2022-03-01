@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package bilibili.broadcast.v1;
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/broadcast/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.broadcast.v1";
+option objc_class_prefix = "BAPIBroadcastV1";
+
+import "google/protobuf/empty.proto";
+
+message PushMessageResp {
+    // 业务类型
+    enum Biz {
+        BIZ_UNKNOWN = 0;  // 未知
+        BIZ_VIDEO = 1;    // 视频
+        BIZ_LIVE = 2;     // 直播
+        BIZ_ACTIVITY = 3; // 活动
+    }
+    // 消息类型
+    enum Type {
+        TYPE_UNKNOWN = 0;   // 未知
+        TYPE_DEFAULT = 1;   // 默认
+        TYPE_HOT = 2;       // 热门
+        TYPE_REALTIME = 3;  // 实时
+        TYPE_RECOMMEND = 4; // 推荐
+    }
+    // 展示未知
+    enum Position {
+        POS_UNKNOWN = 0; // 未知
+        POS_TOP = 1;     // 顶部
+    }
+    // Deprecated: 推送任务id，使用string
+    int64 old_taskid = 1 [json_name="old_taskid"];
+    // 业务：1-是视频、2-是直播、3-是活动
+    Biz biz = 2 [json_name="biz"];
+    // 类型：1-是默认、2-是热门、3-是实时、4-是推荐
+    Type type = 3 [json_name="type"];
+    // 主标题
+    string title = 4 [json_name="title"];
+    // 副标题
+    string summary = 5 [json_name="summary"];
+    // 图片地址
+    string img = 6 [json_name="img"];
+    // 跳转地址
+    string link = 7 [json_name="link"];
+    // 展示位置，1是顶部
+    Position position = 8 [json_name="position"];
+    // 展示时长（单位：秒），默认3秒
+    int32 duration = 9 [json_name="duration"];
+    // 失效时间
+    int64 expire = 10 [json_name="expire"];
+    // 推送任务id
+    string taskid = 11 [json_name="taskid"];
+    // 应用内推送黑名单
+    // UGC:     ugc-video-detail
+    // PGC:     pgc-video-detail
+    // 一起看:   pgc-video-detail-theater
+    // 直播:     live-room-detail
+    // Story:    ugc-video-detail-vertical
+    // 播单黑名单 playlist-video-detail
+    repeated PageBlackList page_blackList = 12 [json_name="page_blacklist"];
+    // 预留pvid
+    repeated PageView page_view = 13 [json_name="page_view"];
+    // 跳转资源
+    TargetResource target_resource = 14 [json_name="target_resource"];
+}
+
+message PageBlackList {
+    string id = 1 [json_name="id"];
+}
+
+message PageView {
+    string id = 1 [json_name="id"];
+}
+
+enum LinkType {
+    LINK_TYPE_UNKNOWN = 0;  // 未知
+    LINK_TYPE_BANGUMI = 1;  // 番剧
+    LINK_TYPE_VIDEO = 2;    // 视频
+    LINK_TYPE_LIVE = 3;     // 直播
+}
+
+message TargetResource {
+    //直播:   roomid
+    //UGC:   avid
+    //PGC:   seasonid
+    //Story: avid
+    //举个例子
+    //Type: LINK_TYPE_BANGUMI (番剧)
+    //Resource: {"seasonid":"123"}
+    //
+    //Type: LINK_TYPE_VIDEO (视频)
+    //Resource: {"avid":"123"}
+    //
+    //Type: LINK_TYPE_LIVE (直播)
+    //Resource: {"roomid":"123"}
+    LinkType Type = 1 [json_name="type"];
+    map<string,string> Resource = 2 [json_name="resource"];
+}
+
+// Push
+service Push {
+    rpc WatchMessage(google.protobuf.Empty) returns (stream PushMessageResp);
+}

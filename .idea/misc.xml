@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/layout/dynamic_card_8.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_error.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/dynamic_card_root.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/fragment_base_srrv.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/layout/fragment_root_comment.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/layout/header_nav_main.xml" value="0.1174342105263158" />
         <entry key="app/src/main/res/layout/item_history_card.xml" value="0.5652642934196332" />
@@ -42,7 +43,8 @@
         <entry key="app/src/main/res/layout/item_root_comment.xml" value="0.3469675599435825" />
         <entry key="app/src/main/res/layout/item_user_card.xml" value="0.53671875" />
         <entry key="app/src/main/res/layout/layout_iv_overlay.xml" value="0.18101092896174864" />
-        <entry key="app/src/main/res/layout/layout_onlineplay_intro.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/layout_onlineplay_intro.xml" value="0.11710526315789474" />
+        <entry key="app/src/main/res/layout/layout_recycle_view.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/layout/layout_web_view.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/wedgit_filter_chip.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/menu/iv_overlay.xml" value="0.22796052631578947" />

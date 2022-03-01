@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package bilibili.rpc;
+
+import "google/protobuf/any.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/rpc;rpc";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.rpc";
+option objc_class_prefix = "BAPIRpc";
+
+option (gogoproto.sizer_all) = false;
+option (gogoproto.marshaler_all) = false;
+option (gogoproto.unmarshaler_all) = false;
+
+// Status 是gRPC Status(https://github.com/grpc/grpc/blob/master/src/proto/grpc/status/status.proto)
+// 当status code是[UNKNOWN = 2]时，details为业务详细的错误信息，进行proto any转换成业务码结构体
+// ------------------
+// Status 业务错误信息
+// code 业务错误码
+// message 对错误码的的解释
+// details 是调用方和被调用方约定好的额外的proto结构，包含一些详细的错误处理方案等
+message Status {
+  // The error code see ecode.Code
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  string message = 2;
+
+  // A list of messages that carry the error details.  There is a common set of
+  // message types for APIs to use.
+  repeated google.protobuf.Any details = 3;
+}

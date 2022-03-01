@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package bilibili.app.interface.v1;
+option go_package = "git.bilibili.co/bapis/bapis-go/bilibili/app/interface/v1;v1";
+option java_multiple_files = true;
+option java_package = "com.bapis.bilibili.app.interfaces.v1";
+option objc_class_prefix = "BAPIAppInterfaceV1";
+
+// Search 搜索
+service Search {
+    // 搜索联想词
+    rpc Suggest3 (SuggestionResult3Req) returns (SuggestionResult3Reply);
+}
+
+// SuggestionResult3Req 搜索联想词请求参数
+message SuggestionResult3Req {
+    // 关键词
+    string keyword = 1;
+    // 0不显示 1 显示 （语法高亮）
+    int32 highlight = 2;
+    // 青少年模式 teenagers_mode=1 开启青少年模式
+    int32 teenagers_mode = 3;
+}
+
+// SuggestionResult3Reply 搜索联想词返回结果
+message SuggestionResult3Reply {
+    // 上报的trackid 搜索调用栈追踪标识
+    string trackid = 1;
+    // 联想词列表
+    repeated ResultItem list = 2;
+    // 搜索的abtest 实验信息
+    string exp_str = 3;
+}
+
+// ResultItem 联想词列表
+message ResultItem {
+    // 数据来源
+    string from = 1;
+    // 标题
+    string title = 2;
+    // 实际搜索用的关键字
+    string keyword = 3;
+    // 
+    int32 position = 4;
+    // 词条对应图片
+    string cover = 5;
+    // 图片尺寸，最大两位小数
+    double cover_size = 6;
+    // 展示用，sug词类型
+    string sug_type = 7;
+    // 词条大类型
+    int32 term_type = 8;
+    // 跳转类型
+    string goto = 9;
+    // 跳转uri
+    string uri = 10;
+    // 认证信息
+    OfficialVerify official_verify = 11;
+    // 跳转参数
+    string param = 12;
+    // up主mid
+    int64 mid = 13;
+    // 粉丝数
+    int32 fans = 14;
+    // up主等级
+    int32 level = 15;
+    // up主稿件数
+    int32 archives = 16;
+    // 投稿时间
+    int64 ptime = 17;
+    // 番剧 season类型名称
+    string season_type_name = 18;
+    // 番剧 地区
+    string area = 19;
+    // 作品风格 比如：搞笑/战斗/日常/声控/漫画改
+    string style = 20;
+    // 描述信息
+    string label = 21;
+    // 评分
+    double rating = 22;
+    // 投票数
+    int32 vote = 23;
+    // 角标
+    repeated ReasonStyle badges = 24;
+    // goto=pgc，styles会拼接：投稿时间+番剧类型+地区，例如：2033-11-11|国创|中国大陆
+    string styles = 25;
+    // module_id 上报参数
+    int64 module_id = 26;
+    // live_link 直播透传 link 用字段
+    string live_link = 27;
+}
+
+// OfficialVerify 认证信息
+message OfficialVerify {
+    // 0：个人；1：官方；127：未认证
+    int32 type = 1;
+    // 认证描述
+    string desc = 2;
+}
+
+// ReasonStyle 角标
+message ReasonStyle {
+    // 角标文案
+    string text = 1;
+    // 文案日间色值
+    string text_color = 2;
+    // 文案夜间色值
+    string text_color_night = 3;
+    // 背景日间色值
+    string bg_color = 4;
+    // 背景夜间色值
+    string bg_color_night = 5;
+    // 边框日间色值
+    string border_color = 6;
+    // 边框夜间色值
+    string border_color_night = 7;
+    // 角标样式：1为填充模式；2位镂空模式
+    int32 bg_style = 8;
+}
