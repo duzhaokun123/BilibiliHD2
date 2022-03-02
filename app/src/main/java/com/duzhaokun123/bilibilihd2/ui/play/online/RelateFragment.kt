@@ -4,8 +4,6 @@ import android.content.Context
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.graphics.ColorUtils
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duzhaokun123.bilibilihd2.R
@@ -69,12 +67,6 @@ class RelateFragment : BaseFragment<LayoutRecycleViewBinding>(R.layout.layout_re
                     }.show()
                 }
             }
-        }
-    }
-
-    override fun onApplyWindowInsetsCompat(insets: WindowInsetsCompat) {
-        insets.maxSystemBarsDisplayCutout.let {
-            baseBinding.rv.updatePadding(left = it.left, right = it.right , bottom = it.bottom)
         }
     }
 }

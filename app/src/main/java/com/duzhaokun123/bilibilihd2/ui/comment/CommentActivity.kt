@@ -25,7 +25,7 @@ class CommentActivity: BaseActivity<ActivityCommentBinding>(R.layout.activity_co
         super.initEvents()
         baseBinding.btnReload.setOnClickListener {
             rootCommentFragment.setOid(baseBinding.etOid.text.toString().toLong())
-            rootCommentFragment.setType(baseBinding.etType.text.toString().toLong())
+            rootCommentFragment.setType(baseBinding.etType.text.toString().toInt())
             rootCommentFragment.setMode(mode)
             rootCommentFragment.reload()
         }

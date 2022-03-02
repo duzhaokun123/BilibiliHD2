@@ -23,6 +23,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
+import com.hiczp.bilibili.api.app.model.MyInfo
 import io.github.duzhaokun123.androidapptemplate.utils.RunIOCatchingPending
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.isSystemNightMode

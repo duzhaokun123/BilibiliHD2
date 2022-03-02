@@ -38,6 +38,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutoutIme
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class OnlinePlayActivity : BasePlayActivity() {
@@ -110,6 +111,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             layoutInflater, R.layout.layout_onlineplay_intro, null, false
         )
     }
+    lateinit var viewPager2: ViewPager2
     val model by viewModels<Model>()
 
     override fun initViews() {
@@ -126,7 +128,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                         width = MATCH_PARENT
                         height = WRAP_CONTENT
                     }
-                val viewPager2 = ViewPager2(this).apply {
+                viewPager2 = ViewPager2(this).apply {
                     adapter = PagerAdapter(this@OnlinePlayActivity)
                 }
                 baseBinding.rl.addView(tabLayout,
@@ -167,7 +169,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                         vi
                     }
                 }
-                val viewPager2 = ViewPager2(this).apply {
+                viewPager2 = ViewPager2(this).apply {
                     adapter = PagerAdapter(this@OnlinePlayActivity)
                 }
                 baseBinding.rl.addView(tabLayout,
@@ -352,6 +354,9 @@ class OnlinePlayActivity : BasePlayActivity() {
         super.onApplyWindowInsetsCompat(insets)
         insets.maxSystemBarsDisplayCutout.let {
             layoutOnlinePlayIntroBinding.llRoot.updatePadding(bottom = if (baseBinding.rhv.tag == "2") it.bottom else 0)
+        }
+        with(insets.maxSystemBarsDisplayCutoutIme) {
+            viewPager2.updatePadding(left = left, right = right, bottom = bottom)
         }
     }
 

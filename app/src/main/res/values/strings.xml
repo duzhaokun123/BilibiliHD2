@@ -51,4 +51,6 @@
     <string name="donate">捐赠</string>
     <string name="qr_code">二维码</string>
     <string name="report">举报</string>
+    <string name="send">发送</string>
+    <string name="comment">评论</string>
 </resources>
