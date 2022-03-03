@@ -20,22 +20,11 @@
             android:hint="type"
             android:inputType="number" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/btn_reload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/reload" />
-
-            <Spinner
-                android:value="DEFAULT"
-                android:id="@+id/sp_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reload" />
 
         <FrameLayout
             android:id="@+id/fl_comment"

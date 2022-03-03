@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import com.bapis.bilibili.main.community.reply.v1.Mode
 import com.duzhaokun123.bilibilihd2.R
@@ -242,7 +243,8 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
         }
         itemBinding.cv.setOnClickListener {
             childFragmentManager.beginTransaction()
-                .add(cvid, ChildCommentFragment(oid, type, itemModel.rpid))
+                .setCustomAnimations(R.anim.slide_in_bottom, R.anim.slide_out_bottom)
+                .replace(cvid, ChildCommentFragment(oid, type, itemModel.rpid))
                 .addToBackStack(null)
                 .commit()
             requireActivity().supportFragmentManager.beginTransaction()

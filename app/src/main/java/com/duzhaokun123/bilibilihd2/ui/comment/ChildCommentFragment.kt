@@ -100,8 +100,8 @@ class ChildCommentFragment @JvmOverloads constructor(private val setOid: Long = 
     }
 
     override fun initData() {
+        if (items.isNotEmpty() && (baseModel.oid.value == null || baseModel.root.value == null || baseModel.type.value == null)) items = emptyList()
         super.initData()
-        if (items.isNotEmpty() && (baseModel.oid.value == null || baseModel.root.value == null || baseModel.type.value == null)) srl.autoRefresh()
         layoutSendChildCommentBinding.tvParent.text = "to $setRoot"
     }
 

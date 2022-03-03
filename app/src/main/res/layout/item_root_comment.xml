@@ -98,5 +98,15 @@
             android:layout_toEndOf="@id/tv_like"
             android:text='@{model.likeStatus == 0 ? "" : model.likeStatus == 1 ? "已赞" : "已踩"}'
             android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@{String.valueOf(model.rpid)}"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?android:attr/textColorSecondaryInverse"
+            tools:text="114514" />
     </RelativeLayout>
 </layout>
