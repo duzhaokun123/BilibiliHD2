@@ -6,6 +6,7 @@ import com.duzhaokun123.bilibilihd2.databinding.DynamicCard8Binding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
+import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 
 class DynamicHolderType8(context: Context) :
     DynamicAdapter.BaseDynamicHolder<DynamicCard8Binding, DynamicCardModel.Type8>(context, R.layout.dynamic_card_8) {
@@ -23,5 +24,6 @@ class DynamicHolderType8(context: Context) :
         contentBinding: DynamicCard8Binding, model: DynamicCardModel, typedCard: DynamicCardModel.Type8
     ) {
         contentBinding.card = typedCard
+        EmoteMap.emotefy(typedCard.dynamic, contentBinding.tvDynamic)
     }
 }

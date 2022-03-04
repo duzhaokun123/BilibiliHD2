@@ -6,6 +6,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCard1Binding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
+import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 import com.duzhaokun123.bilibilihd2.utils.getColorCompat
 import com.google.android.material.color.MaterialColors
 
@@ -38,5 +39,6 @@ class DynamicHolderType1(context: Context) :
         typedCard: DynamicCardModel.Type1
     ) {
         contentBinding.card = typedCard
+        EmoteMap.emotefy(typedCard.content, contentBinding.tvContent)
     }
 }

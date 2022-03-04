@@ -10,6 +10,7 @@
             type="com.duzhaokun123.bilibilihd2.model.RootCommentCardModel" />
 
         <import type="com.duzhaokun123.bilibilihd2.utils.DateFormat" />
+        <import type="com.duzhaokun123.bilibilihd2.utils.EmoteMap" />
     </data>
 
     <RelativeLayout
@@ -66,7 +67,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/civ_face"
             android:layout_marginTop="4dp"
-            android:text="@{model.content}"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             tools:text="@tools:sample/lorem/random" />
 

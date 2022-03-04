@@ -1,8 +1,9 @@
 package com.duzhaokun123.bilibilihd2.model
 
 import com.bapis.bilibili.main.community.reply.v1.ReplyInfo
+import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 
-class RootCommentCardModel(
+data class RootCommentCardModel(
     val userModel: UserModel,
     val content: String,
     val ctime: Long,
@@ -15,6 +16,7 @@ class RootCommentCardModel(
 
 fun List<ReplyInfo>.toRootCommentCardModel(): List<RootCommentCardModel> {
     return map {
+        EmoteMap.put(it.content.emotesMap.toList())
         RootCommentCardModel(
             UserModel(
                 it.member.name, it.mid, it.member.face, "", it.member.level.toInt()
@@ -25,6 +27,7 @@ fun List<ReplyInfo>.toRootCommentCardModel(): List<RootCommentCardModel> {
 }
 
 fun ReplyInfo.toRootCommentCardModel(): List<RootCommentCardModel> {
+    EmoteMap.put(content.emotesMap.toList())
     return listOf(
         RootCommentCardModel(
             UserModel(

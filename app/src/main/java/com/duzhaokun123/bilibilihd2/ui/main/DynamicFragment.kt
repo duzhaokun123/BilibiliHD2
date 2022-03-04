@@ -65,6 +65,7 @@ class DynamicFragment : BaseSRRVFragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initViews() {
         super.initViews()
+        runCatching { baseBinding.rv.removeItemDecorationAt(0) }
         baseBinding.rv.addItemDecoration(GridDividerDecoration(1.dpToPx(), ColorUtils.setAlphaComponent(requireContext().theme.getAttr(R.attr.colorOnSurface).data, (255 * 0.12).toInt()), 1), 0)
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
             var a = (v.width - dynamicCardWidth) / 2

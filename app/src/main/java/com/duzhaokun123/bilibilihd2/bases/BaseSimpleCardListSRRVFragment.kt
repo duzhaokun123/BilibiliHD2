@@ -78,13 +78,10 @@ abstract class BaseSimpleCardListSRRVFragment<ItemBinding : ViewDataBinding, Ite
     override fun initViews() {
         super.initViews()
         baseBinding.rv.addOnLayoutChangeListener { v, _, _, _, _, _, _, _, _ ->
-            val l = v.width / hopeCardWidth
-            if (v.width <= hopeCardWidth) {
-                v.updatePadding(left = 0, right = 0)
-            } else {
-                val p = (v.width - hopeCardWidth) / 2
-                v.updatePadding(left = p, right = p)
-            }
+            var a = (v.width - hopeCardWidth) / 2
+            if (a < 0) a = 0
+            if (a * 2 <= hopeCardWidth / 3) a = 0
+            v.updatePadding(left = a, right = a)
         }
         runCatching { baseBinding.rv.removeItemDecorationAt(0) }
         baseBinding.rv.addItemDecoration(

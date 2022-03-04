@@ -1,10 +1,7 @@
 package com.duzhaokun123.bilibilihd2
 
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatDelegate
-import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
-import com.duzhaokun123.bilibilihd2.utils.UsersMap
-import com.duzhaokun123.bilibilihd2.utils.grpcClidet
+import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
@@ -12,6 +9,10 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.material.color.DynamicColors
 import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.androidapptemplate.utils.launch
+import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
+import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
 
 @Suppress("UNUSED")
 class Application : android.app.Application() {
@@ -41,6 +42,8 @@ class Application : android.app.Application() {
         reinitUiMod()
         if (Settings.dynamicColor)
             DynamicColors.applyToActivitiesIfAvailable(this)
+
+        loadEmoteList()
     }
 
     fun reinitBilibiliClient(
@@ -67,5 +70,30 @@ class Application : android.app.Application() {
                 else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             }
         )
+    }
+
+    fun loadEmoteList() {
+        runIOCatching {
+            bilibiliClient.webAPI.emoteList("reply").await()
+        }.setCommonOnFailureHandler(null)
+            .onSuccess {
+                it.data.allPackages.forEach { packageData ->
+                    EmoteMap.put(packageData.emote.map { emote ->
+                        emote.text to emote.url
+                    })
+                }
+                TipUtil.showToast("加载表情列表成功 reply")
+            }.launch()
+        runIOCatching {
+            bilibiliClient.webAPI.emoteList("dynamic").await()
+        }.setCommonOnFailureHandler(null)
+            .onSuccess {
+                it.data.allPackages.forEach { packageData ->
+                    EmoteMap.put(packageData.emote.map { emote ->
+                        emote.text to emote.url
+                    })
+                }
+                TipUtil.showToast("加载表情列表成功 dynamic")
+            }.launch()
     }
 }

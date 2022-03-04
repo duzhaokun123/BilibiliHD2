@@ -9,6 +9,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.DynamicCard2Binding
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.ui.main.DynamicAdapter
+import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 import com.duzhaokun123.bilibilihd2.utils.ImageViewUtil
 import com.duzhaokun123.bilibilihd2.utils.dpToPx
 
@@ -52,5 +53,6 @@ class DynamicHolderType2(context: Context) :
         typedCard: DynamicCardModel.Type2
     ) {
         contentBinding.card = typedCard
+        EmoteMap.emotefy(typedCard.desc, contentBinding.tvDesc)
     }
 }

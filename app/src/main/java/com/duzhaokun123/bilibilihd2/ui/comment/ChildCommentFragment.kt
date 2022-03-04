@@ -217,5 +217,6 @@ class ChildCommentFragment @JvmOverloads constructor(private val setOid: Long = 
         position: Int
     ) {
         itemBinding.model = itemModel
+        EmoteMap.emotefy(itemModel.content, itemBinding.tvContent)
     }
 }

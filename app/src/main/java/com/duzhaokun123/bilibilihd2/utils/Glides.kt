@@ -17,7 +17,8 @@ fun glideSafeLoadInto(url: String?, target: ImageView) {
     }
 }
 
-fun glideSafeGet(url: String, onGet: suspend (bitmap: Bitmap) -> Unit) {
+fun glideSafeGet(url: String?, onGet: suspend (bitmap: Bitmap) -> Unit) {
+    url ?: return
     runNewThread {
         try {
             val bitmap = Glide.with(application).asBitmap().load(url).submit().get()
@@ -28,4 +29,14 @@ fun glideSafeGet(url: String, onGet: suspend (bitmap: Bitmap) -> Unit) {
             e.printStackTrace()
         }
     }
+}
+
+fun glideSafeGetSync(url: String?): Bitmap? {
+    url ?: return null
+    try {
+        return Glide.with(application).asBitmap().load(url).submit().get()
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return null
 }

@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityTestBinding
 import com.duzhaokun123.bilibilihd2.ui.comment.CommentActivity
+import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 import com.duzhaokun123.bilibilihd2.utils.startActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -54,6 +55,9 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
         }
         baseBinding.btnComment.setOnClickListener {
             startActivity<CommentActivity>()
+        }
+        baseBinding.btnEnmotefy.setOnClickListener {
+            EmoteMap.emotefy(baseBinding.etEmoteIn.text.toString(), baseBinding.tvEmoteOut)
         }
     }
 }

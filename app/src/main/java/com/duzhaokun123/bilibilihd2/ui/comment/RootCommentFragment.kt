@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.MutableLiveData
 import com.bapis.bilibili.main.community.reply.v1.Mode
 import com.duzhaokun123.bilibilihd2.R
@@ -259,6 +258,7 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
         position: Int
     ) {
         itemBinding.model = itemModel
+        EmoteMap.emotefy(itemModel.content, itemBinding.tvContent)
     }
 
     fun setOid(oid: Long) {

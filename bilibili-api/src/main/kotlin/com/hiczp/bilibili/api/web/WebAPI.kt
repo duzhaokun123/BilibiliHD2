@@ -1,6 +1,7 @@
 package com.hiczp.bilibili.api.web
 
 import com.hiczp.bilibili.api.retrofit.CommonResponse
+import com.hiczp.bilibili.api.web.model.EmoteList
 import com.hiczp.bilibili.api.web.model.VideoShot
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
@@ -37,4 +38,15 @@ interface WebAPI {
         @Query("cid") cid: Long? = null,
         @Query("index") index: Int = 0
     ): Deferred<VideoShot>
+
+    /**
+     * 全部表情包
+     * [详情](https://github.com/SocialSisterYi/bilibili-API-collect/blob/66d1d1909a233fdf7d539999488d0c00de240692/emoji/list.md#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%A1%A8%E6%83%85%E5%8C%85%E5%88%97%E8%A1%A8)
+     *
+     * @param business reply：评论区 dynamic：动态
+     */
+    @GET("/x/emote/setting/panel")
+    fun emoteList(
+        @Query("business") business: String
+    ): Deferred<EmoteList>
 }
