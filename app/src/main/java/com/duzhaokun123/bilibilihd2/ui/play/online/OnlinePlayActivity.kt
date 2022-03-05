@@ -107,9 +107,7 @@ class OnlinePlayActivity : BasePlayActivity() {
 
     var relateFragment: RelateFragment? = null
     val layoutOnlinePlayIntroBinding by lazy {
-        DataBindingUtil.inflate<LayoutOnlineplayIntroBinding>(
-            layoutInflater, R.layout.layout_onlineplay_intro, null, false
-        )
+        LayoutOnlineplayIntroBinding.inflate(layoutInflater)
     }
     lateinit var viewPager2: ViewPager2
     val model by viewModels<Model>()
@@ -200,6 +198,12 @@ class OnlinePlayActivity : BasePlayActivity() {
             runIOCatchingResultRunMain(this, {
                 bilibiliClient.appAPI.view(aid = aid).await()
             }) { biliView ->
+                biliView.data.redirectUrl.takeUnless { it.isNullOrBlank() }?.let {
+                    BrowserUtil.openInApp(this, it)
+                    finish()
+                    return@runIOCatchingResultRunMain
+                }
+
                 this.biliView = biliView
                 setCoverUrl(biliView.data.pic)
                 supportActionBar?.title = biliView.data.title
@@ -280,8 +284,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             { bilibiliClient.playerAPI.videoPlayUrl(cid = cid, aid = aid).await() })
         {
             setVideoPlayUrl(it)
-            if (biliPlayerView.player.isPlaying)
-                start()
+            start()
         }
     }
 

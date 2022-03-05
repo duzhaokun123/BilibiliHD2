@@ -82,7 +82,9 @@ data class View(
             @SerializedName("bvid")
             var bvid: String, //BV1xx411c79H
             @SerializedName("history")
-            var history: History?
+            var history: History?,
+            @SerializedName("redirect_url")
+            var redirectUrl: String?
     ) {
         data class History(
                 @SerializedName("cid")
