@@ -59,7 +59,7 @@ interface PlayerAPI {
             @Query("npcybs") npcybs: Int = 0,
             @Query("qn") qn: Int = 32,
             @Query("season_type") seasonType: Int = 1,
-            @Query("session") session: String = (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().startTime).toString().md5(),
+            @Query("session") session: String = ManagementFactory.getRuntimeMXBean().uptime.toString().md5(),
             @Query("track_path") trackPath: Int? = null
     ): Deferred<BangumiPlayUrl>
 

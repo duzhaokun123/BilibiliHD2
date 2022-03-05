@@ -39,6 +39,10 @@ object EmoteMap {
         emotes.forEach(::put)
     }
 
+    fun getEmote(key: String): String? {
+        return map[key]
+    }
+
     fun getBitmap(key: String): Bitmap? {
         return glideSafeGetSync(map[key])
     }
@@ -52,7 +56,7 @@ object EmoteMap {
                 val range = it.range
                 val bitmap = getBitmap(value) ?: return@forEach
                 ssb.setSpan(
-                    ImageSpan(bitmap, ImageSpan.ALIGN_BASELINE),
+                    ImageSpan(textView.context, bitmap, ImageSpan.ALIGN_BASELINE),
                     range.first,
                     range.last + 1,
                     SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE

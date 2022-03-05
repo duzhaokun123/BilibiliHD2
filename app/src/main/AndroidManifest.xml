@@ -115,6 +115,11 @@
         <activity
             android:name=".ui.comment.CommentActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.play.season.SeasonPlayActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"
+            android:supportsPictureInPicture="true"
+            tools:targetApi="n" />
     </application>
 
 </manifest>

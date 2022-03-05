@@ -70,7 +70,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
 
             val parsedIntent = ParsedIntent(startIntent, uri, scheme, host, path, paths, queryMap)
             intentFilters.forEach {
-                it.handle(parsedIntent, this).let { (intent, desc) ->
+                runCatching { it.handle(parsedIntent, this) }.getOrNull()?.let { (intent, desc) ->
                     if (intent == null) return@let
                     baseBinding.llTarget.addView(MaterialButton(this, null, R.attr.borderlessButtonStyle).apply {
                         isAllCaps = false

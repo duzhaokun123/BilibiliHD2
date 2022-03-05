@@ -24,10 +24,7 @@ import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
 import com.hiczp.bilibili.api.app.model.MyInfo
-import io.github.duzhaokun123.androidapptemplate.utils.RunIOCatchingPending
-import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
-import io.github.duzhaokun123.androidapptemplate.utils.isSystemNightMode
-import io.github.duzhaokun123.androidapptemplate.utils.onFailure
+import io.github.duzhaokun123.androidapptemplate.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -132,6 +129,13 @@ fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, ext
         t.printStackTrace()
         TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
         extra?.invoke(t)
+    }
+
+fun <R> RunIOCatchingPending<R>.onSuccessMain(onSuccessMain: suspend CoroutineScope.(R) -> Unit) =
+    onSuccess {
+        runMain {
+            onSuccessMain(it)
+        }
     }
 
 fun <R> Result<R>.commonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =

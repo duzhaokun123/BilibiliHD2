@@ -51,7 +51,7 @@ class OnlinePlayActivity : BasePlayActivity() {
                 parsedIntent: UrlOpenActivity.ParsedIntent,
                 context: Context
             ): Pair<Intent?, String?> {
-                if (parsedIntent.host !in  listOf("video", "story")) return null to null
+                if (parsedIntent.host !in arrayOf("video", "story")) return null to null
                 val p1 = parsedIntent.paths.getOrElse(0) { "0" }
                 val aid = try {
                     p1.toLong()
@@ -356,7 +356,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             layoutOnlinePlayIntroBinding.llRoot.updatePadding(bottom = if (baseBinding.rhv.tag == "2") it.bottom else 0)
         }
         with(insets.maxSystemBarsDisplayCutoutIme) {
-            viewPager2.updatePadding(left = left, right = right, bottom = bottom)
+            viewPager2.updatePadding(left = if (baseBinding.rhv.tag == "1") left else 0, right = right, bottom = bottom)
         }
     }
 
