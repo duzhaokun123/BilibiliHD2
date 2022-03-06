@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.bases
 
+import android.app.assist.AssistContent
 import android.content.res.Configuration
 import android.os.Build
 import android.view.Menu
@@ -12,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.core.graphics.Insets
+import androidx.core.net.toUri
 import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -170,6 +172,11 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             else -> super.onOptionsItemSelected(item)
         }
 
+    }
+
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        outContent.webUri = onGetShare().second?.toUri()
     }
 
     override fun onStart() {
