@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.37395833333333334" />
         <entry key="../../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/drawable/ic_baseline_toys_24.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_history_checkable.xml" value="0.194" />

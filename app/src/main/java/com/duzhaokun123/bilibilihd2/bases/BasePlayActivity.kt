@@ -211,6 +211,10 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
         biliPlayerView.resume()
     }
 
+    fun prepare() {
+        biliPlayerView.prepare()
+    }
+
     fun setCoverUrl(url: String?) {
         coverUrl = url
         runNewThread {

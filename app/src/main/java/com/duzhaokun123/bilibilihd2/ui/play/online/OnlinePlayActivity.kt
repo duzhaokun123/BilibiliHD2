@@ -13,7 +13,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.core.view.*
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
@@ -284,7 +283,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             { bilibiliClient.playerAPI.videoPlayUrl(cid = cid, aid = aid).await() })
         {
             setVideoPlayUrl(it)
-            start()
+            prepare()
         }
     }
 
@@ -359,7 +358,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             layoutOnlinePlayIntroBinding.llRoot.updatePadding(bottom = if (baseBinding.rhv.tag == "2") it.bottom else 0)
         }
         with(insets.maxSystemBarsDisplayCutoutIme) {
-            viewPager2.updatePadding(left = if (baseBinding.rhv.tag == "1") left else 0, right = right, bottom = bottom)
+            viewPager2.updatePadding(right = if (baseBinding.rhv.tag == "2") right else 0, bottom = bottom)
         }
     }
 

@@ -79,8 +79,9 @@ class BiliPlayerView @JvmOverloads constructor(
             player.addListener(this)
 
             findViewById<View>(R.id.iv_cover).setOnClickListener {
-                start()
                 it.visibility = GONE
+                findViewById<View>(R.id.exo_play_pause).callOnClick()
+                state = State.PLAYING
             }
 
             findViewById<Button>(R.id.btn_danmakuSwitch).setOnClickListener {
@@ -98,6 +99,12 @@ class BiliPlayerView @JvmOverloads constructor(
     var playInfo: PlayInfo? = null
 
     fun start() {
+        player.seekTo(0)
+        player.play()
+        state = State.PLAYING
+    }
+
+    fun prepare() {
         if (isDestroyed) return
         if (playInfo == null) {
             player.setMediaSources(emptyList())
@@ -111,7 +118,7 @@ class BiliPlayerView @JvmOverloads constructor(
             selectedSource = info.sources[0]
             ibNext.isEnabled = info.hasNext
             ibNext.alpha = if (info.hasNext) buttonAlphaEnabled else buttonAlphaDisabled
-            if (player.playWhenReady.not())
+            if (player.playWhenReady)
                 findViewById<View>(R.id.exo_play_pause).callOnClick()
             btnQuality.setOnClickListener {
                 PopupMenu(context, btnQuality).apply {
@@ -135,7 +142,7 @@ class BiliPlayerView @JvmOverloads constructor(
                         danmakuView.resume()
                 }
             }
-            state = State.PLAYING
+            state = State.PAUSED
         }
     }
 
