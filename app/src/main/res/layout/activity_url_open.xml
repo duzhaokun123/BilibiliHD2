@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -13,6 +14,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:id="@+id/cb_foreNewWindow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="force new window"
+                        tools:ignore="HardcodedText" />
+
+                    <CheckBox
+                        android:id="@+id/cb_finishOnStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="finish on start"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_1"

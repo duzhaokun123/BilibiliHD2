@@ -1,13 +1,16 @@
 package com.duzhaokun123.bilibilihd2.ui
 
 import android.annotation.SuppressLint
+import android.app.assist.AssistContent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
 import com.google.android.material.button.MaterialButton
@@ -76,7 +79,14 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
                         isAllCaps = false
                         text = desc ?: intent.toString()
                         setOnClickListener {
+                            if (baseBinding.cbForeNewWindow.isChecked) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
+                            }
                             startActivity(intent)
+                            if (baseBinding.cbFinishOnStart.isChecked) {
+                                finish()
+                            }
                         }
                     })
                 }
@@ -99,5 +109,11 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
             }
         }
         return super.onCreateOptionsMenu(menu)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        outContent.webUri = startIntent.data
     }
 }
