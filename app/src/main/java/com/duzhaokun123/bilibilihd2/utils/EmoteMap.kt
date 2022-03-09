@@ -12,6 +12,32 @@ import com.bapis.bilibili.main.community.reply.v1.Emote
 object EmoteMap {
     val emoteRegex = Regex("\\[.*?]")
     private val map = mutableMapOf<String, String>()
+    private val groupMap = mutableMapOf<String, MutableMap<String, String>>()
+    private val userGroups = mutableListOf<String>()
+
+    fun putGroup(group: String, emote: Pair<String, String>) {
+        groupMap.getOrPut(group) { mutableMapOf() }[emote.first] = emote.second
+        put(emote.first, emote.second)
+    }
+
+    fun putGroup(group: String, emote: Collection<Pair<String, String>>) {
+        emote.forEach { putGroup(group, it) }
+    }
+
+    fun getGroup(group: String): MutableMap<String, String>? {
+        return groupMap[group]
+    }
+
+    @Synchronized
+    fun putUserGroup(group: String) {
+        if (group !in userGroups) {
+            userGroups.add(group)
+        }
+    }
+
+    fun getUserGroups(): List<String> {
+        return userGroups
+    }
 
     fun put(emote: Pair<String, Emote>) {
         put(emote.first, emote.second)

@@ -8,6 +8,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_toys_24.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_history_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_home_clickable.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_launch.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_toys_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
@@ -24,6 +26,7 @@
         <entry key="app/src/main/res/layout/activity_reply.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/activity_url_open.xml" value="0.22861842105263158" />
+        <entry key="app/src/main/res/layout/dialog_emote_picker.xml" value="0.11677631578947369" />
         <entry key="app/src/main/res/layout/dynamci_card_64.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_-1.xml" value="0.1174342105263158" />
         <entry key="app/src/main/res/layout/dynamic_card_0.xml" value="0.2984375" />
@@ -40,6 +43,7 @@
         <entry key="app/src/main/res/layout/fragment_root_comment.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/layout/header_nav_main.xml" value="0.1174342105263158" />
         <entry key="app/src/main/res/layout/item_child_comment.xml" value="0.11710526315789474" />
+        <entry key="app/src/main/res/layout/item_emote.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/layout/item_history_card.xml" value="0.5652642934196332" />
         <entry key="app/src/main/res/layout/item_home_card.xml" value="0.283363802559415" />
         <entry key="app/src/main/res/layout/item_relate_card.xml" value="0.545273631840796" />
@@ -49,6 +53,7 @@
         <entry key="app/src/main/res/layout/layout_onlineplay_intro.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/layout/layout_recycle_view.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/layout/layout_season.xml" value="0.1611842105263158" />
+        <entry key="app/src/main/res/layout/layout_send_child_comment.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/layout_send_comment.xml" value="0.12335526315789473" />
         <entry key="app/src/main/res/layout/layout_send_root_comment.xml" value="0.18" />
         <entry key="app/src/main/res/layout/layout_web_view.xml" value="0.12730263157894736" />
@@ -60,6 +65,7 @@
         <entry key="app/src/main/res/menu/root_comment_menu.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/menu/user_add_menu.xml" value="0.30234375" />
         <entry key="app/src/main/res/menu/web_view_activity.xml" value="0.11578947368421053" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.298" />
         <entry key="app/src/main/res/xml/settings_about.xml" value="0.53671875" />
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.18101092896174864" />
         <entry key="bili-player/src/main/res/layout/exo_player_view.xml" value="0.22861842105263158" />

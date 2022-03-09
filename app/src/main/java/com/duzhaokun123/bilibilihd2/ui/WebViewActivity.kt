@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.ui
 
 import android.annotation.SuppressLint
 import android.app.PictureInPictureParams
+import android.app.assist.AssistContent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -313,6 +314,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         } else {
             supportActionBar?.show()
         }
+    }
+
+    override fun onProvideAssistContent(outContent: AssistContent) {
+        super.onProvideAssistContent(outContent)
+        outContent.webUri = baseBinding.wv.url?.toUri()
     }
 
     class ConfigViewModel : ViewModel() {

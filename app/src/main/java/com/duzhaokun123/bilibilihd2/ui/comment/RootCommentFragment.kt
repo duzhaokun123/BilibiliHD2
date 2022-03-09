@@ -137,6 +137,17 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                 baseBinding.srl.autoRefresh()
             }
         }
+        layoutSendRootCommentBinding.tilComment.setStartIconOnClickListener {
+            EmotePickerDialogBuilder(requireBaseActivity()).apply {
+                onEmoteSelected = {
+                    with(layoutSendRootCommentBinding.etComment) {
+                        val start = selectionStart
+                        val end = selectionEnd
+                        editableText.replace(start, end, it)
+                    }
+                }
+            }.show()
+        }
     }
 
     override fun initItemView(

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:targetApi="m">
+
+        <com.duzhaokun123.bilibilihd2.ui.widget.GlideLoadRationHeightImageView
+            android:id="@+id/iv_emote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ration="1.0"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_emote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            tools:text="aaaaa" />
+    </LinearLayout>
+</layout>

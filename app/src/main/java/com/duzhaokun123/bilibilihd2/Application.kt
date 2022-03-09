@@ -53,9 +53,9 @@ class Application : android.app.Application() {
     ) {
         bilibiliClient = BilibiliClient(object : BilibiliClientProperties {
             override val appKey: String
-                get() = if (userAppKey.isEmpty()) super.appKey else userAppKey
+                get() = userAppKey.ifEmpty { super.appKey }
             override val appSecret: String
-                get() = if (userAppSec.isEmpty()) super.appSecret else userAppSec
+                get() = userAppSec.ifEmpty { super.appSecret }
         })
         bilibiliClient.loginResponse = UsersMap[uid]
         BrowserUtil.syncLoginResponseCookie()
@@ -78,9 +78,11 @@ class Application : android.app.Application() {
         }.setCommonOnFailureHandler(null)
             .onSuccess {
                 it.data.allPackages.forEach { packageData ->
-                    EmoteMap.put(packageData.emote.map { emote ->
-                        emote.text to emote.url
-                    })
+                    EmoteMap.putGroup(packageData.text,
+                        packageData.emote.map { emote -> emote.text to emote.url })
+                }
+                it.data.userPanelPackages.forEach { packageDate ->
+                    EmoteMap.putUserGroup(packageDate.text)
                 }
                 TipUtil.showToast("加载表情列表成功 reply")
             }.launch()
@@ -89,9 +91,11 @@ class Application : android.app.Application() {
         }.setCommonOnFailureHandler(null)
             .onSuccess {
                 it.data.allPackages.forEach { packageData ->
-                    EmoteMap.put(packageData.emote.map { emote ->
-                        emote.text to emote.url
-                    })
+                    EmoteMap.putGroup(packageData.text,
+                        packageData.emote.map { emote -> emote.text to emote.url })
+                }
+                it.data.userPanelPackages.forEach { packageDate ->
+                    EmoteMap.putUserGroup(packageDate.text)
                 }
                 TipUtil.showToast("加载表情列表成功 dynamic")
             }.launch()

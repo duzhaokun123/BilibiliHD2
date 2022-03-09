@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityTestBinding
 import com.duzhaokun123.bilibilihd2.ui.comment.CommentActivity
+import com.duzhaokun123.bilibilihd2.ui.comment.EmotePickerDialogBuilder
 import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 import com.duzhaokun123.bilibilihd2.utils.startActivity
 import com.journeyapps.barcodescanner.ScanContract
@@ -58,6 +59,17 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
         }
         baseBinding.btnEnmotefy.setOnClickListener {
             EmoteMap.emotefy(baseBinding.etEmoteIn.text.toString(), baseBinding.tvEmoteOut)
+        }
+        baseBinding.btnEmote.setOnClickListener {
+            EmotePickerDialogBuilder(this).apply {
+                onEmoteSelected = { it ->
+                    with(baseBinding.etEmoteIn) {
+                        val start = selectionStart
+                        val end = selectionEnd
+                        editableText.replace(start, end, it)
+                    }
+                }
+            }.show()
         }
     }
 }
