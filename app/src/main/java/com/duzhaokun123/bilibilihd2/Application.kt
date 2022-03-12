@@ -1,5 +1,7 @@
 package com.duzhaokun123.bilibilihd2
 
+import android.os.Build
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
@@ -34,6 +36,7 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
+        logDeviceInfo()
 
         //init
         Settings.init(this)
@@ -99,5 +102,12 @@ class Application : android.app.Application() {
                 }
                 TipUtil.showToast("加载表情列表成功 dynamic")
             }.launch()
+    }
+
+    fun logDeviceInfo() {
+        Log.d("BilibiliHD2", "DeviceInfo: System: ${Build.HOST}(Android ${Build.VERSION.RELEASE} SDK ${Build.VERSION.SDK_INT})")
+        Log.d("BilibiliHD2", "DeviceInfo: Model: ${Build.MODEL}(${Build.DEVICE})")
+        Log.d("BilibiliHD2", "DeviceInfo: CPU: ${Build.HARDWARE}(${Build.BOARD})")
+        Log.d("BilibiliHD2", "DeviceInfo: SupportedABIs: ${Build.SUPPORTED_ABIS.joinToString(", ")}")
     }
 }
