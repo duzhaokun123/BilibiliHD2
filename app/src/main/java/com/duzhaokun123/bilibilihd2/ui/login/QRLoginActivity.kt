@@ -1,7 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.login
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import androidx.activity.viewModels
 import androidx.core.net.toUri
@@ -14,16 +13,17 @@ import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonObject
+import com.google.zxing.BarcodeFormat
 import com.hiczp.bilibili.api.passport.model.LoginResponse
 import com.hiczp.bilibili.api.passport.model.QRLoginUrl
 import com.hiczp.bilibili.api.retrofit.Cookie
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
 import kotlinx.coroutines.delay
-import net.glxn.qrgen.android.QRCode
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -49,12 +49,7 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
         model.qrLoginUrl.observe(this) {
             it ?: return@observe
             val size = 160.dpToPx()
-            baseBinding.ivQr.setImageBitmap(
-                QRCode.from(it.data.url)
-                    .withSize(size, size)
-                    .withColor(theme.getAttr(R.attr.colorOnBackground).data, Color.TRANSPARENT)
-                    .bitmap()
-            )
+            baseBinding.ivQr.setImageBitmap(BarcodeEncoder().encodeBitmap(it.data.url, BarcodeFormat.QR_CODE, size, size))
         }
         model.status.observe(this) {
             baseBinding.tvState.text = it

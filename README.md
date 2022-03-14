@@ -82,8 +82,6 @@
 
 [PhotoView](https://github.com/Baseflow/PhotoView)
 
-[QRGen](https://github.com/kenglxn/QRGen)
-
 [SmartRefreshLayout](https://github.com/scwang90/SmartRefreshLayout)
 
 [StfalconImageViewer](https://github.com/stfalcon-studio/StfalconImageViewer)

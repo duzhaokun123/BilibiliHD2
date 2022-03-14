@@ -163,7 +163,6 @@ dependencies {
     implementation("androidx.multidex:multidex:2.0.1")
 
     //qr
-    implementation("com.github.kenglxn.QRGen:android:2.6.0")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 }
 
