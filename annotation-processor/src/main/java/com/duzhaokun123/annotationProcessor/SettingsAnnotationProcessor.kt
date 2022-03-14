@@ -64,7 +64,7 @@ class SettingsAnnotationProcessor : AbstractProcessor() {
                 """
                 |fun SharedPreferences.getStringAs$type(key: String, defValue: $type) =
                 |try {
-                | getString(key, "")!!.toInt()
+                | getString(key, "")!!.to$type()
                 |} catch (e: NumberFormatException) {
                 | defValue
                 |}
@@ -115,7 +115,7 @@ class SettingsAnnotationProcessor : AbstractProcessor() {
                 codeSb.append(
                     """
                     |var $name
-                    | get() = preferences.get$type("$name", $defaultValue)
+                    | get() = preferences.get$type("$name", $defaultValue)${"!!".takeIf { type == "StringSet" } ?: ""}
                     | set(value) {
                     |  preferences.edit().put$type("$name", value).apply()
                     | }

@@ -10,4 +10,42 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string-array name="danmaku_style_entries">
+        <item>DEFAULT</item>
+        <item>SHADOW</item>
+    </string-array>
+    <string-array name="danmaku_style_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="danmaku_block_by_place_entries">
+        <item>top</item>
+        <item>bottom</item>
+        <item>r2l</item>
+        <item>l2r</item>
+        <item>special</item>
+    </string-array>
+    <string-array name="danmaku_block_by_place_values">
+        <item>top</item>
+        <item>bottom</item>
+        <item>r2l</item>
+        <item>l2r</item>
+        <item>special</item>
+    </string-array>
+    <string-array name="danmaku_typeface_use_entries">
+        <item>DEFAULT</item>
+        <item>DEFAULT_BOLD</item>
+        <item>SERIF</item>
+        <item>SANS_SERIF</item>
+        <item>MONOSPACE</item>
+        <item>CUSTOM</item>
+    </string-array>
+    <string-array name="danmaku_typeface_use_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

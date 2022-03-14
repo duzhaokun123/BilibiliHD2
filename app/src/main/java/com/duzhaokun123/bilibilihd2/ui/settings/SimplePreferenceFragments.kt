@@ -3,13 +3,17 @@ package com.duzhaokun123.bilibilihd2.ui.settings
 import android.os.Bundle
 import androidx.annotation.XmlRes
 import androidx.fragment.app.activityViewModels
+import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import com.duzhaokun123.bilibilihd2.BuildConfig
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
+import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil
 import com.duzhaokun123.bilibilihd2.utils.DateFormat
 import com.duzhaokun123.bilibilihd2.utils.application
 import com.takisoft.preferencex.PreferenceFragmentCompat
+import com.takisoft.preferencex.SimpleMenuPreference
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 abstract class SimplePreferenceFragment(
     @XmlRes val preferencesResId: Int, val name: CharSequence,
@@ -77,5 +81,41 @@ class AboutFragment :
                 true
             }
         }
+    }
+}
+
+class DanmakuFragment :
+    SimplePreferenceFragment(R.xml.settings_danmaku, application.getText(R.string.danmaku)) {
+    override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
+        super.onCreatePreferencesFix(savedInstanceState, rootKey)
+        findPreference<Preference>("danmaku_sync")!!.setOnPreferenceClickListener {
+            DanmakuUtil.syncDanmakuSettings()
+            TipUtil.showTip(context, "已同步弹幕设置")
+            true
+        }
+        findPreference<MultiSelectListPreference>("danmakuBlockByPlace")!!.apply {
+            updateDanmakuBlockByPlaceSummary(this, values)
+            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, v ->
+                updateDanmakuBlockByPlaceSummary(this, v as Set<String>)
+                true
+            }
+        }
+        findPreference<SimpleMenuPreference>("danmakuStyle")!!.apply {
+            updateShadowVisibility(value == "1")
+            setOnPreferenceChangeListener { _, v ->
+                updateShadowVisibility(v == "1")
+                true
+            }
+        }
+    }
+
+    private fun updateDanmakuBlockByPlaceSummary(p: MultiSelectListPreference, v: Set<String>) {
+        p.summary = v.joinToString(", ")
+    }
+
+    private fun updateShadowVisibility(v: Boolean) {
+        findPreference<Preference>("danmakuShadowDx")!!.isVisible = v
+        findPreference<Preference>("danmakuShadowDy")!!.isVisible = v
+        findPreference<Preference>("danmakuShadowRadius")!!.isVisible = v
     }
 }

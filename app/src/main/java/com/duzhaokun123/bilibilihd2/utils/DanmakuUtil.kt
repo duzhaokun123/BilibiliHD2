@@ -1,9 +1,14 @@
 package com.duzhaokun123.bilibilihd2.utils
 
+import android.graphics.Typeface
 import android.util.Log
 import com.duzhaokun123.danmakuview.danmaku.*
 import com.duzhaokun123.danmakuview.interfaces.DanmakuBlocker
+import com.duzhaokun123.danmakuview.model.DanmakuConfig
 import com.duzhaokun123.danmakuview.ui.DanmakuView
+import com.duzhaokun123.generated.Settings
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import java.io.File
 
 object DanmakuUtil {
     private const val TAG = "DanmakuUtil"
@@ -27,62 +32,62 @@ object DanmakuUtil {
         }
     }
 
-//    fun syncDanmakuSettings() {
-//        danmakuConfig.blockers.add(ClassDanmakuBlocker)
-//        danmakuConfig.allowCovering = Settings.danmaku.allowDanmakuOverlapping
-//
-//        // TODO: 20-11-23 Settings.danmaku.isDuplicateMerging
-//        // TODO: 20-11-23 Settings.danmaku.maximumVisibleSizeInScreen
-//
-//        danmakuConfig.durationCoeff = Settings.danmaku.durationCoeff
-//
-//        when (Settings.danmaku.danmakuStyle) {
-//            0 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.DEFAULT
-//            1 -> {
-//                danmakuConfig.drawMode = DanmakuConfig.DrawMode.SHADOW
-//                danmakuConfig.shadowDx = Settings.danmaku.shadowDx
-//                danmakuConfig.shadowDy = Settings.danmaku.shadowDy
-//                danmakuConfig.shadowRadius = Settings.danmaku.shadowRadius
-//            }
-//        }
-//
-//        danmakuConfig.textSizeCoeff = Settings.danmaku.textSize
-//        danmakuConfig.lineHeight = Settings.danmaku.lineHeight
-//        danmakuConfig.marginTop = Settings.danmaku.marginTop
-//        danmakuConfig.marginBottom = Settings.danmaku.marginBottom
-//
-//        ClassDanmakuBlocker.reset()
-//        ClassDanmakuBlocker.apply {
-//            for (place in Settings.danmaku.blockByPlace) {
-//                when (place) {
-//                    "top" -> blockTop = true
-//                    "bottom" -> blockBottom = true
-//                    "r2l" -> blockR2L = true
-//                    "l2r" -> blockL2R = true
-//                    "special" -> blockSpecial = true
-//                }
-//            }
-//        }
-//        danmakuConfig.typeface =
-//                when (Settings.danmaku.typefaceUse) {
-//                    0 -> Typeface.DEFAULT
-//                    1 -> Typeface.DEFAULT_BOLD
-//                    2 -> Typeface.SERIF
-//                    3 -> Typeface.SANS_SERIF
-//                    4 -> Typeface.MONOSPACE
-//                    5-> {
-//                        try {
-//                            Typeface.createFromFile(File(Application.getInstance().filesDir, "font.ttf"))
-//                        } catch (e: Exception) {
-//                            e.printStackTrace()
-//                            TipUtil.showToast("自定义字体无效")
-//                            Typeface.DEFAULT
-//                        }
-//                    }
-//                    else -> Typeface.DEFAULT
-//                }
-//        // TODO: 20-11-23 其他配置
-//    }
+    fun syncDanmakuSettings() {
+        danmakuConfig.blockers.add(ClassDanmakuBlocker)
+        danmakuConfig.allowCovering = Settings.danmakuAllowDanmakuOverlapping
+
+        // TODO: 20-11-23 Settings.danmaku.isDuplicateMerging
+        // TODO: 20-11-23 Settings.danmaku.maximumVisibleSizeInScreen
+
+        danmakuConfig.durationCoeff = Settings.danmakuDurationCoeff
+
+        when (Settings.danmakuStyle) {
+            0 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.DEFAULT
+            1 -> {
+                danmakuConfig.drawMode = DanmakuConfig.DrawMode.SHADOW
+                danmakuConfig.shadowDx = Settings.danmakuShadowDx
+                danmakuConfig.shadowDy = Settings.danmakuShadowDy
+                danmakuConfig.shadowRadius = Settings.danmakuShadowRadius
+            }
+        }
+
+        danmakuConfig.textSizeCoeff = Settings.danmakuTextSize
+        danmakuConfig.lineHeight = Settings.danmakuLineHeight
+        danmakuConfig.marginTop = Settings.danmakuMarginTop
+        danmakuConfig.marginBottom = Settings.danmakuMarginBottom
+
+        ClassDanmakuBlocker.reset()
+        ClassDanmakuBlocker.apply {
+            for (place in Settings.danmakuBlockByPlace) {
+                when (place) {
+                    "top" -> blockTop = true
+                    "bottom" -> blockBottom = true
+                    "r2l" -> blockR2L = true
+                    "l2r" -> blockL2R = true
+                    "special" -> blockSpecial = true
+                }
+            }
+        }
+        danmakuConfig.typeface =
+                when (Settings.danmakuTypefaceUse) {
+                    0 -> Typeface.DEFAULT
+                    1 -> Typeface.DEFAULT_BOLD
+                    2 -> Typeface.SERIF
+                    3 -> Typeface.SANS_SERIF
+                    4 -> Typeface.MONOSPACE
+                    5-> {
+                        try {
+                            Typeface.createFromFile(File(application.filesDir, "font.ttf"))
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            TipUtil.showToast("自定义字体无效")
+                            Typeface.DEFAULT
+                        }
+                    }
+                    else -> Typeface.DEFAULT
+                }
+        // TODO: 20-11-23 其他配置
+    }
 
     object ClassDanmakuBlocker : DanmakuBlocker {
         var blockTop = false

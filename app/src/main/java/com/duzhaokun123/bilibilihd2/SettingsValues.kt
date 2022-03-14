@@ -29,3 +29,39 @@ val danmakuOnTop = false
 
 @SettingsValue
 val dynamicColor = false
+
+@SettingsValue
+val danmakuAllowDanmakuOverlapping = false
+
+@SettingsValue
+val danmakuDurationCoeff = 1F
+
+@SettingsValue(saveAsString = true)
+val danmakuStyle = 0
+
+@SettingsValue(saveAsString = true)
+val danmakuShadowDx = 0F
+
+@SettingsValue(saveAsString = true)
+val danmakuShadowDy = 0F
+
+@SettingsValue(saveAsString = true)
+val danmakuShadowRadius = 5F
+
+@SettingsValue(saveAsString = true)
+val danmakuTextSize = 1F
+
+@SettingsValue(saveAsString = true)
+val danmakuLineHeight = 40
+
+@SettingsValue(saveAsString = true)
+val danmakuMarginTop = 0
+
+@SettingsValue(saveAsString = true)
+val danmakuMarginBottom = 0
+
+@SettingsValue
+val danmakuBlockByPlace = StringSet()
+
+@SettingsValue(saveAsString = true)
+val danmakuTypefaceUse = 0

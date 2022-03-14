@@ -45,6 +45,7 @@ class Application : android.app.Application() {
         reinitUiMod()
         if (Settings.dynamicColor)
             DynamicColors.applyToActivitiesIfAvailable(this)
+        DanmakuUtil.syncDanmakuSettings()
 
         loadEmoteList()
     }

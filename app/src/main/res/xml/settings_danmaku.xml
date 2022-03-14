@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="danmaku_sync"
+        app:title="同步" />
+    <com.takisoft.preferencex.PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="弹幕设置">
+        <CheckBoxPreference
+            app:defaultValue="false"
+            app:iconSpaceReserved="false"
+            app:key="danmakuAllowDanmakuOverlapping"
+            app:title="弹幕重叠" />
+        <com.takisoft.preferencex.SimpleMenuPreference
+            app:defaultValue="0"
+            app:entries="@array/danmaku_style_entries"
+            app:entryValues="@array/danmaku_style_values"
+            app:iconSpaceReserved="false"
+            app:key="danmakuStyle"
+            app:title="弹幕模式"
+            app:useSimpleSummaryProvider="true" />
+
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="numberDecimal"
+            app:defaultValue="0"
+            app:iconSpaceReserved="false"
+            app:key="danmakuShadowDx"
+            app:title="ShadowDx"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="numberDecimal"
+            app:defaultValue="0"
+            app:iconSpaceReserved="false"
+            app:key="danmakuShadowDy"
+            app:title="ShadowDy"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="numberDecimal"
+            app:defaultValue="5"
+            app:iconSpaceReserved="false"
+            app:key="danmakuShadowRadius"
+            app:title="ShadowRadius"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="numberDecimal"
+            app:defaultValue="1"
+            app:iconSpaceReserved="false"
+            app:key="danmakuTextSize"
+            app:title="textSize"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="number"
+            app:defaultValue="40"
+            app:iconSpaceReserved="false"
+            app:key="danmakuLineHeight"
+            app:title="lineHeight"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="number"
+            app:defaultValue="0"
+            app:iconSpaceReserved="false"
+            app:key="danmakuMarginTop"
+            app:title="marginTop"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="number"
+            app:defaultValue="0"
+            app:iconSpaceReserved="false"
+            app:key="danmakuMarginBottom"
+            app:title="marginBottom"
+            app:useSimpleSummaryProvider="true" />
+        <MultiSelectListPreference
+            app:entries="@array/danmaku_block_by_place_entries"
+            app:entryValues="@array/danmaku_block_by_place_values"
+            app:iconSpaceReserved="false"
+            app:key="danmakuBlockByPlace"
+            app:title="blockByPlace" />
+        <com.takisoft.preferencex.SimpleMenuPreference
+            app:defaultValue="0"
+            app:entries="@array/danmaku_typeface_use_entries"
+            app:entryValues="@array/danmaku_typeface_use_values"
+            app:iconSpaceReserved="false"
+            app:key="danmakuTypefaceUse"
+            app:title="字体"
+            app:useSimpleSummaryProvider="true" />
+    </com.takisoft.preferencex.PreferenceCategory>
+</PreferenceScreen>
