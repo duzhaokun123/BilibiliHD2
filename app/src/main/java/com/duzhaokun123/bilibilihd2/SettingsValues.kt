@@ -49,6 +49,9 @@ val danmakuShadowDy = 0F
 val danmakuShadowRadius = 5F
 
 @SettingsValue(saveAsString = true)
+val danmakuStrokeWidth = 1F
+
+@SettingsValue(saveAsString = true)
 val danmakuTextSize = 1F
 
 @SettingsValue(saveAsString = true)

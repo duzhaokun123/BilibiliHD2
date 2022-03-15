@@ -86,6 +86,11 @@ class AboutFragment :
 
 class DanmakuFragment :
     SimplePreferenceFragment(R.xml.settings_danmaku, application.getText(R.string.danmaku)) {
+    companion object {
+        val shadows = arrayOf("1", "3")
+        val strokes = arrayOf("2", "3")
+    }
+
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferencesFix(savedInstanceState, rootKey)
         findPreference<Preference>("danmaku_sync")!!.setOnPreferenceClickListener {
@@ -101,9 +106,11 @@ class DanmakuFragment :
             }
         }
         findPreference<SimpleMenuPreference>("danmakuStyle")!!.apply {
-            updateShadowVisibility(value == "1")
+            updateShadowVisibility(value in shadows)
+            updateStrokeVisibility(value in strokes)
             setOnPreferenceChangeListener { _, v ->
-                updateShadowVisibility(v == "1")
+                updateShadowVisibility(v in shadows)
+                updateStrokeVisibility(v in strokes)
                 true
             }
         }
@@ -117,5 +124,9 @@ class DanmakuFragment :
         findPreference<Preference>("danmakuShadowDx")!!.isVisible = v
         findPreference<Preference>("danmakuShadowDy")!!.isVisible = v
         findPreference<Preference>("danmakuShadowRadius")!!.isVisible = v
+    }
+
+    private fun updateStrokeVisibility(v: Boolean) {
+        findPreference<Preference>("danmakuStrokeWidth")!!.isVisible = v
     }
 }

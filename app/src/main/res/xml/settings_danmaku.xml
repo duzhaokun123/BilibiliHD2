@@ -47,6 +47,13 @@
             android:inputType="numberDecimal"
             app:defaultValue="1"
             app:iconSpaceReserved="false"
+            app:key="danmakuStrokeWidth"
+            app:title="StrokeWidth"
+            app:useSimpleSummaryProvider="true" />
+        <com.takisoft.preferencex.EditTextPreference
+            android:inputType="numberDecimal"
+            app:defaultValue="1"
+            app:iconSpaceReserved="false"
             app:key="danmakuTextSize"
             app:title="textSize"
             app:useSimpleSummaryProvider="true" />

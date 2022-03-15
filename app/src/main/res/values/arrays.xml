@@ -13,10 +13,14 @@
     <string-array name="danmaku_style_entries">
         <item>DEFAULT</item>
         <item>SHADOW</item>
+        <item>STROKE</item>
+        <item>SHADOW_STROKE</item>
     </string-array>
     <string-array name="danmaku_style_values">
         <item>0</item>
         <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
     <string-array name="danmaku_block_by_place_entries">
         <item>top</item>

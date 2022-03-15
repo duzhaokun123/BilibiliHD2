@@ -39,7 +39,7 @@ dependencies {
     val exoplayerVersion = "2.13.3"
     api("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
     compileOnly("org.checkerframework:checker-qual:3.8.0")
-    api("androidx.media:media:1.4.3")
+    api("androidx.media:media:1.5.0")
 
-    api("com.github.duzhaokun123:DanmakuView:0.2.0")
+    api("com.github.duzhaokun123:DanmakuView:ed76ba7ad5")
 }

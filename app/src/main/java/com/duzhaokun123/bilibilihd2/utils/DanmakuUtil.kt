@@ -43,14 +43,14 @@ object DanmakuUtil {
 
         when (Settings.danmakuStyle) {
             0 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.DEFAULT
-            1 -> {
-                danmakuConfig.drawMode = DanmakuConfig.DrawMode.SHADOW
-                danmakuConfig.shadowDx = Settings.danmakuShadowDx
-                danmakuConfig.shadowDy = Settings.danmakuShadowDy
-                danmakuConfig.shadowRadius = Settings.danmakuShadowRadius
-            }
+            1 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.SHADOW
+            2 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.STROKE
+            3 -> danmakuConfig.drawMode = DanmakuConfig.DrawMode.SHADOW_STROKE
         }
-
+        danmakuConfig.shadowDx = Settings.danmakuShadowDx
+        danmakuConfig.shadowDy = Settings.danmakuShadowDy
+        danmakuConfig.shadowRadius = Settings.danmakuShadowRadius
+        danmakuConfig.stokeWidth = Settings.danmakuStrokeWidth
         danmakuConfig.textSizeCoeff = Settings.danmakuTextSize
         danmakuConfig.lineHeight = Settings.danmakuLineHeight
         danmakuConfig.marginTop = Settings.danmakuMarginTop
