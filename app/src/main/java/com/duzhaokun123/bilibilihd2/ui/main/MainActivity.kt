@@ -1,5 +1,7 @@
 package com.duzhaokun123.bilibilihd2.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,10 +13,12 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
 import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
 import com.duzhaokun123.bilibilihd2.ui.TestActivity
+import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -30,6 +34,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
     Config.LAYOUT_MATCH_HORI,
     Config.NO_BACK
 ) {
+
+    @IntentFilter
+    class MainActivityIntentFilter : UrlOpenActivity.IIntentFilter {
+        override fun handle(
+            parsedIntent: UrlOpenActivity.ParsedIntent, context: Context
+        ): Pair<Intent?, String?> {
+            if (parsedIntent.scheme != "bilibili") return null to null
+            if (parsedIntent.host in arrayOf("home", "root")) {
+                return Intent(context, MainActivity::class.java) to "main"
+            }
+            return null to null
+        }
+    }
 
     private lateinit var navController: NavController
 
