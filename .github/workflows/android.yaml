@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build_release:
     runs-on: ubuntu-latest
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
 
@@ -45,7 +45,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v2
         with:
-          name: BilibiliHD2_${{ env.VERSION }}.apk
+          name: BilibiliHD2_release_${{ env.VERSION }}.apk
           path: ${{ env.APK_FILE }}
       - name: Upload mapping.txt
         if: success()
@@ -66,3 +66,43 @@ jobs:
         run: |
           pip3 install lanzou-api --upgrade
           python3 script/upload_to_lanzou.py ${{ env.APK_FILE }}
+  build_debug:
+    runs-on: ubuntu-latest
+    if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Retrieve version
+        run: |
+          echo VERSION=$(echo ${{ github.event.head_commit.id }} | head -c 10) >> $GITHUB_ENV
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            !~/.gradle/caches/build-cache-*
+          key: gradle-deps-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-deps
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches/build-cache-*
+          key: gradle-builds-${{ github.sha }}
+          restore-keys: gradle-builds
+      - name: Build with Gradle
+        env:
+          REL_KEY: ${{ secrets.REL_KEY }}
+        run: |
+          bash ./gradlew assembleDebug
+      - name: Upload built apk
+        if: success()
+        uses: actions/upload-artifact@v2
+        with:
+          name: BilibiliHD2_debug_${{ env.VERSION }}.apk
+          path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
+      - name: Upload to JianGuonYun
+        run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD2/"
