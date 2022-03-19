@@ -105,4 +105,4 @@ jobs:
           name: BilibiliHD2_debug_${{ env.VERSION }}.apk
           path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
       - name: Upload to JianGuonYun
-        run: curl -T ${{ env.APK_FILE }} --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD2/"
+        run: curl -T ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk --user "${{ secrets.JG_USN }}:${{ secrets.JG_PSW }}" "https://dav.jianguoyun.com/dav/BilibiliHD2/"
