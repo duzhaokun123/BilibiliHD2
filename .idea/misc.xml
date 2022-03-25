@@ -6,10 +6,13 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.37395833333333334" />
         <entry key="../../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/drawable/ic_baseline_toys_24.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_downward.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_history_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_home_clickable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_launch.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/ic_outline_content_copy_24.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_share.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_toys_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />

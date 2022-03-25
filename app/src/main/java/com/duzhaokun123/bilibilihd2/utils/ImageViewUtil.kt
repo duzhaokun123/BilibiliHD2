@@ -1,6 +1,8 @@
 package com.duzhaokun123.bilibilihd2.utils
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.LayoutIvOverlayBinding
 import com.duzhaokun123.bilibilihd2.ui.BigImageViewActivity
 import com.stfalcon.imageviewer.StfalconImageViewer
+import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import java.io.File
 
 object ImageViewUtil {
@@ -45,24 +48,12 @@ object ImageViewUtil {
         overlayBinding.tb.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.share -> {
-                    runNewThread {
-                        val shareUri: Uri
-                        val srcFile = Glide.with(activity).asFile().load(imageUrls[position]).submit().get()
-                        val shareFile = File(
-                            activity.cacheDir,
-                            "shareImg${File.separatorChar}share.jpeg"
-                        ).apply { parentFile!!.mkdirs() } // FIXME: 20-11-2 你凭什么认为一定是 jpeg 格式
-                        srcFile.copyTo(shareFile, overwrite = true)
-                        shareUri = FileProvider.getUriForFile(
-                            activity,
-                            "com.duzhaokun123.bilibilihd2.fileprovider",
-                            shareFile
-                        )
+                    withShareImageUri(activity, imageUrls[position]) { uri ->
                         activity.startActivity(Intent.createChooser(Intent().apply {
                             action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_STREAM, shareUri)
+                            putExtra(Intent.EXTRA_STREAM, uri)
                             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            setDataAndType(shareUri, activity.contentResolver.getType(shareUri))
+                            setDataAndType(uri, activity.contentResolver.getType(uri))
                         }, activity.getText(R.string.share_to)))
                     }
                     true
@@ -77,6 +68,14 @@ object ImageViewUtil {
                 }
                 R.id.open -> {
                     BigImageViewActivity.enter(activity, imageUrls[position]!!)
+                    true
+                }
+                R.id.copy -> {
+                    withShareImageUri(activity, imageUrls[position]) { uri ->
+                        val clip = activity.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                        clip.setPrimaryClip(ClipData.newUri(activity.contentResolver, "image", uri))
+                        TipUtil.showToast("已复制到剪贴板")
+                    }
                     true
                 }
                 else -> false
@@ -101,5 +100,20 @@ object ImageViewUtil {
                 siv!!.updateTransitionImage(imageViews[position])
             }
             .show().also { siv = it }
+    }
+
+    private fun withShareImageUri(context: Context, url: String?, block: (Uri) -> Unit) {
+        url ?: return
+        runNewThread {
+            val file = Glide.with(context).asFile().load(url).submit().get()
+            val shareFile = File(
+                context.cacheDir, "shareImg${File.separatorChar}share.jpeg"
+            ).apply { parentFile!!.mkdirs() }
+            file.copyTo(shareFile, overwrite = true)
+            val shareUri = FileProvider.getUriForFile(
+                context, "com.duzhaokun123.bilibilihd2.fileprovider", shareFile
+            )
+            block(shareUri)
+        }
     }
 }

@@ -20,6 +20,12 @@
         app:iconTint="@android:color/white"
         app:showAsAction="always" />
     <item
+        android:id="@+id/copy"
+        android:icon="@drawable/ic_outline_content_copy_24"
+        android:title="@android:string/copy"
+        app:iconTint="@android:color/white"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/close"
         android:icon="@drawable/ic_clear"
         android:title="@string/close"
