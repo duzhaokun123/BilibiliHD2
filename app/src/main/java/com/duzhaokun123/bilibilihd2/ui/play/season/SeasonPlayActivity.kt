@@ -149,6 +149,9 @@ class SeasonPlayActivity : BasePlayActivity() {
                 biliPlayerView.playInfo = PlayInfo(
                     "$aid", "$aid", sources, danmakuParser, false
                 )
+                runMain {
+                    biliPlayerView.prepare()
+                }
             }
             .launch()
     }
