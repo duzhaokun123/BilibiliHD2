@@ -2,6 +2,8 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 
+val localProperties = gradleLocalProperties(rootDir)
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -35,6 +37,11 @@ android {
             "DONATE_LINK",
             "\"https://duzhaokun123.github.io/donate.html\""
         )
+
+        val appSecret = System.getenv("APP_SECRET")?.takeIf { it.isNotEmpty() }
+                ?: localProperties.getProperty("app.secret")?.takeIf { it.isNotEmpty() }
+                ?: ""
+        buildConfigField("String", "APP_SECRET", "\"$appSecret\"")
     }
     packagingOptions {
         resources.excludes.addAll( arrayOf(
@@ -69,7 +76,6 @@ android {
             }
         }
         getByName("debug") {
-            val localProperties = gradleLocalProperties(rootDir)
             val minifyEnabled = localProperties.getProperty("minify.enabled", "false")
             isMinifyEnabled = minifyEnabled.toBoolean()
             isShrinkResources = minifyEnabled.toBoolean()
@@ -164,6 +170,11 @@ dependencies {
 
     //qr
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //appcenter
+    val appCenterSdkVersion = "4.3.1"
+    implementation ("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
+    implementation ("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {

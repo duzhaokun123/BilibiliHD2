@@ -24,4 +24,13 @@
         app:iconSpaceReserved="false"
         app:title="@string/donate"
         app:key="donate" />
+    <com.takisoft.preferencex.SwitchPreferenceCompat
+        app:key="allowAnalytics"
+        app:title="AppCenter 匿名统计"
+        app:iconSpaceReserved="false"
+        app:summary="我们使用 Microsoft AppCenter 做匿名统计，以帮助我们更好的了解您的使用情况" />
+    <Preference
+        app:iconSpaceReserved="false"
+        app:key="about_analytics"
+        app:title="关于 AppCenter 匿名统计" />
 </PreferenceScreen>

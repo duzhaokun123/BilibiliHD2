@@ -11,6 +11,7 @@ import com.duzhaokun123.bilibilihd2.utils.EmoteMap
 import com.duzhaokun123.bilibilihd2.utils.startActivity
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
+import com.microsoft.appcenter.crashes.Crashes
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.runMain
@@ -70,6 +71,9 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
                     }
                 }
             }.show()
+        }
+        baseBinding.btnCrash.setOnClickListener {
+            Crashes.generateTestCrash()
         }
     }
 }

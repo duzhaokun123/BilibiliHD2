@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.ui.settings
 
 import android.os.Bundle
 import androidx.annotation.XmlRes
+import androidx.databinding.MergedDataBinderMapper
 import androidx.fragment.app.activityViewModels
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
@@ -11,6 +12,7 @@ import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import com.duzhaokun123.bilibilihd2.utils.DanmakuUtil
 import com.duzhaokun123.bilibilihd2.utils.DateFormat
 import com.duzhaokun123.bilibilihd2.utils.application
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.takisoft.preferencex.PreferenceFragmentCompat
 import com.takisoft.preferencex.SimpleMenuPreference
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
@@ -80,6 +82,15 @@ class AboutFragment :
                 BrowserUtil.openCustomTab(context, BuildConfig.DONATE_LINK)
                 true
             }
+        }
+        findPreference<Preference>("about_analytics")!!.setOnPreferenceClickListener {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("关于 Microsoft AppCenter")
+                .setMessage("若参与分析, 设备信息和应用信息(包括但不限于: Android API 版本, 设备型号, 语言所在地, 应用版本, 会话时长, 功能使用次数. 但不包括: 电话号码, IMEI)将被提交至 Microsoft AppCenter, 并且将被记录在本地文件中.\n"
+                )
+                .setPositiveButton(android.R.string.ok, null)
+                .show()
+            true
         }
     }
 }

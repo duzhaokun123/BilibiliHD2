@@ -4,6 +4,7 @@
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/duzhaokun123/BilibiliHD2/Android%20CI?style=flat-square&logo=github)](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml)
 ![Android SDK min 21](https://img.shields.io/badge/Android%20SDK-%3E%3D%2021-brightgreen?style=flat-square)
 ![Android SDK target 32](https://img.shields.io/badge/Android%20SDK-target%2032-brightgreen?style=flat-square)
+![AppCenter Analytics](https://img.shields.io/badge/AppCenter-Analytics-%23cb2e62?style=flat-square)
 
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
@@ -73,6 +74,8 @@
 ## 鸣谢
 
 [AOSP](https://source.android.com)
+
+[AppCenter](https://appcenter.ms)
 
 [DanmakuView](https://github.com/duzhaokun123/DanmakuView)
 

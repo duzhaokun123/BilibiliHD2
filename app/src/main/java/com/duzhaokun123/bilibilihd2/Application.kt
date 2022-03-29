@@ -11,10 +11,14 @@ import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import com.google.android.material.color.DynamicColors
 import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
+
 
 @Suppress("UNUSED")
 class Application : android.app.Application() {
@@ -40,6 +44,10 @@ class Application : android.app.Application() {
 
         //init
         Settings.init(this)
+        if (Settings.allowAnalytics) {
+            Settings.allowAnalytics = true
+            AppCenter.start(this, BuildConfig.APP_SECRET, Analytics::class.java, Crashes::class.java)
+        }
         UsersMap.reload()
         reinitBilibiliClient()
         reinitUiMod()

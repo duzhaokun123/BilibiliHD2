@@ -68,3 +68,6 @@ val danmakuBlockByPlace = StringSet()
 
 @SettingsValue(saveAsString = true)
 val danmakuTypefaceUse = 0
+
+@SettingsValue
+val allowAnalytics = true
