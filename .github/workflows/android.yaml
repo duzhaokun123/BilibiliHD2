@@ -35,6 +35,7 @@ jobs:
       - name: Build with Gradle
         env:
           REL_KEY: ${{ secrets.REL_KEY }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
         run: |
           bash ./gradlew assembleRelease
       - name: Rename
@@ -96,6 +97,7 @@ jobs:
       - name: Build with Gradle
         env:
           REL_KEY: ${{ secrets.REL_KEY }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
         run: |
           bash ./gradlew assembleDebug
       - name: Upload built apk
