@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import android.util.StatsLog.logEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -14,6 +15,7 @@ import androidx.annotation.RequiresApi
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
 import com.google.android.material.button.MaterialButton
+import com.microsoft.appcenter.analytics.Analytics
 import intentFilters
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
@@ -39,6 +41,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
     @SuppressLint("SetTextI18n")
     override fun initViews() {
         val uri = startIntent.data
+        Analytics.trackEvent("open url", mapOf("uri" to uri.toString()))
         if (uri == null) {
             Log.d(TAG, "uri == null")
             baseBinding.tv1.text = "uri == null"

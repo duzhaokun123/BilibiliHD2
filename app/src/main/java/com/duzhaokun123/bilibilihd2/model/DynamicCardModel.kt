@@ -4,6 +4,7 @@ import com.duzhaokun123.bilibilihd2.utils.gson
 import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.vc.model.DynamicHistory
 import com.hiczp.bilibili.api.vc.model.DynamicNew
+import com.microsoft.appcenter.analytics.Analytics
 
 const val TYPE_ERROR = -1
 
@@ -79,9 +80,13 @@ data class DynamicCardModel(
                     8 -> Type8.parse(gson.fromJson(json))
                     64 -> Type64.parse(gson.fromJson(json))
                     512 -> Type512.parse(gson.fromJson(json))
-                    else -> Any()
+                    else -> {
+                        Analytics.trackEvent("unknown dynamic card type", mapOf("json" to json))
+                        Any()
+                    }
                 }
             } catch (e: Exception) {
+                Analytics.trackEvent("parse dynamic card error", mapOf("json" to json, "error" to e.message))
                 TYPE_ERROR to TypeError(type, e.message, json)
             }
         }
