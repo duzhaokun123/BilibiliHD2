@@ -12,4 +12,9 @@
         android:id="@+id/item_retry"
         android:title="@string/retry"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/item_settings"
+        android:title="@string/settings"
+        app:showAsAction="never" />
 </menu>

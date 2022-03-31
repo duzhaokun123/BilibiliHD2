@@ -54,4 +54,6 @@
     <string name="send">发送</string>
     <string name="comment">评论</string>
     <string name="danmaku">弹幕</string>
+    <string name="play_pause_time">播放后台暂停时机</string>
+    <string name="play">播放</string>
 </resources>

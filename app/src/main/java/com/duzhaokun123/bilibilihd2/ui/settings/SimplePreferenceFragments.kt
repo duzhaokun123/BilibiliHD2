@@ -141,3 +141,6 @@ class DanmakuFragment :
         findPreference<Preference>("danmakuStrokeWidth")!!.isVisible = v
     }
 }
+
+class PlayFragment :
+    SimplePreferenceFragment(R.xml.settings_play, application.getText(R.string.play))

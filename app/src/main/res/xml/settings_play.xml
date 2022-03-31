@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.takisoft.preferencex.SimpleMenuPreference
+        android:title="@string/play_pause_time"
+        app:defaultValue="0"
+        app:entries="@array/play_pause_time_entries"
+        app:entryValues="@array/play_pause_time_values"
+        app:iconSpaceReserved="false"
+        app:key="playPauseTime"
+        app:useSimpleSummaryProvider="true" />
+</PreferenceScreen>

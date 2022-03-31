@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
+import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.duzhaokun123.generated.Settings
@@ -169,6 +170,10 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
                 biliPlayerView.player.prepare()
                 true
             }
+            R.id.item_settings -> {
+                startActivity<SettingsActivity>()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -182,24 +187,36 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     override fun onStart() {
         super.onStart()
         biliPlayerView.playerView.showController()
-        if (isPlayBeforeStop)
-            resume()
+        if (Settings.playPauseTime == 1) {
+            if (isPlayBeforeStop)
+                resume()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-        isPlayBeforeStop = biliPlayerView.player.playWhenReady
-        pause()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        biliPlayerView.playerView.onPause()
+        if (Settings.playPauseTime == 1) {
+            isPlayBeforeStop = biliPlayerView.player.playWhenReady
+            pause()
+        }
     }
 
     override fun onResume() {
         super.onResume()
         biliPlayerView.playerView.onResume()
+        if (Settings.playPauseTime == 0) {
+            if (isPlayBeforeStop)
+                resume()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        biliPlayerView.playerView.onPause()
+        if (Settings.playPauseTime == 0) {
+            isPlayBeforeStop = biliPlayerView.player.playWhenReady
+            pause()
+        }
     }
 
     fun start() {

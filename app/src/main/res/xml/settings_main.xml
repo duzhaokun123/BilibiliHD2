@@ -10,6 +10,9 @@
         app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.DanmakuFragment"
         app:title="@string/danmaku" />
     <Preference
+        app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.PlayFragment"
+        app:title="@string/play" />
+    <Preference
         app:fragment="com.duzhaokun123.bilibilihd2.ui.settings.BilibiliApiFragment"
         app:title="@string/bilibili_api" />
     <Preference

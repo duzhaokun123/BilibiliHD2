@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import android.util.StatsLog.logEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -98,6 +97,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
                 baseBinding.llTarget.addView(TextView(this).apply {
                     text = "不支持此链接"
                 })
+                Analytics.trackEvent("open unsupported url", mapOf("uri" to uri.toString()))
             }
         }
     }

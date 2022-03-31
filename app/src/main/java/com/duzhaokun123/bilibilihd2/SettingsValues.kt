@@ -71,3 +71,6 @@ val danmakuTypefaceUse = 0
 
 @SettingsValue
 val allowAnalytics = true
+
+@SettingsValue(saveAsString = true)
+val playPauseTime = 0

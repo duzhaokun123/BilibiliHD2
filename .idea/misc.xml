@@ -77,6 +77,7 @@
         <entry key="app/src/main/res/xml/settings_danmaku.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/xml/settings_main.xml" value="0.11710526315789474" />
+        <entry key="app/src/main/res/xml/settings_play.xml" value="0.22796052631578947" />
         <entry key="bili-player/src/main/res/layout/exo_player_view.xml" value="0.22861842105263158" />
         <entry key="bili-player/src/main/res/layout/exo_styled_player_view.xml" value="0.22861842105263158" />
         <entry key="bili-player/src/main/res/layout/player_control_view.xml" value="0.22796052631578947" />
