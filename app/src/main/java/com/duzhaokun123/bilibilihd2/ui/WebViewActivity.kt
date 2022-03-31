@@ -321,6 +321,11 @@ class WebViewActivity : BaseActivity<LayoutWebViewBinding>(R.layout.layout_web_v
         outContent.webUri = baseBinding.wv.url?.toUri()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        baseBinding.wv.destroy()
+    }
+
     class ConfigViewModel : ViewModel() {
         val ua = MutableLiveData<UA>()
         val interceptAll = MutableLiveData<Boolean>()

@@ -19,6 +19,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBaseRoot2Binding
+import com.microsoft.appcenter.analytics.Analytics
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
 
@@ -112,6 +113,11 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
             true
         } else
             super.onOptionsItemSelected(item)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        Analytics.trackEvent("LowMemory", mapOf("activity" to this::class.java.name))
     }
 
     @CallSuper

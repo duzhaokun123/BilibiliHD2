@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_outline_content_copy_24.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_outline_home_24.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_outline_toys_24.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_share.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_toys_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
@@ -72,7 +73,7 @@
         <entry key="app/src/main/res/menu/user_add_menu.xml" value="0.30234375" />
         <entry key="app/src/main/res/menu/web_view_activity.xml" value="0.11578947368421053" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.298" />
-        <entry key="app/src/main/res/xml/settings_about.xml" value="0.53671875" />
+        <entry key="app/src/main/res/xml/settings_about.xml" value="0.25" />
         <entry key="app/src/main/res/xml/settings_danmaku.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/xml/settings_display.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/xml/settings_main.xml" value="0.11710526315789474" />
