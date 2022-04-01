@@ -5,6 +5,9 @@ import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.vc.model.DynamicHistory
 import com.hiczp.bilibili.api.vc.model.DynamicNew
 import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
+import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog
+import kotlin.random.Random
 
 const val TYPE_ERROR = -1
 
@@ -80,13 +83,10 @@ data class DynamicCardModel(
                     8 -> Type8.parse(gson.fromJson(json))
                     64 -> Type64.parse(gson.fromJson(json))
                     512 -> Type512.parse(gson.fromJson(json))
-                    else -> {
-                        Analytics.trackEvent("unknown dynamic card type", mapOf("json" to json))
-                        Any()
-                    }
+                    else -> Any()
                 }
             } catch (e: Exception) {
-                Analytics.trackEvent("parse dynamic card error", mapOf("json" to json, "error" to e.message))
+                Crashes.trackError(e, mapOf("message" to e.message, "type" to type.toString()), listOf(ErrorAttachmentLog.attachmentWithBinary(json.toByteArray(),"json", "text/json")))
                 TYPE_ERROR to TypeError(type, e.message, json)
             }
         }

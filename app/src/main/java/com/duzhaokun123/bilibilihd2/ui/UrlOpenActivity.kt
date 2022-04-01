@@ -14,7 +14,10 @@ import androidx.annotation.RequiresApi
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
 import com.google.android.material.button.MaterialButton
+import com.microsoft.appcenter.Flags
 import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
+import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog
 import intentFilters
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
@@ -40,7 +43,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
     @SuppressLint("SetTextI18n")
     override fun initViews() {
         val uri = startIntent.data
-        Analytics.trackEvent("open url", mapOf("uri" to uri.toString()))
+        Analytics.trackEvent("open url")
         if (uri == null) {
             Log.d(TAG, "uri == null")
             baseBinding.tv1.text = "uri == null"
@@ -97,7 +100,9 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
                 baseBinding.llTarget.addView(TextView(this).apply {
                     text = "不支持此链接"
                 })
-                Analytics.trackEvent("open unsupported url", mapOf("uri" to uri.toString()))
+                Crashes.trackError(Exception(), mapOf("issue" to "open unsupported url"),
+                    listOf(ErrorAttachmentLog.attachmentWithText(uri.toString(), "uri"))
+                )
             }
         }
     }
