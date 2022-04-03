@@ -8,7 +8,6 @@ jobs:
   build_release:
     runs-on: ubuntu-latest
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
-
     steps:
       - uses: actions/checkout@v2
       - name: Setup JDK 11
@@ -48,7 +47,7 @@ jobs:
         with:
           name: BilibiliHD2_release_${{ env.VERSION }}.apk
           path: ${{ env.APK_FILE }}
-      - name: Upload mapping.txt
+      - name: Upload mapping.txt to GitHub
         if: success()
         uses: actions/upload-artifact@v2
         with:
@@ -67,10 +66,15 @@ jobs:
         run: |
           pip3 install lanzou-api --upgrade
           python3 script/upload_to_lanzou.py ${{ env.APK_FILE }}
+#      - name: Setup appcenter-cli
+#        run: |
+#          npm install -g appcenter-cli
+#      - name: Upload mapping.txt to AppCenter
+
+
   build_debug:
     runs-on: ubuntu-latest
     if: ${{ !startsWith(github.event.head_commit.message, '[skip ci]') }}
-
     steps:
       - uses: actions/checkout@v2
       - name: Setup JDK 11

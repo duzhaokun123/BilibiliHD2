@@ -288,16 +288,20 @@ class OnlinePlayActivity : BasePlayActivity() {
     }
 
     private fun setVideoPlayUrl(videoPlayUrl: VideoPlayUrl) {
+        if (videoPlayUrl.data.dash == null) {
+            TipUtil.showTip(this, "不支持的形式")
+            return
+        }
         val title = biliView!!.data.title
         val pageTitle = biliView!!.data.pages[page - 1].part
-        val hasAudio = videoPlayUrl.data.dash.audio != null
+        val hasAudio = videoPlayUrl.data.dash!!.audio != null
         val sources = mutableListOf<PlayInfo.Source>()
-        videoPlayUrl.data.dash.video.forEach { video ->
+        videoPlayUrl.data.dash!!.video.forEach { video ->
             val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(video.baseUrl))
             val audioSource =
                 if (hasAudio) ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash.audio!![0].baseUrl))
+                    .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl))
                 else null
             val mergedSource =
                 if (hasAudio) MergingMediaSource(videoSource, audioSource!!) else videoSource
@@ -317,7 +321,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             sources.add(
                 PlayInfo.Source("audio only",
                     ProgressiveMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash.audio!![0].baseUrl)),
+                        .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl)),
                     emptyList()
                 )
             )

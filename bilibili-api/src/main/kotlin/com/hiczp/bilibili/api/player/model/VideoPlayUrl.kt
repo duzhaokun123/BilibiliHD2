@@ -20,7 +20,7 @@ data class VideoPlayUrl(
             @SerializedName("accept_quality")
             var acceptQuality: List<Int>,
             @SerializedName("dash")
-            var dash: Dash,
+            var dash: Dash?,
             @SerializedName("fnval")
             var fnval: Int, // 16
             @SerializedName("fnver")
