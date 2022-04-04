@@ -3,6 +3,7 @@ package com.duzhaokun123.bilibilihd2.ui.play.online
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Rational
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -374,6 +375,15 @@ class OnlinePlayActivity : BasePlayActivity() {
         super.onDestroy()
         if (played)
             addHistory()
+    }
+
+    override fun getVideoRatioin(): Rational {
+        if (biliView == null)
+            return super.getVideoRatioin()
+        val page = biliView!!.data.pages[page - 1]
+        val width = page.dimension.width
+        val height = page.dimension.height
+        return Rational(width, height)
     }
 
     private fun addHistory() {

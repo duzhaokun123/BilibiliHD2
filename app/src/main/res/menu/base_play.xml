@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_pip"
+        android:icon="@drawable/ic_outline_picture_in_picture_alt_24"
+        android:title="PIP"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/item_share"
         android:icon="@drawable/ic_share"
         android:title="@string/share"

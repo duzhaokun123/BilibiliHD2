@@ -1,8 +1,10 @@
 package com.duzhaokun123.bilibilihd2.bases
 
+import android.app.PictureInPictureParams
 import android.app.assist.AssistContent
 import android.content.res.Configuration
 import android.os.Build
+import android.util.Rational
 import android.view.*
 import android.widget.FrameLayout
 import androidx.annotation.CallSuper
@@ -174,6 +176,12 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
                 startActivity<SettingsActivity>()
                 true
             }
+            R.id.item_pip -> {
+                if (isFullScreen.not())
+                    biliPlayerView.changeFullscreen()
+                enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(getVideoRatioin()).build())
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -313,6 +321,8 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     open fun onFirstPlay() {
 
     }
+
+    open fun getVideoRatioin() = Rational(16, 9)
 
     fun reinitLayout() {
         rootBinding.rootFl.removeAllViews()
