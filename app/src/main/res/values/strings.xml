@@ -56,4 +56,5 @@
     <string name="danmaku">弹幕</string>
     <string name="play_pause_time">播放后台暂停时机</string>
     <string name="play">播放</string>
+    <string name="play_settings">播放设置</string>
 </resources>

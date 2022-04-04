@@ -34,8 +34,7 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="4dp"
             android:layout_toStartOf="@id/tv_badge"
             android:layout_toEndOf="@id/iv"
             android:text="@{model.title}"
@@ -69,8 +68,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/iv"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
             android:background="@null"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:src="@drawable/ic_three_points" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator

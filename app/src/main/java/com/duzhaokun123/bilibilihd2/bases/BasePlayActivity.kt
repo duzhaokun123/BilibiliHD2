@@ -3,15 +3,13 @@ package com.duzhaokun123.bilibilihd2.bases
 import android.app.assist.AssistContent
 import android.content.res.Configuration
 import android.os.Build
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
+import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.core.graphics.Insets
 import androidx.core.net.toUri
 import androidx.core.view.*
@@ -20,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
+import com.duzhaokun123.bilibilihd2.ui.settings.PlayFragment
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
@@ -29,6 +28,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
@@ -290,6 +290,12 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
             windowInsetsControllerCompat.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         }
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        if ((window.decorView.isVisible || biliPlayerView.isPlaying).not())
+            finish()
     }
 
     open fun onNextClick() {}

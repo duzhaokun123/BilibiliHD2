@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUrlOpenBinding
 import com.google.android.material.button.MaterialButton
@@ -123,5 +124,11 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
     override fun onProvideAssistContent(outContent: AssistContent) {
         super.onProvideAssistContent(outContent)
         outContent.webUri = startIntent.data
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        if (window.decorView.isVisible.not())
+            finish()
     }
 }
