@@ -15,7 +15,11 @@ class DynamicHolderType0(context: Context) :
         contentBinding: DynamicCard0Binding, model: DynamicCardModel, typedCard: Any
     ) {
         contentBinding.btnReport.setOnClickListener {
-            TipUtil.showTip(context, "TODO")
+            MaterialAlertDialogBuilder(context)
+                .setTitle("回报")
+                .setMessage("去 GitHub 回报")
+                .setPositiveButton("行吧", null)
+                .show()
         }
     }
 

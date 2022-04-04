@@ -1,11 +1,13 @@
 package io.github.duzhaokun123.androidapptemplate.bases
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
@@ -141,5 +143,4 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
     open fun initViews() {}
     open fun initEvents() {}
     open fun initData() {}
-
 }
