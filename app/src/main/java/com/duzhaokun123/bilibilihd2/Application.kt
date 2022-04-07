@@ -1,7 +1,5 @@
 package com.duzhaokun123.bilibilihd2
 
-import android.os.Build
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
@@ -14,10 +12,14 @@ import com.hiczp.bilibili.api.BilibiliClientProperties
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
+import com.microsoft.appcenter.crashes.CrashesListener
+import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog
+import com.microsoft.appcenter.crashes.model.ErrorReport
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
+import java.lang.Exception
 
 
 @Suppress("UNUSED")
@@ -40,12 +42,30 @@ class Application : android.app.Application() {
 
     override fun onCreate() {
         super.onCreate()
-        logDeviceInfo()
 
         //init
         Settings.init(this)
         if (Settings.allowAnalytics) {
             Settings.allowAnalytics = true
+            Crashes.setListener(object : CrashesListener {
+                override fun shouldProcess(report: ErrorReport) = true
+
+                override fun shouldAwaitUserConfirmation() = false
+
+                override fun getErrorAttachments(report: ErrorReport): Iterable<ErrorAttachmentLog> {
+                    val process = Runtime.getRuntime().exec("logcat -d")
+                    val processOutput = process.inputStream.bufferedReader().readText()
+                    val re = mutableListOf(ErrorAttachmentLog.attachmentWithBinary(processOutput.toByteArray(), "logcat.txt", "text/plain"))
+                    re.add(ErrorAttachmentLog.attachmentWithBinary(report.stackTrace.toByteArray(), "stacktrace.txt", "text/plain"))
+                    return re
+                }
+
+                override fun onBeforeSending(report: ErrorReport) {}
+
+                override fun onSendingFailed(report: ErrorReport, e: Exception) {}
+
+                override fun onSendingSucceeded(report: ErrorReport) {}
+            })
             AppCenter.start(this, BuildConfig.APP_SECRET, Analytics::class.java, Crashes::class.java)
         }
         UsersMap.reload()
@@ -112,12 +132,5 @@ class Application : android.app.Application() {
                 }
                 TipUtil.showToast("加载表情列表成功 dynamic")
             }.launch()
-    }
-
-    fun logDeviceInfo() {
-        Log.d("BilibiliHD2", "DeviceInfo: System: ${Build.HOST}(Android ${Build.VERSION.RELEASE} SDK ${Build.VERSION.SDK_INT})")
-        Log.d("BilibiliHD2", "DeviceInfo: Model: ${Build.MODEL}(${Build.DEVICE})")
-        Log.d("BilibiliHD2", "DeviceInfo: CPU: ${Build.HARDWARE}(${Build.BOARD})")
-        Log.d("BilibiliHD2", "DeviceInfo: SupportedABIs: ${Build.SUPPORTED_ABIS.joinToString(", ")}")
     }
 }
