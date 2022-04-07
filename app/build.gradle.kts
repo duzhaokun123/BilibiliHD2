@@ -99,6 +99,7 @@ android {
     lint {
         abortOnError = false
     }
+    namespace = "com.duzhaokun123.bilibilihd2"
 }
 
 dependencies {
@@ -173,8 +174,10 @@ dependencies {
 
     //appcenter
     val appCenterSdkVersion = "4.3.1"
-    implementation ("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
-    implementation ("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
+    implementation("com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}")
+    implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {

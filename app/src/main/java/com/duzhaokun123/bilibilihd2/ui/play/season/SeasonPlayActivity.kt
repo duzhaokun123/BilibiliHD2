@@ -2,7 +2,6 @@ package com.duzhaokun123.bilibilihd2.ui.play.season
 
 import android.content.Context
 import android.content.Intent
-import android.os.SystemClock
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -18,7 +17,6 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.hiczp.bilibili.api.md5
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
@@ -80,7 +78,7 @@ class SeasonPlayActivity : BasePlayActivity() {
     override fun initData() {
         super.initData()
         layoutSeasonBinding.tvInfo.text = "ssid: $ssid, epid: $epid"
-        runIOCatching { bilibiliClient.mainAPI.season(ssid, epid).await() }
+        runIOCatching { SeasonAgent.seasonApi.season(ssid, epid).await() }
             .setCommonOnFailureHandler(this@SeasonPlayActivity)
             .onSuccessMain {
                 layoutSeasonBinding.tvResult.text = it.toString()
@@ -110,7 +108,7 @@ class SeasonPlayActivity : BasePlayActivity() {
     }
 
     fun load(aid: Long, cid: Long) {
-        runIOCatching { bilibiliClient.playerAPI.bangumiPlayUrl(aid, cid, session = SystemClock.uptimeMillis().toString().md5()).await() }
+        runIOCatching { SeasonAgent.seasonApi.bangumiPlayUrl(aid, cid).await() }
             .setCommonOnFailureHandler(this@SeasonPlayActivity)
             .onSuccess { playUrl ->
                 val hasAudio = playUrl.dash.audio != null

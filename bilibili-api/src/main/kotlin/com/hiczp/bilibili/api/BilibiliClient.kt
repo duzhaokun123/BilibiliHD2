@@ -316,7 +316,7 @@ class BilibiliClient(
     }
 
     private val sortAndSignInterceptor = SortAndSignInterceptor(billingClientProperties.appSecret)
-    private val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(logLevel)
+    val httpLoggingInterceptor = HttpLoggingInterceptor().setLevel(logLevel)
     private inline fun <reified T : Any> createAPI(
         baseUrl: String,
         vararg interceptors: Interceptor
@@ -338,9 +338,9 @@ class BilibiliClient(
 
     companion object {
         @Suppress("SpellCheckingInspection")
-        private val gsonConverterFactory = GsonConverterFactory.create()
-        private val coroutineCallAdapterFactory = CoroutineCallAdapterFactory()
-        private val connectionPool = ConnectionPool()
+        val gsonConverterFactory = GsonConverterFactory.create()
+        val coroutineCallAdapterFactory = CoroutineCallAdapterFactory()
+        val connectionPool = ConnectionPool()
         private val traceIdFormat = SimpleDateFormat("yyyyMMddHHmm000ss")
         private fun generateTraceId() = traceIdFormat.format(Date())
     }

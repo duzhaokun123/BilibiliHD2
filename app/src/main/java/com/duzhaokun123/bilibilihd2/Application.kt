@@ -72,6 +72,7 @@ class Application : android.app.Application() {
         bilibiliClient.loginResponse = UsersMap[uid]
         BrowserUtil.syncLoginResponseCookie()
         grpcClidet.rebuildChannel()
+        SeasonAgent.init("https://api.bilibili.com")
     }
 
     fun reinitUiMod(uiMod: Int = Settings.uiMod) {
