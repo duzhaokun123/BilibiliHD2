@@ -1,5 +1,6 @@
 package com.hiczp.bilibili.api
 
+import com.google.gson.Gson
 import com.hiczp.bilibili.api.app.AppAPI
 import com.hiczp.bilibili.api.danmaku.DanmakuAPI
 import com.hiczp.bilibili.api.live.LiveAPI
@@ -19,6 +20,7 @@ import com.hiczp.bilibili.api.vc.VcAPI
 import com.hiczp.bilibili.api.web.WebAPI
 import com.hiczp.bilibili.api.weblive.WebLiveAPI
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import io.github.duzhaokun123.lazyjson.retrofit2.converter.LazyjsonConverterFactory
 import okhttp3.ConnectionPool
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -251,7 +253,7 @@ class BilibiliClient(
     /**
      * Web 端接口
      */
-    val webAPI by lazy { createAPI<WebAPI>(BaseUrl.main, defaultCommonCookieInterceptor) }
+    val webAPI by lazy { createAPILazyjson<WebAPI>(BaseUrl.main, defaultCommonCookieInterceptor) }
 
     /**
      * Web 直播
@@ -336,9 +338,29 @@ class BilibiliClient(
         .build()
         .create(T::class.java)
 
+    private inline fun <reified T : Any> createAPILazyjson(
+        baseUrl: String,
+        vararg interceptors: Interceptor
+    ) = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(lazyjsonConverterFactory)
+        .addCallAdapterFactory(coroutineCallAdapterFactory)
+        .client(OkHttpClient.Builder().apply {
+            interceptors.forEach {
+                addInterceptor(it)
+            }
+            addInterceptor(sortAndSignInterceptor)
+            addInterceptor(FailureResponseInterceptor)
+            addNetworkInterceptor(httpLoggingInterceptor)
+            connectionPool(connectionPool)
+        }.build())
+        .build()
+        .create(T::class.java)
+
     companion object {
         @Suppress("SpellCheckingInspection")
         val gsonConverterFactory = GsonConverterFactory.create()
+        val lazyjsonConverterFactory = LazyjsonConverterFactory.create(Gson())
         val coroutineCallAdapterFactory = CoroutineCallAdapterFactory()
         val connectionPool = ConnectionPool()
         private val traceIdFormat = SimpleDateFormat("yyyyMMddHHmm000ss")

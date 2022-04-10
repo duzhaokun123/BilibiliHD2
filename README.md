@@ -99,6 +99,8 @@
 
 [gson](https://github.com/google/gson)
 
+[lazyjson](https://github.com/duzhaokun123/lazyjson)
+
 [preferencex-android](https://github.com/takisoft/preferencex-android)
 
 [zxing-android-embedded](https://github.com/journeyapps/zxing-android-embedded)

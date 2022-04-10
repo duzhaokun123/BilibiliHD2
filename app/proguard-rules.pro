@@ -17,3 +17,7 @@
 -keepnames class io.github.duzhaokun123.androidapptemplate.bases.BaseActivity {
     private androidx.databinding.ViewDataBinding baseBinding;
 }
+
+-keepclassmembers class * {
+    @io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom <methods>;
+}
