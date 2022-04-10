@@ -65,7 +65,7 @@ data class VideoPlayUrl(
 
             data class Video(
                     @SerializedName("backup_url")
-                    var backupUrl: List<String>,
+                    var backupUrl: List<String>?,
                     @SerializedName("bandwidth")
                     var bandwidth: Int, // 288340
                     @SerializedName("base_url")

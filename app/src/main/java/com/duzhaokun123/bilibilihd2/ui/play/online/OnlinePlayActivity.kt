@@ -307,7 +307,7 @@ class OnlinePlayActivity : BasePlayActivity() {
             val mergedSource =
                 if (hasAudio) MergingMediaSource(videoSource, audioSource!!) else videoSource
             val backups = mutableListOf<MediaSource>()
-            video.backupUrl.forEach { backup ->
+            video.backupUrl?.forEach { backup ->
                 val bv = ProgressiveMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(MediaItem.fromUri(backup))
                 val mb = if (hasAudio) MergingMediaSource(bv, audioSource!!) else bv

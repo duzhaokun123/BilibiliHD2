@@ -38,9 +38,11 @@ android {
             "\"https://duzhaokun123.github.io/donate.html\""
         )
 
-        val appSecret = System.getenv("APP_SECRET")?.takeIf { it.isNotEmpty() }
+        var appSecret = System.getenv("APP_SECRET")?.takeIf { it.isNotEmpty() }
                 ?: localProperties.getProperty("app.secret")?.takeIf { it.isNotEmpty() }
                 ?: ""
+        if (localProperties.getProperty("analytics.enabled", "true") != "true")
+            appSecret = ""
         buildConfigField("String", "APP_SECRET", "\"$appSecret\"")
     }
     packagingOptions {
@@ -166,8 +168,6 @@ dependencies {
 
     //grpc
     implementation(project(":grpc"))
-
-    implementation("androidx.multidex:multidex:2.0.1")
 
     //qr
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
