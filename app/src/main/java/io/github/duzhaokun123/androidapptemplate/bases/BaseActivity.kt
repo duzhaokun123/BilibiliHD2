@@ -1,19 +1,19 @@
 package io.github.duzhaokun123.androidapptemplate.bases
 
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.RelativeLayout
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -26,7 +26,7 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
 
 abstract class BaseActivity<BaseBinding : ViewDataBinding>(
-    @LayoutRes val layoutId: Int, vararg val configs: Config
+    @LayoutRes val layoutId: Int, vararg val configs: Config, @StyleRes val themeId: Int = R.style.Theme_BilibiliHD2_Base
 ) : AppCompatActivity() {
     enum class Config {
         NO_TOOL_BAR,
@@ -52,6 +52,7 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         isFirstCreate = savedInstanceState == null
+        setTheme(themeId)
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)

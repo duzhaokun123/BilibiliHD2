@@ -178,6 +178,9 @@ dependencies {
     implementation("com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    //core-splashscreen
+    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
