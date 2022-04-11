@@ -25,7 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.settings.SettingsActivity" />
-        <activity android:name=".ui.login.LoginActivity" />
         <activity
             android:name=".ui.WebViewActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|uiMode"

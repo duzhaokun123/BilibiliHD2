@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.FragmentUsersBinding
 import com.duzhaokun123.bilibilihd2.model.UserModel
-import com.duzhaokun123.bilibilihd2.ui.login.LoginActivity
 import com.duzhaokun123.bilibilihd2.ui.login.QRLoginActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
@@ -31,7 +30,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
                 setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.item_login -> {
-                            requireContext().startActivity<LoginActivity>()
+                            TipUtil.showTip(requireContext(), "不支持账户密码登录")
                         }
                         R.id.item_import -> {
                             importLoginResponse.launch(arrayOf("*/*"))
