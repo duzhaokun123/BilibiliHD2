@@ -11,8 +11,9 @@ import com.hiczp.bilibili.api.isEmpty
  *
  * @see com.hiczp.bilibili.api.live.model.RoomMessage
  */
+@JvmInline
 @Suppress("MemberVisibilityCanBePrivate")
-inline class DanmakuMessage(val data: JsonObject) {
+value class DanmakuMessage(val data: JsonObject) {
     inline val info: JsonArray
         get() = data.get("info").array
 

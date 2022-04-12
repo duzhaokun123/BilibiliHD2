@@ -3,5 +3,5 @@ include(":annotation-processor")
 include(":app")
 include("imageviewer")
 include(":grpc")
-includeBuild("bilibili-api")
+include("bilibili-api")
 rootProject.name = "Bilibili HD 2"

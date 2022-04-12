@@ -114,7 +114,7 @@ dependencies {
 //    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
 
     //bilibili-api
-    implementation("com.hiczp", "bilibili-api", "bilibiliHD")
+    implementation(project(":bilibili-api"))
 
     //preferencex
     implementation("androidx.preference:preference-ktx:1.2.0")
