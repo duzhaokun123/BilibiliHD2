@@ -12,7 +12,6 @@
     <color name="biliPink">#f97197</color>
     <color name="image_background">#E7E7E7</color>
     <color name="origin_card">#F4F4F4</color>
-    <color name="splash_background">@color/biliPink</color>
 
     <color name="primaryColor">#f97197</color>
     <color name="primaryLightColor">#ffa3c8</color>

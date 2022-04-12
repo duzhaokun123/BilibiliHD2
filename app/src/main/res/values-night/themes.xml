@@ -42,4 +42,8 @@
 
         <item name="filterChip">@style/Widget.Material3.Chip.Filter.Elevated</item>
     </style>
+
+    <style name="Theme.BilibiliHD2.Starting" parent="Theme.SplashScreen" >
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+    </style>
 </resources>
