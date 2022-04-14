@@ -83,7 +83,9 @@
             android:supportsPictureInPicture="true"
             tools:targetApi="n" />
         <activity android:name=".ui.scape.UserScapeActivity" />
-        <activity android:name=".ui.search.SearchActivity" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:theme="@style/Theme.BilibiliHD2.Base" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -98,7 +100,8 @@
         <activity android:name=".ui.BigImageViewActivity" />
         <activity
             android:name=".ui.SSOCodeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.BilibiliHD2.Base">
             <intent-filter>
                 <action android:name="tv.danmaku.bili.action.sso.authorize" />
                 <category android:name="android.intent.category.DEFAULT" />
