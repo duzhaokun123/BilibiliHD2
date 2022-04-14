@@ -2,11 +2,16 @@ package com.duzhaokun123.bilibilihd2.bases
 
 import android.app.PictureInPictureParams
 import android.app.assist.AssistContent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Configuration
+import android.media.AudioManager
 import android.os.Build
+import android.os.Bundle
 import android.util.Rational
 import android.view.*
-import android.widget.FrameLayout
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +25,6 @@ import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
-import com.duzhaokun123.bilibilihd2.ui.settings.PlayFragment
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.BiliPlayerView
@@ -30,7 +34,6 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
@@ -57,6 +60,18 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     private var coverUrl: String? = null
     var played = false
     private var isPlayBeforeStop = false
+    private val audioBecomingNoisyBroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
+                pause()
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        registerReceiver(audioBecomingNoisyBroadcastReceiver, IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY))
+    }
 
     @CallSuper
     override fun findViews() {
@@ -139,6 +154,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     override fun onDestroy() {
         super.onDestroy()
         biliPlayerView.destroy()
+        unregisterReceiver(audioBecomingNoisyBroadcastReceiver)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
