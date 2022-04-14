@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.settings
 
+import android.content.ActivityNotFoundException
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,6 +14,7 @@ import com.duzhaokun123.bilibilihd2.ui.login.QRLoginActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
@@ -33,7 +35,14 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
                             TipUtil.showTip(requireContext(), "不支持账户密码登录")
                         }
                         R.id.item_import -> {
-                            importLoginResponse.launch(arrayOf("*/*"))
+                            runCatching { importLoginResponse.launch(arrayOf("*/*")) }
+                                .onFailure {
+                                    if (it !is ActivityNotFoundException) throw it
+                                    MaterialAlertDialogBuilder(requireContext())
+                                        .setTitle("什么奇葩系统")
+                                        .setMessage("缺少支持 OPEN_DOCUMENT 的文件管理器\n这说明你的系统没有活动的 com.android.documentsui 或 com.google.android.documentsui \n责备你的 ROM 开发者或你自己")
+                                        .show()
+                                }
                         }
                         R.id.item_qr -> {
                             requireContext().startActivity<QRLoginActivity>()
