@@ -1,6 +1,5 @@
 package com.hiczp.bilibili.api.web
 
-import com.hiczp.bilibili.api.retrofit.CommonResponse
 import com.hiczp.bilibili.api.retrofit.interceptor.CommonResponseLazyjson
 import com.hiczp.bilibili.api.web.model.EmoteList
 import com.hiczp.bilibili.api.web.model.VideoShot

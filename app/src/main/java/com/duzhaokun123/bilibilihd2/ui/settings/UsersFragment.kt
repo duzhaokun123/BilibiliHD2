@@ -1,8 +1,6 @@
 package com.duzhaokun123.bilibilihd2.ui.settings
 
 import android.content.ActivityNotFoundException
-import android.os.Bundle
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
@@ -22,8 +20,40 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users) {
     private val model by activityViewModels<SettingsActivity.Model>()
 
-    private lateinit var exportLoginResponse: ActivityResultLauncher<String>
-    private lateinit var importLoginResponse: ActivityResultLauncher<Array<String>>
+    private var exportLoginResponse =
+        registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
+            if (uri == null) {
+                model.loginResponseToExport.value = null
+                return@registerForActivityResult
+            }
+            requireContext().contentResolver.openOutputStream(uri)?.writer()?.use { out ->
+                try {
+                    out.write(gson.toJson(model.loginResponseToExport.value))
+                    TipUtil.showTip(context, "导出成功")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    TipUtil.showTip(context, e.message)
+                } finally {
+                    model.loginResponseToExport.value = null
+                }
+            }
+        }
+    private var importLoginResponse =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri == null) return@registerForActivityResult
+            requireContext().contentResolver.openInputStream(uri)?.reader()?.use { `in` ->
+                try {
+                    UsersMap.put(gson.fromJson(`in`))
+                    UsersMap.save()
+                    baseBinding.rv.adapter =
+                        UsersAdapter(requireBaseActivity(), UsersMap.users.toMutableList())
+                    TipUtil.showTip(context, "导入成功")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    TipUtil.showTip(context, e.message)
+                }
+            }
+        }
 
     override fun initViews() {
         baseBinding.btnAdd.setOnClickListener {
@@ -40,7 +70,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
                                     if (it !is ActivityNotFoundException) throw it
                                     MaterialAlertDialogBuilder(requireContext())
                                         .setTitle("什么奇葩系统")
-                                        .setMessage("缺少支持 OPEN_DOCUMENT 的文件管理器\n这说明你的系统没有活动的 com.android.documentsui 或 com.google.android.documentsui \n责备你的 ROM 开发者或你自己")
+                                        .setMessage("缺少支持 OPEN_DOCUMENT 的文件管理器\n这说明你的系统甚至没有活动的 com.android.documentsui 或 com.google.android.documentsui \n责备你的 ROM 开发者或你自己")
                                         .show()
                                 }
                         }
@@ -80,44 +110,18 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
             if (uid != 0L)
                 selectUid(uid)
         }
-        model.loginResponseToExport.observe(this) {
-            if (it != null) exportLoginResponse.launch("loginResponse.json")
+        model.loginResponseToExport.observe(this) { loginResponse ->
+            if (loginResponse != null) {
+                runCatching { exportLoginResponse.launch("loginResponse.json") }
+                    .onFailure {
+                        if (it !is ActivityNotFoundException) throw it
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("什么奇葩系统")
+                            .setMessage("缺少支持 CREATE_DOCUMENT 的文件管理器\n这说明你的系统甚至没有活动的 com.android.documentsui 或 com.google.android.documentsui \n责备你的 ROM 开发者或你自己")
+                            .show()
+                    }
+            }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        exportLoginResponse =
-            registerForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
-                if (uri == null) return@registerForActivityResult
-                requireContext().contentResolver.openOutputStream(uri)?.writer()?.use { out ->
-                    try {
-                        out.write(gson.toJson(model.loginResponseToExport.value))
-                        TipUtil.showTip(context, "导出成功")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        TipUtil.showTip(context, e.message)
-                    } finally {
-                        model.loginResponseToExport.value = null
-                    }
-                }
-            }
-        importLoginResponse =
-            registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-                if (uri == null) return@registerForActivityResult
-                requireContext().contentResolver.openInputStream(uri)?.reader()?.use { `in` ->
-                    try {
-                        UsersMap.put(gson.fromJson(`in`))
-                        UsersMap.save()
-                        baseBinding.rv.adapter =
-                            UsersAdapter(requireBaseActivity(), UsersMap.users.toMutableList())
-                        TipUtil.showTip(context, "导入成功")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        TipUtil.showTip(context, e.message)
-                    }
-                }
-            }
     }
 
     override fun onResume() {

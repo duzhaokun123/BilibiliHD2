@@ -8,20 +8,33 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
         @LazyjsonFrom @JvmStatic fun from(jsonObject: JsonObject)  = VideoShot(jsonObject)
     }
     fun getJsonObject()  = jsonObject
-     val code: Double by lazy { jsonObject.get("code").asDouble }
-     val message: String by lazy { jsonObject.get("message").asString }
-     val ttl: Double by lazy { jsonObject.get("ttl").asDouble }
-     val data: Data by lazy { jsonObject.get("data").asData }
+    override fun toString()  = jsonObject.toString()
+     val code: Number
+        get() = jsonObject.get("code").asNumber
+     val message: String
+        get() = jsonObject.get("message").asString
+     val ttl: Number
+        get() = jsonObject.get("ttl").asNumber
+     val data: Data
+        get() = jsonObject.get("data").asData
     private val JsonElement.asData
         get() = Data(this.asJsonObject)
     class Data (private val jsonObject: JsonObject) {
         fun getJsonObject()  = jsonObject
-         val pvdata: String by lazy { jsonObject.get("pvdata").asString }
-         val imgXLen: Double by lazy { jsonObject.get("img_x_len").asDouble }
-         val imgYLen: Double by lazy { jsonObject.get("img_y_len").asDouble }
-         val imgXSize: Double by lazy { jsonObject.get("img_x_size").asDouble }
-         val imgYSize: Double by lazy { jsonObject.get("img_y_size").asDouble }
-         val image: List<String> by lazy { jsonObject.get("image").asJsonArray.map { it.asString } }
-         val index: List<Double> by lazy { jsonObject.get("index").asJsonArray.map { it.asDouble } }
+        override fun toString()  = jsonObject.toString()
+         val pvdata: String
+            get() = jsonObject.get("pvdata").asString
+         val imgXLen: Number
+            get() = jsonObject.get("img_x_len").asNumber
+         val imgYLen: Number
+            get() = jsonObject.get("img_y_len").asNumber
+         val imgXSize: Number
+            get() = jsonObject.get("img_x_size").asNumber
+         val imgYSize: Number
+            get() = jsonObject.get("img_y_size").asNumber
+         val image: List<String>
+            get() = jsonObject.get("image").asJsonArray.map { it.asString }
+         val index: List<Number>
+            get() = jsonObject.get("index").asJsonArray.map { it.asNumber }
     }
 }

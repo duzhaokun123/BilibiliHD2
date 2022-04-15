@@ -197,7 +197,7 @@ class BilibiliClient(
     val playerAPI: PlayerAPI by lazy {
         Retrofit.Builder()
             .baseUrl("https://bilibili.com")    //这里的 baseUrl 是没用的
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(lazyjsonConverterFactory)
             .addCallAdapterFactory(coroutineCallAdapterFactory)
             .client(OkHttpClient.Builder().apply {
                 addInterceptor(PlayerInterceptor(billingClientProperties) { loginResponse })
@@ -258,7 +258,7 @@ class BilibiliClient(
     /**
      * Web 直播
      */
-    val webLiveAPI by lazy { createAPI<WebLiveAPI>(BaseUrl.live, defaultCommonCookieInterceptor) }
+    val webLiveAPI by lazy { createAPILazyjson<WebLiveAPI>(BaseUrl.live, defaultCommonCookieInterceptor) }
 
     /**
      * 登陆

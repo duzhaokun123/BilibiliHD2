@@ -19,7 +19,7 @@ object SeasonAgent {
     fun init(url: String) {
         seasonApi = Retrofit.Builder()
             .baseUrl(url)
-            .addConverterFactory(BilibiliClient.gsonConverterFactory as Converter.Factory)
+            .addConverterFactory(BilibiliClient.lazyjsonConverterFactory as Converter.Factory)
             .addCallAdapterFactory(BilibiliClient.coroutineCallAdapterFactory as CallAdapter.Factory)
             .client(OkHttpClient.Builder().apply {
                 addInterceptor(PlayerInterceptor(bilibiliClient.billingClientProperties) { bilibiliClient.loginResponse })

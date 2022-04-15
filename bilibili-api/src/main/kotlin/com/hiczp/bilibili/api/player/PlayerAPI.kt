@@ -1,8 +1,7 @@
 package com.hiczp.bilibili.api.player
 
 import com.hiczp.bilibili.api.md5
-import com.hiczp.bilibili.api.player.model.BangumiPlayUrl
-import com.hiczp.bilibili.api.player.model.VideoPlayUrl
+import com.hiczp.bilibili.api.player.model.*
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

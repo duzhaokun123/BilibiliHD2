@@ -1,80 +1,94 @@
-package com.hiczp.bilibili.api.player.model
-
-import com.google.gson.annotations.SerializedName
-
-data class VideoPlayUrl(
-        @SerializedName("code")
-        var code: Int, // 0
-        @SerializedName("data")
-        var `data`: Data,
-        @SerializedName("message")
-        var message: String, // 0
-        @SerializedName("ttl")
-        var ttl: Int // 1
-) {
-    data class Data(
-            @SerializedName("accept_description")
-            var acceptDescription: List<String>,
-            @SerializedName("accept_format")
-            var acceptFormat: String, // flv_p60,flv720_p60,flv,flv720,flv480,flv360
-            @SerializedName("accept_quality")
-            var acceptQuality: List<Int>,
-            @SerializedName("dash")
-            var dash: Dash?,
-            @SerializedName("fnval")
-            var fnval: Int, // 16
-            @SerializedName("fnver")
-            var fnver: Int, // 0
-            @SerializedName("format")
-            var format: String, // flv480
-            @SerializedName("from")
-            var from: String, // local
-            @SerializedName("quality")
-            var quality: Int, // 32
-            @SerializedName("result")
-            var result: String, // suee
-            @SerializedName("seek_param")
-            var seekParam: String, // start
-            @SerializedName("seek_type")
-            var seekType: String, // offset
-            @SerializedName("timelength")
-            var timelength: Long, // 196367
-            @SerializedName("video_codecid")
-            var videoCodecid: Int, // 7
-            @SerializedName("video_project")
-            var videoProject: Boolean // true
-    ) {
-        data class Dash(
-                @SerializedName("audio")
-                var audio: List<Audio>?,
-                @SerializedName("video")
-                var video: List<Video>
-        ) {
-            data class Audio(
-                    @SerializedName("backup_url")
-                    var backupUrl: List<String>,
-                    @SerializedName("bandwidth")
-                    var bandwidth: Int, // 191246
-                    @SerializedName("base_url")
-                    var baseUrl: String, // http://101.75.242.10/upgcxcode/41/36/72913641/72913641-1-30280.m4s?expires=1550754000&platform=android&ssig=2eirz02lIhKUw--w26lpqQ&oi=1699214834&trid=e0d3ad6245d8432887eb12b71f29bb3e&nfb=maPYqpoel5MI3qOUX6YpRA==&nfc=1
-                    @SerializedName("codecid")
-                    var codecid: Int, // 0
-                    @SerializedName("id")
-                    var id: Int // 30280
-            )
-
-            data class Video(
-                    @SerializedName("backup_url")
-                    var backupUrl: List<String>?,
-                    @SerializedName("bandwidth")
-                    var bandwidth: Int, // 288340
-                    @SerializedName("base_url")
-                    var baseUrl: String, // http://60.12.119.68/upgcxcode/41/36/72913641/72913641-1-30011.m4s?expires=1550754000&platform=android&ssig=Ven-c2XaxfkQIoMkzuq7MQ&oi=1699214834&trid=e0d3ad6245d8432887eb12b71f29bb3e&nfb=maPYqpoel5MI3qOUX6YpRA==&nfc=1
-                    @SerializedName("codecid")
-                    var codecid: Int, // 12
-                    @SerializedName("id")
-                    var id: Int // 16
-            )
+package  com.hiczp.bilibili.api.player.model
+import com.google.gson.JsonObject
+import com.google.gson.JsonElement
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
+@LazyjsonClass class VideoPlayUrl (private val jsonObject: JsonObject) {
+    companion object   {
+        @LazyjsonFrom @JvmStatic fun from(jsonObject: JsonObject)  = VideoPlayUrl(jsonObject)
+    }
+    fun getJsonObject()  = jsonObject
+    override fun toString()  = jsonObject.toString()
+     val code: Number
+        get() = jsonObject.get("code").asNumber
+     val message: String
+        get() = jsonObject.get("message").asString
+     val ttl: Number
+        get() = jsonObject.get("ttl").asNumber
+     val data: Data
+        get() = jsonObject.get("data").asData
+    private val JsonElement.asData
+        get() = Data(this.asJsonObject)
+    class Data (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val quality: Number
+            get() = jsonObject.get("quality").asNumber
+         val format: String
+            get() = jsonObject.get("format").asString
+         val timelength: Number
+            get() = jsonObject.get("timelength").asNumber
+         val acceptFormat: String
+            get() = jsonObject.get("accept_format").asString
+         val acceptDescription: List<String>
+            get() = jsonObject.get("accept_description").asJsonArray.map { it.asString }
+         val acceptQuality: List<Number>
+            get() = jsonObject.get("accept_quality").asJsonArray.map { it.asNumber }
+         val videoCodecid: Number
+            get() = jsonObject.get("video_codecid").asNumber
+         val fnver: Number
+            get() = jsonObject.get("fnver").asNumber
+         val fnval: Number
+            get() = jsonObject.get("fnval").asNumber
+         val videoProject: Boolean
+            get() = jsonObject.get("video_project").asBoolean
+         val dash: Dash?
+            get() = jsonObject.get("dash")?.asDash
+        private val JsonElement.asDash
+            get() = Dash(this.asJsonObject)
+        class Dash (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val video: List<Video>
+                get() = jsonObject.get("video").asJsonArray.map { it.asVideo }
+             val audio: List<Audio>?
+                get() = jsonObject.get("audio")?.asJsonArray?.map { it.asAudio }
+            private val JsonElement.asVideo
+                get() = Video(this.asJsonObject)
+            class Video (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val id: Number
+                    get() = jsonObject.get("id").asNumber
+                 val baseUrl: String
+                    get() = jsonObject.get("base_url").asString
+                 val backupUrl: List<String>?
+                    get() = jsonObject.get("backup_url")?.asJsonArray?.map { it.asString }
+                 val bandwidth: Number
+                    get() = jsonObject.get("bandwidth").asNumber
+                 val codecid: Number
+                    get() = jsonObject.get("codecid").asNumber
+                 val size: Number
+                    get() = jsonObject.get("size").asNumber
+            }
+            private val JsonElement.asAudio
+                get() = Audio(this.asJsonObject)
+            class Audio (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val id: Number
+                    get() = jsonObject.get("id").asNumber
+                 val baseUrl: String
+                    get() = jsonObject.get("base_url").asString
+                 val backupUrl: List<String>
+                    get() = jsonObject.get("backup_url").asJsonArray.map { it.asString }
+                 val bandwidth: Number
+                    get() = jsonObject.get("bandwidth").asNumber
+                 val codecid: Number
+                    get() = jsonObject.get("codecid").asNumber
+                 val size: Number
+                    get() = jsonObject.get("size").asNumber
+            }
         }
     }
 }

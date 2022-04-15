@@ -14,12 +14,14 @@ class CommonResponseLazyjson(private val jsonObject: JsonObject) {
         fun from(jsonObject: JsonObject) = CommonResponseLazyjson(jsonObject)
     }
 
-    val code: Int by lazy { jsonObject.get("code").asInt }
-    val msg: String? by lazy { jsonObject.get("msg")?.asString }
-    val message: String? by lazy { jsonObject.get("message")?.asString }
-    val timestamp: Long by lazy { jsonObject.get("timestamp").asLong }
-    val data: JsonElement? by lazy { jsonObject.get("data") }
-    val tts: Int? by lazy { jsonObject.get("tts")?.asInt }
+    val code: Int get() = jsonObject.get("code").asInt
+    val msg: String? get() = jsonObject.get("msg")?.asString
+    val message: String? get() = jsonObject.get("message")?.asString
+    val timestamp: Long get() = jsonObject.get("timestamp").asLong
+    val data: JsonElement? get() = jsonObject.get("data")
+    val tts: Int? get() = jsonObject.get("tts")?.asInt
 
     fun toCommonResponse() = CommonResponse(code, msg, message, timestamp, data, tts)
+
+    override fun toString() = "CommonResponseLazyjson(code=$code, msg=$msg, message=$message, timestamp=$timestamp, data=$data, tts=$tts)"
 }

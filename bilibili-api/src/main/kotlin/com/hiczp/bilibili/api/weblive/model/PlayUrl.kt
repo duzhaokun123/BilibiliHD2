@@ -1,48 +1,62 @@
-package com.hiczp.bilibili.api.weblive.model
-
-
-import com.google.gson.annotations.SerializedName
-
-data class PlayUrl(
-    @SerializedName("code")
-    val code: Int, // 0
-    @SerializedName("data")
-    val `data`: Data,
-    @SerializedName("message")
-    val message: String, // 0
-    @SerializedName("ttl")
-    val ttl: Int // 1
-) {
-    data class Data(
-        @SerializedName("accept_quality")
-        val acceptQuality: List<String>,
-        @SerializedName("current_qn")
-        val currentQn: Int, // 3
-        @SerializedName("current_quality")
-        val currentQuality: Int, // 3
-        @SerializedName("durl")
-        val durl: List<Durl>,
-        @SerializedName("quality_description")
-        val qualityDescription: List<QualityDescription>
-    ) {
-        data class Durl(
-            @SerializedName("length")
-            val length: Int, // 0
-            @SerializedName("order")
-            val order: Int, // 1
-            @SerializedName("p2p_type")
-            val p2pType: Int, // 0
-            @SerializedName("stream_type")
-            val streamType: Int, // 0
-            @SerializedName("url")
-            val url: String // https://d1--cn-gotcha04.bilivideo.com/live-bvc/601131/live_14073662_bs_3699814_1500.flv?cdn=cn-gotcha04&expires=1602496530&len=0&oi=1939228219&pt=&qn=150&trid=e6540d81a5d04c2ea459c46ebe77472a&sigparams=cdn,expires,len,oi,pt,qn,trid&sign=20e4ac695fbdd1d11d5dac4f93caa783&ptype=0&src=9&sl=1&order=1
-        )
-
-        data class QualityDescription(
-            @SerializedName("desc")
-            val desc: String, // 原画
-            @SerializedName("qn")
-            val qn: Int // 4
-        )
+package  com.hiczp.bilibili.api.weblive.model
+import com.google.gson.JsonObject
+import com.google.gson.JsonElement
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
+@LazyjsonClass class PlayUrl (private val jsonObject: JsonObject) {
+    companion object   {
+        @LazyjsonFrom @JvmStatic fun from(jsonObject: JsonObject)  = PlayUrl(jsonObject)
+    }
+    fun getJsonObject()  = jsonObject
+    override fun toString()  = jsonObject.toString()
+     val code: Number
+        get() = jsonObject.get("code").asNumber
+     val message: String
+        get() = jsonObject.get("message").asString
+     val ttl: Number
+        get() = jsonObject.get("ttl").asNumber
+     val data: Data
+        get() = jsonObject.get("data").asData
+    private val JsonElement.asData
+        get() = Data(this.asJsonObject)
+    class Data (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val currentQuality: Number
+            get() = jsonObject.get("current_quality").asNumber
+         val acceptQuality: List<String>
+            get() = jsonObject.get("accept_quality").asJsonArray.map { it.asString }
+         val currentQn: Number
+            get() = jsonObject.get("current_qn").asNumber
+         val qualityDescription: List<QualityDescription>
+            get() = jsonObject.get("quality_description").asJsonArray.map { it.asQualityDescription }
+         val durl: List<Durl>
+            get() = jsonObject.get("durl").asJsonArray.map { it.asDurl }
+        private val JsonElement.asQualityDescription
+            get() = QualityDescription(this.asJsonObject)
+        class QualityDescription (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val qn: Number
+                get() = jsonObject.get("qn").asNumber
+             val desc: String
+                get() = jsonObject.get("desc").asString
+        }
+        private val JsonElement.asDurl
+            get() = Durl(this.asJsonObject)
+        class Durl (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val url: String
+                get() = jsonObject.get("url").asString
+             val length: Number
+                get() = jsonObject.get("length").asNumber
+             val order: Number
+                get() = jsonObject.get("order").asNumber
+             val streamType: Number
+                get() = jsonObject.get("stream_type").asNumber
+             val p2pType: Number
+                get() = jsonObject.get("p2p_type").asNumber
+        }
     }
 }
