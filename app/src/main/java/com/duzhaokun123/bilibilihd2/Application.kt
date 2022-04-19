@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
@@ -46,7 +47,7 @@ class Application : android.app.Application() {
         Settings.init(this)
         if (Settings.allowAnalytics) {
             Settings.allowAnalytics = true
-            if (BuildConfig.APP_SECRET.md5() != "e5850952136e5ac877db403944e3621c") {
+            if (BuildConfig.APP_SECRET.md5() != "a601348934a98cf5033b58097bd186f1") {
                 TipUtil.showToast("错误的 APP_SECRET")
             } else {
                 Crashes.setListener(object : CrashesListener {
