@@ -33,7 +33,7 @@
         app:defaultValue="false"
         app:iconSpaceReserved="false"
         app:key="dynamicColor"
-        app:summary="仅 Android 12 + 有效"
+        app:summary="应该仅 Android 12+ 有效"
         app:title="动态颜色" />
 
 </PreferenceScreen>

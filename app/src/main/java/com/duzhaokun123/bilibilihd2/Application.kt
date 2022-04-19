@@ -6,9 +6,9 @@ import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
-import com.google.android.material.color.DynamicColors
 import com.hiczp.bilibili.api.BilibiliClient
 import com.hiczp.bilibili.api.BilibiliClientProperties
+import com.hiczp.bilibili.api.md5
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -19,7 +19,6 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
-import java.lang.Exception
 
 
 @Suppress("UNUSED")
@@ -47,32 +46,36 @@ class Application : android.app.Application() {
         Settings.init(this)
         if (Settings.allowAnalytics) {
             Settings.allowAnalytics = true
-            Crashes.setListener(object : CrashesListener {
-                override fun shouldProcess(report: ErrorReport) = true
+            if (BuildConfig.APP_SECRET.md5() != "e5850952136e5ac877db403944e3621c") {
+                TipUtil.showToast("错误的 APP_SECRET")
+            } else {
+                Crashes.setListener(object : CrashesListener {
+                    override fun shouldProcess(report: ErrorReport) = true
 
-                override fun shouldAwaitUserConfirmation() = false
+                    override fun shouldAwaitUserConfirmation() = false
 
-                override fun getErrorAttachments(report: ErrorReport): Iterable<ErrorAttachmentLog> {
-                    val process = Runtime.getRuntime().exec("logcat -d")
-                    val processOutput = process.inputStream.bufferedReader().readText()
-                    val re = mutableListOf(ErrorAttachmentLog.attachmentWithBinary(processOutput.toByteArray(), "logcat.txt", "text/plain"))
-                    re.add(ErrorAttachmentLog.attachmentWithBinary(report.stackTrace.toByteArray(), "stacktrace.txt", "text/plain"))
-                    return re
-                }
+                    override fun getErrorAttachments(report: ErrorReport): Iterable<ErrorAttachmentLog> {
+                        val process = Runtime.getRuntime().exec("logcat -d")
+                        val processOutput = process.inputStream.bufferedReader().readText()
+                        val re = mutableListOf(ErrorAttachmentLog.attachmentWithBinary(processOutput.toByteArray(), "logcat.txt", "text/plain"))
+                        re.add(ErrorAttachmentLog.attachmentWithBinary(report.stackTrace.toByteArray(), "stacktrace.txt", "text/plain"))
+                        return re
+                    }
 
-                override fun onBeforeSending(report: ErrorReport) {}
+                    override fun onBeforeSending(report: ErrorReport) {}
 
-                override fun onSendingFailed(report: ErrorReport, e: Exception) {}
+                    override fun onSendingFailed(report: ErrorReport, e: Exception) {}
 
-                override fun onSendingSucceeded(report: ErrorReport) {}
-            })
-            AppCenter.start(this, BuildConfig.APP_SECRET, Analytics::class.java, Crashes::class.java)
+                    override fun onSendingSucceeded(report: ErrorReport) {}
+                })
+                AppCenter.start(this, BuildConfig.APP_SECRET, Analytics::class.java, Crashes::class.java)
+            }
         }
         UsersMap.reload()
         reinitBilibiliClient()
         reinitUiMod()
-        if (Settings.dynamicColor)
-            DynamicColors.applyToActivitiesIfAvailable(this)
+//        if (Settings.dynamicColor)
+//            DynamicColors.applyToActivitiesIfAvailable(this)
         DanmakuUtil.syncDanmakuSettings()
 
         loadEmoteList()

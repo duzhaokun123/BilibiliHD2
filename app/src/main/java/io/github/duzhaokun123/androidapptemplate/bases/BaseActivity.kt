@@ -21,6 +21,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBaseRoot2Binding
+import com.duzhaokun123.generated.Settings
+import com.google.android.material.color.DynamicColors
 import com.microsoft.appcenter.analytics.Analytics
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout
@@ -53,6 +55,8 @@ abstract class BaseActivity<BaseBinding : ViewDataBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         isFirstCreate = savedInstanceState == null
         setTheme(themeId)
+        if (Settings.dynamicColor)
+            DynamicColors.applyIfAvailable(this)
         super.onCreate(savedInstanceState)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
