@@ -195,7 +195,13 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             R.id.item_pip -> {
                 if (isFullScreen.not())
                     biliPlayerView.changeFullscreen()
-                enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(getVideoRatioin()).build())
+                runCatching {
+                    enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(getVideoRatioin()).build())
+                }.onFailure {
+                    runCatching { enterPictureInPictureMode() }
+                }.onFailure {
+                    TipUtil.showToast("系统不支持 PIP")
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
