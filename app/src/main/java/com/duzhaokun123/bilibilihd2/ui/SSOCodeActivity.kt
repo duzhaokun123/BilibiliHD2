@@ -4,16 +4,23 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
-class SSOCodeActivity: AppCompatActivity() {
+class SSOCodeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val t = StringBuilder().appendLine().appendLine(intent.toString())
-        intent.extras!!.let {
-            it.keySet().forEach { k ->
-                t.appendLine("$k: ${it.get(k)}")
+        try {
+            val t = StringBuilder().appendLine().appendLine(intent.toString())
+            intent.extras!!.let {
+                it.keySet().forEach { k ->
+                    t.appendLine("$k: ${it.get(k)}")
+                }
+                setContentView(TextView(this).apply {
+                    text = t
+                })
             }
-        setContentView(TextView(this).apply {
-            text = t
-        })
-    }}
+        } catch (e: Exception) {
+            setContentView(TextView(this).apply {
+                text = e.toString()
+            })
+        }
+    }
 }
