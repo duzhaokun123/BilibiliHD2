@@ -74,7 +74,7 @@ object BrowserUtil {
             return
         }
         for (url in loginResponse.data.cookieInfo.domains) {
-            for ((_, _, name, value) in loginResponse.data.cookieInfo.cookies) {
+            for ((_, /* _, */ name, value) in loginResponse.data.cookieInfo.cookies) {
                 cookieManager.setCookie(url, "$name=$value")
             }
             cookieManager.setCookie(url, "Domain=$url")

@@ -10,7 +10,7 @@ object UsersMap : HashMap<Long, LoginResponse>() {
         clear()
         for (v in Settings.users!!) {
             try {
-                gson.fromJson<LoginResponse>(v)
+                LoginResponse.from(gson.fromJson(v))
             } catch (e: Exception) {
                 TipUtil.showToast(e.message)
                 continue
@@ -25,7 +25,7 @@ object UsersMap : HashMap<Long, LoginResponse>() {
     fun save() {
         val usersSet = mutableSetOf<String>()
         users.forEach { u ->
-            usersSet.add(gson.toJson(u))
+            usersSet.add(gson.toJson(u.getJsonObject()))
         }
         Settings.users = usersSet
     }

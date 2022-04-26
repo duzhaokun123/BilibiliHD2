@@ -13,6 +13,7 @@ import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.hiczp.bilibili.api.passport.model.LoginResponse
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
@@ -28,7 +29,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
             }
             requireContext().contentResolver.openOutputStream(uri)?.writer()?.use { out ->
                 try {
-                    out.write(gson.toJson(model.loginResponseToExport.value))
+                    out.write(gson.toJson(model.loginResponseToExport.value!!.getJsonObject()))
                     TipUtil.showTip(context, "导出成功")
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -43,7 +44,7 @@ class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users
             if (uri == null) return@registerForActivityResult
             requireContext().contentResolver.openInputStream(uri)?.reader()?.use { `in` ->
                 try {
-                    UsersMap.put(gson.fromJson(`in`))
+                    UsersMap.put(LoginResponse(gson.fromJson(`in`)))
                     UsersMap.save()
                     baseBinding.rv.adapter =
                         UsersAdapter(requireBaseActivity(), UsersMap.users.toMutableList())

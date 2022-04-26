@@ -129,16 +129,16 @@ class QRLoginActivity: BaseActivity<ActivityQrLoginBinding>(R.layout.activity_qr
                                                 LoginResponse.Data(
                                                     LoginResponse.Data.CookieInfo(
                                                         listOf(
-                                                            LoginResponse.Data.CookieInfo.Cookie(expires, 0, Cookie.BILI_JCT, cookies[Cookie.BILI_JCT]!!),
-                                                            LoginResponse.Data.CookieInfo.Cookie(expires, 0, Cookie.DEDE_USER_ID, cookies[Cookie.DEDE_USER_ID]!!),
-                                                            LoginResponse.Data.CookieInfo.Cookie(expires, 0, Cookie.DEDE_USER_ID_CKMD5, cookies[Cookie.DEDE_USER_ID_CKMD5]!!),
-                                                            LoginResponse.Data.CookieInfo.Cookie(expires, 1, Cookie.SESSDATA, cookies[Cookie.SESSDATA]!!),
-                                                            LoginResponse.Data.CookieInfo.Cookie(expires, 0, Cookie.SID, cookies[Cookie.SID]!!),
+                                                            LoginResponse.Data.CookieInfo.Cookies(expires, /* 0, */ Cookie.BILI_JCT, cookies[Cookie.BILI_JCT]!!),
+                                                            LoginResponse.Data.CookieInfo.Cookies(expires, /* 0, */ Cookie.DEDE_USER_ID, cookies[Cookie.DEDE_USER_ID]!!),
+                                                            LoginResponse.Data.CookieInfo.Cookies(expires, /* 0, */ Cookie.DEDE_USER_ID_CKMD5, cookies[Cookie.DEDE_USER_ID_CKMD5]!!),
+                                                            LoginResponse.Data.CookieInfo.Cookies(expires, /* 1, */ Cookie.SESSDATA, cookies[Cookie.SESSDATA]!!),
+                                                            LoginResponse.Data.CookieInfo.Cookies(expires, /* 0, */ Cookie.SID, cookies[Cookie.SID]!!),
                                                         ),
                                                         listOf(".bilibili.com", ".biligame.com", ".bigfun.cn", ".bigfunapp.cn", ".dreamcast.hk")
-                                                    ), emptyList(), 0, LoginResponse.Data.TokenInfo(
+                                                    ), "", 0, LoginResponse.Data.TokenInfo(
                                                         accessKey, expires, uid, "null"
-                                                    ), "", ""
+                                                    )
                                                 ),0
                                             )
                                             bilibiliClient.loginResponse = loginResponse

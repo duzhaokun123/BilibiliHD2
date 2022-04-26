@@ -1,62 +1,126 @@
-package com.hiczp.bilibili.api.passport.model
+package  com.hiczp.bilibili.api.passport.model
 
-import com.google.gson.annotations.SerializedName
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.google.gson.JsonElement
 import com.hiczp.bilibili.api.getCookie
 import com.hiczp.bilibili.api.retrofit.Cookie
-import java.io.Serializable
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
 
-data class LoginResponse(
-    @SerializedName("code")
-    var code: Int, // 0
-    @SerializedName("message")
-    var message: String,
-    @SerializedName("data")
-    var `data`: Data,
-    @SerializedName("ts")
-    var ts: Long // 1550219689
-) : Serializable {
-    data class Data(
-        @SerializedName("cookie_info")
-        var cookieInfo: CookieInfo,
-        @SerializedName("sso")
-        var sso: List<String>,
-        @SerializedName("status")
-        var status: Int, // 0
-        @SerializedName("token_info")
-        var tokenInfo: TokenInfo,
-        @SerializedName("url")
-        var url: String,
-        @SerializedName("message")
-        var message: String
-    ) : Serializable {
-        data class CookieInfo(
-            @SerializedName("cookies")
-            var cookies: List<Cookie>,
-            @SerializedName("domains")
-            var domains: List<String>
-        ) : Serializable {
-            data class Cookie(
-                @SerializedName("expires")
-                var expires: Long, // 1552811689
-                @SerializedName("http_only")
-                var httpOnly: Int, // 1
-                @SerializedName("name")
-                var name: String, // SESSDATA
-                @SerializedName("value")
-                var value: String // 5ff9ba24%2C1552811689%2C04ae9421
-            ) : Serializable
+@LazyjsonClass
+class LoginResponse(private val jsonObject: JsonObject) {
+    companion object {
+        @LazyjsonFrom
+        @JvmStatic
+        fun from(jsonObject: JsonObject) = LoginResponse(jsonObject)
+    }
+    constructor(code: Number,message: String, data: Data,  ts: Long) : this(
+        JsonObject().apply {
+            addProperty("code", code)
+            add("data", data.getJsonObject())
+            addProperty("message", message)
+            addProperty("ts", ts)
+        }
+    )
+
+    fun getJsonObject() = jsonObject
+    override fun toString() = jsonObject.toString()
+    val code: Number
+        get() = jsonObject.get("code").asNumber
+    val data: Data
+        get() = jsonObject.get("data").asData
+    val message: String
+        get() = jsonObject.get("message").asString
+    val ts: Long
+        get() = jsonObject.get("ts").asLong
+    private val JsonElement.asData
+        get() = Data(this.asJsonObject)
+
+    class Data(private val jsonObject: JsonObject) {
+        constructor(cookieInfo: CookieInfo, message: String, status: Number, tokenInfo: TokenInfo) : this(JsonObject().apply {
+            add("cookie_info", cookieInfo.getJsonObject())
+            addProperty("message", message)
+            addProperty("status", status)
+            add("token_info", tokenInfo.getJsonObject())
+        })
+        fun getJsonObject() = jsonObject
+        override fun toString() = jsonObject.toString()
+        val cookieInfo: CookieInfo
+            get() = jsonObject.get("cookie_info").asCookieInfo
+        val message: String
+            get() = jsonObject.get("message").asString
+        val status: Number
+            get() = jsonObject.get("status").asNumber
+        val tokenInfo: TokenInfo
+            get() = jsonObject.get("token_info").asTokenInfo
+        val url: String
+            get() = jsonObject.get("url").asString
+        private val JsonElement.asCookieInfo
+            get() = CookieInfo(this.asJsonObject)
+
+        class CookieInfo(private val jsonObject: JsonObject) {
+            constructor(cookies: List<Cookies>, domains: List<String>) : this(JsonObject().apply {
+                add("cookies", cookies.fold(JsonArray()) { array, cookie ->
+                    array.add(cookie.getJsonObject())
+                    array
+                })
+                add("domains", domains.fold(JsonArray()) { array, domain ->
+                    array.add(domain)
+                    array
+                })
+            })
+            fun getJsonObject() = jsonObject
+            override fun toString() = jsonObject.toString()
+            val cookies: List<Cookies>
+                get() = jsonObject.get("cookies").asJsonArray.map { it.asCookies }
+            val domains: List<String>
+                get() = jsonObject.get("domains").asJsonArray.map { it.asString }
+            private val JsonElement.asCookies
+                get() = Cookies(this.asJsonObject)
+            class Cookies(private val jsonObject: JsonObject) {
+                constructor(expires: Long, name: String, value: String) : this(JsonObject().apply {
+                    addProperty("expires", expires)
+                    addProperty("name", name)
+                    addProperty("value", value)
+                })
+
+                fun getJsonObject() = jsonObject
+                override fun toString() = jsonObject.toString()
+                operator fun component1() = expires
+                operator fun component2() = name
+                operator fun component3() = value
+
+                val expires: Long
+                    get() = jsonObject.get("expires").asLong
+                val name: String
+                    get() = jsonObject.get("name").asString
+                val value: String
+                    get() = jsonObject.get("value").asString
+            }
         }
 
-        data class TokenInfo(
-            @SerializedName("access_token")
-            var accessToken: String, // fd0303ff75a6ec6b452c28f4d8621021
-            @SerializedName("expires_in")
-            var expiresIn: Long, // 2592000
-            @SerializedName("mid")
-            var mid: Long, // 20293030
-            @SerializedName("refresh_token")
-            var refreshToken: String // 6a333ebded3c3dbdde65d136b3190d21
-        ) : Serializable
+        private val JsonElement.asTokenInfo
+            get() = TokenInfo(this.asJsonObject)
+
+        class TokenInfo(private val jsonObject: JsonObject) {
+            constructor(accessToken: String, expiresIn: Long, mid: Long, refreshToken: String) : this(JsonObject().apply {
+                addProperty("access_token", accessToken)
+                addProperty("expires_in", expiresIn)
+                addProperty("mid", mid)
+                addProperty("refresh_token", refreshToken)
+            })
+            fun getJsonObject() = jsonObject
+            override fun toString() = jsonObject.toString()
+            val accessToken: String
+                get() = jsonObject.get("access_token").asString
+            val expiresIn: Long
+                get() = jsonObject.get("expires_in").asLong
+            val mid: Long
+                get() = jsonObject.get("mid").asLong
+            val refreshToken: String
+                get() = jsonObject.get("refresh_token").asString
+        }
     }
 
     //快捷方式

@@ -14,7 +14,6 @@ import com.hiczp.bilibili.api.player.PlayerInterceptor
 import com.hiczp.bilibili.api.retrofit.Cookie
 import com.hiczp.bilibili.api.retrofit.Header
 import com.hiczp.bilibili.api.retrofit.Param
-import com.hiczp.bilibili.api.retrofit.exception.BilibiliApiException
 import com.hiczp.bilibili.api.retrofit.interceptor.*
 import com.hiczp.bilibili.api.vc.VcAPI
 import com.hiczp.bilibili.api.web.WebAPI
@@ -27,11 +26,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.KeyFactory
-import java.security.spec.X509EncodedKeySpec
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.crypto.Cipher
 
 /**
  * 此类表示一个模拟的 Bilibili 客户端(Android), 所有调用由此开始.
@@ -106,7 +102,7 @@ class BilibiliClient(
      */
     @Suppress("SpellCheckingInspection")
     val passportAPI by lazy {
-        createAPI<PassportAPI>(BaseUrl.passport,
+        createAPILazyjson<PassportAPI>(BaseUrl.passport,
             defaultCommonHeaderInterceptor,
             CommonParamInterceptor(
                 Param.APP_KEY to { billingClientProperties.appKey },
@@ -259,49 +255,6 @@ class BilibiliClient(
      * Web 直播
      */
     val webLiveAPI by lazy { createAPILazyjson<WebLiveAPI>(BaseUrl.live, defaultCommonCookieInterceptor) }
-
-    /**
-     * 登陆
-     * v3 登陆接口会同时返回 cookies 和 token
-     * 如果要求验证码, 访问 data 中提供的 url 将打开一个弹窗, 里面会加载 js 并显示极验
-     * 极验会调用 https://api.geetest.com/ajax.php 上传滑动轨迹, 然后获得 validate 的值
-     * secCode 的值为 "$validate|jordan"
-     *
-     * @throws BilibiliApiException 用户名与密码不匹配(-629)或者需要验证码(极验)(-105)
-     */
-    @Throws(BilibiliApiException::class)
-    suspend fun login(
-        username: String, password: String,
-        //如果登陆请求返回了 "验证码错误!"(-105) 的结果, 那么下一次发送登陆请求就需要带上验证码
-        challenge: String? = null,
-        secCode: String? = null,
-        validate: String? = null
-    ): LoginResponse {
-        //取得 hash 和 RSA 公钥
-        val (hash, key) = passportAPI.getKey().await().data.let { data ->
-            data.hash to data.key.split('\n').filterNot { it.startsWith('-') }
-                .joinToString(separator = "")
-        }
-
-        //解析 RSA 公钥
-        val publicKey = X509EncodedKeySpec(Base64.getDecoder().decode(key)).let {
-            KeyFactory.getInstance("RSA").generatePublic(it)
-        }
-        //加密密码
-        //兼容 Android
-        val cipheredPassword = Cipher.getInstance("RSA/ECB/PKCS1Padding").apply {
-            init(Cipher.ENCRYPT_MODE, publicKey)
-        }.doFinal((hash + password).toByteArray()).let {
-            Base64.getEncoder().encode(it)
-        }.let {
-            String(it)
-        }
-
-        return passportAPI.login(username, cipheredPassword, challenge, secCode, validate).await()
-            .also {
-                this.loginResponse = it
-            }
-    }
 
     /**
      * 登出
