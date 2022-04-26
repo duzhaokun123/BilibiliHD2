@@ -1,9 +1,6 @@
 package com.hiczp.bilibili.api.vc
 
-import com.hiczp.bilibili.api.vc.model.AttentionList
-import com.hiczp.bilibili.api.vc.model.DynamicHistory
-import com.hiczp.bilibili.api.vc.model.DynamicNew
-import com.hiczp.bilibili.api.vc.model.DynamicNumber
+import com.hiczp.bilibili.api.vc.model.*
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query

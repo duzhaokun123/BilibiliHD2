@@ -10,7 +10,7 @@ object UsersMap : HashMap<Long, LoginResponse>() {
         clear()
         for (v in Settings.users!!) {
             try {
-                LoginResponse.from(gson.fromJson(v))
+                LoginResponse(gson.fromJson(v))
             } catch (e: Exception) {
                 TipUtil.showToast(e.message)
                 continue

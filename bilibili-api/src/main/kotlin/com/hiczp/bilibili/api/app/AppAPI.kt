@@ -3,6 +3,7 @@ package com.hiczp.bilibili.api.app
 import com.google.gson.JsonObject
 import com.hiczp.bilibili.api.app.model.*
 import com.hiczp.bilibili.api.retrofit.CommonResponse
+import com.hiczp.bilibili.api.retrofit.interceptor.CommonResponseLazyjson
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 import java.time.Instant
@@ -141,7 +142,7 @@ interface AppAPI {
             @Field("like") like: Int = 0,
             @Field("dislike") dislike: Int = 0,
             @Field("from") from: Int? = null
-    ): Deferred<CommonResponse>
+    ): Deferred<CommonResponseLazyjson>
 
     /**
      * 投币

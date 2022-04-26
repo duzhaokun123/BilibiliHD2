@@ -104,22 +104,16 @@ class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0
                     runMain {
                         layoutSendRootCommentBinding.etComment.setText("")
                         val loginResponse = bilibiliClient.loginResponse ?: return@runMain
+                        val rpid = it.data.rpid
+                        val face = it.data.reply.member.avatar
+                        val name = it.data.reply.member.uname
+                        val time = it.data.reply.ctime
+                        val mid = it.data.reply.member.mid
                         (baseModel.itemModel.value as? MutableList)?.add(0, RootCommentCardModel(
-                            UserModel(loginResponse.userId.toString(), loginResponse.userId, null),
-                            message, System.currentTimeMillis() / 1000, 0, 0, 0
+                            UserModel(name, mid.toLong(), face),
+                            message, time, 0, 0, rpid
                         ))
                         adapter?.notifyItemChanged(0)
-                        runIOCatching { bilibiliClient.appAPI.myInfo().await() }
-                            .setCommonOnFailureHandler(context)
-                            .onSuccess { myInfo ->
-                                runMain {
-                                    (baseModel.itemModel.value as? MutableList)?.set(0, RootCommentCardModel(
-                                        UserModel(myInfo.data.name, loginResponse.userId, myInfo.data.face),
-                                        message, System.currentTimeMillis() / 1000, 0, 0, 0
-                                    ))
-                                    adapter?.notifyItemChanged(0)
-                                }
-                            }.launch()
                     }
                 }.launch()
         }

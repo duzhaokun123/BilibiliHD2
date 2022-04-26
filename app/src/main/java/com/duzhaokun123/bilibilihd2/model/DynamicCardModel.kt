@@ -4,10 +4,8 @@ import com.duzhaokun123.bilibilihd2.utils.gson
 import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.vc.model.DynamicHistory
 import com.hiczp.bilibili.api.vc.model.DynamicNew
-import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.crashes.ingestion.models.ErrorAttachmentLog
-import kotlin.random.Random
 
 const val TYPE_ERROR = -1
 
@@ -34,7 +32,7 @@ data class DynamicCardModel(
                 val state = run {
                     val repost = card.desc.repost
                     val view = card.desc.view
-                    val comment = card.desc.comment
+                    val comment = card.desc.comment ?: 0
                     val like = card.desc.like
                     State(repost, view, comment, like)
                 }
@@ -61,7 +59,7 @@ data class DynamicCardModel(
                 val state = run {
                     val repost = card.desc.repost
                     val view = card.desc.view
-                    val comment = card.desc.comment
+                    val comment = card.desc.comment ?: 0
                     val like = card.desc.like
                     State(repost, view, comment, like)
                 }
@@ -181,7 +179,8 @@ data class DynamicCardModel(
             fun parse(dynamicCardType1: DynamicCardType1): Type1 {
                 val wishedOriginType = dynamicCardType1.item.origType
                 val originJson = dynamicCardType1.origin
-                val (originType, origin) = originJson?.let { parseTypedCard(wishedOriginType, it) } ?: 0 to Any()
+                val (originType, origin) = originJson?.let { parseTypedCard(wishedOriginType, it) }
+                    ?: (0 to Any())
                 val originUser = dynamicCardType1.originUser?.run {
                     val name = info.uname
                     val face = info.face

@@ -80,7 +80,7 @@ data class Relate(
     val url: String
 ) {
     companion object {
-        fun parse(biliRelates: Collection<BiliView.Data.Relate>): List<Relate> {
+        fun parse(biliRelates: Collection<BiliView.Data.Relates>): List<Relate> {
             val re = mutableListOf<Relate>()
             biliRelates.forEach { biliRelate ->
                 val title = biliRelate.title

@@ -134,7 +134,7 @@ class BilibiliClient(
      */
     @Suppress("SpellCheckingInspection")
     val appAPI by lazy {
-        createAPI<AppAPI>(
+        createAPILazyjson<AppAPI>(
             BaseUrl.app,
             defaultCommonHeaderInterceptor,
             defaultCommonParamInterceptor
@@ -146,7 +146,7 @@ class BilibiliClient(
      */
     @Suppress("SpellCheckingInspection")
     val mainAPI by lazy {
-        createAPI<MainAPI>(BaseUrl.main,
+        createAPILazyjson<MainAPI>(BaseUrl.main,
             CommonHeaderInterceptor(
                 //如果未登陆则没有 Display-ID
                 Header.DISPLAY_ID to { userId?.let { "$it-$initTime" } },
@@ -163,7 +163,7 @@ class BilibiliClient(
      */
     @Suppress("SpellCheckingInspection")
     val vcAPI by lazy {
-        createAPI<VcAPI>(BaseUrl.vc,
+        createAPILazyjson<VcAPI>(BaseUrl.vc,
             defaultCommonHeaderInterceptor,
             CommonParamInterceptor(*defaultCommonParamArray,
                 Param._DEVICE to { billingClientProperties.platform },

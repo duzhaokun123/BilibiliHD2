@@ -1,421 +1,720 @@
-package com.hiczp.bilibili.api.app.model
-
+package  com.hiczp.bilibili.api.app.model
+import com.google.gson.JsonObject
 import com.google.gson.JsonElement
-import com.google.gson.annotations.SerializedName
-
-data class HomePage(
-    @SerializedName("code")
-    var code: Int, // 0
-    @SerializedName("data")
-    var `data`: Data,
-    @SerializedName("message")
-    var message: String, // 0
-    @SerializedName("ttl")
-    var ttl: Int // 1
-) {
-    data class Data(
-        @SerializedName("config")
-        var config: Config,
-        @SerializedName("items")
-        var items: List<Item>
-    ) {
-        data class Item(
-            @SerializedName("ad_info")
-            var adInfo: AdInfo?,
-            @SerializedName("args")
-            var args: Args,
-            @SerializedName("cover_badge")
-            var coverBadge: String?, // 直播
-            @SerializedName("banner_item")
-            var bannerItem: List<BannerItem>,
-            @SerializedName("can_play")
-            var canPlay: Int, // 1
-            @SerializedName("card_goto")
-            var cardGoto: String, // av
-            @SerializedName("card_type")
-            var cardType: String, // small_cover_v2
-            @SerializedName("cover")
-            var cover: String, // http://i0.hdslb.com/bfs/archive/884e982379b32ef1dc3281e0da1864e62cf74cc3.jpg
-            @SerializedName("covers")
-            var covers: List<String>,
-            @SerializedName("cover_left_text_1")
-            var coverLeftText1: String, // 0:40
-            @SerializedName("cover_left_text_2")
-            var coverLeftText2: String, // 4万观看
-            @SerializedName("cover_left_text_3")
-            var coverLeftText3: String, // 45弹幕
-            @SerializedName("desc")
-            var desc: String, // 少年歌行11
-            @SerializedName("desc_button")
-            var descButton: DescButton,
-            @SerializedName("goto")
-            var goto: String, // av
-            @SerializedName("hash")
-            var hash: String, // 674069931701357536
-            @SerializedName("idx")
-            var idx: Long, // 1550559507
-            @SerializedName("official_icon")
-            var officialIcon: Int, // 17
-            @SerializedName("param")
-            var `param`: String, // 43804922
-            @SerializedName("player_args")
-            var playerArgs: PlayerArgs,
-            @SerializedName("rcmd_reason")
-            var rcmdReason: String, // 已关注
-            @SerializedName("rcmd_reason_style")
-            var rcmdReasonStyle: RcmdReasonStyle,
-            @SerializedName("three_point")
-            var threePoint: ThreePoint,
-            @SerializedName("three_point_v2")
-            var threePointV2: List<ThreePointV2>,
-            @SerializedName("title")
-            var title: String?, // 宇宙沙盘2娱乐，给地球加1000个月亮，先要准备好灭火器
-            @SerializedName("title_right_pic")
-            var titleRightPic: Int, // 14
-            @SerializedName("uri")
-            var uri: String, // bilibili://video/43804922?page=1&player_preload=%7B%22cid%22%3A76731390%2C%22expire_time%22%3A1550649542%2C%22file_info%22%3A%7B%22112%22%3A%5B%7B%22timelength%22%3A2012565%2C%22filesize%22%3A1416010611%7D%5D%2C%2216%22%3A%5B%7B%22timelength%22%3A2012565%2C%22filesize%22%3A72842412%7D%5D%2C%2232%22%3A%5B%7B%22timelength%22%3A2012565%2C%22filesize%22%3A163018544%7D%5D%2C%2264%22%3A%5B%7B%22timelength%22%3A2012565%2C%22filesize%22%3A360516756%7D%5D%2C%2280%22%3A%5B%7B%22timelength%22%3A2012565%2C%22filesize%22%3A540132030%7D%5D%7D%2C%22support_quality%22%3A%5B112%2C80%2C64%2C32%2C16%5D%2C%22support_formats%22%3A%5B%22hdflv2%22%2C%22flv%22%2C%22flv720%22%2C%22flv480%22%2C%22flv360%22%5D%2C%22support_description%22%3A%5B%22%E9%AB%98%E6%B8%85%201080P%2B%22%2C%22%E9%AB%98%E6%B8%85%201080P%22%2C%22%E9%AB%98%E6%B8%85%20720P%22%2C%22%E6%B8%85%E6%99%B0%20480P%22%2C%22%E6%B5%81%E7%95%85%20360P%22%5D%2C%22quality%22%3A32%2C%22video_codecid%22%3A7%2C%22video_project%22%3Atrue%2C%22fnver%22%3A0%2C%22fnval%22%3A16%2C%22dash%22%3A%7B%22video%22%3A%5B%7B%22id%22%3A16%2C%22base_url%22%3A%22http%3A%2F%2F58.243.177.135%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30015.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3D42OA30l6zhf_btPLBI8CGw%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A391965%2C%22codecid%22%3A7%7D%2C%7B%22id%22%3A32%2C%22base_url%22%3A%22http%3A%2F%2F60.12.119.69%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30032.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3Dx1acEg918HekzZ7feezBAA%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A878269%2C%22codecid%22%3A7%7D%2C%7B%22id%22%3A64%2C%22base_url%22%3A%22http%3A%2F%2F58.243.177.134%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30064.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3Dg2Ryt0_xwF-bQop6Bers1g%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A1947512%2C%22codecid%22%3A7%7D%2C%7B%22id%22%3A80%2C%22base_url%22%3A%22http%3A%2F%2F58.243.177.135%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30080.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3DCe4MJYd4Q8tb1zDiPZ2NPw%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A2920113%2C%22codecid%22%3A7%7D%2C%7B%22id%22%3A16%2C%22base_url%22%3A%22http%3A%2F%2F60.12.119.71%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30011.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3DtVLJ9Xy56D8zBIHQpeHnOA%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A289550%2C%22codecid%22%3A12%7D%2C%7B%22id%22%3A32%2C%22base_url%22%3A%22http%3A%2F%2F60.12.119.68%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30033.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3DU3bKyOYXHxJDPDsFyTSYRw%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A648003%2C%22codecid%22%3A12%7D%2C%7B%22id%22%3A64%2C%22base_url%22%3A%22http%3A%2F%2F60.12.119.69%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30066.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3DQmia_xv_261EEanMCMDLBg%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A1433063%2C%22codecid%22%3A12%7D%2C%7B%22id%22%3A80%2C%22base_url%22%3A%22http%3A%2F%2F60.12.119.70%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30077.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3D7KKLcfPoYOtggLt2B8OpSw%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A2147039%2C%22codecid%22%3A12%7D%2C%7B%22id%22%3A112%2C%22base_url%22%3A%22http%3A%2F%2Fupos-hz-mirrorwcsu.acgvideo.com%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30112.m4s%3Fe%3Dig8euxZM2rNcNbdlhoNvNC8BqJIzNbfqXBvEuENvNC8aNEVEtEvE9IMvXBvE2ENvNCImNEVEIj0Y2J_aug859r1qXg8xNEVE5XREto8GuFGv2U7SuxI72X6fTr859IB_%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026oi%3D1699214834%5Cu0026platform%3Dandroid%5Cu0026gen%3Dplayurl%5Cu0026uipk%3D5%5Cu0026os%3Dwcsu%5Cu0026nbs%3D1%5Cu0026deadline%3D1550653142%5Cu0026upsig%3Db1a2c5c4587c9d62c62328fd5fbf5e5d%22%2C%22bandwidth%22%3A5628680%2C%22codecid%22%3A7%7D%5D%2C%22audio%22%3A%5B%7B%22id%22%3A30280%2C%22base_url%22%3A%22http%3A%2F%2F58.243.177.131%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30280.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3DfoKPdZpezm90iRFrxXyj5A%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A167107%2C%22codecid%22%3A0%7D%2C%7B%22id%22%3A30216%2C%22base_url%22%3A%22http%3A%2F%2F222.161.224.6%2Fupgcxcode%2F90%2F13%2F76731390%2F76731390-1-30216.m4s%3Fexpires%3D1550652900%5Cu0026platform%3Dandroid%5Cu0026ssig%3Dfd9cXg9GDLF8Ci-EvSTuXQ%5Cu0026oi%3D1699214834%5Cu0026hfa%3D2120103141%5Cu0026hfb%3DNzUxMjI5MWJlMDBjMDY0YTQxNjFjMTJiYWE0MjEwYmQ%3D%5Cu0026trid%3D8fae8885111d4e9bacbcdf70a3021572%5Cu0026nfc%3D1%22%2C%22bandwidth%22%3A67216%2C%22codecid%22%3A0%7D%5D%7D%7D&player_width=1920&player_height=1080&player_rotate=0&trackid=all_3.shylf-ai-recsys-120.1550645942519.77
-            @SerializedName("mask")
-            var mask: Mask?,
-            @SerializedName("avatar")
-            var avatar: Avatar?
-        ) {
-            data class ThreePoint(
-                @SerializedName("dislike_reasons")
-                var dislikeReasons: List<DislikeReason>,
-                @SerializedName("feedbacks")
-                var feedbacks: List<Feedback>,
-                @SerializedName("watch_later")
-                var watchLater: Int // 1
-            ) {
-                data class DislikeReason(
-                    @SerializedName("id")
-                    var id: Int, // 1
-                    @SerializedName("name")
-                    var name: String // 不感兴趣
-                )
-
-                data class Feedback(
-                    @SerializedName("id")
-                    var id: Int, // 4
-                    @SerializedName("name")
-                    var name: String // 标题党/封面党
-                )
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
+@LazyjsonClass class HomePage (private val jsonObject: JsonObject) {
+    companion object   {
+        @LazyjsonFrom @JvmStatic fun from(jsonObject: JsonObject)  = HomePage(jsonObject)
+    }
+    fun getJsonObject()  = jsonObject
+    override fun toString()  = jsonObject.toString()
+     val code: Number
+        get() = jsonObject.get("code").asNumber
+     val message: String
+        get() = jsonObject.get("message").asString
+     val ttl: Number
+        get() = jsonObject.get("ttl").asNumber
+     val data: Data
+        get() = jsonObject.get("data").asData
+    private val JsonElement.asData
+        get() = Data(this.asJsonObject)
+    class Data (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val items: List<Items>
+            get() = jsonObject.get("items").asJsonArray.map { it.asItems }
+         val config: Config
+            get() = jsonObject.get("config").asConfig
+        private val JsonElement.asItems
+            get() = Items(this.asJsonObject)
+        class Items (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val cardType: String
+                get() = jsonObject.get("card_type").asString
+             val cardGoto: String
+                get() = jsonObject.get("card_goto").asString
+             val goto: String
+                get() = jsonObject.get("goto").asString
+             val param: String
+                get() = jsonObject.get("param").asString
+             val cover: String
+                get() = jsonObject.get("cover").asString
+             val title: String
+                get() = jsonObject.get("title").asString
+             val uri: String
+                get() = jsonObject.get("uri").asString
+             val threePoint: ThreePoint
+                get() = jsonObject.get("three_point").asThreePoint
+             val args: Args
+                get() = jsonObject.get("args").asArgs
+             val idx: Number
+                get() = jsonObject.get("idx").asNumber
+             val threePointV2: List<ThreePointV2>
+                get() = jsonObject.get("three_point_v2").asJsonArray.map { it.asThreePointV2 }
+             val trackId: String
+                get() = jsonObject.get("track_id").asString
+             val avatar: Avatar?
+                get() = jsonObject.get("avatar")?.asAvatar
+             val coverLeftText2: String
+                get() = jsonObject.get("cover_left_text_2").asString
+             val coverLeftText3: String
+                get() = jsonObject.get("cover_left_text_3").asString
+             val coverBadge: String?
+                get() = jsonObject.get("cover_badge")?.asString
+             val coverBadgeStyle: CoverBadgeStyle?
+                get() = jsonObject.get("cover_badge_style")?.asCoverBadgeStyle
+             val desc: String
+                get() = jsonObject.get("desc").asString
+             val bvid: String?
+                get() = jsonObject.get("bvid")?.asString
+             val descButton: DescButton?
+                get() = jsonObject.get("desc_button")?.asDescButton
+             val playerArgs: PlayerArgs?
+                get() = jsonObject.get("player_args")?.asPlayerArgs
+             val mask: Mask?
+                get() = jsonObject.get("mask")?.asMask
+             val coverLeftText1: String?
+                get() = jsonObject.get("cover_left_text_1")?.asString
+             val topRcmdReason: String?
+                get() = jsonObject.get("top_rcmd_reason")?.asString
+             val officialIcon: Number?
+                get() = jsonObject.get("official_icon")?.asNumber
+             val canPlay: Number?
+                get() = jsonObject.get("can_play")?.asNumber
+             val topRcmdReasonStyle: TopRcmdReasonStyle?
+                get() = jsonObject.get("top_rcmd_reason_style")?.asTopRcmdReasonStyle
+             val adInfo: AdInfo?
+                get() = jsonObject.get("ad_info")?.asAdInfo
+             val covers: List<String>
+                get() = jsonObject.get("covers").asJsonArray.map { it.asString }
+            private val JsonElement.asThreePoint
+                get() = ThreePoint(this.asJsonObject)
+            class ThreePoint (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val dislikeReasons: List<DislikeReasons>
+                    get() = jsonObject.get("dislike_reasons").asJsonArray.map { it.asDislikeReasons }
+                 val feedbacks: List<Feedbacks>?
+                    get() = jsonObject.get("feedbacks")?.asJsonArray?.map { it.asFeedbacks }
+                 val watchLater: Number?
+                    get() = jsonObject.get("watch_later")?.asNumber
+                private val JsonElement.asDislikeReasons
+                    get() = DislikeReasons(this.asJsonObject)
+                class DislikeReasons (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val id: Number
+                        get() = jsonObject.get("id").asNumber
+                     val name: String
+                        get() = jsonObject.get("name").asString
+                     val toast: String
+                        get() = jsonObject.get("toast").asString
+                }
+                private val JsonElement.asFeedbacks
+                    get() = Feedbacks(this.asJsonObject)
+                class Feedbacks (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val id: Number
+                        get() = jsonObject.get("id").asNumber
+                     val name: String
+                        get() = jsonObject.get("name").asString
+                     val toast: String
+                        get() = jsonObject.get("toast").asString
+                }
             }
-
-            data class PlayerArgs(
-                @SerializedName("aid")
-                var aid: Int, // 43804922
-                @SerializedName("cid")
-                var cid: Int // 76731390
-            )
-
-            data class Args(
-                @SerializedName("rid")
-                var rid: Int, // 17
-                @SerializedName("rname")
-                var rname: String, // 单机游戏
-                @SerializedName("tid")
-                var tid: Int, // 9264
-                @SerializedName("tname")
-                var tname: String, // 宇宙
-                @SerializedName("up_id")
-                var upId: Int, // 131565338
-                @SerializedName("up_name")
-                var upName: String // 的夏游戏模拟
-            )
-
-            data class AdInfo(
-                @SerializedName("ad_cb")
-                var adCb: String, // CMyzBBDInQwYl7+RAyAeKAEw6Ro46w5CHzE1NTA2NDU5NDI1MTlxMTcyYTIzYTU2YTE0NXE1NjFI97HNzZAtUgbmna3lt55aBua1meaxn2IG5Lit5Zu9aAFwAHiAgICA4ASAAQOIAQCSAQ4xMDEuNzEuMjQ1LjI0MpoBiwNhbGw6Y3BjX2Nyb3dkX3RhcmdldCxlY3BtOmRlZmF1bHQsY3BjVGFnRmlsdGVyOnVuZGVmaW5lZCxlbmhhbmNlQ3RyUUZhY3RvcjpkZWZhdWx0LGFkTWVjaGFuaXNtTW9uaXRvcjpvdGhlcixwbGF5cGFnZWN0cjpkaXNhYmxlLHVwX3JlY19mbG93X2NvbnRyb2w6dW5kZWZpbmVkLGJydXNoX2R1cGxpY2F0ZTpkZWZhdWx0LHBjdHJfY3BtOmNwbSxkZnhfc3BlY2lmaWNfcmF0aW86dW5kZWZpbmVkLHBjdHJfdjI6a2Fma2EsZHluYW1pY19mbG93X2NvbnRyb2w6c3BsaXQgdGhlIGZsb3cgYnkgbWlkLHBjdnI6ZGxkLGZyZXFMaW1pdDpkZWZhdWx0LHNtYWxsQ29uc3VtZVVuaXQ6ZnJlcUxpbWl0TG9vc2Usb3V0ZXJCZWF0SW5uZXI6ZW5hYmxlLG91dGVyUXVpdDpkZWZhdWx0LGZkc19ydHQ6ZGVmYXVsdKABHqgB4QSyASBXbHnmbpOszwTXdVHn7Ki/qhzsnkZKkYFNZgfpS815cLoBLmh0dHBzOi8vbS53ZWliby5jbi82MTkyODc3MjQyLzQzMzM1NDIxMjI4NzM3MTLCAYUBMzA3Ml8xNDI3Xzg0Nl83MjRfNDU3XzQ1MV80MzRfMzg1XzE3NF8xNTBfMTQ4XzE0OF8xNDhfMTQ4XzE0OF8xNDdfMTQ3XzE0N18xNDdfMTQ3XzE0N18xNDdfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOMoBANIBANgBJuABgIyNngLoAYCMjZ4C8AEA+AEegAICiAIAkgLlAjE4MDIyNl8xNTUwNTM0OTIxLDE5NjEzNV8xNTUwNTM0OTMxLDc3NzA3XzE1NTA1MzQ5MzgsMjAwMzkyXzE1NTA1MzUxNDUsMTc2NzgwXzE1NTA1MzUxNTMsMTgwMjI1XzE1NTA1MzUxNjYsMjA0MDMzXzE1NTA1MzUyMzMsMjAyNDQ5XzE1NTA1MzUyMzMsNzc3MjNfMTU1MDUzNTIzNywyMDA0MTNfMTU1MDUzNTI0MywxMDE3MDNfMTU1MDUzNTczOCwyMDAxNDFfMTU1MDU5MTE1MSwxOTU3MzlfMTU1MDU5MTE1NywxNzY3NDhfMTU1MDYwMTU5OSwyMDA0MTFfMTU1MDYwMTYwMCwxNTE2NTJfMTU1MDYwMTYxMCwxNTE2NTBfMTU1MDYwMTczNiwyMDI0NDVfMTU1MDYwMTc1MCwyMDUyNjBfMTU1MDYxOTAyNiwyMDUyNjNfMTU1MDYxOTAyN5gCrqCjBqAC8qUHqALu/gSwAp8EuAIAwAIAyAIA0AIA2AIA4gISLCzmna3lt54t5LiK5Z+O5Yy6
-                @SerializedName("card_index")
-                var cardIndex: Int, // 5
-                @SerializedName("card_type")
-                var cardType: Int, // 3
-                @SerializedName("client_ip")
-                var clientIp: String, // 101.71.245.242
-                @SerializedName("cm_mark")
-                var cmMark: Int, // 1
-                @SerializedName("creative_content")
-                var creativeContent: CreativeContent,
-                @SerializedName("creative_id")
-                var creativeId: Long, // 6578071
-                @SerializedName("creative_type")
-                var creativeType: Int, // 2
-                @SerializedName("extra")
-                var extra: Extra,
-                @SerializedName("index")
-                var index: Int, // 2
-                @SerializedName("is_ad")
-                var isAd: Boolean, // true
-                @SerializedName("is_ad_loc")
-                var isAdLoc: Boolean, // true
-                @SerializedName("request_id")
-                var requestId: String, // 1550645942519q172a23a56a145q561
-                @SerializedName("resource")
-                var resource: Int, // 1897
-                @SerializedName("source")
-                var source: Int // 1899
-            ) {
-                data class CreativeContent(
-                    @SerializedName("description")
-                    var description: String, // 恶搞·剪辑
-                    @SerializedName("image_md5")
-                    var imageMd5: String, // 23f4d623b4348e86890411f29688fb58
-                    @SerializedName("image_url")
-                    var imageUrl: String, // https://i0.hdslb.com/bfs/sycp/creative_img/201902/9097a17ff77a3dc03ea4b8841f46078f.jpg_640x400.jpg
-                    @SerializedName("title")
-                    var title: String, // 往老鼠洞里打氢气和氧气，场面瞬间失控
-                    @SerializedName("url")
-                    var url: String // https://cm.bilibili.com/cm/api/fees/wise/redirect?ad_cb=CMyzBBDInQwYl7%2BRAyAeKAEw6Ro46w5CHzE1NTA2NDU5NDI1MTlxMTcyYTIzYTU2YTE0NXE1NjFI97HNzZAtUgbmna3lt55aBua1meaxn2IG5Lit5Zu9aAFwAHiAgICA4ASAAQOIAQCSAQ4xMDEuNzEuMjQ1LjI0MpoBiwNhbGw6Y3BjX2Nyb3dkX3RhcmdldCxlY3BtOmRlZmF1bHQsY3BjVGFnRmlsdGVyOnVuZGVmaW5lZCxlbmhhbmNlQ3RyUUZhY3RvcjpkZWZhdWx0LGFkTWVjaGFuaXNtTW9uaXRvcjpvdGhlcixwbGF5cGFnZWN0cjpkaXNhYmxlLHVwX3JlY19mbG93X2NvbnRyb2w6dW5kZWZpbmVkLGJydXNoX2R1cGxpY2F0ZTpkZWZhdWx0LHBjdHJfY3BtOmNwbSxkZnhfc3BlY2lmaWNfcmF0aW86dW5kZWZpbmVkLHBjdHJfdjI6a2Fma2EsZHluYW1pY19mbG93X2NvbnRyb2w6c3BsaXQgdGhlIGZsb3cgYnkgbWlkLHBjdnI6ZGxkLGZyZXFMaW1pdDpkZWZhdWx0LHNtYWxsQ29uc3VtZVVuaXQ6ZnJlcUxpbWl0TG9vc2Usb3V0ZXJCZWF0SW5uZXI6ZW5hYmxlLG91dGVyUXVpdDpkZWZhdWx0LGZkc19ydHQ6ZGVmYXVsdKABHqgB4QSyASBXbHnmbpOszwTXdVHn7Ki%2FqhzsnkZKkYFNZgfpS815cLoBLmh0dHBzOi8vbS53ZWliby5jbi82MTkyODc3MjQyLzQzMzM1NDIxMjI4NzM3MTLCAYUBMzA3Ml8xNDI3Xzg0Nl83MjRfNDU3XzQ1MV80MzRfMzg1XzE3NF8xNTBfMTQ4XzE0OF8xNDhfMTQ4XzE0OF8xNDdfMTQ3XzE0N18xNDdfMTQ3XzE0N18xNDdfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOMoBANIBANgBJuABgIyNngLoAYCMjZ4C8AEA%2BAEegAICiAIAkgLlAjE4MDIyNl8xNTUwNTM0OTIxLDE5NjEzNV8xNTUwNTM0OTMxLDc3NzA3XzE1NTA1MzQ5MzgsMjAwMzkyXzE1NTA1MzUxNDUsMTc2NzgwXzE1NTA1MzUxNTMsMTgwMjI1XzE1NTA1MzUxNjYsMjA0MDMzXzE1NTA1MzUyMzMsMjAyNDQ5XzE1NTA1MzUyMzMsNzc3MjNfMTU1MDUzNTIzNywyMDA0MTNfMTU1MDUzNTI0MywxMDE3MDNfMTU1MDUzNTczOCwyMDAxNDFfMTU1MDU5MTE1MSwxOTU3MzlfMTU1MDU5MTE1NywxNzY3NDhfMTU1MDYwMTU5OSwyMDA0MTFfMTU1MDYwMTYwMCwxNTE2NTJfMTU1MDYwMTYxMCwxNTE2NTBfMTU1MDYwMTczNiwyMDI0NDVfMTU1MDYwMTc1MCwyMDUyNjBfMTU1MDYxOTAyNiwyMDUyNjNfMTU1MDYxOTAyN5gCrqCjBqAC8qUHqALu%2FgSwAp8EuAIAwAIAyAIA0AIA2AIA4gISLCzmna3lt54t5LiK5Z%2BO5Yy6
-                )
-
-                data class Extra(
-                    @SerializedName("card")
-                    var card: Card,
-                    @SerializedName("click_urls")
-                    var clickUrls: List<JsonElement>,
-                    @SerializedName("download_whitelist")
-                    var downloadWhitelist: List<JsonElement>,
-                    @SerializedName("open_whitelist")
-                    var openWhitelist: List<String>,
-                    @SerializedName("preload_landingpage")
-                    var preloadLandingpage: Int, // 0
-                    @SerializedName("report_time")
-                    var reportTime: Int, // 2000
-                    @SerializedName("sales_type")
-                    var salesType: Int, // 12
-                    @SerializedName("show_urls")
-                    var showUrls: List<JsonElement>,
-                    @SerializedName("special_industry")
-                    var specialIndustry: Boolean, // false
-                    @SerializedName("special_industry_tips")
-                    var specialIndustryTips: String,
-                    @SerializedName("use_ad_web_v2")
-                    var useAdWebV2: Boolean // true
-                ) {
-                    data class Card(
-                        @SerializedName("ad_tag")
-                        var adTag: String,
-                        @SerializedName("callup_url")
-                        var callupUrl: String, // sinaweibo://cardlist?containerid=102803&luicode=10000404&lfid=jixinshengbo_9999_001
-                        @SerializedName("card_type")
-                        var cardType: Int, // 3
-                        @SerializedName("covers")
-                        var covers: List<Cover>,
-                        @SerializedName("desc")
-                        var desc: String, // 恶搞·剪辑
-                        @SerializedName("jump_url")
-                        var jumpUrl: String, // https://cm.bilibili.com/cm/api/fees/wise/redirect?ad_cb=CMyzBBDInQwYl7%2BRAyAeKAEw6Ro46w5CHzE1NTA2NDU5NDI1MTlxMTcyYTIzYTU2YTE0NXE1NjFI97HNzZAtUgbmna3lt55aBua1meaxn2IG5Lit5Zu9aAFwAHiAgICA4ASAAQOIAQCSAQ4xMDEuNzEuMjQ1LjI0MpoBiwNhbGw6Y3BjX2Nyb3dkX3RhcmdldCxlY3BtOmRlZmF1bHQsY3BjVGFnRmlsdGVyOnVuZGVmaW5lZCxlbmhhbmNlQ3RyUUZhY3RvcjpkZWZhdWx0LGFkTWVjaGFuaXNtTW9uaXRvcjpvdGhlcixwbGF5cGFnZWN0cjpkaXNhYmxlLHVwX3JlY19mbG93X2NvbnRyb2w6dW5kZWZpbmVkLGJydXNoX2R1cGxpY2F0ZTpkZWZhdWx0LHBjdHJfY3BtOmNwbSxkZnhfc3BlY2lmaWNfcmF0aW86dW5kZWZpbmVkLHBjdHJfdjI6a2Fma2EsZHluYW1pY19mbG93X2NvbnRyb2w6c3BsaXQgdGhlIGZsb3cgYnkgbWlkLHBjdnI6ZGxkLGZyZXFMaW1pdDpkZWZhdWx0LHNtYWxsQ29uc3VtZVVuaXQ6ZnJlcUxpbWl0TG9vc2Usb3V0ZXJCZWF0SW5uZXI6ZW5hYmxlLG91dGVyUXVpdDpkZWZhdWx0LGZkc19ydHQ6ZGVmYXVsdKABHqgB4QSyASBXbHnmbpOszwTXdVHn7Ki%2FqhzsnkZKkYFNZgfpS815cLoBLmh0dHBzOi8vbS53ZWliby5jbi82MTkyODc3MjQyLzQzMzM1NDIxMjI4NzM3MTLCAYUBMzA3Ml8xNDI3Xzg0Nl83MjRfNDU3XzQ1MV80MzRfMzg1XzE3NF8xNTBfMTQ4XzE0OF8xNDhfMTQ4XzE0OF8xNDdfMTQ3XzE0N18xNDdfMTQ3XzE0N18xNDdfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOV8xMzlfMTM5XzEzOMoBANIBANgBJuABgIyNngLoAYCMjZ4C8AEA%2BAEegAICiAIAkgLlAjE4MDIyNl8xNTUwNTM0OTIxLDE5NjEzNV8xNTUwNTM0OTMxLDc3NzA3XzE1NTA1MzQ5MzgsMjAwMzkyXzE1NTA1MzUxNDUsMTc2NzgwXzE1NTA1MzUxNTMsMTgwMjI1XzE1NTA1MzUxNjYsMjA0MDMzXzE1NTA1MzUyMzMsMjAyNDQ5XzE1NTA1MzUyMzMsNzc3MjNfMTU1MDUzNTIzNywyMDA0MTNfMTU1MDUzNTI0MywxMDE3MDNfMTU1MDUzNTczOCwyMDAxNDFfMTU1MDU5MTE1MSwxOTU3MzlfMTU1MDU5MTE1NywxNzY3NDhfMTU1MDYwMTU5OSwyMDA0MTFfMTU1MDYwMTYwMCwxNTE2NTJfMTU1MDYwMTYxMCwxNTE2NTBfMTU1MDYwMTczNiwyMDI0NDVfMTU1MDYwMTc1MCwyMDUyNjBfMTU1MDYxOTAyNiwyMDUyNjNfMTU1MDYxOTAyN5gCrqCjBqAC8qUHqALu%2FgSwAp8EuAIAwAIAyAIA0AIA2AIA4gISLCzmna3lt54t5LiK5Z%2BO5Yy6
-                        @SerializedName("long_desc")
-                        var longDesc: String,
-                        @SerializedName("title")
-                        var title: String // 往老鼠洞里打氢气和氧气，场面瞬间失控
-                    ) {
-                        data class Cover(
-                            @SerializedName("url")
-                            var url: String // https://i0.hdslb.com/bfs/sycp/creative_img/201902/9097a17ff77a3dc03ea4b8841f46078f.jpg_640x400.jpg
-                        )
+            private val JsonElement.asArgs
+                get() = Args(this.asJsonObject)
+            class Args (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val upId: Number?
+                    get() = jsonObject.get("up_id")?.asNumber
+                 val upName: String?
+                    get() = jsonObject.get("up_name")?.asString
+                 val rid: Number?
+                    get() = jsonObject.get("rid")?.asNumber
+                 val rname: String?
+                    get() = jsonObject.get("rname")?.asString
+                 val tid: Number?
+                    get() = jsonObject.get("tid")?.asNumber
+                 val tname: String?
+                    get() = jsonObject.get("tname")?.asString
+                 val aid: Number?
+                    get() = jsonObject.get("aid")?.asNumber
+            }
+            private val JsonElement.asThreePointV2
+                get() = ThreePointV2(this.asJsonObject)
+            class ThreePointV2 (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val reasons: List<Reasons>?
+                    get() = jsonObject.get("reasons")?.asJsonArray?.map { it.asReasons }
+                 val type: String
+                    get() = jsonObject.get("type").asString
+                 val title: String?
+                    get() = jsonObject.get("title")?.asString
+                 val icon: String?
+                    get() = jsonObject.get("icon")?.asString
+                 val subtitle: String?
+                    get() = jsonObject.get("subtitle")?.asString
+                private val JsonElement.asReasons
+                    get() = Reasons(this.asJsonObject)
+                class Reasons (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val id: Number
+                        get() = jsonObject.get("id").asNumber
+                     val name: String
+                        get() = jsonObject.get("name").asString
+                     val toast: String
+                        get() = jsonObject.get("toast").asString
+                }
+            }
+            private val JsonElement.asAvatar
+                get() = Avatar(this.asJsonObject)
+            class Avatar (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val cover: String
+                    get() = jsonObject.get("cover").asString
+                 val type: Number?
+                    get() = jsonObject.get("type")?.asNumber
+                 val uri: String?
+                    get() = jsonObject.get("uri")?.asString
+                 val event: String?
+                    get() = jsonObject.get("event")?.asString
+                 val eventV2: String?
+                    get() = jsonObject.get("event_v2")?.asString
+                 val upId: Number?
+                    get() = jsonObject.get("up_id")?.asNumber
+            }
+            private val JsonElement.asCoverBadgeStyle
+                get() = CoverBadgeStyle(this.asJsonObject)
+            class CoverBadgeStyle (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val text: String
+                    get() = jsonObject.get("text").asString
+                 val textColor: String
+                    get() = jsonObject.get("text_color").asString
+                 val bgColor: String
+                    get() = jsonObject.get("bg_color").asString
+                 val borderColor: String
+                    get() = jsonObject.get("border_color").asString
+                 val textColorNight: String
+                    get() = jsonObject.get("text_color_night").asString
+                 val bgColorNight: String
+                    get() = jsonObject.get("bg_color_night").asString
+                 val borderColorNight: String
+                    get() = jsonObject.get("border_color_night").asString
+                 val bgStyle: Number
+                    get() = jsonObject.get("bg_style").asNumber
+            }
+            private val JsonElement.asDescButton
+                get() = DescButton(this.asJsonObject)
+            class DescButton (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val text: String
+                    get() = jsonObject.get("text").asString
+                 val uri: String
+                    get() = jsonObject.get("uri").asString
+                 val event: String
+                    get() = jsonObject.get("event").asString
+                 val type: Number
+                    get() = jsonObject.get("type").asNumber
+                 val eventV2: String
+                    get() = jsonObject.get("event_v2").asString
+            }
+            private val JsonElement.asPlayerArgs
+                get() = PlayerArgs(this.asJsonObject)
+            class PlayerArgs (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val aid: Number
+                    get() = jsonObject.get("aid").asNumber
+                 val cid: Number
+                    get() = jsonObject.get("cid").asNumber
+                 val type: String
+                    get() = jsonObject.get("type").asString
+                 val duration: Number
+                    get() = jsonObject.get("duration").asNumber
+            }
+            private val JsonElement.asMask
+                get() = Mask(this.asJsonObject)
+            class Mask (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val avatar: Avatar
+                    get() = jsonObject.get("avatar").asAvatar
+                 val button: Button
+                    get() = jsonObject.get("button").asButton
+                private val JsonElement.asAvatar
+                    get() = Avatar(this.asJsonObject)
+                class Avatar (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val cover: String
+                        get() = jsonObject.get("cover").asString
+                     val text: String
+                        get() = jsonObject.get("text").asString
+                     val uri: String
+                        get() = jsonObject.get("uri").asString
+                     val event: String
+                        get() = jsonObject.get("event").asString
+                     val eventV2: String
+                        get() = jsonObject.get("event_v2").asString
+                     val upId: Number
+                        get() = jsonObject.get("up_id").asNumber
+                }
+                private val JsonElement.asButton
+                    get() = Button(this.asJsonObject)
+                class Button (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val text: String
+                        get() = jsonObject.get("text").asString
+                     val param: String
+                        get() = jsonObject.get("param").asString
+                     val event: String
+                        get() = jsonObject.get("event").asString
+                     val type: Number
+                        get() = jsonObject.get("type").asNumber
+                     val eventV2: String
+                        get() = jsonObject.get("event_v2").asString
+                }
+            }
+            private val JsonElement.asTopRcmdReasonStyle
+                get() = TopRcmdReasonStyle(this.asJsonObject)
+            class TopRcmdReasonStyle (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val text: String
+                    get() = jsonObject.get("text").asString
+                 val textColor: String
+                    get() = jsonObject.get("text_color").asString
+                 val bgColor: String
+                    get() = jsonObject.get("bg_color").asString
+                 val borderColor: String
+                    get() = jsonObject.get("border_color").asString
+                 val textColorNight: String
+                    get() = jsonObject.get("text_color_night").asString
+                 val bgColorNight: String
+                    get() = jsonObject.get("bg_color_night").asString
+                 val borderColorNight: String
+                    get() = jsonObject.get("border_color_night").asString
+                 val bgStyle: Number
+                    get() = jsonObject.get("bg_style").asNumber
+            }
+            private val JsonElement.asAdInfo
+                get() = AdInfo(this.asJsonObject)
+            class AdInfo (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val creativeId: Number
+                    get() = jsonObject.get("creative_id").asNumber
+                 val creativeType: Number
+                    get() = jsonObject.get("creative_type").asNumber
+                 val cardType: Number
+                    get() = jsonObject.get("card_type").asNumber
+                 val creativeContent: CreativeContent
+                    get() = jsonObject.get("creative_content").asCreativeContent
+                 val adCb: String
+                    get() = jsonObject.get("ad_cb").asString
+                 val resource: Number
+                    get() = jsonObject.get("resource").asNumber
+                 val source: Number
+                    get() = jsonObject.get("source").asNumber
+                 val requestId: String
+                    get() = jsonObject.get("request_id").asString
+                 val isAd: Boolean
+                    get() = jsonObject.get("is_ad").asBoolean
+                 val cmMark: Number
+                    get() = jsonObject.get("cm_mark").asNumber
+                 val index: Number
+                    get() = jsonObject.get("index").asNumber
+                 val isAdLoc: Boolean
+                    get() = jsonObject.get("is_ad_loc").asBoolean
+                 val cardIndex: Number
+                    get() = jsonObject.get("card_index").asNumber
+                 val clientIp: String
+                    get() = jsonObject.get("client_ip").asString
+                 val extra: Extra
+                    get() = jsonObject.get("extra").asExtra
+                 val creativeStyle: Number
+                    get() = jsonObject.get("creative_style").asNumber
+                private val JsonElement.asCreativeContent
+                    get() = CreativeContent(this.asJsonObject)
+                class CreativeContent (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val title: String
+                        get() = jsonObject.get("title").asString
+                     val description: String
+                        get() = jsonObject.get("description").asString
+                     val videoId: Number
+                        get() = jsonObject.get("video_id").asNumber
+                     val imageUrl: String
+                        get() = jsonObject.get("image_url").asString
+                     val imageMd5: String
+                        get() = jsonObject.get("image_md5").asString
+                     val url: String
+                        get() = jsonObject.get("url").asString
+                }
+                private val JsonElement.asExtra
+                    get() = Extra(this.asJsonObject)
+                class Extra (private val jsonObject: JsonObject) {
+                    fun getJsonObject()  = jsonObject
+                    override fun toString()  = jsonObject.toString()
+                     val actImg: String
+                        get() = jsonObject.get("act_img").asString
+                     val adContentType: Number
+                        get() = jsonObject.get("ad_content_type").asNumber
+                     val appstorePriority: Number
+                        get() = jsonObject.get("appstore_priority").asNumber
+                     val appstoreUrl: String
+                        get() = jsonObject.get("appstore_url").asString
+                     val bgImg: String
+                        get() = jsonObject.get("bg_img").asString
+                     val card: Card
+                        get() = jsonObject.get("card").asCard
+                     val clickArea: Number
+                        get() = jsonObject.get("click_area").asNumber
+                     val enableDoubleJump: Boolean
+                        get() = jsonObject.get("enable_double_jump").asBoolean
+                     val enableDownloadDialog: Boolean
+                        get() = jsonObject.get("enable_download_dialog").asBoolean
+                     val enableH5Alert: Boolean
+                        get() = jsonObject.get("enable_h5_alert").asBoolean
+                     val enableH5PreLoad: Number
+                        get() = jsonObject.get("enable_h5_pre_load").asNumber
+                     val enableShare: Boolean
+                        get() = jsonObject.get("enable_share").asBoolean
+                     val enableStoreDirectLaunch: Number
+                        get() = jsonObject.get("enable_store_direct_launch").asNumber
+                     val feedbackPanelStyle: Number
+                        get() = jsonObject.get("feedback_panel_style").asNumber
+                     val fromTrackId: String
+                        get() = jsonObject.get("from_track_id").asString
+                     val h5PreLoadUrl: String
+                        get() = jsonObject.get("h5_pre_load_url").asString
+                     val landingpageDownloadStyle: Number
+                        get() = jsonObject.get("landingpage_download_style").asNumber
+                     val layout: String
+                        get() = jsonObject.get("layout").asString
+                     val macroReplacePriority: Number
+                        get() = jsonObject.get("macro_replace_priority").asNumber
+                     val preloadLandingpage: Number
+                        get() = jsonObject.get("preload_landingpage").asNumber
+                     val productId: Number
+                        get() = jsonObject.get("product_id").asNumber
+                     val reportTime: Number
+                        get() = jsonObject.get("report_time").asNumber
+                     val salesType: Number
+                        get() = jsonObject.get("sales_type").asNumber
+                     val shopId: Number
+                        get() = jsonObject.get("shop_id").asNumber
+                     val specialIndustry: Boolean
+                        get() = jsonObject.get("special_industry").asBoolean
+                     val specialIndustryStyle: Number
+                        get() = jsonObject.get("special_industry_style").asNumber
+                     val specialIndustryTips: String
+                        get() = jsonObject.get("special_industry_tips").asString
+                     val storeCallupCard: Boolean
+                        get() = jsonObject.get("store_callup_card").asBoolean
+                     val trackId: String
+                        get() = jsonObject.get("track_id").asString
+                     val upMid: Number
+                        get() = jsonObject.get("up_mid").asNumber
+                     val upzoneEntranceReportId: Number
+                        get() = jsonObject.get("upzone_entrance_report_id").asNumber
+                     val upzoneEntranceType: Number
+                        get() = jsonObject.get("upzone_entrance_type").asNumber
+                     val useAdWebV2: Boolean
+                        get() = jsonObject.get("use_ad_web_v2").asBoolean
+                    private val JsonElement.asCard
+                        get() = Card(this.asJsonObject)
+                    class Card (private val jsonObject: JsonObject) {
+                        fun getJsonObject()  = jsonObject
+                        override fun toString()  = jsonObject.toString()
+                         val adTag: String
+                            get() = jsonObject.get("ad_tag").asString
+                         val adTagStyle: AdTagStyle
+                            get() = jsonObject.get("ad_tag_style").asAdTagStyle
+                         val adver: Adver
+                            get() = jsonObject.get("adver").asAdver
+                         val adverAccountId: Number
+                            get() = jsonObject.get("adver_account_id").asNumber
+                         val adverLogo: String
+                            get() = jsonObject.get("adver_logo").asString
+                         val adverMid: Number
+                            get() = jsonObject.get("adver_mid").asNumber
+                         val adverName: String
+                            get() = jsonObject.get("adver_name").asString
+                         val adverPageUrl: String
+                            get() = jsonObject.get("adver_page_url").asString
+                         val callupUrl: String
+                            get() = jsonObject.get("callup_url").asString
+                         val cardType: Number
+                            get() = jsonObject.get("card_type").asNumber
+                         val covers: List<Covers>
+                            get() = jsonObject.get("covers").asJsonArray.map { it.asCovers }
+                         val desc: String
+                            get() = jsonObject.get("desc").asString
+                         val duration: String
+                            get() = jsonObject.get("duration").asString
+                         val dynamicText: String
+                            get() = jsonObject.get("dynamic_text").asString
+                         val extraDesc: String
+                            get() = jsonObject.get("extra_desc").asString
+                         val extremeTeamIcon: String
+                            get() = jsonObject.get("extreme_team_icon").asString
+                         val extremeTeamStatus: Boolean
+                            get() = jsonObject.get("extreme_team_status").asBoolean
+                         val feedbackPanel: FeedbackPanel
+                            get() = jsonObject.get("feedback_panel").asFeedbackPanel
+                         val foldTime: Number
+                            get() = jsonObject.get("fold_time").asNumber
+                         val goodsCurPrice: String
+                            get() = jsonObject.get("goods_cur_price").asString
+                         val goodsOriPrice: String
+                            get() = jsonObject.get("goods_ori_price").asString
+                         val gradeDenominator: Number
+                            get() = jsonObject.get("grade_denominator").asNumber
+                         val gradeLevel: Number
+                            get() = jsonObject.get("grade_level").asNumber
+                         val imaxLandingPageV2: String
+                            get() = jsonObject.get("imax_landing_page_v2").asString
+                         val jumpUrl: String
+                            get() = jsonObject.get("jump_url").asString
+                         val liveBookingPopulationThreshold: Number
+                            get() = jsonObject.get("live_booking_population_threshold").asNumber
+                         val liveRoomArea: String
+                            get() = jsonObject.get("live_room_area").asString
+                         val liveRoomPopularity: Number
+                            get() = jsonObject.get("live_room_popularity").asNumber
+                         val liveRoomTitle: String
+                            get() = jsonObject.get("live_room_title").asString
+                         val liveStreamerFace: String
+                            get() = jsonObject.get("live_streamer_face").asString
+                         val liveStreamerName: String
+                            get() = jsonObject.get("live_streamer_name").asString
+                         val liveTagShow: Boolean
+                            get() = jsonObject.get("live_tag_show").asBoolean
+                         val longDesc: String
+                            get() = jsonObject.get("long_desc").asString
+                         val oriMarkHidden: Number
+                            get() = jsonObject.get("ori_mark_hidden").asNumber
+                         val ottJumpUrl: String
+                            get() = jsonObject.get("ott_jump_url").asString
+                         val priceDesc: String
+                            get() = jsonObject.get("price_desc").asString
+                         val priceSymbol: String
+                            get() = jsonObject.get("price_symbol").asString
+                         val starLevel: Number
+                            get() = jsonObject.get("star_level").asNumber
+                         val supportTransition: Boolean
+                            get() = jsonObject.get("support_transition").asBoolean
+                         val title: String
+                            get() = jsonObject.get("title").asString
+                         val transition: String
+                            get() = jsonObject.get("transition").asString
+                         val underPlayerInteractionStyle: Number
+                            get() = jsonObject.get("under_player_interaction_style").asNumber
+                         val universalApp: String
+                            get() = jsonObject.get("universal_app").asString
+                         val video: Video
+                            get() = jsonObject.get("video").asVideo
+                        private val JsonElement.asAdTagStyle
+                            get() = AdTagStyle(this.asJsonObject)
+                        class AdTagStyle (private val jsonObject: JsonObject) {
+                            fun getJsonObject()  = jsonObject
+                            override fun toString()  = jsonObject.toString()
+                             val bgBorderColor: String
+                                get() = jsonObject.get("bg_border_color").asString
+                             val bgColor: String
+                                get() = jsonObject.get("bg_color").asString
+                             val bgColorNight: String
+                                get() = jsonObject.get("bg_color_night").asString
+                             val borderColor: String
+                                get() = jsonObject.get("border_color").asString
+                             val borderColorNight: String
+                                get() = jsonObject.get("border_color_night").asString
+                             val imgHeight: Number
+                                get() = jsonObject.get("img_height").asNumber
+                             val imgUrl: String
+                                get() = jsonObject.get("img_url").asString
+                             val imgWidth: Number
+                                get() = jsonObject.get("img_width").asNumber
+                             val text: String
+                                get() = jsonObject.get("text").asString
+                             val textColor: String
+                                get() = jsonObject.get("text_color").asString
+                             val textColorNight: String
+                                get() = jsonObject.get("text_color_night").asString
+                             val type: Number
+                                get() = jsonObject.get("type").asNumber
+                        }
+                        private val JsonElement.asAdver
+                            get() = Adver(this.asJsonObject)
+                        class Adver (private val jsonObject: JsonObject) {
+                            fun getJsonObject()  = jsonObject
+                            override fun toString()  = jsonObject.toString()
+                             val adverDesc: String
+                                get() = jsonObject.get("adver_desc").asString
+                             val adverId: Number
+                                get() = jsonObject.get("adver_id").asNumber
+                             val adverLogo: String
+                                get() = jsonObject.get("adver_logo").asString
+                             val adverName: String
+                                get() = jsonObject.get("adver_name").asString
+                             val adverPageUrl: String
+                                get() = jsonObject.get("adver_page_url").asString
+                             val adverType: Number
+                                get() = jsonObject.get("adver_type").asNumber
+                        }
+                        private val JsonElement.asCovers
+                            get() = Covers(this.asJsonObject)
+                        class Covers (private val jsonObject: JsonObject) {
+                            fun getJsonObject()  = jsonObject
+                            override fun toString()  = jsonObject.toString()
+                             val gifTagShow: Boolean
+                                get() = jsonObject.get("gif_tag_show").asBoolean
+                             val gifUrl: String
+                                get() = jsonObject.get("gif_url").asString
+                             val imageHeight: Number
+                                get() = jsonObject.get("image_height").asNumber
+                             val imageWidth: Number
+                                get() = jsonObject.get("image_width").asNumber
+                             val loop: Number
+                                get() = jsonObject.get("loop").asNumber
+                             val url: String
+                                get() = jsonObject.get("url").asString
+                        }
+                        private val JsonElement.asFeedbackPanel
+                            get() = FeedbackPanel(this.asJsonObject)
+                        class FeedbackPanel (private val jsonObject: JsonObject) {
+                            fun getJsonObject()  = jsonObject
+                            override fun toString()  = jsonObject.toString()
+                             val closeRecTips: String
+                                get() = jsonObject.get("close_rec_tips").asString
+                             val feedbackPanelDetail: List<FeedbackPanelDetail>
+                                get() = jsonObject.get("feedback_panel_detail").asJsonArray.map { it.asFeedbackPanelDetail }
+                             val openRecTips: String
+                                get() = jsonObject.get("open_rec_tips").asString
+                             val panelTypeText: String
+                                get() = jsonObject.get("panel_type_text").asString
+                             val toast: String
+                                get() = jsonObject.get("toast").asString
+                            private val JsonElement.asFeedbackPanelDetail
+                                get() = FeedbackPanelDetail(this.asJsonObject)
+                            class FeedbackPanelDetail (private val jsonObject: JsonObject) {
+                                fun getJsonObject()  = jsonObject
+                                override fun toString()  = jsonObject.toString()
+                                 val iconUrl: String
+                                    get() = jsonObject.get("icon_url").asString
+                                 val jumpType: Number
+                                    get() = jsonObject.get("jump_type").asNumber
+                                 val jumpUrl: String
+                                    get() = jsonObject.get("jump_url").asString
+                                 val moduleId: Number
+                                    get() = jsonObject.get("module_id").asNumber
+                                 val secondaryPanel: List<SecondaryPanel>?
+                                    get() = jsonObject.get("secondary_panel")?.asJsonArray?.map { it.asSecondaryPanel }
+                                 val subText: String
+                                    get() = jsonObject.get("sub_text").asString
+                                 val text: String
+                                    get() = jsonObject.get("text").asString
+                                private val JsonElement.asSecondaryPanel
+                                    get() = SecondaryPanel(this.asJsonObject)
+                                class SecondaryPanel (private val jsonObject: JsonObject) {
+                                    fun getJsonObject()  = jsonObject
+                                    override fun toString()  = jsonObject.toString()
+                                     val reasonId: Number
+                                        get() = jsonObject.get("reason_id").asNumber
+                                     val text: String
+                                        get() = jsonObject.get("text").asString
+                                }
+                            }
+                        }
+                        private val JsonElement.asVideo
+                            get() = Video(this.asJsonObject)
+                        class Video (private val jsonObject: JsonObject) {
+                            fun getJsonObject()  = jsonObject
+                            override fun toString()  = jsonObject.toString()
+                             val autoPlay: Boolean
+                                get() = jsonObject.get("auto_play").asBoolean
+                             val autoPlayValue: Number
+                                get() = jsonObject.get("auto_play_value").asNumber
+                             val avid: Number
+                                get() = jsonObject.get("avid").asNumber
+                             val bizId: Number
+                                get() = jsonObject.get("biz_id").asNumber
+                             val btnDycColor: Boolean
+                                get() = jsonObject.get("btn_dyc_color").asBoolean
+                             val btnDycTime: Number
+                                get() = jsonObject.get("btn_dyc_time").asNumber
+                             val cid: Number
+                                get() = jsonObject.get("cid").asNumber
+                             val cover: String
+                                get() = jsonObject.get("cover").asString
+                             val epId: Number
+                                get() = jsonObject.get("ep_id").asNumber
+                             val from: String
+                                get() = jsonObject.get("from").asString
+                             val fromSpmid: String
+                                get() = jsonObject.get("from_spmid").asString
+                             val orientation: Number
+                                get() = jsonObject.get("orientation").asNumber
+                             val page: Number
+                                get() = jsonObject.get("page").asNumber
+                             val seasonId: Number
+                                get() = jsonObject.get("season_id").asNumber
+                             val url: String
+                                get() = jsonObject.get("url").asString
+                        }
                     }
                 }
             }
-
-            data class ThreePointV2(
-                @SerializedName("reasons")
-                var reasons: List<Reason>,
-                @SerializedName("subtitle")
-                var subtitle: String, // (选择后将减少相似内容推荐)
-                @SerializedName("title")
-                var title: String, // 不感兴趣
-                @SerializedName("type")
-                var type: String // dislike
-            ) {
-                data class Reason(
-                    @SerializedName("id")
-                    var id: Int, // 1
-                    @SerializedName("name")
-                    var name: String // 不感兴趣
-                )
-            }
-
-            data class BannerItem(
-                @SerializedName("ad_cb")
-                var adCb: String, // CMDeARAAGOChASAAKAAwAzjABUIfMTU1MDY0NTk0MjUxNHExNzJhMjJhNTZhMTU5cTcxNkjysc3NkC1SBuadreW3nloG5rWZ5rGfYgbkuK3lm71oAXAAeICAgIAQgAEAiAGCJJIBDjEwMS43MS4yNDUuMjQymgGKA2FsbDpjcGNfY3Jvd2RfdGFyZ2V0LGVjcG06ZGVmYXVsdCxjcGNUYWdGaWx0ZXI6dW5kZWZpbmVkLGVuaGFuY2VDdHJRRmFjdG9yOmRlZmF1bHQsYWRNZWNoYW5pc21Nb25pdG9yOm90aGVyLHBsYXlwYWdlY3RyOmRpc2FibGUsdXBfcmVjX2Zsb3dfY29udHJvbDp1bmRlZmluZWQsYnJ1c2hfZHVwbGljYXRlOmRlZmF1bHQscGN0cl9jcG06Y3BtLGRmeF9zcGVjaWZpY19yYXRpbzp1bmRlZmluZWQscGN0cl92MjpkZnQsZHluYW1pY19mbG93X2NvbnRyb2w6c3BsaXQgdGhlIGZsb3cgYnkgbWlkLHBjdnI6ZGxkLGZyZXFMaW1pdDpkZWZhdWx0LHNtYWxsQ29uc3VtZVVuaXQ6ZnJlcUxpbWl0TG9vc2Usb3V0ZXJCZWF0SW5uZXI6ZGVmYXVsdCxvdXRlclF1aXQ6ZGVmYXVsdCxmZHNfcnR0OmRlZmF1bHSgAQCoAQCyASBzEMEnoPF8mLhSbbL8kmKEYNtD/f3W63yJX7yJ/ZmpN7oBQ2JpbGliaWxpOi8vZ2FtZV9jZW50ZXIvZGV0YWlsP2lkPTgwJnNvdXJjZUZyb209NzgyJnNvdXJjZVR5cGU9YWRQdXTCAQDKAQDSAQDYAQHgAQDoAQDwAQD4AQCAAgCIAgC4AgDAAqCsT8gCANACANgCAOICEiws5p2t5beeLeS4iuWfjuWMug==
-                @SerializedName("click_url")
-                var clickUrl: String, // https://ad-bili-data.biligame.com/api/mobile/clickBili?ad_plan_id=1670&mid=__MID__&os=0&idfa=__IDFA__&buvid=__BUVID__&android_id=43d7a1ebb6669597650e3ee417d9e7f5&imei=__IMEI__&mac=1035d532877200d6598f96118c2821e8&duid=__DUID__&ip=101.71.245.242&request_id=1550645942514q172a22a56a159q716&ts=__TS__&ua=Dalvik%252F2.1.0%2B%2528Linux%253B%2BU%253B%2BAndroid%2B6.0%253B%2BAndroid%2BSDK%2Bbuilt%2Bfor%2Bx86%2BBuild%252FMASTER%2529
-                @SerializedName("client_ip")
-                var clientIp: String, // 101.71.245.242
-                @SerializedName("cm_mark")
-                var cmMark: Int, // 0
-                @SerializedName("creative_id")
-                var creativeId: Int, // 20704
-                @SerializedName("extra")
-                var extra: Extra,
-                @SerializedName("hash")
-                var hash: String, // 036073dcc265f595ce2a0d331fe404c0
-                @SerializedName("id")
-                var id: Int, // 229421
-                @SerializedName("image")
-                var image: String, // http://i0.hdslb.com/bfs/archive/91318bfd6076f4c5fd59b945120f346eda43cc59.jpg
-                @SerializedName("index")
-                var index: Int, // 5
-                @SerializedName("is_ad")
-                var isAd: Boolean, // true
-                @SerializedName("is_ad_loc")
-                var isAdLoc: Boolean, // true
-                @SerializedName("request_id")
-                var requestId: String, // 1550645942462
-                @SerializedName("resource_id")
-                var resourceId: Int, // 631
-                @SerializedName("server_type")
-                var serverType: Int, // 0
-                @SerializedName("src_id")
-                var srcId: Int, // 704
-                @SerializedName("title")
-                var title: String, // 还有哪些特别的过年习俗呢？
-                @SerializedName("uri")
-                var uri: String // https://www.bilibili.com/blackboard/topic/activity-Dp6imaUka.html
-            ) {
-                data class Extra(
-                    @SerializedName("card")
-                    var card: Card,
-                    @SerializedName("click_urls")
-                    var clickUrls: List<String>,
-                    @SerializedName("open_whitelist")
-                    var openWhitelist: List<String>,
-                    @SerializedName("preload_landingpage")
-                    var preloadLandingpage: Int, // 0
-                    @SerializedName("report_time")
-                    var reportTime: Int, // 2000
-                    @SerializedName("sales_type")
-                    var salesType: Int, // 31
-                    @SerializedName("show_urls")
-                    var showUrls: List<JsonElement>,
-                    @SerializedName("special_industry")
-                    var specialIndustry: Boolean, // false
-                    @SerializedName("special_industry_tips")
-                    var specialIndustryTips: String,
-                    @SerializedName("use_ad_web_v2")
-                    var useAdWebV2: Boolean // false
-                ) {
-                    data class Card(
-                        @SerializedName("ad_tag")
-                        var adTag: String,
-                        @SerializedName("button")
-                        var button: Button,
-                        @SerializedName("callup_url")
-                        var callupUrl: String,
-                        @SerializedName("card_type")
-                        var cardType: Int, // 0
-                        @SerializedName("covers")
-                        var covers: List<Cover>,
-                        @SerializedName("desc")
-                        var desc: String,
-                        @SerializedName("jump_url")
-                        var jumpUrl: String, // bilibili://game_center/detail?id=80&sourceFrom=782&sourceType=adPut
-                        @SerializedName("long_desc")
-                        var longDesc: String,
-                        @SerializedName("title")
-                        var title: String
-                    ) {
-                        data class Cover(
-                            @SerializedName("url")
-                            var url: String // https://i0.hdslb.com/bfs/sycp/creative_img/201902/abd37b988b7f043a8aba3f173ef5c220.jpg
-                        )
-
-                        data class Button(
-                            @SerializedName("dlsuc_callup_url")
-                            var dlsucCallupUrl: String,
-                            @SerializedName("jump_url")
-                            var jumpUrl: String, // bilibili://game_center/detail?id=80&sourceFrom=782&sourceType=adPut
-                            @SerializedName("report_urls")
-                            var reportUrls: List<JsonElement>,
-                            @SerializedName("text")
-                            var text: String,
-                            @SerializedName("type")
-                            var type: Int // 1
-                        )
-                    }
-                }
-            }
-
-            data class RcmdReasonStyle(
-                @SerializedName("bg_color")
-                var bgColor: String, // #FFFB9E60
-                @SerializedName("bg_style")
-                var bgStyle: Int, // 1
-                @SerializedName("border_color")
-                var borderColor: String, // #FFFB9E60
-                @SerializedName("text")
-                var text: String, // 已关注
-                @SerializedName("text_color")
-                var textColor: String // #FFFFFFFF
-            )
-
-            data class DescButton(
-                @SerializedName("event")
-                var event: String, // channel_click
-                @SerializedName("text")
-                var text: String, // 单机游戏 · 宇宙
-                @SerializedName("type")
-                var type: Int, // 1
-                @SerializedName("uri")
-                var uri: String // bilibili://pegasus/channel/9264
-            )
-
-            data class Mask(
-                @SerializedName("avatar")
-                var avatar: Avatar,
-                @SerializedName("button")
-                var button: Button
-            ) {
-                data class Avatar(
-                    @SerializedName("cover")
-                    var cover: String,
-                    @SerializedName("text")
-                    var text: String,
-                    @SerializedName("uri")
-                    var uri: String,
-                    @SerializedName("event")
-                    var event: String,
-                    @SerializedName("event_v2")
-                    var eventV2: String
-                )
-
-                data class Button(
-                    @SerializedName("text")
-                    var text: String,
-                    @SerializedName("param")
-                    var param: String,
-                    @SerializedName("event")
-                    var event: String,
-                    @SerializedName("type")
-                    var type: Int,
-                    @SerializedName("event_v2")
-                    var eventV2: String
-                )
-            }
-
-            data class Avatar(
-                @SerializedName("cover")
-                var cover: String,
-                @SerializedName("uri")
-                var uri: String,
-                @SerializedName("event")
-                var event: String,
-                @SerializedName("event_v2")
-                var eventV2: String,
-                @SerializedName("text")
-                var text: String?
-            )
         }
-
-        data class Config(
-            @SerializedName("autoplay_card")
-            var autoplayCard: Int, // 2
-            @SerializedName("column")
-            var column: Int, // 2
-            @SerializedName("feed_clean_abtest")
-            var feedCleanAbtest: Int // 0
-        )
+        private val JsonElement.asConfig
+            get() = Config(this.asJsonObject)
+        class Config (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val column: Number
+                get() = jsonObject.get("column").asNumber
+             val autoplayCard: Number
+                get() = jsonObject.get("autoplay_card").asNumber
+             val feedCleanAbtest: Number
+                get() = jsonObject.get("feed_clean_abtest").asNumber
+             val homeTransferTest: Number
+                get() = jsonObject.get("home_transfer_test").asNumber
+             val autoRefreshTime: Number
+                get() = jsonObject.get("auto_refresh_time").asNumber
+             val showInlineDanmaku: Number
+                get() = jsonObject.get("show_inline_danmaku").asNumber
+             val toast: Toast
+                get() = jsonObject.get("toast").asToast
+             val isBackToHomepage: Boolean
+                get() = jsonObject.get("is_back_to_homepage").asBoolean
+             val enableRcmdGuide: Boolean
+                get() = jsonObject.get("enable_rcmd_guide").asBoolean
+             val inlineSound: Number
+                get() = jsonObject.get("inline_sound").asNumber
+             val autoRefreshTimeByAppear: Number
+                get() = jsonObject.get("auto_refresh_time_by_appear").asNumber
+             val autoRefreshTimeByActive: Number
+                get() = jsonObject.get("auto_refresh_time_by_active").asNumber
+            private val JsonElement.asToast
+                get() = Toast(this.asJsonObject)
+            class Toast (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+            }
+        }
     }
 }

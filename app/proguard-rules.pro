@@ -1,4 +1,4 @@
--keepclasseswithmembers class * {
+-keepclasseswithmembers class com.duzhaokun123.bilibilihd2.model** {
     @com.google.gson.annotations.SerializedName <fields>;
 }
 

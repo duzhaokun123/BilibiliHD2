@@ -3,6 +3,7 @@ package com.hiczp.bilibili.api.main
 import com.hiczp.bilibili.api.main.model.*
 import com.hiczp.bilibili.api.retrofit.CommonResponse
 import com.hiczp.bilibili.api.retrofit.Header
+import com.hiczp.bilibili.api.retrofit.interceptor.CommonResponseLazyjson
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -117,7 +118,7 @@ interface MainAPI {
             @Field("oid") oid: Long,
             @Field("rpid") replyId: Long,
             @Field("type") type: Int = 1
-    ): Deferred<CommonResponse>
+    ): Deferred<CommonResponseLazyjson>
 
     /**
      * 不喜欢(评论)
@@ -134,7 +135,7 @@ interface MainAPI {
             @Field("oid") oid: Long,
             @Field("rpid") replyId: Long,
             @Field("type") type: Int = 1
-    ): Deferred<CommonResponse>
+    ): Deferred<CommonResponseLazyjson>
 
     /**
      * 查看视频的删除日志
@@ -253,7 +254,7 @@ interface MainAPI {
             @Field("aid") aid: Long,
             @Field("fid") fid: String,
             @Field("from") from: Int? = null
-    ): Deferred<CommonResponse>
+    ): Deferred<CommonResponseLazyjson>
 
     /**
      * 取消收藏视频
@@ -346,7 +347,7 @@ interface MainAPI {
             @Field("type") type: Int,
             @Field("oid") oid: Long,
             @Field("rpid") rpid: Long
-    ): Deferred<CommonResponse>
+    ): Deferred<CommonResponseLazyjson>
 
     /**
      * 可用于获取收藏列表ids
