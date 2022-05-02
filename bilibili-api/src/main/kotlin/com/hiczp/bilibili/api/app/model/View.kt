@@ -36,8 +36,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
             get() = jsonObject.get("pic").asString
          val title: String
             get() = jsonObject.get("title").asString
-         val pubdate: Int
-            get() = jsonObject.get("pubdate").asInt
+         val pubdate: Long
+            get() = jsonObject.get("pubdate").asLong
          val ctime: Number
             get() = jsonObject.get("ctime").asNumber
          val desc: String
