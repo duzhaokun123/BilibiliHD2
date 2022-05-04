@@ -1,204 +1,228 @@
-package com.duzhaokun123.bilibilihd2.model
-
-
-import com.google.gson.annotations.SerializedName
-
-data class DynamicCardType64(
-    @SerializedName("act_id")
-    val actId: Int, // 0
-    @SerializedName("apply_time")
-    val applyTime: String,
-    @SerializedName("attributes")
-    val attributes: Int, // 24
-    @SerializedName("authenMark")
-    val authenMark: Any?, // null
-    @SerializedName("author")
-    val author: Author,
-    @SerializedName("banner_url")
-    val bannerUrl: String,
-    @SerializedName("categories")
-    val categories: List<Category>,
-    @SerializedName("category")
-    val category: Category,
-    @SerializedName("check_time")
-    val checkTime: String,
-    @SerializedName("cover_avid")
-    val coverAvid: Int, // 0
-    @SerializedName("ctime")
-    val ctime: Int, // 1618308147
-    @SerializedName("dispute")
-    val dispute: Dispute,
-    @SerializedName("id")
-    val id: Long, // 10840464
-    @SerializedName("image_urls")
-    val imageUrls: List<String>,
-    @SerializedName("is_like")
-    val isLike: Boolean, // false
-    @SerializedName("item")
-    val item: Item,
-    @SerializedName("list")
-    val list: Any?, // null
-    @SerializedName("media")
-    val media: Media,
-    @SerializedName("origin_image_urls")
-    val originImageUrls: List<String>,
-    @SerializedName("original")
-    val original: Int, // 0
-    @SerializedName("publish_time")
-    val publishTime: Int, // 1618308232
-    @SerializedName("reprint")
-    val reprint: Int, // 0
-    @SerializedName("state")
-    val state: Int, // 0
-    @SerializedName("stats")
-    val stats: Stats,
-    @SerializedName("summary")
-    val summary: String, // 大家好这里是明日方舟项目组。在即将到来的版本更新中，【作战终端升级】也将随之上线，新版作战终端界面将对现有视觉效果进行调整，对不同的关卡、活动类别进行梳理与优化。您可以在更新之后通过主界面入口、或上方引导菜单终端按钮前往新的作战终端界面。新的作战终端界面对主线关卡、活动关卡及素材关卡等进行了分类优化，可通过入口下方的分类按钮进入不同的关卡类别。终端主界面将显示目前正开启的活动、您当前的主线进度、本周剿灭报酬合成玉获取进度等信息，您可通过不同的信息入口前往对应的作战关卡。同时，根据当前正在开展的活
-    @SerializedName("template_id")
-    val templateId: Int, // 4
-    @SerializedName("title")
-    val title: String, // 作战终端升级内容前瞻
-    @SerializedName("top_video_info")
-    val topVideoInfo: Any?, // null
-    @SerializedName("words")
-    val words: Int // 1145
-) {
-    data class Author(
-        @SerializedName("face")
-        val face: String, // https://i0.hdslb.com/bfs/face/89154378c06a5ed332c40c2ca56f50cd641c0c90.jpg
-        @SerializedName("mid")
-        val mid: Int, // 161775300
-        @SerializedName("name")
-        val name: String, // 明日方舟
-        @SerializedName("nameplate")
-        val nameplate: Nameplate,
-        @SerializedName("official_verify")
-        val officialVerify: OfficialVerify,
-        @SerializedName("pendant")
-        val pendant: Pendant,
-        @SerializedName("vip")
-        val vip: Vip
-    ) {
-        data class Nameplate(
-            @SerializedName("condition")
-            val condition: String,
-            @SerializedName("image")
-            val image: String,
-            @SerializedName("image_small")
-            val imageSmall: String,
-            @SerializedName("level")
-            val level: String,
-            @SerializedName("name")
-            val name: String,
-            @SerializedName("nid")
-            val nid: Int // 0
-        )
-
-        data class OfficialVerify(
-            @SerializedName("desc")
-            val desc: String, // 明日方舟官方账号
-            @SerializedName("type")
-            val type: Int // 1
-        )
-
-        data class Pendant(
-            @SerializedName("expire")
-            val expire: Int, // 0
-            @SerializedName("image")
-            val image: String,
-            @SerializedName("name")
-            val name: String,
-            @SerializedName("pid")
-            val pid: Int // 0
-        )
-
-        data class Vip(
-            @SerializedName("avatar_subscript")
-            val avatarSubscript: Int, // 1
-            @SerializedName("due_date")
-            val dueDate: Int, // 0
-            @SerializedName("label")
-            val label: Label,
-            @SerializedName("nickname_color")
-            val nicknameColor: String, // #FB7299
-            @SerializedName("status")
-            val status: Int, // 1
-            @SerializedName("theme_type")
-            val themeType: Int, // 0
-            @SerializedName("type")
-            val type: Int, // 2
-            @SerializedName("vip_pay_type")
-            val vipPayType: Int // 0
-        ) {
-            data class Label(
-                @SerializedName("label_theme")
-                val labelTheme: String, // annual_vip
-                @SerializedName("path")
-                val path: String,
-                @SerializedName("text")
-                val text: String // 年度大会员
-            )
+package  com.duzhaokun123.bilibilihd2.model
+import com.google.gson.JsonObject
+import com.google.gson.JsonElement
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonClass
+import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
+@LazyjsonClass class DynamicCardType64 (private val jsonObject: JsonObject) {
+    companion object   {
+        @LazyjsonFrom @JvmStatic fun from(jsonObject: JsonObject)  = DynamicCardType64(jsonObject)
+    }
+    fun getJsonObject()  = jsonObject
+    override fun toString()  = jsonObject.toString()
+     val id: Long
+        get() = jsonObject.get("id").asLong
+     val category: Category
+        get() = jsonObject.get("category").asCategory
+     val categories: List<Categories>
+        get() = jsonObject.get("categories").asJsonArray.map { it.asCategories }
+     val title: String
+        get() = jsonObject.get("title").asString
+     val summary: String
+        get() = jsonObject.get("summary").asString
+     val bannerUrl: String
+        get() = jsonObject.get("banner_url").asString
+     val templateId: Number
+        get() = jsonObject.get("template_id").asNumber
+     val state: Number
+        get() = jsonObject.get("state").asNumber
+     val author: Author
+        get() = jsonObject.get("author").asAuthor
+     val reprint: Number
+        get() = jsonObject.get("reprint").asNumber
+     val imageUrls: List<String>
+        get() = jsonObject.get("image_urls").asJsonArray.map { it.asString }
+     val publishTime: Number
+        get() = jsonObject.get("publish_time").asNumber
+     val ctime: Number
+        get() = jsonObject.get("ctime").asNumber
+     val stats: Stats
+        get() = jsonObject.get("stats").asStats
+     val attributes: Number
+        get() = jsonObject.get("attributes").asNumber
+     val words: Number
+        get() = jsonObject.get("words").asNumber
+     val originImageUrls: List<String>
+        get() = jsonObject.get("origin_image_urls").asJsonArray.map { it.asString }
+     val isLike: Boolean
+        get() = jsonObject.get("is_like").asBoolean
+     val media: Media
+        get() = jsonObject.get("media").asMedia
+     val applyTime: String
+        get() = jsonObject.get("apply_time").asString
+     val checkTime: String
+        get() = jsonObject.get("check_time").asString
+     val original: Number
+        get() = jsonObject.get("original").asNumber
+     val actId: Number
+        get() = jsonObject.get("act_id").asNumber
+     val coverAvid: Number
+        get() = jsonObject.get("cover_avid").asNumber
+     val type: Number
+        get() = jsonObject.get("type").asNumber
+    private val JsonElement.asCategory
+        get() = Category(this.asJsonObject)
+    class Category (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val id: Number
+            get() = jsonObject.get("id").asNumber
+         val parentId: Number
+            get() = jsonObject.get("parent_id").asNumber
+         val name: String
+            get() = jsonObject.get("name").asString
+    }
+    private val JsonElement.asCategories
+        get() = Categories(this.asJsonObject)
+    class Categories (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val id: Number
+            get() = jsonObject.get("id").asNumber
+         val parentId: Number
+            get() = jsonObject.get("parent_id").asNumber
+         val name: String
+            get() = jsonObject.get("name").asString
+    }
+    private val JsonElement.asAuthor
+        get() = Author(this.asJsonObject)
+    class Author (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val mid: Number
+            get() = jsonObject.get("mid").asNumber
+         val name: String
+            get() = jsonObject.get("name").asString
+         val face: String
+            get() = jsonObject.get("face").asString
+         val pendant: Pendant
+            get() = jsonObject.get("pendant").asPendant
+         val officialVerify: OfficialVerify
+            get() = jsonObject.get("official_verify").asOfficialVerify
+         val nameplate: Nameplate
+            get() = jsonObject.get("nameplate").asNameplate
+         val vip: Vip
+            get() = jsonObject.get("vip").asVip
+        private val JsonElement.asPendant
+            get() = Pendant(this.asJsonObject)
+        class Pendant (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val pid: Number
+                get() = jsonObject.get("pid").asNumber
+             val name: String
+                get() = jsonObject.get("name").asString
+             val image: String
+                get() = jsonObject.get("image").asString
+             val expire: Number
+                get() = jsonObject.get("expire").asNumber
+        }
+        private val JsonElement.asOfficialVerify
+            get() = OfficialVerify(this.asJsonObject)
+        class OfficialVerify (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val type: Number
+                get() = jsonObject.get("type").asNumber
+             val desc: String
+                get() = jsonObject.get("desc").asString
+        }
+        private val JsonElement.asNameplate
+            get() = Nameplate(this.asJsonObject)
+        class Nameplate (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val nid: Number
+                get() = jsonObject.get("nid").asNumber
+             val name: String
+                get() = jsonObject.get("name").asString
+             val image: String
+                get() = jsonObject.get("image").asString
+             val imageSmall: String
+                get() = jsonObject.get("image_small").asString
+             val level: String
+                get() = jsonObject.get("level").asString
+             val condition: String
+                get() = jsonObject.get("condition").asString
+        }
+        private val JsonElement.asVip
+            get() = Vip(this.asJsonObject)
+        class Vip (private val jsonObject: JsonObject) {
+            fun getJsonObject()  = jsonObject
+            override fun toString()  = jsonObject.toString()
+             val type: Number
+                get() = jsonObject.get("type").asNumber
+             val status: Number
+                get() = jsonObject.get("status").asNumber
+             val dueDate: Number
+                get() = jsonObject.get("due_date").asNumber
+             val vipPayType: Number
+                get() = jsonObject.get("vip_pay_type").asNumber
+             val themeType: Number
+                get() = jsonObject.get("theme_type").asNumber
+             val label: Label
+                get() = jsonObject.get("label").asLabel
+             val avatarSubscript: Number
+                get() = jsonObject.get("avatar_subscript").asNumber
+             val nicknameColor: String
+                get() = jsonObject.get("nickname_color").asString
+            private val JsonElement.asLabel
+                get() = Label(this.asJsonObject)
+            class Label (private val jsonObject: JsonObject) {
+                fun getJsonObject()  = jsonObject
+                override fun toString()  = jsonObject.toString()
+                 val path: String
+                    get() = jsonObject.get("path").asString
+                 val text: String
+                    get() = jsonObject.get("text").asString
+                 val labelTheme: String
+                    get() = jsonObject.get("label_theme").asString
+            }
         }
     }
-
-    data class Category(
-        @SerializedName("id")
-        val id: Int, // 1
-        @SerializedName("name")
-        val name: String, // 游戏
-        @SerializedName("parent_id")
-        val parentId: Int // 0
-    )
-
-    data class Dispute(
-        @SerializedName("dispute")
-        val dispute: String,
-        @SerializedName("dispute_url")
-        val disputeUrl: String
-    )
-
-    data class Item(
-        @SerializedName("at_control")
-        val atControl: String
-    )
-
-    data class Media(
-        @SerializedName("area")
-        val area: String,
-        @SerializedName("cover")
-        val cover: String,
-        @SerializedName("media_id")
-        val mediaId: Int, // 0
-        @SerializedName("score")
-        val score: Int, // 0
-        @SerializedName("season_id")
-        val seasonId: Int, // 0
-        @SerializedName("spoiler")
-        val spoiler: Int, // 0
-        @SerializedName("title")
-        val title: String,
-        @SerializedName("type_id")
-        val typeId: Int, // 0
-        @SerializedName("type_name")
-        val typeName: String
-    )
-
-    data class Stats(
-        @SerializedName("coin")
-        val coin: Int, // 391
-        @SerializedName("dislike")
-        val dislike: Int, // 0
-        @SerializedName("dynamic")
-        val `dynamic`: Int, // 0
-        @SerializedName("favorite")
-        val favorite: Int, // 781
-        @SerializedName("like")
-        val like: Int, // 22785
-        @SerializedName("reply")
-        val reply: Int, // 2513
-        @SerializedName("share")
-        val share: Int, // 2023
-        @SerializedName("view")
-        val view: Int // 273448
-    )
+    private val JsonElement.asStats
+        get() = Stats(this.asJsonObject)
+    class Stats (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val view: Number
+            get() = jsonObject.get("view").asNumber
+         val favorite: Number
+            get() = jsonObject.get("favorite").asNumber
+         val like: Number
+            get() = jsonObject.get("like").asNumber
+         val dislike: Number
+            get() = jsonObject.get("dislike").asNumber
+         val reply: Number
+            get() = jsonObject.get("reply").asNumber
+         val share: Number
+            get() = jsonObject.get("share").asNumber
+         val coin: Number
+            get() = jsonObject.get("coin").asNumber
+         val dynamic: Number
+            get() = jsonObject.get("dynamic").asNumber
+    }
+    private val JsonElement.asMedia
+        get() = Media(this.asJsonObject)
+    class Media (private val jsonObject: JsonObject) {
+        fun getJsonObject()  = jsonObject
+        override fun toString()  = jsonObject.toString()
+         val score: Number
+            get() = jsonObject.get("score").asNumber
+         val mediaId: Number
+            get() = jsonObject.get("media_id").asNumber
+         val title: String
+            get() = jsonObject.get("title").asString
+         val cover: String
+            get() = jsonObject.get("cover").asString
+         val area: String
+            get() = jsonObject.get("area").asString
+         val typeId: Number
+            get() = jsonObject.get("type_id").asNumber
+         val typeName: String
+            get() = jsonObject.get("type_name").asString
+         val spoiler: Number
+            get() = jsonObject.get("spoiler").asNumber
+         val seasonId: Number
+            get() = jsonObject.get("season_id").asNumber
+    }
 }
