@@ -79,13 +79,16 @@ data class DynamicCardModel(
                     2 -> Type2.parse(gson.fromJson(json))
                     4 -> Type4.parse(gson.fromJson(json))
                     8 -> Type8.parse(gson.fromJson(json))
-                    64 -> Type64.parse(gson.fromJson(json))
+                    64 -> Type64.parse(DynamicCardType64.from(gson.fromJson(json)))
                     512 -> Type512.parse(gson.fromJson(json))
                     else -> Any()
                 }
             } catch (e: Exception) {
-                Crashes.trackError(e, mapOf("message" to e.message, "type" to type.toString()), listOf(ErrorAttachmentLog.attachmentWithBinary(json.toByteArray(),"json", "text/json")))
-                TYPE_ERROR to TypeError(type, e.message, json)
+                val stackTrace = e.stackTrace.joinToString("\n")
+                Crashes.trackError(e, mapOf("message" to e.message, "type" to type.toString()),
+                    listOf(ErrorAttachmentLog.attachmentWithBinary(json.toByteArray(),"json", "text/json"),
+                        ErrorAttachmentLog.attachmentWithBinary(stackTrace.toByteArray(), "stacktrace", "text/plain")))
+                TYPE_ERROR to TypeError(type, e.message, json, stackTrace)
             }
         }
     }
@@ -233,6 +236,7 @@ data class DynamicCardModel(
     data class TypeError(
         val type: Int,
         val message: String?,
-        val cardJson: String
+        val cardJson: String,
+        val stackTrace: String
     )
 }
