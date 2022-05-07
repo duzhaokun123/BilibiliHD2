@@ -6,6 +6,7 @@ import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityUserScapeBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
+import com.duzhaokun123.bilibilihd2.utils.BrowserUtil
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 
 class UserScapeActivity : BaseActivity<ActivityUserScapeBinding>(R.layout.activity_user_scape) {
@@ -31,5 +32,8 @@ class UserScapeActivity : BaseActivity<ActivityUserScapeBinding>(R.layout.activi
 
     override fun initViews() {
         baseBinding.a.text = "uid${startIntent.getLongExtra(EXTRA_UID, 0)}"
+        baseBinding.b.setOnClickListener {
+            BrowserUtil.openInApp(this, "https://space.bilibili.com/${startIntent.getLongExtra(EXTRA_UID, 0)}")
+        }
     }
 }

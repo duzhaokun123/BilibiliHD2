@@ -19,7 +19,7 @@ data class DynamicCardType8(
     @SerializedName("dimension")
     val dimension: Dimension,
     @SerializedName("duration")
-    val duration: Int, // 1073
+    val duration: Long, // 1073
     @SerializedName("dynamic")
     val `dynamic`: String,
     @SerializedName("jump_url")

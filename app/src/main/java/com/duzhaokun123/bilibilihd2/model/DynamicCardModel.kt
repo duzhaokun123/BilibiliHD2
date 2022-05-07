@@ -1,5 +1,6 @@
 package com.duzhaokun123.bilibilihd2.model
 
+import com.duzhaokun123.bilibilihd2.utils.DateFormat
 import com.duzhaokun123.bilibilihd2.utils.gson
 import com.github.salomonbrys.kotson.fromJson
 import com.hiczp.bilibili.api.vc.model.DynamicHistory
@@ -128,7 +129,8 @@ data class DynamicCardModel(
         val coverUrl: String,
         val url: String,
         val desc: String,
-        val dynamic: String
+        val dynamic: String,
+        val duration: String
     ) {
         companion object {
             fun parse(dynamicCardType8: DynamicCardType8): Type8 {
@@ -137,7 +139,8 @@ data class DynamicCardModel(
                 val url = dynamicCardType8.jumpUrl
                 val desc = dynamicCardType8.desc
                 val dynamic = dynamicCardType8.dynamic
-                return Type8(title, coverUrl, url, desc, dynamic)
+                val duration = DateFormat.getStringForTime(dynamicCardType8.duration * 1000)
+                return Type8(title, coverUrl, url, desc, dynamic, duration)
             }
         }
     }
