@@ -153,9 +153,9 @@ dependencies {
 
     //SmartRefreshLayout
     val srlVersion = "2.0.5"
-    implementation("com.scwang.smart:refresh-layout-kernel:$srlVersion")
-    implementation("com.scwang.smart:refresh-header-material:$srlVersion")
-    implementation("com.scwang.smart:refresh-footer-classics:$srlVersion")
+    implementation("io.github.scwang90:refresh-layout-kernel:$srlVersion")
+    implementation("io.github.scwang90:refresh-header-material:$srlVersion")
+    implementation("io.github.scwang90:refresh-footer-classics:$srlVersion")
 
     //browser
     implementation("androidx.browser:browser:1.4.0")
