@@ -74,3 +74,6 @@ val allowAnalytics = true
 
 @SettingsValue(saveAsString = true)
 val playPauseTime = 0
+
+@SettingsValue(saveAsString = true)
+val onlinePlayQuality = -1

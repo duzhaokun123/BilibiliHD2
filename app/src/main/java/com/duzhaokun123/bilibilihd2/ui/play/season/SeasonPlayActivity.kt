@@ -13,6 +13,7 @@ import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.play.online.LazyCidDanmakuParser
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.model.PlayInfo
+import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
@@ -132,20 +133,21 @@ class SeasonPlayActivity : BasePlayActivity() {
                     val name = playUrl.acceptDescription.getOrNull(
                         playUrl.acceptQuality.indexOf(video.id)
                     ) ?: video.id.toString()
-                    sources.add(PlayInfo.Source(name, mergedSource, backups))
+                    sources.add(PlayInfo.Source(name, video.id, mergedSource, backups))
                 }
                 if (hasAudio)
                     sources.add(
-                        PlayInfo.Source("audio only",
+                        PlayInfo.Source("audio only", 0,
                             ProgressiveMediaSource.Factory(dataSourceFactory)
-                                .createMediaSource(MediaItem.fromUri(playUrl.dash.audio!![0].baseUrl)),
+                                .createMediaSource(MediaItem.fromUri(playUrl.dash.audio[0].baseUrl)),
                             emptyList()
                         )
                     )
 
                 val danmakuParser =  LazyCidDanmakuParser(aid, cid, 1)
+                val onlinePlayQuality = Settings.onlinePlayQuality
                 biliPlayerView.playInfo = PlayInfo(
-                    "$aid", "$aid", sources, danmakuParser, false
+                    "$aid", "$aid", sources, danmakuParser, false, sources.find { it.id == onlinePlayQuality } ?: sources.first()
                 )
                 runMain {
                     biliPlayerView.prepare()

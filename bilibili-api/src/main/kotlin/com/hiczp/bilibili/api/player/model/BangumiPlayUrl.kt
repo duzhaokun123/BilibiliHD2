@@ -131,8 +131,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
                 get() = jsonObject.get("width").asNumber
              val startWithSAP: Number
                 get() = jsonObject.get("startWithSAP").asNumber
-             val id: Number
-                get() = jsonObject.get("id").asNumber
+             val id: Int
+                get() = jsonObject.get("id").asInt
              val height: Number
                 get() = jsonObject.get("height").asNumber
              val md5: String

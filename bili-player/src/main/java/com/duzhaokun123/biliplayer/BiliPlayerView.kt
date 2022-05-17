@@ -114,8 +114,8 @@ class BiliPlayerView @JvmOverloads constructor(
             btnQuality.setOnClickListener(null)
         } else {
             val info = playInfo!!
-            player.setMediaSource(info.sources[0].mediaSource)
-            selectedSource = info.sources[0]
+            player.setMediaSource(info.defaultSource.mediaSource)
+            selectedSource = info.defaultSource
             ibNext.isEnabled = info.hasNext
             ibNext.alpha = if (info.hasNext) buttonAlphaEnabled else buttonAlphaDisabled
             if (player.playWhenReady)
@@ -133,7 +133,7 @@ class BiliPlayerView @JvmOverloads constructor(
                     }
                 }.show()
             }
-            btnQuality.text = info.sources[0].name
+            btnQuality.text = info.defaultSource.name
             danmakuView.parse(info.danmakuParser) {
                 GlobalScope.launch(Dispatchers.Main) {
                     delay(500)

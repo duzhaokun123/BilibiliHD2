@@ -29,6 +29,7 @@ import com.duzhaokun123.bilibilihd2.ui.comment.RootCommentFragment
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
+import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
@@ -316,11 +317,11 @@ class OnlinePlayActivity : BasePlayActivity() {
             val name = videoPlayUrl.data.acceptDescription.getOrNull(
                 videoPlayUrl.data.acceptQuality.indexOf(video.id)
             ) ?: video.id.toString()
-            sources.add(PlayInfo.Source(name, mergedSource, backups))
+            sources.add(PlayInfo.Source(name, video.id, mergedSource, backups))
         }
         if (hasAudio)
             sources.add(
-                PlayInfo.Source("audio only",
+                PlayInfo.Source("audio only", 0,
                     ProgressiveMediaSource.Factory(dataSourceFactory)
                         .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl)),
                     emptyList()
@@ -331,8 +332,9 @@ class OnlinePlayActivity : BasePlayActivity() {
             ?: LazyCidDanmakuParser(aid, cid, biliView!!.data.pages[page - 1].duration).also {
                 pageParserMap[page] = it
             }
+        val onlinePlayQuality = Settings.onlinePlayQuality
         biliPlayerView.playInfo = PlayInfo(
-            title, pageTitle, sources, danmakuParser, biliView!!.data.pages.size > page
+            title, pageTitle, sources, danmakuParser, biliView!!.data.pages.size > page, sources.find { it.id == onlinePlayQuality } ?: sources.first()
         )
     }
 

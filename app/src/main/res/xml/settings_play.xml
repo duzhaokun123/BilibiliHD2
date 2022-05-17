@@ -9,4 +9,10 @@
         app:iconSpaceReserved="false"
         app:key="playPauseTime"
         app:useSimpleSummaryProvider="true" />
+    <com.takisoft.preferencex.EditTextPreference
+        app:defaultValue="-1"
+        app:iconSpaceReserved="false"
+        app:key="onlinePlayQuality"
+        app:title="默认画质"
+        app:useSimpleSummaryProvider="true" />
 </PreferenceScreen>

@@ -8,10 +8,12 @@ data class PlayInfo(
     val pageTitle: String,
     val sources: List<Source>,
     val danmakuParser: DanmakuParser,
-    val hasNext: Boolean
+    val hasNext: Boolean,
+    val defaultSource: Source
 ) {
     data class Source(
         val name: String,
+        val id: Int,
         val mediaSource: MediaSource,
         val backupSources: List<MediaSource>
     )

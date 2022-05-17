@@ -32,8 +32,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
             get() = jsonObject.get("accept_format").asString
          val acceptDescription: List<String>
             get() = jsonObject.get("accept_description").asJsonArray.map { it.asString }
-         val acceptQuality: List<Number>
-            get() = jsonObject.get("accept_quality").asJsonArray.map { it.asNumber }
+         val acceptQuality: List<Int>
+            get() = jsonObject.get("accept_quality").asJsonArray.map { it.asInt }
          val videoCodecid: Number
             get() = jsonObject.get("video_codecid").asNumber
          val fnver: Number
@@ -58,8 +58,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
             class Video (private val jsonObject: JsonObject) {
                 fun getJsonObject()  = jsonObject
                 override fun toString()  = jsonObject.toString()
-                 val id: Number
-                    get() = jsonObject.get("id").asNumber
+                 val id: Int
+                    get() = jsonObject.get("id").asInt
                  val baseUrl: String
                     get() = jsonObject.get("base_url").asString
                  val backupUrl: List<String>?
