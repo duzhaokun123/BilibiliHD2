@@ -15,7 +15,6 @@ import com.duzhaokun123.bilibilihd2.model.HistoryCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
 import com.hiczp.bilibili.api.app.model.History
-import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 class HistoryFragment :
     BaseSimpleCardGridSRRVFragment<ItemHistoryCardBinding, HistoryCardModel, HistoryFragment.HistoryModel>(
@@ -40,8 +39,7 @@ class HistoryFragment :
                             setNoMoreData(true)
                         baseModel.tabs.postValue(it.data.tab)
                     })
-        }.also { if (it.isFailure) TipUtil.showTip(context, it.exceptionOrNull()!!.message) }
-            .getOrNull()
+        }.commonOnFailureHandler(context).getOrNull()
     }
 
     override suspend fun onLoadMorIO(): List<HistoryCardModel>? {
@@ -55,8 +53,7 @@ class HistoryFragment :
                     else
                         setNoMoreData(true)
                 })
-        }.also { if (it.isFailure) TipUtil.showTip(context, it.exceptionOrNull()!!.message) }
-            .getOrNull()
+        }.commonOnFailureHandler(context).getOrNull()
     }
 
     override fun initItemView(

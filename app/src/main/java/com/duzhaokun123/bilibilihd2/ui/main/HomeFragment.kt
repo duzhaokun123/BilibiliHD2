@@ -15,7 +15,6 @@ import com.duzhaokun123.bilibilihd2.model.HomeCardModel
 import com.duzhaokun123.bilibilihd2.ui.search.SearchActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.generated.Settings
-import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCardModel, HomeFragment.HomeModel>(
     R.layout.item_home_card,
@@ -27,15 +26,13 @@ class HomeFragment : BaseSimpleCardGridSRRVFragment<ItemHomeCardBinding, HomeCar
     override suspend fun onRefreshIO(): List<HomeCardModel>? {
         return runCatching {
             HomeCardModel.parse(bilibiliClient.appAPI.homePage(pull = true).await())
-        }.also { if (it.isFailure) TipUtil.showTip(context, it.exceptionOrNull()!!.message) }
-            .getOrNull()
+        }.commonOnFailureHandler(context).getOrNull()
     }
 
     override suspend fun onLoadMorIO(): List<HomeCardModel>? {
         return runCatching {
             HomeCardModel.parse(bilibiliClient.appAPI.homePage(pull = false).await())
-        }.also { if (it.isFailure) TipUtil.showTip(context, it.exceptionOrNull()!!.message) }
-            .getOrNull()
+        }.commonOnFailureHandler(context).getOrNull()
     }
 
     override fun initItemView(

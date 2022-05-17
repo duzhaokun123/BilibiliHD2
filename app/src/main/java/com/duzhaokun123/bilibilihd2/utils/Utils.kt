@@ -3,9 +3,7 @@ package com.duzhaokun123.bilibilihd2.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.content.res.Resources
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +21,12 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
 import com.google.gson.Gson
-import com.hiczp.bilibili.api.app.model.MyInfo
 import io.github.duzhaokun123.androidapptemplate.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
-import java.lang.reflect.Method
 
 val application get() = Application.instance
 
@@ -69,7 +65,7 @@ fun <T> runIOCatchingResultRunMain(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            TipUtil.showTip(context, e.message)
+            TipUtil.showTip(context, e)
             onCatch?.invoke(e)
         }
     }
@@ -127,7 +123,7 @@ fun Resources.Theme.getAttr(@AttrRes id: Int) =
 fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
     onFailure { t ->
         t.printStackTrace()
-        TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
+        TipUtil.showTip(context, t)
         extra?.invoke(t)
     }
 
@@ -141,7 +137,7 @@ fun <R> RunIOCatchingPending<R>.onSuccessMain(onSuccessMain: suspend CoroutineSc
 fun <R> Result<R>.commonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
     onFailure { t ->
         t.printStackTrace()
-        TipUtil.showTip(context, t.localizedMessage.takeIf { it.isNullOrBlank() } ?: t.message)
+        TipUtil.showTip(context, t)
         extra?.invoke(t)
     }
 

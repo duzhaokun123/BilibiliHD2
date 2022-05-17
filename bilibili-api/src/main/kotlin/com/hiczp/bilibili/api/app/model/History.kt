@@ -57,8 +57,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
                 get() = jsonObject.get("videos").asNumber
              val view: Number
                 get() = jsonObject.get("view").asNumber
-             val name: String
-                get() = jsonObject.get("name").asString
+             val name: String?
+                get() = jsonObject.get("name")?.asString
              val mid: Number
                 get() = jsonObject.get("mid").asNumber
              val goto: String
