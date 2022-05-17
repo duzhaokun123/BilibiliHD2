@@ -152,7 +152,7 @@ dependencies {
     kapt("com.android.databinding:compiler:3.2.0-alpha10")
 
     //SmartRefreshLayout
-    val srlVersion = "2.0.3"
+    val srlVersion = "2.0.5"
     implementation("com.scwang.smart:refresh-layout-kernel:$srlVersion")
     implementation("com.scwang.smart:refresh-header-material:$srlVersion")
     implementation("com.scwang.smart:refresh-footer-classics:$srlVersion")
