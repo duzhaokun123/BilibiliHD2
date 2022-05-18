@@ -49,7 +49,7 @@ object TipUtil {
                 .setAction("查看详情") {
                     MaterialAlertDialogBuilder(coordinatorLayout.context)
                         .setTitle(msg)
-                        .setMessage("${t.message}\n{t.stackTraceToString()}")
+                        .setMessage("${t.message}\n${t.stackTraceToString()}")
                         .show()
                         .findViewById<TextView>(android.R.id.message)
                         ?.setTextIsSelectable(true)
