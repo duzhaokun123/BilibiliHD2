@@ -122,7 +122,7 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))
@@ -180,7 +180,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     //core-splashscreen
-    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
 //    //picasso
 //    implementation("com.squareup.picasso:picasso:2.71828")
