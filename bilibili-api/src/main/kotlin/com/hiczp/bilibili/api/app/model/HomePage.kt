@@ -57,8 +57,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
                 get() = jsonObject.get("track_id").asString
              val avatar: Avatar?
                 get() = jsonObject.get("avatar")?.asAvatar
-             val coverLeftText2: String
-                get() = jsonObject.get("cover_left_text_2").asString
+             val coverLeftText2: String?
+                get() = jsonObject.get("cover_left_text_2")?.asString
              val coverLeftText3: String
                 get() = jsonObject.get("cover_left_text_3").asString
              val coverBadge: String?
