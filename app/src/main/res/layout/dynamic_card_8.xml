@@ -35,7 +35,7 @@
             android:layout_marginTop="4dp"
             android:scaleType="center"
             app:imageUrl="@{card.coverUrl}"
-            app:ration="0.5625" />
+            app:ration="0.625" />
 
         <TextView
             android:id="@+id/tv_title"

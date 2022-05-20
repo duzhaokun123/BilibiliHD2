@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.LayoutIvOverlayBinding
 import com.duzhaokun123.bilibilihd2.ui.BigImageViewActivity
+import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import java.io.File
@@ -89,7 +90,7 @@ object ImageViewUtil {
         }
 
         StfalconImageViewer.Builder(activity, imageUrls) { imageView, imageUrl ->
-                Glide.with(activity).load(imageUrl).into(imageView)
+            Picasso.get().load(imageUrl).into(imageView)
         }
             .withHiddenStatusBar(false)
             .withTransitionFrom(imageViews[position])

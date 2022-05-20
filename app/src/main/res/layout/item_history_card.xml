@@ -27,7 +27,7 @@
             android:scaleType="center"
             app:cornerRadius="100dp"
             app:imageUrl="@{model.coverUrl}"
-            app:ration="0.5625"
+            app:ration="0.625"
             tools:src="@tools:sample/avatars" />
 
         <TextView

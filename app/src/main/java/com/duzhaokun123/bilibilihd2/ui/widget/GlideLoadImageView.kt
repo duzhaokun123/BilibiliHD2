@@ -9,6 +9,6 @@ open class GlideLoadImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : AppCompatImageView(context, attrs, defStyleAttr) {
     fun setImageUrl(url: String?) {
-        glideSafeLoadInto(url, this)
+        glideSafeLoadInto(url, this, context)
     }
 }

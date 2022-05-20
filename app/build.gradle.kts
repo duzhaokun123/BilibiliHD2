@@ -182,8 +182,8 @@ dependencies {
     //core-splashscreen
     implementation("androidx.core:core-splashscreen:1.0.0-rc01")
 
-//    //picasso
-//    implementation("com.squareup.picasso:picasso:2.71828")
+    //picasso
+    implementation("com.squareup.picasso:picasso:2.71828")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {

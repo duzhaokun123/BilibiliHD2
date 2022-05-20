@@ -24,7 +24,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             app:imageUrl="@{relate.cover}"
-            app:ration="0.5625" />
+            app:ration="0.625" />
 
         <LinearLayout
             android:layout_width="match_parent"
