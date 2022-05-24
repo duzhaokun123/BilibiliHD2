@@ -2,22 +2,19 @@ package com.duzhaokun123.bilibilihd2.ui
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import android.widget.ImageView
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updatePadding
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityBivBinding
-import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.bilibilihd2.utils.getColorCompat
+import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
+import com.duzhaokun123.bilibilihd2.utils.runMain
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Transformation
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
-import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import kotlin.math.max
 import kotlin.math.min
 
@@ -47,46 +44,26 @@ class BigImageViewActivity : BaseActivity<ActivityBivBinding>(
     override fun initData() {
         val url = startIntent.getStringExtra(EXTRA_URL) ?: return
         val imageView = baseBinding.pv
-        Glide.with(this).load(url).addListener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                TipUtil.showToast(e?.message)
-                return true
-            }
-
-            override fun onResourceReady(
-                resource: Drawable,
-                model: Any?,
-                target: Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                if (resource is BitmapDrawable) {
-                    runNewThread {
-                        val bitmap =
-                            Glide.with(this@BigImageViewActivity).asBitmap().load(url).submit()
-                                .get()
-                        val sX = imageView.measuredWidth / bitmap.width.toFloat()
-                        val sY = imageView.measuredHeight / bitmap.height.toFloat()
-                        val scale = min(sX, sY)
-                        runMain {
-                            imageView.apply {
-                                scaleType = ImageView.ScaleType.CENTER
-                                setImageBitmap(bitmap)
-                                maximumScale = max(5F, scale)
-                                mediumScale = (maximumScale + scale) / 2
-                                minimumScale = scale
-                                this@apply.scale = scale
-                            }
-                        }
+        Picasso.get().load(url).transform(object : Transformation {
+            override fun transform(source: Bitmap): Bitmap {
+                val sX = imageView.measuredWidth / source.width.toFloat()
+                val sY = imageView.measuredHeight / source.height.toFloat()
+                val scale = min(sX, sY)
+                runMain {
+                    imageView.apply {
+                        scaleType = ImageView.ScaleType.CENTER
+                        setImageBitmap(source)
+                        maximumScale = max(5F, scale)
+                        mediumScale = (maximumScale + scale) / 2
+                        minimumScale = scale
+                        this@apply.scale = scale
                     }
                 }
-                return false
+                return source
             }
+
+            override fun key() = "big_image_view"
+
         }).into(imageView)
     }
 

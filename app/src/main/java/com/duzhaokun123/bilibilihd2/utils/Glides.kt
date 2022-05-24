@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Transformation
@@ -21,7 +20,7 @@ fun glideSafeLoadInto(url: String?, target: ImageView, context: Context = applic
                 if (source.width == 0) return source
                 val ratio = targetWidth.toFloat() / source.width.toFloat()
                 val targetHeight = (source.height * ratio).toInt()
-                val result = runCatching{ Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false) }.getOrDefault(source)
+                val result = runCatching{ source.resize(targetWidth, targetHeight) }.getOrDefault(source)
                 if (result != source) {
                     source.recycle()
                 }
@@ -42,7 +41,7 @@ fun glideSafeGet(url: String?, onGet: suspend (bitmap: Bitmap) -> Unit) {
     url ?: return
     runNewThread {
         try {
-            val bitmap = Glide.with(application).asBitmap().load(url).submit().get()
+            val bitmap = Picasso.get().load(url).get()
             runMain {
                 onGet(bitmap)
             }
@@ -55,7 +54,7 @@ fun glideSafeGet(url: String?, onGet: suspend (bitmap: Bitmap) -> Unit) {
 fun glideSafeGetSync(url: String?): Bitmap? {
     url ?: return null
     try {
-        return Glide.with(application).asBitmap().load(url).submit().get()
+        return Picasso.get().load(url).get()
     } catch (e: Exception) {
         e.printStackTrace()
     }

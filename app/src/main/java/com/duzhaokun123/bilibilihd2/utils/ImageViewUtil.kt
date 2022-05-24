@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.view.LayoutInflater
 import android.widget.ImageView
@@ -11,13 +12,13 @@ import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
-import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.LayoutIvOverlayBinding
 import com.duzhaokun123.bilibilihd2.ui.BigImageViewActivity
 import com.squareup.picasso.Picasso
 import com.stfalcon.imageviewer.StfalconImageViewer
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 object ImageViewUtil {
@@ -106,11 +107,12 @@ object ImageViewUtil {
     private fun withShareImageUri(context: Context, url: String?, block: (Uri) -> Unit) {
         url ?: return
         runNewThread {
-            val file = Glide.with(context).asFile().load(url).submit().get()
             val shareFile = File(
-                context.cacheDir, "shareImg${File.separatorChar}share.jpeg"
+                context.cacheDir, "shareImg${File.separatorChar}share.png"
             ).apply { parentFile!!.mkdirs() }
-            file.copyTo(shareFile, overwrite = true)
+            val png = ByteArrayOutputStream()
+            Picasso.get().load(url).get()?.compress(Bitmap.CompressFormat.PNG, 100, png)
+            shareFile.writeBytes(png.toByteArray())
             val shareUri = FileProvider.getUriForFile(
                 context, "com.duzhaokun123.bilibilihd2.fileprovider", shareFile
             )

@@ -2,13 +2,16 @@ package com.duzhaokun123.bilibilihd2.utils
 
 import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Environment
 import android.os.FileUtils
 import android.provider.MediaStore
-import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.R
+import com.squareup.picasso.Picasso
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -18,7 +21,9 @@ object DownloadUtil {
         runNewThread {
             var exception: Exception? = null
             var success = false
-            val inputStream = FileInputStream(Glide.with(context).asFile().load(url).submit().get())
+            val png = ByteArrayOutputStream()
+            Picasso.get().load(url).get().compress(Bitmap.CompressFormat.PNG, 100, png)
+            val inputStream = ByteArrayInputStream(png.toByteArray())
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
                 try {
                     FileOutputStream(File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "bilibili HD${File.separatorChar}${System.currentTimeMillis()}").apply {
@@ -43,8 +48,8 @@ object DownloadUtil {
                     put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg") // FIXME: 20-12-2 为什么一定是 jpeg
                 }
                 val pictureContentUri = resolver.insert(pictureCollection, pictureValues)!!
-                resolver.openFileDescriptor(pictureContentUri, "w", null)!!.use {
-                    FileUtils.copy(inputStream.fd, it.fileDescriptor)
+                resolver.openOutputStream(pictureContentUri, "w")!!.use {
+                    FileUtils.copy(inputStream, it)
                 }
                 pictureValues.clear()
                 pictureValues.put(MediaStore.Images.Media.IS_PENDING, 0)

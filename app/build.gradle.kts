@@ -138,10 +138,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.9.0")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
-    //glide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    kapt("com.github.bumptech.glide:compiler:4.12.0")
-
     //nav
     val navVersion = "2.4.0-alpha01"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")

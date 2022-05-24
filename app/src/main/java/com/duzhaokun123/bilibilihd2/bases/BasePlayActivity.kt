@@ -18,10 +18,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
 import androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID
 import androidx.core.graphics.Insets
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
-import com.bumptech.glide.Glide
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 
 /**
@@ -273,7 +274,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
         coverUrl = url
         runNewThread {
             try {
-                val cover = Glide.with(this).load(url).submit().get()
+                val cover = Picasso.get().load(url).get().toDrawable(resources)
                 runMain {
                     biliPlayerView.setCover(cover)
                 }
