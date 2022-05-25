@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     //grpc
-    def grpcVersion = '1.37.1'
+    def grpcVersion = '1.46.0'
     api "io.grpc:grpc-okhttp:$grpcVersion"
     api "io.grpc:grpc-android:$grpcVersion"
     api "io.grpc:grpc-protobuf:$grpcVersion"
