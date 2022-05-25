@@ -43,13 +43,13 @@ jobs:
           mv ${{ github.workspace }}/app/build/outputs/apk/release/app-release.apk ${{ github.workspace }}/app/build/outputs/apk/release/BilibiliHD2_release_${{ env.VERSION }}.apk
       - name: Upload built apk
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: BilibiliHD2_release_${{ env.VERSION }}.apk
           path: ${{ env.APK_FILE }}
       - name: Upload mapping.txt to GitHub
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: mapping.txt
           path: ${{ github.workspace }}/app/build/outputs/mapping/release/mapping.txt
@@ -106,7 +106,7 @@ jobs:
           bash ./gradlew assembleDebug
       - name: Upload built apk
         if: success()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: BilibiliHD2_debug_${{ env.VERSION }}.apk
           path: ${{ github.workspace }}/app/build/outputs/apk/debug/app-debug.apk
