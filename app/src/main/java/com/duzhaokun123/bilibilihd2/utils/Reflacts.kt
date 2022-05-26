@@ -5,3 +5,6 @@ import java.lang.reflect.Modifier
 
 val Method.isStatic: Boolean
     get() = Modifier.isStatic(modifiers)
+
+val Method.parameterCountCompat: Int
+    get() = parameterTypes.size

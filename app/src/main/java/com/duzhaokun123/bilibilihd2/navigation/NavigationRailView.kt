@@ -6,12 +6,13 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.NavigationUI
 import com.duzhaokun123.bilibilihd2.utils.isStatic
+import com.duzhaokun123.bilibilihd2.utils.parameterCountCompat
 import com.google.android.material.navigationrail.NavigationRailView
 import java.lang.ref.WeakReference
 
 val NavigationUI_matchDestination by lazy {
     NavigationUI::class.java.declaredMethods.find {
-        it.isStatic && it.returnType == java.lang.Boolean.TYPE && it.parameterCount == 2 && it.parameterTypes[0] == NavDestination::class.java && it.parameterTypes[1] == Integer.TYPE
+        it.isStatic && it.returnType == java.lang.Boolean.TYPE && it.parameterCountCompat == 2 && it.parameterTypes[0] == NavDestination::class.java && it.parameterTypes[1] == Integer.TYPE
     }!!
 }
 

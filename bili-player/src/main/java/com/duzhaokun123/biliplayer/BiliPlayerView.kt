@@ -2,20 +2,27 @@ package com.duzhaokun123.biliplayer
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
 import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.ui.DanmakuView
 import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.Renderer
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.mediacodec.MediaCodecInfo
+import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer
+import com.google.android.exoplayer2.ui.DebugTextViewHelper
 import com.google.android.exoplayer2.ui.DefaultTimeBar
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.ui.StyledPlayerView
@@ -23,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.lang.reflect.Array as JArray
 
 class BiliPlayerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -32,6 +40,16 @@ class BiliPlayerView @JvmOverloads constructor(
     }
 
     private var selectedSource: PlayInfo.Source? = null
+    private lateinit var debugTextViewHelper: DebugTextViewHelper
+    private val tvDebug2 by lazy { findViewById<TextView>(R.id.tv_debug2) }
+    private val Player_renderers by lazy {
+        val target = JArray.newInstance(Renderer::class.java, 0).javaClass
+        player.javaClass.declaredFields.find { it.type == target }!!.apply { isAccessible = true }
+    }
+    private val MediaCodecRenderer_codecInfo by lazy {
+        val target = MediaCodecInfo::class.java
+        MediaCodecRenderer::class.java.declaredFields.find { it.type == target }!!.apply { isAccessible = true }
+    }
 
     val buttonAlphaEnabled =
         resources.getInteger(R.integer.exo_media_button_opacity_percentage_enabled)
@@ -87,12 +105,20 @@ class BiliPlayerView @JvmOverloads constructor(
             findViewById<Button>(R.id.btn_danmakuSwitch).setOnClickListener {
                 danmakuView.visibility = if (danmakuView.isShowing) INVISIBLE else VISIBLE
             }
+
+            if (BuildConfig.DEBUG) {
+                debugTextViewHelper = DebugTextViewHelper(player, findViewById(R.id.tv_debug))
+                debugTextViewHelper.start()
+                updateDebug2()
+                danmakuView.drawDebugInfo = true
+            }
         }
     }
 
     fun destroy() {
         player.release()
         danmakuView.destroy()
+        debugTextViewHelper.stop()
         state = State.DESTROYED
     }
 
@@ -192,7 +218,41 @@ class BiliPlayerView @JvmOverloads constructor(
         danmakuView.speed = playbackParameters.speed
     }
 
+    override fun onPlaybackStateChanged(state: Int) {
+        if (BuildConfig.DEBUG) {
+            updateDebug2()
+        }
+    }
+
+    override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+        if (BuildConfig.DEBUG) {
+            updateDebug2()
+        }
+    }
+
     fun setCover(cover: Drawable?) {
         findViewById<AppCompatImageView>(R.id.iv_cover).setImageDrawable(cover)
+    }
+
+    private fun updateDebug2() {
+        val renderers = Player_renderers.get(player) as Array<Renderer>
+        renderers.fold(StringBuilder("renderers: ${player.rendererCount}\n")) { sb, r ->
+            sb.append(r.name).append(": ").append(r.state).append("\n")
+            if (r is MediaCodecRenderer) {
+                val codecInfo = MediaCodecRenderer_codecInfo.get(r) as MediaCodecInfo?
+                sb.append("  ").apply {
+                    if (codecInfo != null) {
+                        append(codecInfo.name)
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            append(" hw: ").append(codecInfo.hardwareAccelerated)
+                            append(" swo: ").append(codecInfo.softwareOnly)
+                        }
+                    } else {
+                        append("null")
+                    }
+                }.append("\n")
+            }
+            sb
+        }.let { tvDebug2.text = it }
     }
 }
