@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -30,11 +29,26 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.Array
+import kotlin.Boolean
+import kotlin.Int
+import kotlin.Unit
+import kotlin.apply
+import kotlin.getValue
+import kotlin.lazy
+import kotlin.let
 import java.lang.reflect.Array as JArray
 
 class BiliPlayerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), Player.EventListener {
+    companion object {
+        var isDebug = false
+        val MediaCodecRenderer_codecInfo by lazy {
+            val target = MediaCodecInfo::class.java
+            MediaCodecRenderer::class.java.declaredFields.find { it.type == target }!!.apply { isAccessible = true }
+        }
+    }
     enum class State {
         PLAYING, PAUSED, STOPPED, DESTROYED
     }
@@ -45,10 +59,6 @@ class BiliPlayerView @JvmOverloads constructor(
     private val Player_renderers by lazy {
         val target = JArray.newInstance(Renderer::class.java, 0).javaClass
         player.javaClass.declaredFields.find { it.type == target }!!.apply { isAccessible = true }
-    }
-    private val MediaCodecRenderer_codecInfo by lazy {
-        val target = MediaCodecInfo::class.java
-        MediaCodecRenderer::class.java.declaredFields.find { it.type == target }!!.apply { isAccessible = true }
     }
 
     val buttonAlphaEnabled =
@@ -106,7 +116,7 @@ class BiliPlayerView @JvmOverloads constructor(
                 danmakuView.visibility = if (danmakuView.isShowing) INVISIBLE else VISIBLE
             }
 
-            if (BuildConfig.DEBUG) {
+            if (isDebug) {
                 debugTextViewHelper = DebugTextViewHelper(player, findViewById(R.id.tv_debug))
                 debugTextViewHelper.start()
                 updateDebug2()

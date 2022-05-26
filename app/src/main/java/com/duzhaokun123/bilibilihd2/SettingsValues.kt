@@ -77,3 +77,6 @@ val playPauseTime = 0
 
 @SettingsValue(saveAsString = true)
 val onlinePlayQuality = -1
+
+@SettingsValue
+val playerDebug = false
