@@ -37,7 +37,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
     implementation("com.google.android.material:material:$material_version")
 
-    val exoplayerVersion = "2.17.1"
+    val exoplayerVersion = "2.13.3"
     api("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
     compileOnly("org.checkerframework:checker-qual:3.22.0")
     api("androidx.media:media:1.6.0")
