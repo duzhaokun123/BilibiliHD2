@@ -128,7 +128,8 @@ class BiliPlayerView @JvmOverloads constructor(
     fun destroy() {
         player.release()
         danmakuView.destroy()
-        debugTextViewHelper.stop()
+        if (isDebug)
+            debugTextViewHelper.stop()
         state = State.DESTROYED
     }
 
@@ -229,13 +230,13 @@ class BiliPlayerView @JvmOverloads constructor(
     }
 
     override fun onPlaybackStateChanged(state: Int) {
-        if (BuildConfig.DEBUG) {
+        if (isDebug) {
             updateDebug2()
         }
     }
 
     override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-        if (BuildConfig.DEBUG) {
+        if (isDebug) {
             updateDebug2()
         }
     }
