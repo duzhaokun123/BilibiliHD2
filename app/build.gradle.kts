@@ -122,7 +122,7 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))
