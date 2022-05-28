@@ -23,6 +23,7 @@ import androidx.core.net.toUri
 import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
 import com.duzhaokun123.bilibilihd2.Application
+import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
@@ -32,7 +33,7 @@ import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -48,7 +49,9 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     StyledPlayerControlView.VisibilityListener {
     val dataSourceFactory by lazy {
         CacheDataSource.Factory().setCache(Application.simpleCache)
-            .setUpstreamDataSourceFactory(DefaultDataSourceFactory(this))
+            .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory()
+                .setDefaultRequestProperties(mapOf("Referer" to "https://www.bilibili.com"))
+                .setUserAgent(DESKTOP_USER_AGENT))
     }
 
     var isFullScreen = false

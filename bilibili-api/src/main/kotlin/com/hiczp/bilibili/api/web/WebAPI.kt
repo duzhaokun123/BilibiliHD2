@@ -1,5 +1,6 @@
 package com.hiczp.bilibili.api.web
 
+import com.hiczp.bilibili.api.player.model.VideoPlayUrl
 import com.hiczp.bilibili.api.retrofit.interceptor.CommonResponseLazyjson
 import com.hiczp.bilibili.api.web.model.EmoteList
 import com.hiczp.bilibili.api.web.model.VideoShot
@@ -49,4 +50,14 @@ interface WebAPI {
     fun emoteList(
         @Query("business") business: String
     ): Deferred<EmoteList>
+
+    @GET("/x/player/playurl")
+    fun playUrl(
+        @Query("avid") avid: Long,
+        @Query("cid") cid: Long,
+        @Query("qn") qn: Int = 0,
+        @Query("fnval") fnval: Int = 16 /* dash */ + 64 /* hdr */ /*+ 128 /* 4k */ + 256 /* 杜比音频 */ + 512 /* 杜比视界 */ + 1024 /* 8k */ */,
+        @Query("fnver") fnver: Int = 0,
+        @Query("fourk") fourk: Int = 1,
+    ): Deferred<VideoPlayUrl>
 }

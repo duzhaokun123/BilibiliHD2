@@ -63,13 +63,15 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
                  val baseUrl: String
                     get() = jsonObject.get("base_url").asString
                  val backupUrl: List<String>?
-                    get() = jsonObject.get("backup_url")?.asJsonArray?.map { it.asString }
+                    get() = jsonObject.get("backup_url")?.takeIf { it.isJsonArray }?.asJsonArray?.map { it.asString }
                  val bandwidth: Number
                     get() = jsonObject.get("bandwidth").asNumber
                  val codecid: Number
                     get() = jsonObject.get("codecid").asNumber
                  val size: Number
                     get() = jsonObject.get("size").asNumber
+                val codecs: String
+                    get() = jsonObject.get("codecs").asString
             }
             private val JsonElement.asAudio
                 get() = Audio(this.asJsonObject)

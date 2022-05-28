@@ -27,6 +27,7 @@ import com.duzhaokun123.bilibilihd2.databinding.LayoutOnlineplayIntroBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.comment.RootCommentFragment
 import com.duzhaokun123.bilibilihd2.utils.*
+import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
 import com.duzhaokun123.generated.Settings
@@ -38,8 +39,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
-import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
-import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutoutIme
+import io.github.duzhaokun123.androidapptemplate.utils.*
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class OnlinePlayActivity : BasePlayActivity() {
@@ -281,12 +281,15 @@ class OnlinePlayActivity : BasePlayActivity() {
 
     private fun updateVideoPlayUrl() {
         cid = biliView!!.data.pages[page - 1].cid
-        runIOCatchingResultRunMain(this,
-            { bilibiliClient.playerAPI.videoPlayUrl(cid = cid, aid = aid).await() })
-        {
-            setVideoPlayUrl(it)
-            prepare()
-        }
+        runIOCatching {
+            bilibiliClient.webAPI.playUrl(cid = cid, avid = aid).await()
+        }.setCommonOnFailureHandler(this)
+            .onSuccess {
+                io.github.duzhaokun123.androidapptemplate.utils.runMain {
+                    setVideoPlayUrl(it)
+                    prepare()
+                }
+            }.launch()
     }
 
     private fun setVideoPlayUrl(videoPlayUrl: VideoPlayUrl) {
@@ -314,9 +317,9 @@ class OnlinePlayActivity : BasePlayActivity() {
                 val mb = if (hasAudio) MergingMediaSource(bv, audioSource!!) else bv
                 backups.add(mb)
             }
-            val name = videoPlayUrl.data.acceptDescription.getOrNull(
+            val name = (videoPlayUrl.data.acceptDescription.getOrNull(
                 videoPlayUrl.data.acceptQuality.indexOf(video.id)
-            ) ?: video.id.toString()
+            ) ?: video.id.toString()) + " " + video.codecs
             sources.add(PlayInfo.Source(name, video.id, mergedSource, backups))
         }
         if (hasAudio)

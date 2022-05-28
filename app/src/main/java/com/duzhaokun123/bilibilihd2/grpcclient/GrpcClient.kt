@@ -1,12 +1,14 @@
 package com.duzhaokun123.bilibilihd2.grpcclient
 
-import com.bapis.bilibili.community.service.dm.v1.*
-import com.bapis.bilibili.main.community.reply.v1.*
+import com.bapis.bilibili.community.service.dm.v1.DMGrpc
+import com.bapis.bilibili.main.community.reply.v1.ReplyGrpc
 import com.duzhaokun123.bilibilihd2.utils.application
 import com.duzhaokun123.bilibilihd2.utils.bilibiliClient
 import io.grpc.*
 import io.grpc.android.AndroidChannelBuilder
 import io.grpc.stub.MetadataUtils
+import kotlin.apply
+import kotlin.let
 import com.bapis.bilibili.metadata.Metadata as BiliMetadata
 
 class GrpcClient {
