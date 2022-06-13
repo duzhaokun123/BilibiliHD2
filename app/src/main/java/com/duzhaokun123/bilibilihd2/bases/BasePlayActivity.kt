@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Rational
 import android.view.*
+import androidx.activity.viewModels
 import androidx.annotation.CallSuper
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -22,19 +23,26 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.core.view.*
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
+import com.duzhaokun123.bilibilihd2.bilisubtitle.BiliSubtitleRendererFactory
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.duzhaokun123.generated.Settings
+import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
+import com.google.android.exoplayer2.video.VideoDecoderOutputBufferRenderer
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
@@ -54,10 +62,20 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
                 .setUserAgent(DESKTOP_USER_AGENT))
     }
 
+    class PlayerModel: ViewModel() {
+        val player = MutableLiveData(ExoPlayer.Builder(application)
+            .setRenderersFactory(MergingRenderersFactory(BiliSubtitleRendererFactory, DefaultRenderersFactory(application)))
+            .build()) as LiveData<ExoPlayer>
+
+        override fun onCleared() {
+            super.onCleared()
+            player.value?.release()
+        }
+    }
     var isFullScreen = false
         private set
-    lateinit var biliPlayerView: BiliPlayerView
-        private set
+//    lateinit var biliPlayerView: BiliPlayerView
+//        private set
     val windowInsetsControllerCompat by lazy {
         WindowInsetsControllerCompat(window, rootBinding.root)
     }
@@ -71,6 +89,10 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             }
         }
     }
+    val playerModel by viewModels<PlayerModel>()
+
+    val player
+        get() = playerModel.player.value!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,39 +101,40 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     @CallSuper
     override fun findViews() {
-        if (::biliPlayerView.isInitialized.not()) {
-            biliPlayerView = BiliPlayerView(this).apply {
-                id = R.id.bpv
-                setPlayedColor(getColorCompat(R.color.biliPink))
-                playerView.setControllerOnFullScreenModeChangedListener(this@BasePlayActivity)
-                setBackgroundColor(getColorCompat(R.color.black))
-                playerView.setControllerVisibilityListener(this@BasePlayActivity)
-                onNextClickListener = this@BasePlayActivity::onNextClick
-                ViewCompat.setElevation(this, 1.dpToPx().toFloat())
-                player.addListener(object : Player.EventListener {
-                    override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        if (isPlaying) {
-                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                            if (played.not()) {
-                                played = true
-                                onFirstPlay()
-                            }
-                        }else
-                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-                    }
-
-                    override fun onPlayerError(error: ExoPlaybackException) {
-                        Snackbar.make(rootBinding.rootCl, error.cause?.localizedMessage ?: "null", Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.retry) {
-                                player.prepare()
-                            }
-                            .show()
-                    }
-                })
-                danmakuView.zOnTop = Settings.danmakuOnTop
-            }
-        }
-        baseBinding.rl.addView(biliPlayerView,1, ViewGroup.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT))
+//        if (::biliPlayerView.isInitialized.not()) {
+//            biliPlayerView = BiliPlayerView(this).apply {
+//                id = R.id.bpv
+//                setPlayedColor(getColorCompat(R.color.biliPink))
+//                playerView.setControllerOnFullScreenModeChangedListener(this@BasePlayActivity)
+//                setBackgroundColor(getColorCompat(R.color.black))
+//                playerView.setControllerVisibilityListener(this@BasePlayActivity)
+//                onNextClickListener = this@BasePlayActivity::onNextClick
+//                ViewCompat.setElevation(this, 1.dpToPx().toFloat())
+//                player.addListener(object : Player.EventListener {
+//                    override fun onIsPlayingChanged(isPlaying: Boolean) {
+//                        if (isPlaying) {
+//                            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+//                            if (played.not()) {
+//                                played = true
+//                                onFirstPlay()
+//                            }
+//                        }else
+//                            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+//                    }
+//
+//                    override fun onPlayerError(error: ExoPlaybackException) {
+//                        Snackbar.make(rootBinding.rootCl, error.cause?.localizedMessage ?: "null", Snackbar.LENGTH_INDEFINITE)
+//                            .setAction(R.string.retry) {
+//                                player.prepare()
+//                            }
+//                            .show()
+//                    }
+//                })
+//                danmakuView.zOnTop = Settings.danmakuOnTop
+//            }
+//        }
+//        baseBinding.rl.addView(biliPlayerView,1, ViewGroup.LayoutParams(MATCH_CONSTRAINT, MATCH_CONSTRAINT))
+        baseBinding.pv.changeFullScreenMode(isFullScreen)
         onFullScreenModeChanged(isFullScreen)
     }
 
@@ -120,6 +143,9 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             baseBinding.abl.outlineProvider = null
         }
+        baseBinding.pv.player = player
+        baseBinding.pv.onFullScreenModeChangedListener = ::onFullScreenModeChanged
+        baseBinding.pv.setControllerVisibilityListener(this)
     }
 
     @CallSuper
@@ -150,14 +176,13 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             }
         }
         (if (isFullScreen) insets.displayCutoutInsets else Insets.NONE).let {
-            biliPlayerView.updatePadding(left = it.left, top = it.top, right = it.right, bottom = it.bottom)
+            baseBinding.pv.updatePadding(left = it.left, top = it.top, right = it.right, bottom = it.bottom)
             baseBinding.abl.updatePadding(left = it.left, right = it.right)
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        biliPlayerView.destroy()
         unregisterReceiver(audioBecomingNoisyBroadcastReceiver)
     }
 
@@ -169,7 +194,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     override fun onBackPressed() {
         if (isFullScreen)
-            biliPlayerView.changeFullscreen()
+            baseBinding.pv.changeFullScreenMode(false)
         else
             super.onBackPressed()
     }
@@ -189,7 +214,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
                 true
             }
             R.id.item_retry -> {
-                biliPlayerView.player.prepare()
+                player.prepare()
                 true
             }
             R.id.item_settings -> {
@@ -198,7 +223,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             }
             R.id.item_pip -> {
                 if (isFullScreen.not())
-                    biliPlayerView.changeFullscreen()
+                    baseBinding.pv.changeFullScreenMode(true)
                 runCatching {
                     enterPictureInPictureMode(PictureInPictureParams.Builder().setAspectRatio(getVideoRatioin()).build())
                 }.onFailure {
@@ -220,7 +245,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     override fun onStart() {
         super.onStart()
-        biliPlayerView.playerView.showController()
+        baseBinding.pv.showController()
         if (Settings.playPauseTime == 1) {
             if (isPlayBeforeStop)
                 resume()
@@ -230,14 +255,14 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     override fun onStop() {
         super.onStop()
         if (Settings.playPauseTime == 1) {
-            isPlayBeforeStop = biliPlayerView.player.playWhenReady
+            isPlayBeforeStop = player.playWhenReady
             pause()
         }
     }
 
     override fun onResume() {
         super.onResume()
-        biliPlayerView.playerView.onResume()
+        baseBinding.pv.onResume()
         if (Settings.playPauseTime == 0) {
             if (isPlayBeforeStop)
                 resume()
@@ -246,31 +271,32 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     override fun onPause() {
         super.onPause()
-        biliPlayerView.playerView.onPause()
+        baseBinding.pv.onPause()
         if (Settings.playPauseTime == 0) {
-            isPlayBeforeStop = biliPlayerView.player.playWhenReady
+            isPlayBeforeStop = player.playWhenReady
             pause()
         }
     }
 
     fun start() {
-        biliPlayerView.start()
+        player.seekTo(0)
+        player.play()
     }
 
     fun stop() {
-        biliPlayerView.stop()
+        player.stop()
     }
 
     fun pause() {
-        biliPlayerView.pause()
+        player.playWhenReady = false
     }
 
     fun resume() {
-        biliPlayerView.resume()
+        player.playWhenReady = true
     }
 
     fun prepare() {
-        biliPlayerView.prepare()
+        player.prepare()
     }
 
     fun setCoverUrl(url: String?) {
@@ -279,7 +305,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             try {
                 val cover = Picasso.get().load(url).get().toDrawable(resources)
                 runMain {
-                    biliPlayerView.setCover(cover)
+                    baseBinding.pv.setCover(cover)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -292,7 +318,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     override fun onFullScreenModeChanged(isFullScreen: Boolean) {
         this.isFullScreen = isFullScreen
         if (isFullScreen) {
-            biliPlayerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            baseBinding.pv.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topToTop = PARENT_ID
                 startToStart = PARENT_ID
                 endToEnd = PARENT_ID
@@ -301,7 +327,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             windowInsetsControllerCompat.hide(WindowInsetsCompat.Type.navigationBars())
             windowInsetsControllerCompat.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         } else {
-            biliPlayerView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+            baseBinding.pv.updateLayoutParams<ConstraintLayout.LayoutParams> {
                 topToTop = R.id.rhv
                 startToStart = R.id.rhv
                 endToEnd = R.id.rhv
@@ -311,9 +337,9 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
         }
     }
 
-    override fun onVisibilityChange(visibility: Boolean) {
+    override fun onVisibilityChange(visibility: Int) {
         baseBinding.abl.elevation = 2.dpToPx().toFloat()
-        if (visibility) {
+        if (visibility == View.VISIBLE) {
             supportActionBar?.show()
             windowInsetsControllerCompat.show(WindowInsetsCompat.Type.statusBars())
         } else {
@@ -328,7 +354,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     override fun onLowMemory() {
         super.onLowMemory()
-        if ((window.decorView.isVisible || biliPlayerView.isPlaying).not())
+        if ((window.decorView.isVisible || player.isPlaying).not())
             finish()
     }
 
@@ -341,7 +367,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     @CallSuper
     open fun beforeReinitLayout() {
-        baseBinding.rl.removeView(biliPlayerView)
+        baseBinding.pv.player = null
     }
 
     open fun onFirstPlay() {

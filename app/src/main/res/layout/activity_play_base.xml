@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rl"
@@ -18,14 +18,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.duzhaokun123.bilibilihd2.ui.widget.PlayerView
+            android:id="@+id/pv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/rhv"
+            app:layout_constraintEnd_toEndOf="@id/rhv"
+            app:layout_constraintStart_toStartOf="@id/rhv"
+            app:layout_constraintTop_toTopOf="@id/rhv"
+            app:played_color="@color/biliPink" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/abl"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            app:layout_constraintEnd_toEndOf="@id/bpv"
-            app:layout_constraintStart_toStartOf="@id/bpv"
-            app:layout_constraintTop_toTopOf="@id/bpv"
+            app:layout_constraintEnd_toEndOf="@id/pv"
+            app:layout_constraintStart_toStartOf="@id/pv"
+            app:layout_constraintTop_toTopOf="@id/pv"
             tools:ignore="UnknownId">
 
             <com.google.android.material.appbar.MaterialToolbar

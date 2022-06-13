@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 data class DynamicCardType512(
     @SerializedName("aid")
     val aid: Int, // 804781038
-    @SerializedName("cover")
+    @SerializedName("coverView")
     val cover: String, // https://i0.hdslb.com/bfs/archive/37b44e6bd189a404273402336a8d8fc092971fdb.png
     @SerializedName("dimension")
     val dimension: Dimension,
@@ -39,7 +39,7 @@ data class DynamicCardType512(
     )
 
     data class Season(
-        @SerializedName("cover")
+        @SerializedName("coverView")
         val cover: String, // https://i0.hdslb.com/bfs/bangumi/image/3b32a67475f21a5f068d10a041edbef6a649d801.png
         @SerializedName("is_finish")
         val isFinish: Int, // 0

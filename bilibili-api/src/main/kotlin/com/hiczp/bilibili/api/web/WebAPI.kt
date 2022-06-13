@@ -2,8 +2,7 @@ package com.hiczp.bilibili.api.web
 
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
 import com.hiczp.bilibili.api.retrofit.interceptor.CommonResponseLazyjson
-import com.hiczp.bilibili.api.web.model.EmoteList
-import com.hiczp.bilibili.api.web.model.VideoShot
+import com.hiczp.bilibili.api.web.model.*
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -60,4 +59,10 @@ interface WebAPI {
         @Query("fnver") fnver: Int = 0,
         @Query("fourk") fourk: Int = 1,
     ): Deferred<VideoPlayUrl>
+
+    @GET("/x/player/v2")
+    fun playerV2(
+        @Query("aid") aid: Long,
+        @Query("cid") cid: Long,
+    ): Deferred<PlayerV2>
 }

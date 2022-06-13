@@ -3,7 +3,6 @@ package com.duzhaokun123.bilibilihd2
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.biliplayer.BiliPlayerView
 import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.NoOpCacheEvictor
@@ -79,7 +78,6 @@ class Application : android.app.Application() {
 //        if (Settings.dynamicColor)
 //            DynamicColors.applyToActivitiesIfAvailable(this)
         DanmakuUtil.syncDanmakuSettings()
-        BiliPlayerView.isDebug = Settings.playerDebug
 
         loadEmoteList()
     }

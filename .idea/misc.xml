@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.37395833333333334" />
+        <entry key="../../../.gradle/caches/transforms-3/34eb530948ff9f9e6c92901256b6a1f1/transformed/jetified-exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_shuffle_off.xml" value="0.297" />
+        <entry key="../../../.gradle/caches/transforms-3/34eb530948ff9f9e6c92901256b6a1f1/transformed/jetified-exoplayer-ui-2.17.1/res/layout/exo_styled_player_control_rewind_button.xml" value="0.3104166666666667" />
+        <entry key="../../../.gradle/caches/transforms-3/34eb530948ff9f9e6c92901256b6a1f1/transformed/jetified-exoplayer-ui-2.17.1/res/layout/exo_styled_player_control_view.xml" value="0.3104166666666667" />
         <entry key="../../../Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/drawable/ic_appcenter.xml" value="0.298" />
+        <entry key="app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.297" />
         <entry key="app/src/main/res/drawable/ic_baseline_toys_24.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/ic_downward.xml" value="0.298" />
         <entry key="app/src/main/res/drawable/ic_history_checkable.xml" value="0.194" />
@@ -21,6 +25,7 @@
         <entry key="app/src/main/res/drawable/ic_toys_checkable.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/rb_video_page_bg.xml" value="0.32265625" />
         <entry key="app/src/main/res/drawable/rb_video_page_text.xml" value="0.32265625" />
+        <entry key="app/src/main/res/layout-land/activity_play_base.xml" value="0.2275" />
         <entry key="app/src/main/res/layout-sw1240dp/activity_main.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout-sw600dp/activity_main.xml" value="0.1734375" />
         <entry key="app/src/main/res/layout-sw600dp/header_nav_main.xml" value="0.27890625" />
@@ -30,7 +35,7 @@
         <entry key="app/src/main/res/layout/activity_fl.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_play_base.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_play_base.xml" value="0.3104166666666667" />
         <entry key="app/src/main/res/layout/activity_qr_login.xml" value="0.2354014598540146" />
         <entry key="app/src/main/res/layout/activity_reply.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/layout/activity_test.xml" value="0.2984375" />
@@ -49,6 +54,8 @@
         <entry key="app/src/main/res/layout/dynamic_card_8.xml" value="0.2984375" />
         <entry key="app/src/main/res/layout/dynamic_card_error.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/dynamic_card_root.xml" value="0.53671875" />
+        <entry key="app/src/main/res/layout/empty.xml" value="0.12997007268063274" />
+        <entry key="app/src/main/res/layout/exo_styled_player_control_view.xml" value="0.33976353453640323" />
         <entry key="app/src/main/res/layout/fragment_base_srrv.xml" value="0.11710526315789474" />
         <entry key="app/src/main/res/layout/fragment_root_comment.xml" value="0.1871584699453552" />
         <entry key="app/src/main/res/layout/header_nav_main.xml" value="0.1174342105263158" />
@@ -66,7 +73,9 @@
         <entry key="app/src/main/res/layout/layout_send_child_comment.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/layout_send_comment.xml" value="0.12335526315789473" />
         <entry key="app/src/main/res/layout/layout_send_root_comment.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/layout_track_selector.xml" value="0.3104166666666667" />
         <entry key="app/src/main/res/layout/layout_web_view.xml" value="0.12730263157894736" />
+        <entry key="app/src/main/res/layout/spinner_item.xml" value="0.3104166666666667" />
         <entry key="app/src/main/res/layout/view_holor.xml" value="0.22796052631578947" />
         <entry key="app/src/main/res/layout/wedgit_filter_chip.xml" value="0.12730263157894736" />
         <entry key="app/src/main/res/menu/base_play.xml" value="0.22796052631578947" />
