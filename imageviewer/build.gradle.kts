@@ -16,12 +16,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+//        freeCompilerArgs = listOf("-Xuse-k2")
     }
     namespace = "com.stfalcon.imageviewer"
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
+    implementation("androidx.appcompat:appcompat:1.4.2")
     implementation("androidx.transition:transition:1.4.1")
     api("com.github.chrisbanes:PhotoView:2.3.0")
 }

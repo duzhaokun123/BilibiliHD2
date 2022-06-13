@@ -94,6 +94,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+//        freeCompilerArgs = listOf(
+//            "-Xuse-k2"
+//        )
     }
     buildFeatures {
         dataBinding = true
@@ -105,9 +108,9 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:$androidx_core_ktx_version")
-    implementation("androidx.appcompat:appcompat:$androidx_appcompat_version")
-    implementation("com.google.android.material:material:$material_version")
+    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 //    testImplementation("junit:junit:4.13.2")
 //    androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -145,8 +148,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
 
-    //dataBinding
-    kapt("com.android.databinding:compiler:3.2.0-alpha10")
+//    //dataBinding
+//    kapt("com.android.databinding:compiler:3.2.0-alpha10")
 
     //SmartRefreshLayout
     val srlVersion = "2.0.5"

@@ -13,7 +13,7 @@ java {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"
-        freeCompilerArgs = listOf("-Xjvm-default=enable", "-opt-in=kotlin.RequiresOptIn")
+        freeCompilerArgs = listOf("-Xjvm-default=enable", "-opt-in=kotlin.RequiresOptIn", /* "-Xuse-k2" */)
     }
 }
 
