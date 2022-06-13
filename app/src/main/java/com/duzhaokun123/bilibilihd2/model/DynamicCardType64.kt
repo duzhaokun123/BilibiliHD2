@@ -213,7 +213,7 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
          val title: String
             get() = jsonObject.get("title").asString
          val cover: String
-            get() = jsonObject.get("cover").asString
+            get() = jsonObject.get("coverView").asString
          val area: String
             get() = jsonObject.get("area").asString
          val typeId: Number

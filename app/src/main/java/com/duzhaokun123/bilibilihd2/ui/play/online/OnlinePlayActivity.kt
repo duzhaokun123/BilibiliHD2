@@ -2,6 +2,7 @@ package com.duzhaokun123.bilibilihd2.ui.play.online
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.util.Rational
 import android.view.View
@@ -18,28 +19,41 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
+import com.duzhaokun123.bilibilihd2.bilisubtitle.BiliSubtitle
+import com.duzhaokun123.bilibilihd2.databinding.EmptyBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutOnlineplayIntroBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.comment.RootCommentFragment
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
-import com.duzhaokun123.biliplayer.model.PlayInfo
+//import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
 import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.SingleSampleMediaSource
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.trackselection.MappingTrackSelector
+import com.google.android.exoplayer2.trackselection.TrackSelectionOverrides
+import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.hiczp.bilibili.api.player.PlayerAPI
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
+import com.hiczp.bilibili.api.web.model.PlayerV2
+import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.*
+import kotlinx.coroutines.delay
 import com.hiczp.bilibili.api.app.model.View as BiliView
 
 class OnlinePlayActivity : BasePlayActivity() {
@@ -195,6 +209,46 @@ class OnlinePlayActivity : BasePlayActivity() {
 
     override fun initData() {
         super.initData()
+
+    player.addAnalyticsListener(EventLogger(player.trackSelector as? MappingTrackSelector))
+//    val p = ProgressiveMediaSource.Factory(dataSourceFactory)
+//    runIOCatching { bilibiliClient.appAPI.view(aid = aid).await() }
+//        .setCommonOnFailureHandler(this)
+//        .onSuccess { biliView ->
+//            runIOCatching { bilibiliClient.webAPI.playUrl(avid = aid, cid = biliView.data.cid.toLong()).await() }
+//                .setCommonOnFailureHandler(this@OnlinePlayActivity)
+//                .onSuccess { playUrl ->
+//                    runIOCatching { bilibiliClient.webAPI.playerV2(aid, biliView.data.cid.toLong()).await() }
+//                        .setCommonOnFailureHandler(this@OnlinePlayActivity)
+//                        .onSuccessMain { v2 ->
+//                            playUrl.data.dash?.let { dash ->
+//                                val v = dash.video.map {
+//                                    p.createMediaSource(MediaItem.fromUri(it.baseUrl))
+//                                }
+//                                val a = dash.audio?.map {
+//                                    p.createMediaSource(MediaItem.fromUri(it.baseUrl))
+//                                } ?: emptyList()
+//                                val s = v2.data?.subtitle?.subtitles?.map {
+////                                    p.createMediaSource(MediaItem.Builder()
+////                                        .setUri("https:${it.subtitleUrl}")
+////                                        .setSubtitleConfigurations(listOf(
+////                                            ))
+////                                        .build())
+//                                    SingleSampleMediaSource.Factory(dataSourceFactory)
+//                                        .createMediaSource(MediaItem.SubtitleConfiguration.Builder(Uri.parse("https:" + it.subtitleUrl))
+//                                            .setMimeType(BiliSubtitle.MIME_TYPE)
+//                                            .setLanguage(it.lan)
+//                                            .setLabel(it.lanDoc)
+//                                            .build(), biliView.data.duration.toLong() * 1000_000)
+//                                } ?: emptyList()
+//                                player.setMediaSource(MergingMediaSource(*(v + a + s).toTypedArray()))
+//                                player.prepare()
+//                                player.play()
+//                            }
+//                        }
+//                }
+//        }
+
         if (biliView == null) {
             runIOCatchingResultRunMain(this, {
                 bilibiliClient.appAPI.view(aid = aid).await()
@@ -284,15 +338,17 @@ class OnlinePlayActivity : BasePlayActivity() {
         runIOCatching {
             bilibiliClient.webAPI.playUrl(cid = cid, avid = aid).await()
         }.setCommonOnFailureHandler(this)
-            .onSuccess {
-                io.github.duzhaokun123.androidapptemplate.utils.runMain {
-                    setVideoPlayUrl(it)
-                    prepare()
-                }
-            }.launch()
+            .onSuccess { videoPlayUrl ->
+                runIOCatching { bilibiliClient.webAPI.playerV2(aid, cid).await() }
+                    .setCommonOnFailureHandler(this@OnlinePlayActivity)
+                    .onSuccessMain { v2 ->
+                        setVideoPlayUrl(videoPlayUrl, v2)
+                        prepare()
+                    }
+            }
     }
 
-    private fun setVideoPlayUrl(videoPlayUrl: VideoPlayUrl) {
+    private fun setVideoPlayUrl(videoPlayUrl: VideoPlayUrl, v2: PlayerV2) {
         if (videoPlayUrl.data.dash == null) {
             TipUtil.showTip(this, "不支持的形式")
             return
@@ -300,45 +356,65 @@ class OnlinePlayActivity : BasePlayActivity() {
         val title = biliView!!.data.title
         val pageTitle = biliView!!.data.pages[page - 1].part
         val hasAudio = videoPlayUrl.data.dash!!.audio != null
-        val sources = mutableListOf<PlayInfo.Source>()
-        videoPlayUrl.data.dash!!.video.forEach { video ->
-            val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(video.baseUrl))
-            val audioSource =
-                if (hasAudio) ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl))
-                else null
-            val mergedSource =
-                if (hasAudio) MergingMediaSource(videoSource, audioSource!!) else videoSource
-            val backups = mutableListOf<MediaSource>()
-            video.backupUrl?.forEach { backup ->
-                val bv = ProgressiveMediaSource.Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(backup))
-                val mb = if (hasAudio) MergingMediaSource(bv, audioSource!!) else bv
-                backups.add(mb)
+        val duration = biliView!!.data.pages[page - 1].duration.toLong() * 1000_000
+        val sources = mutableListOf<MediaSource>()
+        val mediaSourceFactory = ProgressiveMediaSource.Factory(dataSourceFactory)
+        videoPlayUrl.data.dash!!.let { dash ->
+            dash.video.forEach {
+                sources.add(mediaSourceFactory.createMediaSource(MediaItem.fromUri(it.baseUrl)))
             }
-            val name = (videoPlayUrl.data.acceptDescription.getOrNull(
-                videoPlayUrl.data.acceptQuality.indexOf(video.id)
-            ) ?: video.id.toString()) + " " + video.codecs
-            sources.add(PlayInfo.Source(name, video.id, mergedSource, backups))
+            dash.audio?.forEach {
+                sources.add(mediaSourceFactory.createMediaSource(MediaItem.fromUri(it.baseUrl)))
+            }
+            v2.data?.subtitle?.subtitles?.forEach { subtitle ->
+                sources.add(SingleSampleMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(MediaItem.SubtitleConfiguration.Builder(Uri.parse("https:" + subtitle.subtitleUrl))
+                        .setMimeType(BiliSubtitle.MIME_TYPE)
+                        .setLanguage(subtitle.lan)
+                        .setLabel(subtitle.lanDoc)
+                        .build(), duration))
+            }
         }
-        if (hasAudio)
-            sources.add(
-                PlayInfo.Source("audio only", 0,
-                    ProgressiveMediaSource.Factory(dataSourceFactory)
-                        .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl)),
-                    emptyList()
-                )
-            )
-
-        val danmakuParser = pageParserMap[page]
-            ?: LazyCidDanmakuParser(aid, cid, biliView!!.data.pages[page - 1].duration).also {
-                pageParserMap[page] = it
-            }
-        val onlinePlayQuality = Settings.onlinePlayQuality
-        biliPlayerView.playInfo = PlayInfo(
-            title, pageTitle, sources, danmakuParser, biliView!!.data.pages.size > page, sources.find { it.id == onlinePlayQuality } ?: sources.first()
-        )
+        player.setMediaSource(MergingMediaSource(*sources.toTypedArray()))
+//        val sources = mutableListOf<PlayInfo.Source>()
+//        videoPlayUrl.data.dash!!.video.forEach { video ->
+//            val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+//                .createMediaSource(MediaItem.fromUri(video.baseUrl))
+//            val audioSource =
+//                if (hasAudio) ProgressiveMediaSource.Factory(dataSourceFactory)
+//                    .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl))
+//                else null
+//            val mergedSource =
+//                if (hasAudio) MergingMediaSource(videoSource, audioSource!!) else videoSource
+//            val backups = mutableListOf<MediaSource>()
+//            video.backupUrl?.forEach { backup ->
+//                val bv = ProgressiveMediaSource.Factory(dataSourceFactory)
+//                    .createMediaSource(MediaItem.fromUri(backup))
+//                val mb = if (hasAudio) MergingMediaSource(bv, audioSource!!) else bv
+//                backups.add(mb)
+//            }
+//            val name = (videoPlayUrl.data.acceptDescription.getOrNull(
+//                videoPlayUrl.data.acceptQuality.indexOf(video.id)
+//            ) ?: video.id.toString()) + " " + video.codecs
+//            sources.add(PlayInfo.Source(name, video.id, mergedSource, backups))
+//        }
+//        if (hasAudio)
+//            sources.add(
+//                PlayInfo.Source("audio only", 0,
+//                    ProgressiveMediaSource.Factory(dataSourceFactory)
+//                        .createMediaSource(MediaItem.fromUri(videoPlayUrl.data.dash!!.audio!![0].baseUrl)),
+//                    emptyList()
+//                )
+//            )
+//
+//        val danmakuParser = pageParserMap[page]
+//            ?: LazyCidDanmakuParser(aid, cid, biliView!!.data.pages[page - 1].duration).also {
+//                pageParserMap[page] = it
+//            }
+//        val onlinePlayQuality = Settings.onlinePlayQuality
+//        biliPlayerView.playInfo = PlayInfo(
+//            title, pageTitle, sources, danmakuParser, biliView!!.data.pages.size > page, sources.find { it.id == onlinePlayQuality } ?: sources.first()
+//        )
     }
 
     private fun onSetPage() {
@@ -392,7 +468,7 @@ class OnlinePlayActivity : BasePlayActivity() {
     }
 
     private fun addHistory() {
-        val time = biliPlayerView.player.contentPosition / 1000
+        val time = player.contentPosition / 1000
         runIOCatchingResultRunMain(this,
             {bilibiliClient.webAPI.heartbeat(aid, cid = cid, playedTime = time).await()}) {}
     }

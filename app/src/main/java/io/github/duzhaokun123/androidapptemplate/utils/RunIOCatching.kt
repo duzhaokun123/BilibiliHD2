@@ -1,26 +1,22 @@
 package io.github.duzhaokun123.androidapptemplate.utils
 
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.future.await
+import kotlinx.coroutines.future.future
+import java.util.concurrent.CompletableFuture
 
-data class RunIOCatchingPending<R>(
-    val block: suspend CoroutineScope.() -> R,
-    var onSuccess: (suspend CoroutineScope.(R) -> Unit)? = null,
-    var onFailure: (suspend CoroutineScope.(Throwable) -> Unit)? = null,
-    var result: Result<R>? = null
-)
+fun <R> CoroutineScope.runIOCatching(block: suspend CoroutineScope.() -> R) =
+    this.run { this to future(Dispatchers.IO) { runCatching { block() } } }
 
-fun <R> runIOCatching(block: suspend CoroutineScope.() -> R) = RunIOCatchingPending(block)
+fun <R> runIOCatching(block: suspend CoroutineScope.() -> R) =
+    MainScope().run { this to future(Dispatchers.IO) { runCatching { block() } } }
 
-fun <R> RunIOCatchingPending<R>.onSuccess(onSuccess: suspend CoroutineScope.(R) -> Unit) =
-    apply { this.onSuccess = onSuccess }
+fun <R> Pair<CoroutineScope, CompletableFuture<Result<R>>>.onSuccess(onSuccess: suspend CoroutineScope.(R) -> Unit) =
+    this.apply { first.launch(Dispatchers.IO) { second.await().onSuccess { onSuccess(it) } } }
 
-fun <R> RunIOCatchingPending<R>.onFailure(onFailure: suspend CoroutineScope.(Throwable) -> Unit) =
-    apply { this.onFailure = onFailure }
+fun <R> Pair<CoroutineScope, CompletableFuture<Result<R>>>.onFailure(onFailure: suspend CoroutineScope.(Throwable) -> Unit) =
+    this.apply { first.launch(Dispatchers.IO) { second.await().onFailure { onFailure(it) } } }
 
-fun <R> RunIOCatchingPending<R>.launch() {
-    runIO {
-        result = runCatching { block() }
-            .onSuccess { onSuccess?.invoke(this, it) }
-            .onFailure { onFailure?.invoke(this, it) }
-    }
+fun <R> Pair<CoroutineScope, CompletableFuture<Result<R>>>.launch() {
+    // do nothing
 }

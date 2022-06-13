@@ -122,7 +122,8 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.2")
 
     //AnnotationProcessor
     kapt(project(":annotation-processor"))
@@ -159,9 +160,6 @@ dependencies {
     //StfalconImageViewer
     implementation(project(":imageviewer"))
 
-    //BiliPlayer
-    implementation(project(":bili-player"))
-
     //grpc
     implementation(project(":grpc"))
 
@@ -180,6 +178,12 @@ dependencies {
 
     //picasso
     implementation("com.squareup.picasso:picasso:2.71828")
+
+    //player
+    val exoplayerVersion = "2.17.1"
+    implementation("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
+    implementation("com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion")
+    implementation("com.github.duzhaokun123:DanmakuView:ed76ba7ad5")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {

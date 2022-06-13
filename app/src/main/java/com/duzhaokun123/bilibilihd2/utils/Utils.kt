@@ -20,13 +20,19 @@ import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
 import com.duzhaokun123.generated.Settings
+import com.google.android.exoplayer2.Format
+import com.google.android.exoplayer2.source.TrackGroup
+import com.google.android.exoplayer2.source.TrackGroupArray
+import com.google.android.exoplayer2.util.ParsableByteArray
 import com.google.gson.Gson
 import io.github.duzhaokun123.androidapptemplate.utils.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
+import java.util.concurrent.CompletableFuture
 
 val application get() = Application.instance
 
@@ -120,19 +126,15 @@ fun RecyclerView.resetAdapter() {
 fun Resources.Theme.getAttr(@AttrRes id: Int) =
     TypedValue().apply { resolveAttribute(id, this, true) }
 
-fun <R> RunIOCatchingPending<R>.setCommonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
+fun <R> Pair<CoroutineScope, CompletableFuture<Result<R>>>.setCommonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
     onFailure { t ->
         t.printStackTrace()
         TipUtil.showTip(context, t)
         extra?.invoke(t)
     }
 
-fun <R> RunIOCatchingPending<R>.onSuccessMain(onSuccessMain: suspend CoroutineScope.(R) -> Unit) =
-    onSuccess {
-        runMain {
-            onSuccessMain(it)
-        }
-    }
+fun <R> Pair<CoroutineScope, CompletableFuture<Result<R>>>.onSuccessMain(onSuccess: suspend CoroutineScope.(R) -> Unit) =
+    this.apply { first.launch(Dispatchers.Main) { second.await().onSuccess { onSuccess(it) } } }
 
 fun <R> Result<R>.commonOnFailureHandler(context: Context?, extra: ((t: Throwable) -> Unit)? = null) =
     onFailure { t ->
@@ -151,4 +153,31 @@ fun Any.setAnyField(name: String, value: Any?, clazz: Class<*> = this::class.jav
     val f = clazz.getDeclaredField(name)
     f.isAccessible = true
     f.set(this, value)
+}
+
+fun TrackGroupArray.forEachIndexed(block: (Int, TrackGroup) -> Unit) {
+    for (i in 0 until length) {
+        block(i, get(i))
+    }
+}
+
+fun TrackGroupArray.forEach(block: (TrackGroup) -> Unit) {
+    for (i in 0 until length) {
+        block(get(i))
+    }
+}
+
+fun TrackGroup.forEach(block: (Format) -> Unit) {
+    for (i in 0 until length) {
+        block(getFormat(i))
+    }
+}
+
+fun ParsableByteArray.readText() : String {
+    val sb = StringBuilder()
+    while (true) {
+        val a = readLine() ?: break
+        sb.appendLine(a)
+    }
+    return sb.toString()
 }

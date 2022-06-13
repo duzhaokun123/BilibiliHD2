@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:background="@color/exo_bottom_bar_background"
+            android:padding="4dp">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:foreground="?attr/selectableItemBackground"
+                android:src="@drawable/ic_baseline_close_24"
+                app:tint="@color/white"
+                tools:ignore="UnusedAttribute"
+                tools:targetApi="m" />
+
+            <Spinner
+                android:id="@+id/sp_render"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="4dp"
+                android:layout_toStartOf="@id/sw_enable" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/btn_close">
+
+                <RadioGroup
+                    android:id="@+id/rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/sw_enable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/btn_close"
+                android:layout_alignBottom="@id/btn_close"
+                android:layout_toStartOf="@id/btn_close" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
