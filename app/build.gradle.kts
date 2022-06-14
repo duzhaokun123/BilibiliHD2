@@ -61,6 +61,10 @@ android {
             storePassword = System.getenv("REL_KEY")
             keyAlias = "key0"
             keyPassword = System.getenv("REL_KEY")
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+            enableV4Signing = true
         }
     }
     buildTypes {
