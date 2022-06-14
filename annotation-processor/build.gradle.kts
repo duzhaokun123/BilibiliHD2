@@ -1,13 +1,7 @@
 plugins {
-    id("java-library")
-    id("kotlin")
+    kotlin("jvm")
 }
 
 dependencies {
-
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.7.0-1.0.6")
 }

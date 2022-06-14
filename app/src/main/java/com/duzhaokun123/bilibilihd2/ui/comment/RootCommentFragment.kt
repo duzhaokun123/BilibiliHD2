@@ -17,12 +17,12 @@ import com.duzhaokun123.bilibilihd2.model.RootCommentCardModel
 import com.duzhaokun123.bilibilihd2.model.UserModel
 import com.duzhaokun123.bilibilihd2.model.toRootCommentCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
+import io.github.duzhaokun123.codegen.Settings
 
 class RootCommentFragment @JvmOverloads constructor(private val setOid: Long = 0, private val setType: Int = 0) :
     BaseSimpleCardListSRRVFragment<ItemRootCommentBinding, RootCommentCardModel, RootCommentFragment.RootCommentModel>(

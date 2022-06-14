@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityQrLoginBinding
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.google.gson.JsonObject
@@ -23,6 +22,7 @@ import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.onSuccess
 import io.github.duzhaokun123.androidapptemplate.utils.runIOCatching
+import io.github.duzhaokun123.codegen.Settings
 import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request

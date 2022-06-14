@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.duzhaokun123.bilibilihd2.Application
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.grpcclient.GrpcClient
-import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.Format
 import com.google.android.exoplayer2.source.TrackGroup
 import com.google.android.exoplayer2.source.TrackGroupArray
 import com.google.android.exoplayer2.util.ParsableByteArray
 import com.google.gson.Gson
 import io.github.duzhaokun123.androidapptemplate.utils.*
+import io.github.duzhaokun123.codegen.Settings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

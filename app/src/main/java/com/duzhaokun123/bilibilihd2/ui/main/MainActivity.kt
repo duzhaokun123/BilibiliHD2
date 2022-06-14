@@ -13,7 +13,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.ActivityMainBinding
 import com.duzhaokun123.bilibilihd2.navigation.setupWithNavController
@@ -23,6 +22,7 @@ import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hiczp.bilibili.api.app.model.MyInfo
+import io.github.duzhaokun123.IntentFilter
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import io.github.duzhaokun123.androidapptemplate.utils.launch

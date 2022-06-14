@@ -15,8 +15,8 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BaseSRRVFragment
 import com.duzhaokun123.bilibilihd2.model.DynamicCardModel
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import io.github.duzhaokun123.codegen.Settings
 import io.material.catalog.tableofcontents.GridDividerDecoration
 
 class DynamicFragment : BaseSRRVFragment() {

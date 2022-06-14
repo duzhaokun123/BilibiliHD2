@@ -22,7 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.bilisubtitle.BiliSubtitle
@@ -34,7 +33,6 @@ import com.duzhaokun123.bilibilihd2.utils.*
 import com.duzhaokun123.bilibilihd2.utils.maxSystemBarsDisplayCutout
 //import com.duzhaokun123.biliplayer.model.PlayInfo
 import com.duzhaokun123.danmakuview.interfaces.DanmakuParser
-import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.source.MediaSource
@@ -51,6 +49,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.hiczp.bilibili.api.player.PlayerAPI
 import com.hiczp.bilibili.api.player.model.VideoPlayUrl
 import com.hiczp.bilibili.api.web.model.PlayerV2
+import io.github.duzhaokun123.IntentFilter
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.*
 import kotlinx.coroutines.delay

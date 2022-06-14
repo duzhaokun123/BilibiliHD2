@@ -1,82 +1,82 @@
 package com.duzhaokun123.bilibilihd2
 
-import com.duzhaokun123.annotationProcessor.SettingsValue
-import com.duzhaokun123.annotationProcessor.StringSet
+import io.github.duzhaokun123.SettingsValue
+import io.github.duzhaokun123.StringSet
 
-@SettingsValue
+@SettingsValue("emptySet()")
 val users = StringSet()
 
-@SettingsValue
+@SettingsValue("0L")
 val selectedUid = 0L
 
-@SettingsValue
+@SettingsValue("")
 val appKey = ""
 
-@SettingsValue
+@SettingsValue("")
 val appSec = ""
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val uiMod = 0
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("500", saveAsString = true)
 val mainCardWidthDp = 500
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("700", saveAsString = true)
 val dynamicCardWidthDp = 700
 
-@SettingsValue
+@SettingsValue("false")
 val danmakuOnTop = false
 
-@SettingsValue
+@SettingsValue("false")
 val dynamicColor = false
 
-@SettingsValue
+@SettingsValue("false")
 val danmakuAllowDanmakuOverlapping = false
 
-@SettingsValue
+@SettingsValue("1F")
 val danmakuDurationCoeff = 1F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val danmakuStyle = 0
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0F", saveAsString = true)
 val danmakuShadowDx = 0F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0F", saveAsString = true)
 val danmakuShadowDy = 0F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("5F", saveAsString = true)
 val danmakuShadowRadius = 5F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("1F", saveAsString = true)
 val danmakuStrokeWidth = 1F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("1F", saveAsString = true)
 val danmakuTextSize = 1F
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("40", saveAsString = true)
 val danmakuLineHeight = 40
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val danmakuMarginTop = 0
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val danmakuMarginBottom = 0
 
-@SettingsValue
+@SettingsValue("emptySet()")
 val danmakuBlockByPlace = StringSet()
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val danmakuTypefaceUse = 0
 
-@SettingsValue
+@SettingsValue("true")
 val allowAnalytics = true
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("0", saveAsString = true)
 val playPauseTime = 0
 
-@SettingsValue(saveAsString = true)
+@SettingsValue("-1", saveAsString = true)
 val onlinePlayQuality = -1
 
-@SettingsValue
+@SettingsValue("false")
 val playerDebug = false

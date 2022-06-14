@@ -25,13 +25,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.CLIENT_USER_AGENT
 import com.duzhaokun123.bilibilihd2.DESKTOP_USER_AGENT
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.TABLETS_USER_AGENT
 import com.duzhaokun123.bilibilihd2.databinding.LayoutWebViewBinding
 import com.duzhaokun123.bilibilihd2.utils.*
+import io.github.duzhaokun123.IntentFilter
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
 import kotlinx.coroutines.delay

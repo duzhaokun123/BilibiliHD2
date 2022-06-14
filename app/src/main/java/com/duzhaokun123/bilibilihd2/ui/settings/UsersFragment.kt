@@ -10,12 +10,12 @@ import com.duzhaokun123.bilibilihd2.databinding.FragmentUsersBinding
 import com.duzhaokun123.bilibilihd2.model.UserModel
 import com.duzhaokun123.bilibilihd2.ui.login.QRLoginActivity
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.github.salomonbrys.kotson.fromJson
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hiczp.bilibili.api.passport.model.LoginResponse
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.codegen.Settings
 
 @Suppress("UNUSED")
 class UsersFragment : BaseFragment<FragmentUsersBinding>(R.layout.fragment_users) {

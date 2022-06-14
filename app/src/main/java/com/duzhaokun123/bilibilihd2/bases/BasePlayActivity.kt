@@ -33,7 +33,6 @@ import com.duzhaokun123.bilibilihd2.bilisubtitle.BiliSubtitleRendererFactory
 import com.duzhaokun123.bilibilihd2.databinding.ActivityPlayBaseBinding
 import com.duzhaokun123.bilibilihd2.ui.settings.SettingsActivity
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
@@ -46,6 +45,7 @@ import com.google.android.exoplayer2.video.VideoDecoderOutputBufferRenderer
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.codegen.Settings
 
 /**
  * 乱就乱 能用就行

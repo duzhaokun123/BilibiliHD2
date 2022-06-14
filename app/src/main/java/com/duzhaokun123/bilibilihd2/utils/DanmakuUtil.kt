@@ -6,8 +6,8 @@ import com.duzhaokun123.danmakuview.danmaku.*
 import com.duzhaokun123.danmakuview.interfaces.DanmakuBlocker
 import com.duzhaokun123.danmakuview.model.DanmakuConfig
 import com.duzhaokun123.danmakuview.ui.DanmakuView
-import com.duzhaokun123.generated.Settings
 import io.github.duzhaokun123.androidapptemplate.utils.TipUtil
+import io.github.duzhaokun123.codegen.Settings
 import java.io.File
 
 object DanmakuUtil {

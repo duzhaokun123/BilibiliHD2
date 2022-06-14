@@ -1,3 +1,9 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 include(":annotation-processor")
 include(":app")
 include("imageviewer")

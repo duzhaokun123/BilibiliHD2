@@ -2,9 +2,9 @@ package com.duzhaokun123.bilibilihd2.ui.play.live
 
 import android.content.Context
 import android.content.Intent
-import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
+import io.github.duzhaokun123.IntentFilter
 
 class LivePlayActivity : BasePlayActivity() {
     companion object {

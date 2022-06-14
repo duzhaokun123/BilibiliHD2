@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
-import com.duzhaokun123.annotationProcessor.IntentFilter
 import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.bases.BasePlayActivity
 import com.duzhaokun123.bilibilihd2.databinding.EmptyBinding
@@ -13,11 +12,11 @@ import com.duzhaokun123.bilibilihd2.databinding.LayoutSeasonBinding
 import com.duzhaokun123.bilibilihd2.ui.UrlOpenActivity
 import com.duzhaokun123.bilibilihd2.ui.play.online.LazyCidDanmakuParser
 import com.duzhaokun123.bilibilihd2.utils.*
-import com.duzhaokun123.generated.Settings
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.MergingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import io.github.duzhaokun123.IntentFilter
 import io.github.duzhaokun123.androidapptemplate.bases.BaseActivity
 import io.github.duzhaokun123.androidapptemplate.utils.launch
 import io.github.duzhaokun123.androidapptemplate.utils.maxSystemBarsDisplayCutout

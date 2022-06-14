@@ -7,8 +7,8 @@ val localProperties = gradleLocalProperties(rootDir)
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
     id("kotlin-android")
+    id("com.google.devtools.ksp") version "1.7.0-1.0.6"
 }
 
 android {
@@ -76,6 +76,7 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+            sourceSets.getByName("main").java.srcDir(File("build/generated/ksp/release/kotlin"))
         }
         getByName("debug") {
             val minifyEnabled = localProperties.getProperty("minify.enabled", "false")
@@ -85,7 +86,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
+            sourceSets.getByName("main").java.srcDir(File("build/generated/ksp/debug/kotlin"))
         }
     }
     compileOptions {
@@ -129,8 +130,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.2")
 
     //AnnotationProcessor
-    kapt(project(":annotation-processor"))
     compileOnly(project(":annotation-processor"))
+    ksp(project(":annotation-processor"))
 
     //lifecycle
     val lifecycleVersion = "2.4.1"
@@ -147,9 +148,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
-
-//    //dataBinding
-//    kapt("com.android.databinding:compiler:3.2.0-alpha10")
 
     //SmartRefreshLayout
     val srlVersion = "2.0.5"

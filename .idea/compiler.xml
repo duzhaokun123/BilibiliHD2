@@ -5,6 +5,9 @@
       <module name="bilibili-api" target="11" />
       <module name="bilibili-api.main" target="11" />
       <module name="bilibili-api.test" target="11" />
+      <module name="Bilibili_HD_2.annotation-processor" target="11" />
+      <module name="Bilibili_HD_2.annotation-processor.main" target="11" />
+      <module name="Bilibili_HD_2.annotation-processor.test" target="11" />
       <module name="Bilibili_HD_2.app" target="11" />
       <module name="Bilibili_HD_2.bili-player" target="11" />
       <module name="Bilibili_HD_2.buildSrc" target="11" />
