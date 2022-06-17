@@ -185,7 +185,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.71828")
 
     //player
-    val exoplayerVersion = "2.17.1"
+    val exoplayerVersion = "2.18.0"
     implementation("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
     implementation("com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion")
     implementation("com.github.duzhaokun123:DanmakuView:ed76ba7ad5")
