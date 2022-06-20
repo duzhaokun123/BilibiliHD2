@@ -39,6 +39,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.StyledPlayerControlView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.video.VideoDecoderOutputBufferRenderer
@@ -53,8 +54,7 @@ import io.github.duzhaokun123.codegen.Settings
 abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.bases.BaseActivity<ActivityPlayBaseBinding>(
     R.layout.activity_play_base,
     Config.NO_TOOL_BAR, Config.LAYOUT_MATCH_HORI
-), StyledPlayerControlView.OnFullScreenModeChangedListener,
-    StyledPlayerControlView.VisibilityListener {
+), StyledPlayerView.ControllerVisibilityListener {
     val dataSourceFactory by lazy {
         CacheDataSource.Factory().setCache(Application.simpleCache)
             .setUpstreamDataSourceFactory(DefaultHttpDataSource.Factory()
@@ -140,9 +140,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     @CallSuper
     override fun initViews() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            baseBinding.abl.outlineProvider = null
-        }
+        baseBinding.abl.outlineProvider = null
         baseBinding.pv.player = player
         baseBinding.pv.onFullScreenModeChangedListener = ::onFullScreenModeChanged
         baseBinding.pv.setControllerVisibilityListener(this)
@@ -240,7 +238,9 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
 
     override fun onProvideAssistContent(outContent: AssistContent) {
         super.onProvideAssistContent(outContent)
-        outContent.webUri = onGetShare().second?.toUri()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            outContent.webUri = onGetShare().second?.toUri()
+        }
     }
 
     override fun onStart() {
@@ -315,7 +315,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
     }
 
     @CallSuper
-    override fun onFullScreenModeChanged(isFullScreen: Boolean) {
+    fun onFullScreenModeChanged(isFullScreen: Boolean) {
         this.isFullScreen = isFullScreen
         if (isFullScreen) {
             baseBinding.pv.updateLayoutParams<ConstraintLayout.LayoutParams> {
@@ -337,7 +337,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
         }
     }
 
-    override fun onVisibilityChange(visibility: Int) {
+    override fun onVisibilityChanged(visibility: Int) {
         baseBinding.abl.elevation = 2.dpToPx().toFloat()
         if (visibility == View.VISIBLE) {
             supportActionBar?.show()

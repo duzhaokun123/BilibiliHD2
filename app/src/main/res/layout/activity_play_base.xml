@@ -34,6 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
+            android:elevation="2dp"
             app:layout_constraintEnd_toEndOf="@id/pv"
             app:layout_constraintStart_toStartOf="@id/pv"
             app:layout_constraintTop_toTopOf="@id/pv"

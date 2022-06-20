@@ -16,13 +16,16 @@ import com.duzhaokun123.bilibilihd2.R
 import com.duzhaokun123.bilibilihd2.databinding.LayoutTrackSelectorBinding
 import com.duzhaokun123.bilibilihd2.utils.forEach
 import com.duzhaokun123.bilibilihd2.utils.forEachIndexed
+import com.duzhaokun123.bilibilihd2.utils.getColorCompat
 import com.duzhaokun123.bilibilihd2.utils.removeFromParent
 import com.duzhaokun123.danmakuview.ui.DanmakuView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelectionOverrides
+import com.google.android.exoplayer2.trackselection.TrackSelectionOverride
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.material.button.MaterialButton
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 
 class PlayerView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -40,7 +43,7 @@ class PlayerView @JvmOverloads constructor(
         setBackgroundColor(Color.BLACK)
         if (isInEditMode.not()) {
             exoFullscreen = findViewById(R.id.exo_fullscreen)
-            setControllerOnFullScreenModeChangedListener {
+            setFullscreenButtonClickListener {
                 isFullScreen = it
                 onFullScreenModeChangedListener?.invoke(it)
             }
@@ -48,10 +51,7 @@ class PlayerView @JvmOverloads constructor(
                 if (showTrackSelector) return@setOnClickListener
                 showTrackSelector = true
                 val trackSelectorBinding = LayoutTrackSelectorBinding.inflate(LayoutInflater.from(context))
-                this.addView(trackSelectorBinding.root, LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                ))
+                this.addView(trackSelectorBinding.root, LayoutParams(MATCH_PARENT, MATCH_PARENT))
                 trackSelectorBinding.btnClose.setOnClickListener {
                     showTrackSelector = false
                     trackSelectorBinding.root.removeFromParent()
@@ -70,7 +70,7 @@ class PlayerView @JvmOverloads constructor(
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         val trackGroups = trackSelector.currentMappedTrackInfo?.getTrackGroups(position) ?: return
                         trackSelectorBinding.rg.removeAllViews()
-                        val selectedTrackGroups = trackSelector.parameters.trackSelectionOverrides.asList().map { it.trackGroup }
+                        val selectedTrackGroups = trackSelector.parameters.overrides.keys
                         var si = -1
                         trackGroups.forEachIndexed { i, trackGroup ->
                             trackSelectorBinding.rg.addView(RadioButton(context).apply {
@@ -79,35 +79,33 @@ class PlayerView @JvmOverloads constructor(
                                     sb.append(it.toString()).append("\n")
                                 }
                                 text = sb.toString()
-                                setTextColor(context.getColor(R.color.white))
+                                setTextColor(context.getColorCompat(R.color.white))
                                 setOnClickListener {
+                                    si = i
                                     trackSelector.apply {
-                                        parameters = parameters.buildUpon().setTrackSelectionOverrides(
-                                            TrackSelectionOverrides.Builder()
-                                                .setOverrideForType(TrackSelectionOverrides.TrackSelectionOverride(currentMappedTrackInfo!!.getTrackGroups(position).get(i)))
-                                                .build()
+                                        parameters = parameters.buildUpon().setOverrideForType(
+                                            //这里永远只会有一个 track
+                                        TrackSelectionOverride(trackGroup, 0)
                                         ).build()
                                     }
                                 }
                                 if (trackGroup in selectedTrackGroups) si = i
                                 this.id = generateViewId()
-                            })
+                            }, MATCH_PARENT, WRAP_CONTENT)
                         }
                         val idAuto = generateViewId()
                         trackSelectorBinding.rg.addView(RadioButton(context).apply {
                             text = "auto"
-                            setTextColor(context.getColor(R.color.white))
+                            setTextColor(context.getColorCompat(R.color.white))
                             setOnClickListener {
                                 trackSelector.apply {
-                                    parameters = parameters.buildUpon().setTrackSelectionOverrides(
-                                        TrackSelectionOverrides.Builder()
-                                            .clearOverride(trackGroups[position])
-                                            .build()
-                                    ).build()
+                                    parameters = parameters.buildUpon()
+                                        .clearOverride(trackGroups[si])
+                                        .build()
                                 }
                             }
                             this.id = idAuto
-                        })
+                        }, MATCH_PARENT, WRAP_CONTENT)
                         trackSelectorBinding.rg.apply {
                             if (si != -1)
                                 check(get(si).id)
