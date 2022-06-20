@@ -130,7 +130,7 @@ dependencies {
     implementation("com.takisoft.preferencex:preferencex-simplemenu:1.1.0")
 
     //kotlinx-coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.2")
 
     //AnnotationProcessor
