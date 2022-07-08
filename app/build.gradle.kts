@@ -148,7 +148,7 @@ dependencies {
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
     //nav
-    val navVersion = "2.4.2"
+    val navVersion = "2.5.0"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
