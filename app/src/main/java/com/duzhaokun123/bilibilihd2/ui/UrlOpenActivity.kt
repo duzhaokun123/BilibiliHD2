@@ -108,7 +108,7 @@ class UrlOpenActivity : BaseActivity<ActivityUrlOpenBinding>(R.layout.activity_u
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menu?.add("外部打开")?.apply {
             setIcon(R.drawable.ic_launch)
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)

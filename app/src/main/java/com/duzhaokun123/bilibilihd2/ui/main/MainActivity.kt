@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val re = super.onCreateOptionsMenu(menu)
         menu ?: return re
         if (bilibiliClient.isLogin)

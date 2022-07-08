@@ -197,7 +197,7 @@ abstract class BasePlayActivity : io.github.duzhaokun123.androidapptemplate.base
             super.onBackPressed()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.base_play, menu)
         return super.onCreateOptionsMenu(menu)
     }

@@ -31,8 +31,7 @@ abstract class BaseSimpleCardListSRRVFragment<ItemBinding : ViewDataBinding, Ite
         val itemModel = MutableLiveData<List<ItemModel>>(emptyList())
     }
 
-    val baseModel by createViewModelLazy(modelClass, { requireActivity().viewModelStore },
-        { requireActivity().defaultViewModelProviderFactory })
+    val baseModel by createViewModelLazy(modelClass, { requireActivity().viewModelStore })
     var items
         get() = baseModel.itemModel.value!!
         set(value) {
