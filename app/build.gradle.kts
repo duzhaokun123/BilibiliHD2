@@ -131,7 +131,7 @@ dependencies {
 
     //kotlinx-coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 
     //AnnotationProcessor
     compileOnly(project(":annotation-processor"))
