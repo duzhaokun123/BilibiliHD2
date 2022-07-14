@@ -26,7 +26,7 @@ dependencies {
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
     api("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
     api("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation("io.ktor:ktor-client-websockets:1.6.8")
+    implementation("io.ktor:ktor-client-websockets:2.0.3")
     implementation("io.ktor:ktor-client-cio:1.6.8")
     implementation("com.hiczp:crc32-crack:1.0")
 }
