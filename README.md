@@ -15,6 +15,10 @@
 蓝奏云
 - 0.1 https://wwe.lanzoui.com/b01ugzj5c 密码:233
 
+## 友情链接
+
+可能 https://github.com/10miaomiao/bilimiao2 更适合使用
+
 ## 将支持的功能
 
 - [x] 多用户登录
