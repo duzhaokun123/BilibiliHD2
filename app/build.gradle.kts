@@ -179,7 +179,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     //core-splashscreen
-    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     //picasso
     implementation("com.squareup.picasso:picasso:2.71828")
