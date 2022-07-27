@@ -138,7 +138,7 @@ dependencies {
     ksp(project(":annotation-processor"))
 
     //lifecycle
-    val lifecycleVersion = "2.5.0"
+    val lifecycleVersion = "2.5.1"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
