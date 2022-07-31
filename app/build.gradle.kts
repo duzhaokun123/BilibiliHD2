@@ -144,7 +144,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
 
     //gson
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
     //nav
