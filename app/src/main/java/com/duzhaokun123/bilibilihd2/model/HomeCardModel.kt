@@ -52,7 +52,7 @@ data class HomeCardModel(
                             desc = creativeContent.description
                             coverUrl = creativeContent.imageUrl
                             uri = creativeContent.url
-                            isAd = item.adInfo!!.isAd
+                            isAd = item.adInfo!!.isAd ?: false
                         }
                     }
                     "three_item_h_v3" -> {

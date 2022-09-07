@@ -99,8 +99,9 @@
     </option>
   </component>
   <component name="EntryPointsManager">
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="com.duzhaokun123.annotationProcessor.IntentFilter" />
+      <item index="1" class="java.lang.String" itemvalue="io.github.duzhaokun123.IntentFilter" />
     </list>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">

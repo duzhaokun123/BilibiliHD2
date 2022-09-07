@@ -330,8 +330,8 @@ import io.github.duzhaokun123.lazyjson.annotation.LazyjsonFrom
                     get() = jsonObject.get("source").asNumber
                  val requestId: String
                     get() = jsonObject.get("request_id").asString
-                 val isAd: Boolean
-                    get() = jsonObject.get("is_ad").asBoolean
+                 val isAd: Boolean?
+                    get() = jsonObject.get("is_ad")?.asBoolean
                  val cmMark: Number
                     get() = jsonObject.get("cm_mark").asNumber
                  val index: Number

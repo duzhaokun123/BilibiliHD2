@@ -138,17 +138,17 @@ dependencies {
     ksp(project(":annotation-processor"))
 
     //lifecycle
-    val lifecycleVersion = "2.5.0"
+    val lifecycleVersion = "2.5.1"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion")
 
     //gson
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
     //nav
-    val navVersion = "2.5.0"
+    val navVersion = "2.5.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
@@ -179,7 +179,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     //core-splashscreen
-    implementation("androidx.core:core-splashscreen:1.0.0-rc01")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
     //picasso
     implementation("com.squareup.picasso:picasso:2.71828")

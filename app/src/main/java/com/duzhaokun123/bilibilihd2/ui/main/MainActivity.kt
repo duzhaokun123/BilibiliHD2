@@ -122,6 +122,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
                         )
                     }
                     .show()
+                    .blurBackground()
                 return@setOnMenuItemClickListener true
             }
         }
@@ -138,6 +139,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(
 //                                .setNegativeButtonIcon(ResourcesCompat.getDrawable(resources, R.drawable.ic_settings, theme))
                     .setPositiveButton("test") { _, _ -> startActivity<TestActivity>() }
                     .show()
+                    .blurBackground()
                 return@setOnMenuItemClickListener true
             }
         }

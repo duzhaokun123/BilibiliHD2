@@ -37,6 +37,7 @@ class TestActivity : BaseActivity<ActivityTestBinding>(R.layout.activity_test) {
             try {
                 startActivity(Intent().apply {
                     data = Uri.parse(baseBinding.etUrl.text.toString())
+                    action = Intent.ACTION_VIEW
                 })
             } catch (e: Exception) {
                 e.printStackTrace()

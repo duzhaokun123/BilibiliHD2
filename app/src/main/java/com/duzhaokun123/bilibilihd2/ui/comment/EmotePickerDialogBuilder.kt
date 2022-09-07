@@ -17,6 +17,7 @@ import com.duzhaokun123.bilibilihd2.databinding.DialogEmotePickerBinding
 import com.duzhaokun123.bilibilihd2.databinding.ItemEmoteBinding
 import com.duzhaokun123.bilibilihd2.databinding.LayoutRecycleViewBinding
 import com.duzhaokun123.bilibilihd2.utils.EmoteMap
+import com.duzhaokun123.bilibilihd2.utils.blurBackground
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import io.github.duzhaokun123.androidapptemplate.bases.BaseFragment
@@ -55,6 +56,7 @@ class EmotePickerDialogBuilder(activity: FragmentActivity) : MaterialAlertDialog
             }
         }
         LocalBroadcastManager.getInstance(context).registerReceiver(broadcastReceiver!!, IntentFilter("emote_selected"))
+        d.blurBackground()
         return d
     }
 

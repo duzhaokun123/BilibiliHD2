@@ -108,7 +108,7 @@ internal fun View.switchVisibilityWithAnimation() {
 
         if (isVisible) {
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     makeGone()
                 }
             })

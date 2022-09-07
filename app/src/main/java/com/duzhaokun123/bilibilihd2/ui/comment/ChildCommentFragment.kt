@@ -208,6 +208,7 @@ class ChildCommentFragment @JvmOverloads constructor(private val setOid: Long = 
                                 }
                                 .setNegativeButton("取消", null)
                                 .show()
+                                .blurBackground()
                                 .findViewById<TextView>(android.R.id.message)?.setTextIsSelectable(true)
                             true
                         }
