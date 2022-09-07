@@ -22,7 +22,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("androidx.transition:transition:1.4.1")
     api("com.github.chrisbanes:PhotoView:2.3.0")
 }
