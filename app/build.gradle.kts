@@ -188,7 +188,7 @@ dependencies {
     val exoplayerVersion = "2.18.1"
     implementation("com.google.android.exoplayer:exoplayer-core:$exoplayerVersion")
     implementation("com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion")
-    implementation("com.github.duzhaokun123:DanmakuView:ed76ba7ad5")
+    implementation("com.github.duzhaokun123:DanmakuView:0.2.0")
 }
 
 val optimizeReleaseRes = task("optimizeReleaseRes").doLast {
