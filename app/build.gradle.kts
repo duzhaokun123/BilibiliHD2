@@ -8,7 +8,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     id("kotlin-android")
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
+    id("com.google.devtools.ksp") version "1.7.20-1.0.6"
 }
 
 android {
@@ -113,8 +113,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.4.2")
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.android.material:material:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 //    testImplementation("junit:junit:4.13.2")
@@ -148,7 +148,7 @@ dependencies {
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
 
     //nav
-    val navVersion = "2.5.1"
+    val navVersion = "2.5.2"
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
     implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
     implementation("androidx.drawerlayout:drawerlayout:1.1.1")
