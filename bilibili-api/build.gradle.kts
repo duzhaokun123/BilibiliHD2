@@ -20,7 +20,7 @@ tasks.withType<KotlinCompile> {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-    implementation("io.github.microutils:kotlin-logging:2.1.23")
+    implementation("io.github.microutils:kotlin-logging:3.0.4")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     api("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.github.salomonbrys.kotson:kotson:2.5.0")
