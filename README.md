@@ -9,6 +9,8 @@
 
 [Bilibili HD](https://github.com/duzhaokun123/BilibiliHD) 的重构
 
+# 不建议使用
+
 ## 下载
 [GitHub Actions](https://github.com/duzhaokun123/BilibiliHD2/actions/workflows/android.yaml) (需登陆 GitHub)
 
